@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cz.thewhiterabbit.electronicapp.controllers.ControlPaneController"
+            stylesheets="@Style.css"
+            styleClass="control_menu">
+    <!-- holder box for file menu and tab pane -->
+        <HBox>
+            <fx:include source="FileMenu.fxml" fx:id="fileMenu" />
+            <fx:include source="TabPane.fxml" fx:id="tabPane" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        </HBox>
+        <fx:include source="ComponentMenu.fxml" fx:id="componentMenu"/>
+
+</VBox>

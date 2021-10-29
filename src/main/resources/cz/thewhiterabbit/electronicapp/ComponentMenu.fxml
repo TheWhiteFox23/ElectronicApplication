@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cz.thewhiterabbit.electronicapp.controllers.ComponentMenuController"
+            spacing="10">
+    <ComboBox promptText="Create/Simulate"/>
+    <Button text="category_1"/>
+    <Button text="category_2"/>
+    <Button text="category_3"/>
+    <Button text="category_4"/>
+    <Button text="component_1"/>
+    <Button text="component_2"/>
+    <Button text="component_3"/>
+    <Button text="component_4"/>
+</HBox>

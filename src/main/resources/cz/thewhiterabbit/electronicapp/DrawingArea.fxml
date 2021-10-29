@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+
+
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cz.thewhiterabbit.electronicapp.controllers.DrawingAreaController"
+            stylesheets="@Style.css"
+            styleClass="canvas"
+            fx:id="canvas">
+
+    <fx:include source="PropertiesPane.fxml" fx:id="propertiesPane" AnchorPane.leftAnchor="10.0"/>
+    <fx:include source="ComponentInfoPane.fxml" fx:id="componentInfoPane" AnchorPane.rightAnchor="10.0"/>
+    <fx:include source="DrawingAreaControlMenu.fxml" fx:id="drawingAreaControlMenu" AnchorPane.bottomAnchor="10.0"/>
+
+</AnchorPane>

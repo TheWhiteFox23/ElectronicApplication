@@ -1,0 +1,21 @@
+.properties_pane{
+    -fx-background-color: gray;
+    -fx-background-radius: 10;
+}
+
+.canvas{
+    -fx-background-color: red;
+}
+
+.control_menu{
+    -fx-background-color: blue;
+}
+
+.canvas_control_menu{
+    -fx-background-color:green;
+}
+
+Text{
+    -fx-font: 20 serif;
+    -fx-background-color: blue;
+}

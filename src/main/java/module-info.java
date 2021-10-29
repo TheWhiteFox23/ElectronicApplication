@@ -5,4 +5,6 @@ module cz.thewhiterabbit.electronicapp {
 
     opens cz.thewhiterabbit.electronicapp to javafx.fxml;
     exports cz.thewhiterabbit.electronicapp;
+    exports cz.thewhiterabbit.electronicapp.controllers;
+    opens cz.thewhiterabbit.electronicapp.controllers to javafx.fxml;
 }
