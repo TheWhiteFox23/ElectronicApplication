@@ -1,0 +1,12 @@
+TabButton{
+    -fx-background-color: #666666;
+    -fx-background-radius: 5 5 0 0;
+}
+
+Label{
+    -fx-alignment: center;
+}
+
+Button{
+    -fx-background-color: transparent;
+}

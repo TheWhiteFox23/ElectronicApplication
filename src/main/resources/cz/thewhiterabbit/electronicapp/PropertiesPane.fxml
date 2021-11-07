@@ -12,7 +12,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cz.thewhiterabbit.electronicapp.controllers.PropertiesPaneController"
       prefHeight="600.0" prefWidth="300.0"
-      stylesheets="@Style.css"
+      stylesheets="@stylesheets/Style.css"
       styleClass="properties_pane">
 
 

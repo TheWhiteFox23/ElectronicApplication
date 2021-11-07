@@ -1,53 +1,53 @@
 package cz.thewhiterabbit.electronicapp.guicomponents;
 
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import cz.thewhiterabbit.electronicapp.Document;
+import cz.thewhiterabbit.electronicapp.App;
+
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
-import java.io.IOException;
 
-public class TabButton extends HBox {
-    @FXML
-    private Text textField;
 
-    public TabButton() {
-        init();
+public class TabButton extends AnchorPane {
+    private Label tabText;
+    private Button closeButton;
+    private Document document;
+
+
+    public TabButton()  {
+        getStylesheets().add(App.class.getResource("stylesheets/tab-button.css").toExternalForm());
+        initGraphics();
     }
 
-    public TabButton(String text) {
-        init();
-        textField.setText(text);
+    private void initGraphics(){
+        tabText = new Label("new file");
+        closeButton = new Button("x");
+
+        setPrefWidth(200);
+
+        AnchorPane.setBottomAnchor(tabText, 0d);
+        AnchorPane.setTopAnchor(tabText, 0d);
+        AnchorPane.setLeftAnchor(tabText, 0d);
+        AnchorPane.setRightAnchor(tabText, 0d);
+        AnchorPane.setRightAnchor(closeButton, 0d);
+        AnchorPane.setBottomAnchor(closeButton, 0d);
+        AnchorPane.setTopAnchor(closeButton, 0d);
+
+        this.getChildren().addAll(tabText, closeButton);
     }
 
-    private void init() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("guicomponents/TabButton.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
 
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    public Document getDocument() {
+        return document;
+    }
+    public void setDocument(Document document) {
+        this.document = document;
     }
 
-    public String getText() {
-        return textProperty().get();
+    public void setOnAction(EventHandler eventHandler){
+        closeButton.setOnAction(eventHandler);
     }
 
-    public void setText(String value) {
-        textProperty().set(value);
-    }
-
-    public StringProperty textProperty() {
-        return textField.textProperty();
-    }
-
-    @FXML
-    protected void closeTab() {
-        System.out.println("CloseTab");
-    }
 }

@@ -3,13 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import cz.thewhiterabbit.electronicapp.guicomponents.TabButton?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cz.thewhiterabbit.electronicapp.controllers.TabPaneController"
-      stylesheets="@tabPaneStyle.css"
-      fx:id="tabPane">
-
+      fx:id="tabPane"
+      spacing="10">
     <Button text="+" prefWidth="30" fx:id="newFile"/>
 
 </HBox>

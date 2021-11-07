@@ -1,8 +1,10 @@
 package cz.thewhiterabbit.electronicapp.controllers;
 
 import cz.thewhiterabbit.electronicapp.DocumentManager;
-import cz.thewhiterabbit.electronicapp.listeners.ControlPaneListener;
-import javafx.event.ActionEvent;
+import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.events.MenuEvent;
+
+import cz.thewhiterabbit.electronicapp.events.TabPaneEvent;
 import javafx.fxml.FXML;
 
 public class WindowController {
@@ -16,11 +18,12 @@ public class WindowController {
 
     @FXML
     private void initialize(){
-        controlPaneController.addControlPaneListener(new ControlPaneListener() {
-            @Override
-            public void onNewFileClicked(ActionEvent e) {
-                documentManager.createNewDocument();
-            }
+        //register handlers
+        EventAggregator.getInstance().registerHandler(MenuEvent.NEW_FILE, event ->{
+            documentManager.createNewDocument();
+        });
+        EventAggregator.getInstance().registerHandler(TabPaneEvent.TAB_CLOSED, event -> {
+            documentManager.closeDocument(((TabPaneEvent)event).getDocument());
         });
     }
 

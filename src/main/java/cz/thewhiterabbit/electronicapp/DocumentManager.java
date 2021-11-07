@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp;
 
+import cz.thewhiterabbit.electronicapp.events.DocumentModelEvent;
 import javafx.event.ActionEvent;
 
 import java.util.ArrayList;
@@ -13,13 +14,12 @@ public class DocumentManager implements DocumentManagerInterface{
     private static DocumentManager documentManager = new DocumentManager();
     //Logic
     private List<Document> openDocuments;
-    //Listeners
-    private List<DocumentManagerListener> listeners;
+    private Document activeDocument;
+
 
 
     private DocumentManager(){
         openDocuments = new ArrayList<>();
-        listeners = new ArrayList<>();
     }
 
     /**
@@ -30,14 +30,13 @@ public class DocumentManager implements DocumentManagerInterface{
         return documentManager;
     }
 
-    public void addDocumentManagerListener(DocumentManagerListener listener){
-        listeners.add(listener);
-    }
 
     @Override
     public void createNewDocument() {
-        openDocuments.add(new Document("new_file" + getDocumentList().size())); //TODO place holder method
-        listeners.forEach(a -> a.onDocumentModelChange());
+        Document document = new Document("new_file" + getDocumentList().size());
+        openDocuments.add(document); //TODO place holder method
+        DocumentModelEvent modelEvent = new DocumentModelEvent(DocumentModelEvent.DOCUMENT_OPENED, document);
+        EventAggregator.getInstance().fireEvent(modelEvent);
     }
 
     @Override
@@ -48,6 +47,8 @@ public class DocumentManager implements DocumentManagerInterface{
     @Override
     public void closeDocument(Document document) {
         openDocuments.remove(document);
-        listeners.forEach(a -> a.onDocumentModelChange());
+        DocumentModelEvent modelEvent = new DocumentModelEvent(DocumentModelEvent.DOCUMENT_CLOSED, document);
+        EventAggregator.getInstance().fireEvent(modelEvent);
     }
+
 }

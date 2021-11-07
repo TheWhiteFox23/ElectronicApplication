@@ -1,58 +1,78 @@
 package cz.thewhiterabbit.electronicapp.controllers;
 
 import cz.thewhiterabbit.electronicapp.Document;
-import cz.thewhiterabbit.electronicapp.DocumentManager;
-import cz.thewhiterabbit.electronicapp.DocumentManagerListener;
-import cz.thewhiterabbit.electronicapp.listeners.TabPaneListener;
+import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.events.DocumentModelEvent;
+import cz.thewhiterabbit.electronicapp.events.MenuEvent;
+import cz.thewhiterabbit.electronicapp.events.TabPaneEvent;
+import cz.thewhiterabbit.electronicapp.guicomponents.TabButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 public class TabPaneController {
     @FXML private Button newFile;
     @FXML private HBox tabPane;
     //logic
-    private DocumentManager documentManager = DocumentManager.getInstance();
-    private HashMap<Document, Button> buttonMap = new HashMap<>();
+    private HashMap<Document, TabButton> buttonMap = new HashMap<>();
 
-    private List<TabPaneListener> listeners = new ArrayList<>();
-    public void addTabPaneListener(TabPaneListener listener){
-        this.listeners.add(listener);
-    }
-
+    /*
+    Initialize listeners and eventHandlers
+     */
     @FXML private void initialize(){
-        newFile.setOnAction(e -> listeners.forEach(a -> a.onNewFileClicked(e)));
-        documentManager.addDocumentManagerListener(() -> onDocumentModelChange());
+        newFile.setOnAction(e -> {
+            MenuEvent menuEvent = new MenuEvent(MenuEvent.NEW_FILE);
+            EventAggregator.getInstance().fireEvent(menuEvent);
+        });
+        EventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_OPENED, event -> {
+            onDocumentOpened((DocumentModelEvent) event);
+        });
+
+        EventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_CLOSED, event -> {
+            onDocumentClosed((DocumentModelEvent) event);
+        });
+
     }
 
-    private void onDocumentModelChange(){
-        List<Document> documentList = documentManager.getDocumentList();
+    /**
+     * Remove tabButton representing given document
+     * @param event
+     */
+    private void onDocumentClosed(DocumentModelEvent event) {
+        //Getting document
+        DocumentModelEvent documentModelEvent = event;
+        Document document = documentModelEvent.getDocument();
 
-        //addNewDocuments
-        documentList.forEach(d -> {
-            if(!buttonMap.containsKey(d)){
-                Button button = new Button(d.getFileName());
-                buttonMap.put(d, button);
-                tabPane.getChildren().add(button);
-            }
-        });
+        //Creating tabButton
+        TabButton button = buttonMap.get(document);
+        tabPane.getChildren().remove(button);
+        buttonMap.remove(document);
+    }
 
+    /**
+     * Add new tabButton representing opened document
+     * @param event
+     */
+    private void onDocumentOpened(DocumentModelEvent event) {
+        //Getting document
+        DocumentModelEvent documentModelEvent = event;
+        Document document = documentModelEvent.getDocument();
 
-        //closeOldDocuments
-        List<Document> documentsToRemove = new ArrayList<>();
-        buttonMap.forEach((d, b) ->{
-            if(!documentList.contains(d)){
-                tabPane.getChildren().remove(b);
-                documentsToRemove.add(d);
-            }
+        //Creating tabButton
+        TabButton button = new TabButton();
+        button.setOnAction(e ->{
+            EventAggregator.getInstance().fireEvent(new TabPaneEvent(TabPaneEvent.TAB_CLOSED, document));
         });
-        documentsToRemove.forEach(d ->{
-            buttonMap.remove(d);
-        });
+        HBox.setHgrow(button, Priority.ALWAYS);
+        button.setDocument(documentModelEvent.getDocument());
+
+        //adding to tabPane and buttonMap
+        tabPane.getChildren().add(tabPane.getChildren().size()-1, button);
+        buttonMap.put( documentModelEvent.getDocument(), button);
     }
 
 

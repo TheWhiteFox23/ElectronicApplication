@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="cz.thewhiterabbit.electronicapp.controllers.DrawingAreaControlMenuController"
             spacing="10"
-            stylesheets="@Style.css"
+            stylesheets="@stylesheets/Style.css"
             styleClass="canvas_control_menu">
     <Button text="move"/>
     <Button text="zoom"/>

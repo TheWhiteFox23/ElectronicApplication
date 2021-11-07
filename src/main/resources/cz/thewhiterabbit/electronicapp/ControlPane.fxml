@@ -8,9 +8,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.controllers.ControlPaneController"
-            stylesheets="@Style.css"
-            styleClass="control_menu">
+            fx:controller="cz.thewhiterabbit.electronicapp.controllers.ControlPaneController">
     <!-- holder box for file menu and tab pane -->
         <HBox>
             <fx:include source="FileMenu.fxml" fx:id="fileMenu" />

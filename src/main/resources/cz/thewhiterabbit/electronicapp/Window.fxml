@@ -10,11 +10,7 @@
 <?import javafx.scene.control.skin.SplitPaneSkin.Content?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.controllers.WindowController"
-            styleClass="root">
-    <stylesheets>
-        <URL value="@Style.css" />
-    </stylesheets>
+            fx:controller="cz.thewhiterabbit.electronicapp.controllers.WindowController">
     <top>
         <fx:include source="ControlPane.fxml" fx:id="controlPane"/>
     </top>
