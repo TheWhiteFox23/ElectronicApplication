@@ -3,18 +3,19 @@ package cz.thewhiterabbit.electronicapp.canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class CanvasOrigin implements CanvasObject{
+public class CanvasOrigin implements ICanvasObject {
     private double height = 3;
     private double width = 30;
     private double pointRadius = 10;
+    private CanvasContext canvasContext;
 
-    @Override
-    public void draw(GraphicsContext gc, double originX, double originY, double zoomAspect, double gridSize) {
-        this.draw(new CanvasContext(gc, originX, originY, zoomAspect, gridSize));
+    public CanvasOrigin(CanvasContext canvasContext){
+        this.canvasContext = canvasContext;
     }
 
+
     @Override
-    public void draw(CanvasContext canvasContext) {
+    public void draw() {
         //getting variables
         double zoomAspect = canvasContext.getZoomAspect();
         GraphicsContext gc = canvasContext.getGraphicsContext();

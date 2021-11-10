@@ -1,20 +1,20 @@
 package cz.thewhiterabbit.electronicapp.canvas;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class CanvasBackground implements CanvasObject {
+public class CanvasBackground implements ICanvasObject {
     private double width;
     private double height;
     private double pointRadius = 2;
+    private CanvasContext canvasContext;
 
-    @Override
-    public void draw(GraphicsContext gc, double originX, double originY, double zoomAspect, double gridSize) {
-        this.draw(new CanvasContext(gc, originX, originY, zoomAspect,gridSize));
+    public CanvasBackground(CanvasContext canvasContext){
+        this.canvasContext = canvasContext;
     }
 
+
     @Override
-    public void draw(CanvasContext canvasContext) {
+    public void draw() {
         double gridSize = canvasContext.getGridSize() * canvasContext.getZoomAspect();
 
         double firstPointX = canvasContext.getOriginX()%gridSize;
@@ -22,6 +22,8 @@ public class CanvasBackground implements CanvasObject {
 
         int stepsX = (int) (height/gridSize) +1;
         int stepsY = (int) (width/gridSize) +1;
+
+        if(stepsX > 150  || stepsY > 150)return;
 
         for(int i = 0; i< stepsY ;i++){
             for(int j = 0; j< stepsX; j++){
@@ -31,7 +33,7 @@ public class CanvasBackground implements CanvasObject {
     }
 
     private void drawGridPoint(CanvasContext con, double X, double Y) {
-        double radius = pointRadius* con.getZoomAspect();
+        double radius = pointRadius;
         con.getGraphicsContext().setFill(Color.GREENYELLOW);
         con.getGraphicsContext().fillOval( X-radius/pointRadius, Y -radius/pointRadius, radius,radius);
     }

@@ -56,4 +56,12 @@ public class CanvasContext {
     public void setGridSize(double gridSize) {
         this.gridSize = gridSize;
     }
+
+    public void setValue(GraphicsContext gc, double originX, double originY, double zoomAspect, double gridSize){
+        this.graphicsContext = gc;
+        this.originX = originX;
+        this.originY = originY;
+        this.zoomAspect = zoomAspect;
+        this.gridSize =  gridSize;
+    }
 }
