@@ -17,7 +17,7 @@ public class CanvasMouseEvent extends Event {
     public static final EventType<CanvasMouseEvent> CANVAS_SCROLLED = new EventType<>(Event.ANY, "CANVAS_SCROLLED");
     public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_DETECTED = new EventType<>(Event.ANY, "CANVAS_SELECTION_DETECTED");
     public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_MOVE = new EventType<>(Event.ANY, "CANVAS_SELECTION_MOVE");
-    public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_FINISH = new EventType<>(Event.ANY, "CANVAS_SELECTION_MOVE");
+    public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_FINISH = new EventType<>(Event.ANY, "CANVAS_SELECTION_FINISH");
 
     private double startX = -1;
     private double startY = -1;

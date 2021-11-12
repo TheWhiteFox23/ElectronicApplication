@@ -22,8 +22,6 @@ public class DrawingCanvas extends Region {
     //DRAWING
     private Canvas canvas;
     private GraphicsContext gc;
-    //HANDLING EVENTS
-    private CanvasEventManager eventManager; //move to event aggregator and decisioning into corresponding objects
     //OBJECTS
     private List<CanvasObject> canvasObjects; //move to layout
 
@@ -37,13 +35,12 @@ public class DrawingCanvas extends Region {
         getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
         initGraphics();
 
-        //eventManager = new CanvasEventManager(canvas);
         canvasObjects = new ArrayList<>();
         RelativeLayout relativeLayout = new RelativeLayout(canvas, eventAggregator);
         relativeLayout.setOriginX(600);
         relativeLayout.setOriginY(400);
         setCanvasLayout(relativeLayout);
-        EventManager manager = new EventManager(this); //todo this is weird, solve it somehow
+        CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
 
         addCanvasObject(new RelativePointBackground(canvas));
         for(int i = 0; i< 100; i+= 2){

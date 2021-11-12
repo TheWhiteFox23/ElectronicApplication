@@ -1,117 +1,149 @@
 package cz.thewhiterabbit.electronicapp.canvas;
 
+import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
-import cz.thewhiterabbit.electronicapp.events.CanvasDragEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
-import cz.thewhiterabbit.electronicapp.events.CanvasMoveOrigin;
-import cz.thewhiterabbit.electronicapp.events.CanvasSelection;
-
+import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
-/**
- * Manages event from canvas and transform them into specific canvas events
- */
 public class CanvasEventManager {
-    private enum Type {
-        MOVE_ORIGIN,
-        SELECTION
+    /**
+     * Get full access to drawing area and manage its events
+     * @param drawingCanvas
+     */
+    private DrawingCanvas drawingCanvas;
+    private CanvasObject hoveredObject;
+    private EventAggregator canvasEventAggregator;
+
+    //EVENT LOGIC
+    private EventCrate canvasDragEvent;
+    private EventCrate objectDragEvent;
+    private EventCrate selectionDragEvent;
+
+    private double dragStartX = -1;
+    private double dragStartY = -1;
+    private double lastDragX = -1;
+    private double lastDragY = -1;
+    public CanvasEventManager(DrawingCanvas drawingCanvas){
+        this.drawingCanvas = drawingCanvas;
+        canvasEventAggregator = CanvasEventAggregator.getInstance();
+        /***** EVENT CRATES ****/
+        canvasDragEvent = new EventCrate();
+        objectDragEvent = new EventCrate();
+        selectionDragEvent = new EventCrate();
+        /**** LOGIC ****/
+        registerListeners();
     }
-    MoveCrate moveOrigin = new MoveCrate(Type.MOVE_ORIGIN);
-    MoveCrate selection = new MoveCrate(Type.SELECTION);
 
-
-    public CanvasEventManager(Canvas canvas){
-        registerListeners(canvas);
+    private void registerListeners() {
+        Canvas canvas = drawingCanvas.getCanvas();
+        registerMouseMovementListeners(canvas);
+        registerCanvasScrolledEvent(canvas);
+        registerMousePressEvents(canvas);
+        registerDragEvent(canvas, CanvasMouseEvent.CANVAS_DRAG_DETECTED, CanvasMouseEvent.CANVAS_DRAGGED,
+                CanvasMouseEvent.CANVAS_DRAG_DROPPED, canvasDragEvent);
+        registerDragEvent(canvas, CanvasMouseEvent.OBJECTS_DRAG_DETECTED, CanvasMouseEvent.OBJECT_DRAGGED,
+                CanvasMouseEvent.OBJECT_DRAG_DROPPED, objectDragEvent);
+        registerDragEvent(canvas, CanvasMouseEvent.CANVAS_SELECTION_DETECTED, CanvasMouseEvent.CANVAS_SELECTION_MOVE,
+                CanvasMouseEvent.CANVAS_SELECTION_FINISH, selectionDragEvent);
     }
 
-    private void registerListeners(Canvas canvas) {
+    private void registerMousePressEvents(Canvas canvas) {
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+            /***** CANVAS DRAG EVENT ****/
             if(e.isMiddleButtonDown()){
-                moveOrigin.setValues(e.getX(), e.getY(), e.getX(), e.getY(),e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasMoveOrigin.START, moveOrigin));
-            }else if(e.isPrimaryButtonDown()){
-                selection.setValues(e.getX(), e.getY(), e.getX(), e.getY(),e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasSelection.START, selection));
+                canvasDragEvent.startX =e.getX(); canvasDragEvent.startY = e.getY();
+                canvasDragEvent.lastX = e.getX(); canvasDragEvent.lastY = e.getY();
             }
-        });
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
-            if(e.isMiddleButtonDown()){
-                moveOrigin.setValues(moveOrigin.x, moveOrigin.y, e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasMoveOrigin.MOVE, moveOrigin));
-            }else if(e.isPrimaryButtonDown()){
-                selection.setValues(selection.x, selection.y, e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasSelection.MOVE, selection));
+            /***** OBJECT DRAG EVENT ****/
+            if(e.isPrimaryButtonDown() && hoveredObject!= null){
+                objectDragEvent.startX =e.getX(); objectDragEvent.startY = e.getY();
+                objectDragEvent.lastX = e.getX(); objectDragEvent.lastY = e.getY();
             }
-        });
-        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
-            if(!e.isMiddleButtonDown() && moveOrigin.beginningX!=-1){
-                moveOrigin.setValues(moveOrigin.x, moveOrigin.y, e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasMoveOrigin.FINISH, moveOrigin));
-                moveOrigin.setValues(-1,-1,-1,-1,-1,-1);
-            }else if(!e.isPrimaryButtonDown() && selection.beginningX!=-1){
-                System.out.println();
-                selection.setValues(selection.x, selection.y, e.getX(), e.getY());
-                canvas.fireEvent(constructEvent(CanvasSelection.FINISH, selection));
-                selection.setValues(-1,-1,-1,-1,-1,-1);
+            /***** SELECTION DRAG EVENT ****/
+            if(e.isPrimaryButtonDown() && hoveredObject == null){
+                selectionDragEvent.startX =e.getX(); selectionDragEvent.startY = e.getY();
+                selectionDragEvent.lastX = e.getX(); selectionDragEvent.lastY = e.getY();
             }
         });
     }
 
+    private void registerCanvasScrolledEvent(Canvas canvas) {
+        canvas.addEventHandler(ScrollEvent.SCROLL, e -> {
+            canvasEventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.CANVAS_SCROLLED, e.getDeltaY()));
+        });
 
-     private <T extends CanvasDragEvent> T constructEvent(EventType<T> eventType, MoveCrate moveCrate){
-        T event;
-        switch (moveCrate.type){
-            case SELECTION:
-                 event = (T)new CanvasSelection(eventType);
-                 break;
-            case MOVE_ORIGIN:
-                event = (T)new CanvasMoveOrigin(eventType);
-                break;
-            default:
-                event = (T)new CanvasSelection(eventType);
-
-        }
-        event.setBeginningX(moveCrate.beginningX);
-        event.setBeginningY(moveCrate.beginningY);
-        event.setLastX(moveCrate.lastX);
-        event.setLastY(moveCrate.lastY);
-        event.setX(moveCrate.x);
-        event.setY(moveCrate.y);
-
-        return event;
-     }
+    }
 
 
-    class MoveCrate{
-        Type type;
-        double beginningX = -1;
-        double beginningY = -1;
-        double lastX = -1;
+    private void registerDragEvent(Canvas canvas, EventType start, EventType move, EventType finish, EventCrate eventCrate){
+        canvas.addEventHandler(MouseEvent.DRAG_DETECTED, e->{
+            if(eventCrate.startX != -1){
+                CanvasMouseEvent canvasMouseEvent= new CanvasMouseEvent(start, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+                canvasEventAggregator.fireEvent(canvasMouseEvent);
+            }
+        });
+
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+            if(eventCrate.startX != -1) {
+                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(move, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+                canvasEventAggregator.fireEvent(canvasMouseEvent);
+
+                eventCrate.lastX = e.getX();
+                eventCrate.lastY = e.getY();
+            }
+        });
+
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+            if(eventCrate.startX != -1){
+                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(finish, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+                canvasEventAggregator.fireEvent(canvasMouseEvent);
+                eventCrate.lastX = -1;
+                eventCrate.lastY = -1;
+                eventCrate.startX = -1;
+                eventCrate.startY = -1;
+            }
+        });
+    }
+
+    private void registerMouseMovementListeners(Canvas canvas) {
+        /******* MOUSE MOVED EVENT **********/ //TODO refactor to only fire specific events by event aggregator and object reaction is specified in the object it self
+        canvas.addEventHandler(MouseEvent.MOUSE_MOVED, e ->{
+            CanvasObject object = drawingCanvas.getCanvasLayout().getObject(e.getX(), e.getY());
+
+            /********* MOUSE EXITED OBJECT ***********/
+            if(hoveredObject != null && hoveredObject!=object){
+                CanvasMouseEvent canvasMouseEvents = new CanvasMouseEvent(CanvasMouseEvent.OBJECT_EXITED, e.getX(), e.getY(), hoveredObject);
+                canvasEventAggregator.fireEvent(canvasMouseEvents);
+                hoveredObject = null;
+
+            }
+            /********* MOUSE ENTERED OBJECT *********/
+            if(object != null && !object.isHovered()){
+                hoveredObject = object;
+                CanvasMouseEvent canvasMouseEvents = new CanvasMouseEvent(CanvasMouseEvent.OBJECT_ENTERED, e.getX(), e.getY(), hoveredObject);
+                canvasEventAggregator.fireEvent(canvasMouseEvents);
+            }
+        });
+    }
+
+    private MouseEvent copyMouseEvent(EventType eventType, MouseEvent event ){
+        return new MouseEvent(eventType, event.getX(), event.getY(), event.getSceneX(),
+                event.getScreenY(), event.getButton(), event.getClickCount(), event.isShiftDown(),
+                event.isControlDown(),event.isAltDown(),event.isMetaDown(), event.isPrimaryButtonDown(),
+                event.isMiddleButtonDown(), event.isSecondaryButtonDown(), event.isSynthesized(),
+                event.isPopupTrigger(), event.isStillSincePress(),event.getPickResult());
+    }
+
+    class EventCrate {
+        double startX = -1;
+        double startY = -1;
+        double lastX = - 1;
         double lastY = -1;
-        double x = -1;
-        double y = -1;
-
-        public MoveCrate(Type type) {
-            this.type = type;
-        }
-
-        public void setValues(double begX, double begY, double lastX, double lastY, double x, double y){
-            this.beginningX = begX;
-            this.beginningY = begY;
-            this.lastX = lastX;
-            this.lastY = lastY;
-            this.x = x;
-            this.y = y;
-        }
-
-        public void setValues(double lastX, double lastY, double x, double y){
-            this.lastX = lastX;
-            this.lastY = lastY;
-            this.x = x;
-            this.y = y;
-        }
-
+        CanvasObject object = null;
     }
 }
