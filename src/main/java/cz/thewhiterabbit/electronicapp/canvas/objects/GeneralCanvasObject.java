@@ -1,7 +1,8 @@
-package cz.thewhiterabbit.electronicapp.canvas;
+package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GeneralCanvasObject extends CanvasObject{
     public GeneralCanvasObject(){
@@ -18,7 +19,15 @@ public class GeneralCanvasObject extends CanvasObject{
 
     @Override
     public void paint(GraphicsContext gc) {
-        gc.setFill(Color.ALICEBLUE);
+        gc.setFill(getColor());
         gc.fillRect(getLocationX(), getLocationY(), getWidth(), getHeight());
+    }
+
+    private Paint getColor(){
+        if(isHovered()){
+            return Color.RED;
+        }else{
+            return Color.GREENYELLOW;
+        }
     }
 }

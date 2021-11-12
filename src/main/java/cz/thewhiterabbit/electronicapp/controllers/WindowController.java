@@ -1,7 +1,7 @@
 package cz.thewhiterabbit.electronicapp.controllers;
 
 import cz.thewhiterabbit.electronicapp.DocumentManager;
-import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.events.MenuEvent;
 
 import cz.thewhiterabbit.electronicapp.events.TabPaneEvent;
@@ -19,10 +19,10 @@ public class WindowController {
     @FXML
     private void initialize(){
         //register handlers
-        EventAggregator.getInstance().registerHandler(MenuEvent.NEW_FILE, event ->{
+        GUIEventAggregator.getInstance().registerHandler(MenuEvent.NEW_FILE, event ->{
             documentManager.createNewDocument();
         });
-        EventAggregator.getInstance().registerHandler(TabPaneEvent.TAB_CLOSED, event -> {
+        GUIEventAggregator.getInstance().registerHandler(TabPaneEvent.TAB_CLOSED, event -> {
             documentManager.closeDocument(((TabPaneEvent)event).getDocument());
         });
     }

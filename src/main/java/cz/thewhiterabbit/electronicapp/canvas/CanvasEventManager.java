@@ -1,6 +1,8 @@
 package cz.thewhiterabbit.electronicapp.canvas;
 
+import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasDragEvent;
+import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMoveOrigin;
 import cz.thewhiterabbit.electronicapp.events.CanvasSelection;
 

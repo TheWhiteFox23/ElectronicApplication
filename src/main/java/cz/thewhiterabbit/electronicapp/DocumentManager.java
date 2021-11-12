@@ -36,7 +36,7 @@ public class DocumentManager implements DocumentManagerInterface{
         Document document = new Document("new_file" + getDocumentList().size());
         openDocuments.add(document); //TODO place holder method
         DocumentModelEvent modelEvent = new DocumentModelEvent(DocumentModelEvent.DOCUMENT_OPENED, document);
-        EventAggregator.getInstance().fireEvent(modelEvent);
+        GUIEventAggregator.getInstance().fireEvent(modelEvent);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DocumentManager implements DocumentManagerInterface{
     public void closeDocument(Document document) {
         openDocuments.remove(document);
         DocumentModelEvent modelEvent = new DocumentModelEvent(DocumentModelEvent.DOCUMENT_CLOSED, document);
-        EventAggregator.getInstance().fireEvent(modelEvent);
+        GUIEventAggregator.getInstance().fireEvent(modelEvent);
     }
 
 }

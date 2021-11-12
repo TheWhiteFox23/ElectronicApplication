@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.controllers;
 
 import cz.thewhiterabbit.electronicapp.Document;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.events.DocumentModelEvent;
 import cz.thewhiterabbit.electronicapp.events.MenuEvent;
 import cz.thewhiterabbit.electronicapp.events.TabPaneEvent;
@@ -26,13 +27,13 @@ public class TabPaneController {
     @FXML private void initialize(){
         newFile.setOnAction(e -> {
             MenuEvent menuEvent = new MenuEvent(MenuEvent.NEW_FILE);
-            EventAggregator.getInstance().fireEvent(menuEvent);
+            GUIEventAggregator.getInstance().fireEvent(menuEvent);
         });
-        EventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_OPENED, event -> {
+        GUIEventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_OPENED, event -> {
             onDocumentOpened((DocumentModelEvent) event);
         });
 
-        EventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_CLOSED, event -> {
+        GUIEventAggregator.getInstance().registerHandler(DocumentModelEvent.DOCUMENT_CLOSED, event -> {
             onDocumentClosed((DocumentModelEvent) event);
         });
 
@@ -65,7 +66,7 @@ public class TabPaneController {
         //Creating tabButton
         TabButton button = new TabButton();
         button.setOnAction(e ->{
-            EventAggregator.getInstance().fireEvent(new TabPaneEvent(TabPaneEvent.TAB_CLOSED, document));
+            GUIEventAggregator.getInstance().fireEvent(new TabPaneEvent(TabPaneEvent.TAB_CLOSED, document));
         });
         HBox.setHgrow(button, Priority.ALWAYS);
         button.setDocument(documentModelEvent.getDocument());
