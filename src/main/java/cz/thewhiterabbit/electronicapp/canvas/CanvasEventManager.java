@@ -89,19 +89,25 @@ public class CanvasEventManager {
     private void registerMousePressEvents(Canvas canvas) {
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
             /***** CANVAS DRAG EVENT ****/
-            if(e.isMiddleButtonDown()){
+            if(e.isMiddleButtonDown() && !e.isPrimaryButtonDown()){
                 canvasDragEvent.startX =e.getX(); canvasDragEvent.startY = e.getY();
                 canvasDragEvent.lastX = e.getX(); canvasDragEvent.lastY = e.getY();
-            }
+                objectDragEvent.reset();
+                selectionDragEvent.reset();
+            }else
             /***** OBJECT DRAG EVENT ****/
-            if(e.isPrimaryButtonDown() && hoveredObject!= null ){
+            if(e.isPrimaryButtonDown() && hoveredObject!= null && !e.isMiddleButtonDown()){
                 objectDragEvent.startX =e.getX(); objectDragEvent.startY = e.getY();
                 objectDragEvent.lastX = e.getX(); objectDragEvent.lastY = e.getY();
-            }
+                canvasDragEvent.reset();
+                selectionDragEvent.reset();
+            }else
             /***** SELECTION DRAG EVENT ****/
-            if(e.isPrimaryButtonDown() && hoveredObject == null){
+            if(e.isPrimaryButtonDown() && hoveredObject == null && !e.isMiddleButtonDown()){
                 selectionDragEvent.startX =e.getX(); selectionDragEvent.startY = e.getY();
                 selectionDragEvent.lastX = e.getX(); selectionDragEvent.lastY = e.getY();
+                objectDragEvent.reset();
+                canvasDragEvent.reset();
             }
         });
     }
