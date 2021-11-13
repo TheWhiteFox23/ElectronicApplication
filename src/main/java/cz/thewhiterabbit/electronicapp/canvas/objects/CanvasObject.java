@@ -83,6 +83,22 @@ public abstract class CanvasObject {
                eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
            }
        });
+        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
+            if(((CanvasMouseEvent)e).getObject() == this){
+                selected = true;
+                eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+            }
+        });
+        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
+            if(((CanvasMouseEvent)e).getObject() == this){
+                selected = false;
+                eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+            }
+        });
+        eventAggregator.registerHandler(CanvasMouseEvent.DESELECT_ALL, e -> {
+            selected = false;
+            eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+        });
     }
 
     /***********GETTERS AND SETTERS*************/

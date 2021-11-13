@@ -26,6 +26,8 @@ public class GeneralCanvasObject extends CanvasObject{
     private Paint getColor(){
         if(isHovered()){
             return Color.RED;
+        }else if (isSelected()){
+            return Color.BLUEVIOLET;
         }else{
             return Color.GREENYELLOW;
         }

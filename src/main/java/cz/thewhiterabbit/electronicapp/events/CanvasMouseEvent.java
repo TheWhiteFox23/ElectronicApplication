@@ -18,6 +18,9 @@ public class CanvasMouseEvent extends Event {
     public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_DETECTED = new EventType<>(Event.ANY, "CANVAS_SELECTION_DETECTED");
     public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_MOVE = new EventType<>(Event.ANY, "CANVAS_SELECTION_MOVE");
     public static final EventType<CanvasMouseEvent> CANVAS_SELECTION_FINISH = new EventType<>(Event.ANY, "CANVAS_SELECTION_FINISH");
+    public static final EventType<CanvasMouseEvent> OBJECT_SELECTED = new EventType<>(Event.ANY, "OBJECT_SELECTED");
+    public static final EventType<CanvasMouseEvent> OBJECT_DESELECTED = new EventType<>(Event.ANY, "OBJECT_DESELECTED");
+    public static final EventType<CanvasMouseEvent> DESELECT_ALL = new EventType<>(Event.ANY, "DESELECT_ALL");
 
     private double startX = -1;
     private double startY = -1;
@@ -59,6 +62,14 @@ public class CanvasMouseEvent extends Event {
         this.y = y;
         this.object = object;
     }
+
+    public CanvasMouseEvent(EventType<? extends Event> eventType,  CanvasObject object) {
+        super(eventType);
+        this.x = x;
+        this.y = y;
+        this.object = object;
+    }
+
 
     public CanvasMouseEvent(EventType<? extends Event> eventType, double deltaY) {
         super(eventType);

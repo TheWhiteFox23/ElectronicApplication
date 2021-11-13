@@ -6,7 +6,7 @@ import cz.thewhiterabbit.electronicapp.canvas.layout.CanvasLayout;
 import cz.thewhiterabbit.electronicapp.canvas.layout.RelativeLayout;
 import cz.thewhiterabbit.electronicapp.canvas.objects.*;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
-import cz.thewhiterabbit.electronicapp.events.CanvasSelection;
+import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 
 import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
@@ -15,15 +15,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DrawingCanvas extends Region {
     //DRAWING
     private Canvas canvas;
     private GraphicsContext gc;
-    //OBJECTS
-    private List<CanvasObject> canvasObjects; //move to layout
 
     private CanvasLayout canvasLayout;
     private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
@@ -35,7 +32,6 @@ public class DrawingCanvas extends Region {
         getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
         initGraphics();
 
-        canvasObjects = new ArrayList<>();
         RelativeLayout relativeLayout = new RelativeLayout(canvas, eventAggregator);
         relativeLayout.setOriginX(600);
         relativeLayout.setOriginY(400);
@@ -81,17 +77,23 @@ public class DrawingCanvas extends Region {
 
 
         /****** SELECTION *******/
-        canvas.addEventHandler(CanvasSelection.MOVE, e->{
+        eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_MOVE, event->{
+            CanvasMouseEvent e = (CanvasMouseEvent)event;
             paint();
 
-            double height = e.getX() - e.getBeginningX();
-            double width = e.getY()- e.getBeginningY();
-            double locationX = (height>0 ? e.getBeginningX() : e.getX());
-            double locationY = (width>0 ? e.getBeginningY() : e.getY());
+            double height = e.getX() - e.getStartX();
+            double width = e.getY()- e.getStartY();
+            double locationX = (height>0 ? e.getStartX() : e.getX());
+            double locationY = (width>0 ? e.getStartY() : e.getY());
 
             gc.setStroke(Color.GREENYELLOW);
             gc.strokeRect(locationX, locationY, Math.abs(height), Math.abs(width));
         });
+
+        eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event->{
+            paint();
+        });
+
 
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {
