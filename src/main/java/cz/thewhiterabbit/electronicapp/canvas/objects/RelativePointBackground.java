@@ -46,4 +46,9 @@ public class RelativePointBackground extends CanvasObject{
     public boolean isVisible(double canvasWidth, double canvasHeight) {
         return true;
     }
+
+    @Override
+    public boolean isInBounds(double locationX, double locationY, double width, double height) {
+        return false;
+    }
 }

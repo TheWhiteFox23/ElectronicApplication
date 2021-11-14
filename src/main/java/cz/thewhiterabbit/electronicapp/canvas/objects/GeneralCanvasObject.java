@@ -32,4 +32,5 @@ public class GeneralCanvasObject extends CanvasObject{
             return Color.GREENYELLOW;
         }
     }
+
 }

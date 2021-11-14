@@ -78,21 +78,27 @@ public class DrawingCanvas extends Region {
 
         /****** SELECTION *******/
         eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_MOVE, event->{
-            CanvasMouseEvent e = (CanvasMouseEvent)event;
             paint();
+            RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
 
-            double height = e.getX() - e.getStartX();
-            double width = e.getY()- e.getStartY();
-            double locationX = (height>0 ? e.getStartX() : e.getX());
-            double locationY = (width>0 ? e.getStartY() : e.getY());
-
+            //TODO move to paint selection method
             gc.setStroke(Color.GREENYELLOW);
-            gc.strokeRect(locationX, locationY, Math.abs(height), Math.abs(width));
+            gc.strokeRect(bounds.locationX, bounds.locationY, bounds.height, bounds.width);
         });
 
         eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event->{
+            RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
+            List<CanvasObject> objects = getCanvasLayout().getInBounds(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
+
+            //TODO Refactor selecting into the command
+            objects.forEach(o -> {
+                eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o));
+            });
+
             paint();
         });
+
+
 
 
         //TODO move to constructor or somewhere
@@ -106,6 +112,15 @@ public class DrawingCanvas extends Region {
             //canvasBackground.setHeight((Double) newVal);
             paint();
         });
+    }
+
+    private RectangleBounds getRectangleBounds(CanvasMouseEvent e) {
+        double height = e.getX() - e.getStartX();
+        double width = e.getY()- e.getStartY();
+        double locationX = (height>0 ? e.getStartX() : e.getX());
+        double locationY = (width>0 ? e.getStartY() : e.getY());
+        RectangleBounds bounds = new RectangleBounds(locationX, locationY, Math.abs(height), Math.abs(width));
+        return bounds;
     }
 
     private void paint(){
@@ -146,5 +161,19 @@ public class DrawingCanvas extends Region {
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    class RectangleBounds{
+        double locationX;
+        double locationY;
+        double width;
+        double height;
+
+        public RectangleBounds(double locationX, double locationY, double height, double width) {
+            this.locationX = locationX;
+            this.locationY = locationY;
+            this.width = width;
+            this.height = height;
+        }
     }
 }

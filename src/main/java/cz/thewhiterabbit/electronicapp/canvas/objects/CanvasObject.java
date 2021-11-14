@@ -197,4 +197,11 @@ public abstract class CanvasObject {
                 && getLocationX()<canvasWidth
                 && getLocationX()+getWidth()>0);
     }
+
+    public boolean isInBounds(double locationX, double locationY, double width, double height){
+        return (getLocationX()+getHeight()>locationX &&
+                getLocationY()+getWidth()>locationY &&
+                getLocationY() <locationY+width &&
+                getLocationX() <locationX+height);
+    }
 }

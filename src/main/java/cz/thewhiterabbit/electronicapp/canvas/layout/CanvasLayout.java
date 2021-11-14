@@ -61,6 +61,14 @@ public abstract class CanvasLayout {
         return null;
     }
 
+    public List<CanvasObject> getInBounds(double locationX, double locationY, double width, double height){
+        List<CanvasObject> visibleObjects = new ArrayList<>();
+        canvasObjects.forEach(o ->{
+            if(o.isInBounds(locationX, locationY, width, height))visibleObjects.add(o);
+        });
+        return visibleObjects;
+    }
+
 
 
 }
