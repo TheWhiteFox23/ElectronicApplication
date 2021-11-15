@@ -2,8 +2,7 @@ package cz.thewhiterabbit.electronicapp.canvas;
 
 import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
-import cz.thewhiterabbit.electronicapp.canvas.layout.CanvasLayout;
-import cz.thewhiterabbit.electronicapp.canvas.layout.RelativeLayout;
+import cz.thewhiterabbit.electronicapp.canvas.layout.*;
 import cz.thewhiterabbit.electronicapp.canvas.objects.*;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
@@ -32,23 +31,21 @@ public class DrawingCanvas extends Region {
         getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
         initGraphics();
 
+        AbsolutLayout absolutLayout = new AbsolutLayout(canvas, eventAggregator);
         RelativeLayout relativeLayout = new RelativeLayout(canvas, eventAggregator);
         relativeLayout.setOriginX(600);
         relativeLayout.setOriginY(400);
         setCanvasLayout(relativeLayout);
         CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
 
-        addCanvasObject(new RelativePointBackground(canvas));
+        addCanvasObject(new RelativePointBackground(canvas), new RelativeLayoutProperties(0,0,0,0));
         for(int i = 0; i< 100; i+= 2){
             for(int j = 0; j< 100; j+=2){
                 double positionX =  i*10;
                 double positionY =  j*10;
-                GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject(positionX, positionY, 10, 10);
-                generalCanvasObject.setRelativeLocationX(positionX);
-                generalCanvasObject.setRelativeLocationY(positionY);
-                generalCanvasObject.setHeightProperty(10);
-                generalCanvasObject.setWidthProperty(10);
-                addCanvasObject(generalCanvasObject);
+                GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
+                RelativeLayoutProperties properties = new RelativeLayoutProperties(10,10,positionX, positionY);
+                getCanvasLayout().add(generalCanvasObject, properties);
             }
         }
     }
@@ -99,8 +96,6 @@ public class DrawingCanvas extends Region {
         });
 
 
-
-
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {
             canvas.setWidth((Double) newVal);
@@ -143,8 +138,8 @@ public class DrawingCanvas extends Region {
         return gridY;
     }*/
 
-    private void addCanvasObject(CanvasObject canvasObject){
-        getCanvasLayout().add(canvasObject);
+    private void addCanvasObject(CanvasObject canvasObject, LayoutProperties layoutProperties){
+        getCanvasLayout().add(canvasObject, layoutProperties);
     }
 
     public CanvasLayout getCanvasLayout() {

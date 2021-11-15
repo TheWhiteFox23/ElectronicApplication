@@ -61,8 +61,9 @@ public class RelativeLayout extends CanvasLayout{
                 double deltaY = (event.getY() - event.getStartY())/zoomAspect;
                 getAll().forEach(o -> {
                     if(o.isSelected()){
-                        o.setRelativeLocationY(o.getRelativeLocationY() + deltaY);
-                        o.setRelativeLocationX(o.getRelativeLocationX() + deltaX);
+                        RelativeLayoutProperties properties = (RelativeLayoutProperties)o.getLayoutProperties();
+                        properties.setRelativeLocationY(properties.getRelativeLocationY() + deltaY);
+                        properties.setRelativeLocationX(properties.getRelativeLocationX() + deltaX);
                     }
                 });
 
@@ -95,14 +96,22 @@ public class RelativeLayout extends CanvasLayout{
     @Override
     public void add(CanvasObject object) {
         //set relative coordinates
-        setLocation(object);
+        updatePaintProperties(object);
         super.add(object);
     }
 
-    private void moveOrigin(double x, double y){
-        double deltaX =  x - originX;
-        double deltaY =  y - originY;
-        moveOriginBy(deltaX, deltaY);
+    @Override
+    public <T extends LayoutProperties> void add(CanvasObject object, T layoutProperties) {
+        super.add(object, layoutProperties);
+    }
+
+    @Override
+    protected void updatePaintProperties(CanvasObject object) {
+        RelativeLayoutProperties properties = (RelativeLayoutProperties)object.getLayoutProperties();
+        object.setLocationX(originX + properties.getRelativeLocationX() * zoomAspect);
+        object.setLocationY(originY + properties.getRelativeLocationY() * zoomAspect);
+        object.setWidth(properties.getWidth() * zoomAspect);
+        object.setHeight(properties.getHeight() * zoomAspect);
     }
 
     private void moveOriginBy(double deltaX, double deltaY){
@@ -116,19 +125,7 @@ public class RelativeLayout extends CanvasLayout{
 
     private void setZoomAspect(double zoomAspect){
         this.zoomAspect = zoomAspect;
-        getAll().forEach(o -> setBounds(o));
-    }
-
-    private void setBounds(CanvasObject object){
-        object.setLocationX(originX + object.getRelativeLocationX() * zoomAspect);
-        object.setLocationY(originY + object.getRelativeLocationY() * zoomAspect);
-        object.setWidth(object.getWidthProperty() * zoomAspect);
-        object.setHeight(object.getHeightProperty() * zoomAspect);
-    }
-
-    private void setLocation(CanvasObject object){
-        object.setLocationX(originX + object.getRelativeLocationX() * zoomAspect);
-        object.setLocationY(originY + object.getRelativeLocationY() * zoomAspect);
+        getAll().forEach(o -> updatePaintProperties(o));
     }
 
 }

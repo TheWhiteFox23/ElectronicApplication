@@ -2,29 +2,16 @@ package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.CanvasEventAggregator;
+import cz.thewhiterabbit.electronicapp.canvas.layout.LayoutProperties;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
-//TODO Add factory to differ object for the layouts
 public abstract class CanvasObject {
-    /******PROPERTIES***/
-    private double heightProperty;
-    private double widthProperty;
-    private double relativeLocationX;
-    private double relativeLocationY;
-
-    /******LAYOUT BOUNDS GRID*******/
-    private int gridX;
-    private int gridY;
-    private int gridHeight;
-    private int gridWidth;
+    private LayoutProperties layoutProperties;
 
     /******DRAWING BOUNDS******/
     private double locationX;
@@ -55,12 +42,6 @@ public abstract class CanvasObject {
         this.locationY = locationY;
         this.width = width;
         this.height = height;
-        this.relativeLocationX = 0;
-        this.relativeLocationY = 0;
-        this.gridX = 0;
-        this.gridY = 0;
-        this.gridHeight = 1;
-        this.gridWidth = 1;
         this.hovered = false;
         this.selected = false;
         this.dragged = false;
@@ -103,13 +84,9 @@ public abstract class CanvasObject {
 
     /***********GETTERS AND SETTERS*************/
 
-    public double getHeightProperty() {return heightProperty;}
+    public LayoutProperties getLayoutProperties() {return layoutProperties;}
 
-    public void setHeightProperty(double heightProperty) {this.heightProperty = heightProperty;}
-
-    public double getWidthProperty() {return widthProperty;}
-
-    public void setWidthProperty(double widthProperty) {this.widthProperty = widthProperty;}
+    public void setLayoutProperties(LayoutProperties layoutProperties) {this.layoutProperties = layoutProperties;}
 
     public double getLocationX() {return locationX;}
 
@@ -139,30 +116,6 @@ public abstract class CanvasObject {
 
     public void setDragged(boolean dragged) {this.dragged = dragged;}
 
-    public double getRelativeLocationX() {return relativeLocationX;}
-
-    public void setRelativeLocationX(double relativeLocationX) {this.relativeLocationX = relativeLocationX;}
-
-    public double getRelativeLocationY() {return relativeLocationY;}
-
-    public void setRelativeLocationY(double relativeLocationY) {this.relativeLocationY = relativeLocationY;}
-
-    public int getGridX() {return gridX;}
-
-    public void setGridX(int gridX) {this.gridX = gridX;}
-
-    public int getGridY() {return gridY;}
-
-    public void setGridY(int gridY) {this.gridY = gridY;}
-
-    public int getGridHeight() {return gridHeight;}
-
-    public void setGridHeight(int gridHeight) {this.gridHeight = gridHeight;}
-
-    public int getGridWidth() {return gridWidth;}
-
-    public void setGridWidth(int gridWidth) {this.gridWidth = gridWidth;}
-
     /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
     /**
      * Return true if given coordinates are within the bounds of the object
@@ -174,16 +127,6 @@ public abstract class CanvasObject {
         return ((x>= getLocationX() && x<= getLocationX()+getHeight()) &&
                 (y >= getLocationY() && y <= getLocationY()+getWidth()));
     }
-
-    public <T extends Event> void fireEvent(T event) {
-        eventAggregator.fireEvent(event);
-    }
-
-    public <T extends EventType> void registerHandler(T eventType, EventHandler handler) {
-        eventAggregator.registerHandler(eventType, handler);
-    }
-
-
 
     /********* PAINT *****************/
     /**

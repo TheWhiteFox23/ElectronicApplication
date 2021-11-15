@@ -9,14 +9,6 @@ public class GeneralCanvasObject extends CanvasObject{
         super();
     }
 
-    public GeneralCanvasObject(double width, double height) {
-        super(width, height);
-    }
-
-    public GeneralCanvasObject(double locationX, double locationY, double width, double height) {
-        super(locationX, locationY, width, height);
-    }
-
     @Override
     public void paint(GraphicsContext gc) {
         gc.setFill(getColor());

@@ -30,6 +30,17 @@ public abstract class CanvasLayout {
         canvasObjects.add(object);
     }
 
+    public <T extends  LayoutProperties> void add(CanvasObject object, T layoutProperties){
+        layoutProperties.addPropertiesListener(()->{
+            updatePaintProperties(object);
+        });
+        object.setLayoutProperties(layoutProperties);
+        updatePaintProperties(object);
+        add(object);
+    }
+
+    protected abstract void updatePaintProperties(CanvasObject object);
+
     public List<CanvasObject> getVisible(){
         List<CanvasObject> visibleObjects = new ArrayList<>();
         double canvasHeight = getCanvas().getHeight();
@@ -68,6 +79,7 @@ public abstract class CanvasLayout {
         });
         return visibleObjects;
     }
+
 
 
 
