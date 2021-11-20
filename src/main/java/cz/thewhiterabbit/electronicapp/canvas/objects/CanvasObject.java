@@ -7,6 +7,9 @@ import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */

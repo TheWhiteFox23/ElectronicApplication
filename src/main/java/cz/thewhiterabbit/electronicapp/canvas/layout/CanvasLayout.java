@@ -30,7 +30,7 @@ public abstract class CanvasLayout {
         canvasObjects.add(object);
     }
 
-    public <T extends  LayoutProperties> void add(CanvasObject object, T layoutProperties){
+    public void add(CanvasObject object, LayoutProperties layoutProperties){
         layoutProperties.addPropertiesListener(()->{
             updatePaintProperties(object);
         });

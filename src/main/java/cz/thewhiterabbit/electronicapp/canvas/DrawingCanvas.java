@@ -31,7 +31,6 @@ public class DrawingCanvas extends Region {
         getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
         initGraphics();
 
-        AbsolutLayout absolutLayout = new AbsolutLayout(canvas, eventAggregator);
         RelativeLayout relativeLayout = new RelativeLayout(canvas, eventAggregator);
         relativeLayout.setOriginX(600);
         relativeLayout.setOriginY(400);
@@ -42,11 +41,11 @@ public class DrawingCanvas extends Region {
         setCanvasLayout(gridLayout);
         CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
 
-        addCanvasObject(new RelativePointBackground(canvas), new GridLayoutProperties(0,0,0,0));
+        addCanvasObject(new RelativePointBackground(canvas), new LayoutProperties(0,0,0,0));
         for(int i = 0; i< 100; i+= 2){
             for(int j = 0; j< 100; j+=2){
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                GridLayoutProperties properties = new GridLayoutProperties(i,j,1, 1);
+                LayoutProperties properties = new LayoutProperties(i,j,1, 1);
                 getCanvasLayout().add(generalCanvasObject, properties);
             }
         }

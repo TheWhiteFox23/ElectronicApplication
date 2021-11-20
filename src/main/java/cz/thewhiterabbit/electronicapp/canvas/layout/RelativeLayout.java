@@ -83,7 +83,7 @@ public class RelativeLayout extends CanvasLayout{
             double deltaY = (event.getY() - event.getStartY())/zoomAspect;
             getAll().forEach(o -> {
                 if(o.isSelected()){
-                    RelativeLayoutProperties properties = (RelativeLayoutProperties)o.getLayoutProperties();
+                    LayoutProperties properties = o.getLayoutProperties();
                     properties.setRelativeLocationY(properties.getRelativeLocationY() + deltaY);
                     properties.setRelativeLocationX(properties.getRelativeLocationX() + deltaX);
                 }
@@ -119,13 +119,13 @@ public class RelativeLayout extends CanvasLayout{
     }
 
     @Override
-    public <T extends LayoutProperties> void add(CanvasObject object, T layoutProperties) {
+    public void add(CanvasObject object, LayoutProperties layoutProperties) {
         super.add(object, layoutProperties);
     }
 
     @Override
     protected void updatePaintProperties(CanvasObject object) {
-        RelativeLayoutProperties properties = (RelativeLayoutProperties)object.getLayoutProperties();
+        LayoutProperties properties = object.getLayoutProperties();
         object.setLocationX(originX + properties.getRelativeLocationX() * zoomAspect);
         object.setLocationY(originY + properties.getRelativeLocationY() * zoomAspect);
         object.setWidth(properties.getWidth() * zoomAspect);

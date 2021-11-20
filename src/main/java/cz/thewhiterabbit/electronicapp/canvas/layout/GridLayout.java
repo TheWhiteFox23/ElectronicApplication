@@ -57,7 +57,7 @@ public class GridLayout extends RelativeLayout{
                 if(o.isSelected()){
                     int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
                     int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
-                    GridLayoutProperties properties = (GridLayoutProperties)o.getLayoutProperties();
+                    LayoutProperties properties = o.getLayoutProperties();
                     properties.setGridX(gridX);
                     properties.setGridY(gridY);
                 }
@@ -69,7 +69,7 @@ public class GridLayout extends RelativeLayout{
 
     @Override
     protected void updatePaintProperties(CanvasObject object) {
-        GridLayoutProperties properties = (GridLayoutProperties) object.getLayoutProperties();
+        LayoutProperties properties = object.getLayoutProperties();
         object.setLocationX(getGridLocation(properties.getGridX(), getOriginX()));
         object.setLocationY(getGridLocation(properties.getGridY(), getOriginY()));
         object.setWidth(properties.getGridWidth() * gridSize * getZoomAspect());
