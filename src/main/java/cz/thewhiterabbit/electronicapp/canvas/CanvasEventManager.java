@@ -2,9 +2,7 @@ package cz.thewhiterabbit.electronicapp.canvas;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
-import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
-import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;

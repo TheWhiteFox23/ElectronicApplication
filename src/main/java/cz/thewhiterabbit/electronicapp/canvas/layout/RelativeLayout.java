@@ -119,11 +119,6 @@ public class RelativeLayout extends CanvasLayout{
     }
 
     @Override
-    public void add(CanvasObject object, LayoutProperties layoutProperties) {
-        super.add(object, layoutProperties);
-    }
-
-    @Override
     protected void updatePaintProperties(CanvasObject object) {
         LayoutProperties properties = object.getLayoutProperties();
         object.setLocationX(originX + properties.getRelativeLocationX() * zoomAspect);

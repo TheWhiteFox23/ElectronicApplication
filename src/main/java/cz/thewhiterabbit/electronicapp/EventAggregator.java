@@ -19,8 +19,13 @@ public class EventAggregator implements IEventAggregator{
      */
     @Override
     public <T extends Event> void fireEvent(T event) {
-        if(handlerMap.containsKey(event.getEventType())){
-            handlerMap.get(event.getEventType()).forEach(handler -> handler.handle(event));
+        try{
+            if(handlerMap.containsKey(event.getEventType())){
+                handlerMap.get(event.getEventType()).forEach(handler -> handler.handle(event));
+            }
+        }catch (Exception e){
+            System.out.println(event.getEventType());
+            System.out.println(e.toString());
         }
 
     }

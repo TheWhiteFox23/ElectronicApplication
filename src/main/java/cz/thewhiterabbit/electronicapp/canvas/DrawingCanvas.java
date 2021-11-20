@@ -41,14 +41,18 @@ public class DrawingCanvas extends Region {
         setCanvasLayout(gridLayout);
         CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
 
-        addCanvasObject(new RelativePointBackground(canvas), new LayoutProperties(0,0,0,0));
-        for(int i = 0; i< 100; i+= 2){
-            for(int j = 0; j< 100; j+=2){
+        addCanvasObject(new RelativePointBackground(canvas));
+        for(int i = 0; i< 100; i+= 4){
+            for(int j = 0; j< 100; j+=4){
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                LayoutProperties properties = new LayoutProperties(i,j,1, 1);
-                getCanvasLayout().add(generalCanvasObject, properties);
+                generalCanvasObject.getLayoutProperties().set(i,j,2, 2);
+                getCanvasLayout().add(generalCanvasObject);
             }
         }
+        /*GeneralCanvasObject canvasObject = new GeneralCanvasObject();
+        canvasObject.getLayoutProperties().set(-5,-5,2,2);
+        addCanvasObject(new ActiveZone(canvasObject, 0, 1));
+        addCanvasObject(canvasObject);*/
     }
 
     private void initGraphics(){
@@ -125,8 +129,8 @@ public class DrawingCanvas extends Region {
     }
 
 
-    private void addCanvasObject(CanvasObject canvasObject, LayoutProperties layoutProperties){
-        getCanvasLayout().add(canvasObject, layoutProperties);
+    private void addCanvasObject(CanvasObject canvasObject){
+        getCanvasLayout().add(canvasObject);
     }
 
     public CanvasLayout getCanvasLayout() {

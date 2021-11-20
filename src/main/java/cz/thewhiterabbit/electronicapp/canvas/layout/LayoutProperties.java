@@ -18,33 +18,32 @@ public class LayoutProperties {
     private double relativeLocationX;
     private double relativeLocationY;
 
-
-    public LayoutProperties(int gridX, int gridY, int gridHeight, int gridWidth) {
+    public LayoutProperties() {
         propertiesListenerList = new ArrayList<>();
-
-        this.gridX = gridX;
-        this.gridY = gridY;
-        this.gridHeight = gridHeight;
-        this.gridWidth = gridWidth;
-
+        this.gridX = 0;
+        this.gridY = 0;
+        this.gridHeight = 0;
+        this.gridWidth = 0;
         this.height = 0;
         this.width = 0;
         this.relativeLocationX = 0;
         this.relativeLocationY = 0;
     }
 
-    public LayoutProperties(double height, double width, double relativeLocationX, double relativeLocationY) {
-        propertiesListenerList = new ArrayList<>();
+    public void set(int gridX, int gridY, int gridHeight, int gridWidth) {
+        this.gridX = gridX;
+        this.gridY = gridY;
+        this.gridHeight = gridHeight;
+        this.gridWidth = gridWidth;
+        propertiesChange();
+    }
 
+    public void set(double height, double width, double relativeLocationX, double relativeLocationY) {
         this.height = height;
         this.width = width;
         this.relativeLocationX = relativeLocationX;
         this.relativeLocationY = relativeLocationY;
-
-        this.gridX = 0;
-        this.gridY = 0;
-        this.gridHeight = 1;
-        this.gridWidth = 1;
+        propertiesChange();
     }
 
     /**** GRID LAYOUT *****/
@@ -105,4 +104,5 @@ public class LayoutProperties {
     public void propertiesChange(){
         propertiesListenerList.forEach(l -> l.onPropertiesChange());
     }
+
 }

@@ -27,16 +27,12 @@ public abstract class CanvasLayout {
 
     /************METHODS**********************/
     public void add(CanvasObject object){
-        canvasObjects.add(object);
-    }
-
-    public void add(CanvasObject object, LayoutProperties layoutProperties){
-        layoutProperties.addPropertiesListener(()->{
+        object.getLayoutProperties().addPropertiesListener(()->{
             updatePaintProperties(object);
         });
-        object.setLayoutProperties(layoutProperties);
         updatePaintProperties(object);
-        add(object);
+        object.getActiveZones().forEach(a -> add(a));
+        canvasObjects.add(object);
     }
 
     protected abstract void updatePaintProperties(CanvasObject object);

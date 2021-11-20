@@ -14,7 +14,8 @@ import java.util.List;
  * General canvas object. Not effected by origin position or zoomAspect
  */
 public abstract class CanvasObject {
-    private LayoutProperties layoutProperties;
+    private final LayoutProperties layoutProperties = new LayoutProperties();
+    private List<ActiveZone> activeZones;
 
     /******DRAWING BOUNDS******/
     private double locationX;
@@ -41,6 +42,7 @@ public abstract class CanvasObject {
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
+        this.activeZones = new ArrayList<>();
         this.locationX = locationX;
         this.locationY = locationY;
         this.width = width;
@@ -88,8 +90,6 @@ public abstract class CanvasObject {
     /***********GETTERS AND SETTERS*************/
 
     public LayoutProperties getLayoutProperties() {return layoutProperties;}
-
-    public void setLayoutProperties(LayoutProperties layoutProperties) {this.layoutProperties = layoutProperties;}
 
     public double getLocationX() {return locationX;}
 
@@ -149,5 +149,16 @@ public abstract class CanvasObject {
                 getLocationY()+getWidth()>locationY &&
                 getLocationY() <locationY+width &&
                 getLocationX() <locationX+height);
+    }
+
+    public List<ActiveZone> getActiveZones() {
+        return activeZones;
+    }
+
+    public void addActiveZone(ActiveZone activeZone){
+        activeZones.add(activeZone);
+    }
+    public void removeActiveZone(ActiveZone activeZone){
+        activeZones.remove(activeZone);
     }
 }
