@@ -25,72 +25,90 @@ public class RelativeLayout extends CanvasLayout{
     public void setOriginX(double originX) {this.originX = originX;}
     public double getOriginY() {return originY;}
     public void setOriginY(double originY) {this.originY = originY;}
+    public double getZoomAspect() {return zoomAspect;}
 
+    private void setZoomAspect(double zoomAspect){
+        this.zoomAspect = zoomAspect;
+        getAll().forEach(o -> updatePaintProperties(o));
+    }
 
     /********* METHODS ***********************/
-    private void registerListeners() {
+    protected void registerListeners() {
         getCanvasEventAggregator().registerHandler(CanvasMouseEvent.CANVAS_DRAGGED, e ->{
-            CanvasMouseEvent event = ((CanvasMouseEvent) e);
-            double deltaX = event.getX() - event.getLastX();
-            double deltaY = event.getY() - event.getLastY();
-            moveOriginBy(deltaX, deltaY);
-            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+            onCanvasDragged((CanvasMouseEvent) e);
         });
 
         getCanvasEventAggregator().registerHandler(CanvasMouseEvent.OBJECT_DRAGGED, e->{
-            CanvasObject canvasObject = ((CanvasMouseEvent)e).getObject();
-            if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
-                CanvasMouseEvent event = ((CanvasMouseEvent) e);
-                double deltaX = event.getX() - event.getLastX();
-                double deltaY = event.getY() - event.getLastY();
-                getAll().forEach(o -> {
-                    if(o.isSelected()){
-                        o.setLocationY(o.getLocationY() + deltaY);
-                        o.setLocationX(o.getLocationX() + deltaX);
-                    }
-                });
-                getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
-            }
+            onObjectDragged((CanvasMouseEvent) e);
         });
 
         getCanvasEventAggregator().registerHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e->{
-            CanvasObject canvasObject = ((CanvasMouseEvent)e).getObject();
-            if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
-                CanvasMouseEvent event = ((CanvasMouseEvent) e);
-                double deltaX = (event.getX() - event.getStartX())/zoomAspect;
-                double deltaY = (event.getY() - event.getStartY())/zoomAspect;
-                getAll().forEach(o -> {
-                    if(o.isSelected()){
-                        RelativeLayoutProperties properties = (RelativeLayoutProperties)o.getLayoutProperties();
-                        properties.setRelativeLocationY(properties.getRelativeLocationY() + deltaY);
-                        properties.setRelativeLocationX(properties.getRelativeLocationX() + deltaX);
-                    }
-                });
-
-                getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
-            }
+            onObjectDragDropped((CanvasMouseEvent) e);
         });
-
-
-
 
         getCanvasEventAggregator().registerHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
-            //get currant zoom aspect index
-            int index = 0;
-            for(int i =  0; i< zoomAspects.length; i++){
-                if (zoomAspects[i] == zoomAspect) {
-                    index = i;
-                    break;
-                }
-            }
-            if(((CanvasMouseEvent)e).getDeltaY() > 0 && index <zoomAspects.length -1){
-                index++;
-            }else if(((CanvasMouseEvent)e).getDeltaY() < 0 && index >0){
-                index--;
-            }
-            setZoomAspect(zoomAspects[index]);
-            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+            onCanvasScrolled((CanvasMouseEvent) e);
         });
+    }
+
+    private void onCanvasDragged(CanvasMouseEvent e) {
+        CanvasMouseEvent event = e;
+        double deltaX = event.getX() - event.getLastX();
+        double deltaY = event.getY() - event.getLastY();
+        moveOriginBy(deltaX, deltaY);
+        getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+    }
+
+    protected void onObjectDragged(CanvasMouseEvent e) {
+        CanvasObject canvasObject = e.getObject();
+        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
+            CanvasMouseEvent event = e;
+            double deltaX = event.getX() - event.getLastX();
+            double deltaY = event.getY() - event.getLastY();
+            getAll().forEach(o -> {
+                if(o.isSelected()){
+                    o.setLocationY(o.getLocationY() + deltaY);
+                    o.setLocationX(o.getLocationX() + deltaX);
+                }
+            });
+            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+        }
+    }
+
+    protected void onObjectDragDropped(CanvasMouseEvent e) {
+        CanvasObject canvasObject = e.getObject();
+        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
+            CanvasMouseEvent event = e;
+            double deltaX = (event.getX() - event.getStartX())/zoomAspect;
+            double deltaY = (event.getY() - event.getStartY())/zoomAspect;
+            getAll().forEach(o -> {
+                if(o.isSelected()){
+                    RelativeLayoutProperties properties = (RelativeLayoutProperties)o.getLayoutProperties();
+                    properties.setRelativeLocationY(properties.getRelativeLocationY() + deltaY);
+                    properties.setRelativeLocationX(properties.getRelativeLocationX() + deltaX);
+                }
+            });
+
+            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+        }
+    }
+
+    private void onCanvasScrolled(CanvasMouseEvent e) {
+        //get currant zoom aspect index
+        int index = 0;
+        for(int i =  0; i< zoomAspects.length; i++){
+            if (zoomAspects[i] == zoomAspect) {
+                index = i;
+                break;
+            }
+        }
+        if(e.getDeltaY() > 0 && index <zoomAspects.length -1){
+            index++;
+        }else if(e.getDeltaY() < 0 && index >0){
+            index--;
+        }
+        setZoomAspect(zoomAspects[index]);
+        getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
     }
 
     @Override
@@ -121,11 +139,6 @@ public class RelativeLayout extends CanvasLayout{
             o.setLocationX(o.getLocationX() + deltaX);
             o.setLocationY(o.getLocationY() + deltaY);
         });
-    }
-
-    private void setZoomAspect(double zoomAspect){
-        this.zoomAspect = zoomAspect;
-        getAll().forEach(o -> updatePaintProperties(o));
     }
 
 }

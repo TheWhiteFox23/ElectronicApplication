@@ -35,16 +35,18 @@ public class DrawingCanvas extends Region {
         RelativeLayout relativeLayout = new RelativeLayout(canvas, eventAggregator);
         relativeLayout.setOriginX(600);
         relativeLayout.setOriginY(400);
-        setCanvasLayout(relativeLayout);
+        GridLayout gridLayout = new GridLayout(canvas, eventAggregator);
+        gridLayout.setGridSize(10);
+        gridLayout.setOriginX(600);
+        gridLayout.setOriginY(400);
+        setCanvasLayout(gridLayout);
         CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
 
-        addCanvasObject(new RelativePointBackground(canvas), new RelativeLayoutProperties(0,0,0,0));
+        addCanvasObject(new RelativePointBackground(canvas), new GridLayoutProperties(0,0,0,0));
         for(int i = 0; i< 100; i+= 2){
             for(int j = 0; j< 100; j+=2){
-                double positionX =  i*10;
-                double positionY =  j*10;
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                RelativeLayoutProperties properties = new RelativeLayoutProperties(10,10,positionX, positionY);
+                GridLayoutProperties properties = new GridLayoutProperties(i,j,1, 1);
                 getCanvasLayout().add(generalCanvasObject, properties);
             }
         }
@@ -120,23 +122,9 @@ public class DrawingCanvas extends Region {
 
     private void paint(){
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        getVisible().forEach(o->o.paint(gc));
+        getVisible().forEach(o->{o.paint(gc);});
     }
 
-    /*********MOVE TO GRID LAYOUT *********/
-   /* private int getGridX(double X){
-        int gridX = (int)((X-originX)/(gridSize * getZoomMultiplier()));
-        System.out.println("X: " + X + " gridX:" + gridX);
-        if (X<= originX)gridX--;
-        return gridX;
-    }
-
-    private int getGridY(double Y){
-        int gridY = (int)((Y-originY)/(gridSize * getZoomMultiplier()));
-        System.out.println("Y: "+ Y + " gridY: " + gridY);
-        if (Y<= originY)gridY--;
-        return gridY;
-    }*/
 
     private void addCanvasObject(CanvasObject canvasObject, LayoutProperties layoutProperties){
         getCanvasLayout().add(canvasObject, layoutProperties);
