@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralCanvasObject extends CanvasObject{
-    private List<ActiveZone> activeZones;
+    private List<ActivePoint> activePoints;
 
     public GeneralCanvasObject(){
         super();
-        activeZones = new ArrayList<>();
-        ActiveZone activeZone = new ActiveZone(this, 0, 0);
-        addActiveZone(activeZone);
+        activePoints = new ArrayList<>();
+        ActivePoint activePoint = new ActivePoint(this, 0, 0);
+        addActiveZone(activePoint);
     }
 
     @Override
@@ -24,18 +24,18 @@ public class GeneralCanvasObject extends CanvasObject{
     }
 
     @Override
-    public List<ActiveZone> getActiveZones() {
-        return activeZones;
+    public List<ActivePoint> getActiveZones() {
+        return activePoints;
     }
 
     @Override
-    public void addActiveZone(ActiveZone activeZone) {
-        activeZones.add(activeZone);
+    public void addActiveZone(ActivePoint activePoint) {
+        activePoints.add(activePoint);
     }
 
     @Override
-    public void removeActiveZone(ActiveZone activeZone) {
-        activeZones.remove(activeZone);
+    public void removeActiveZone(ActivePoint activePoint) {
+        activePoints.remove(activePoint);
     }
 
     private Paint getColor(){

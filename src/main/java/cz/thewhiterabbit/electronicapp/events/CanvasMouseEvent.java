@@ -21,6 +21,11 @@ public class CanvasMouseEvent extends Event {
     public static final EventType<CanvasMouseEvent> OBJECT_SELECTED = new EventType<>(Event.ANY, "OBJECT_SELECTED");
     public static final EventType<CanvasMouseEvent> OBJECT_DESELECTED = new EventType<>(Event.ANY, "OBJECT_DESELECTED");
     public static final EventType<CanvasMouseEvent> DESELECT_ALL = new EventType<>(Event.ANY, "DESELECT_ALL");
+    public static final EventType<CanvasMouseEvent> ACTIVE_POINT_ENTERED = new EventType<>(Event.ANY, "ACTIVE_POINT_ENTERED");
+    public static final EventType<CanvasMouseEvent> ACTIVE_POINT_EXITED = new EventType<>(Event.ANY, "ACTIVE_POINT_EXITED");
+    public static final EventType<CanvasMouseEvent> ACTIVE_POINT_DRAG_DETECT = new EventType<>(Event.ANY, "ACTIVE_POINT_DRAG_DETECT");
+    public static final EventType<CanvasMouseEvent> ACTIVE_POINT_DRAGGED = new EventType<>(Event.ANY, "ACTIVE_POINT_DRAGGED");
+    public static final EventType<CanvasMouseEvent> ACTIVE_POINT_DRAG_DROPPED = new EventType<>(Event.ANY, "ACTIVE_POINT_DRAG_DROPPED");
 
     private double startX = -1;
     private double startY = -1;

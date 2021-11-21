@@ -68,7 +68,7 @@ public class GridLayout extends RelativeLayout{
     }
 
     @Override
-    protected void updatePaintProperties(CanvasObject object) {
+    public void updatePaintProperties(CanvasObject object) {
         LayoutProperties properties = object.getLayoutProperties();
         object.setLocationX(getGridLocation(properties.getGridX(), getOriginX()));
         object.setLocationY(getGridLocation(properties.getGridY(), getOriginY()));
@@ -76,27 +76,15 @@ public class GridLayout extends RelativeLayout{
         object.setHeight(properties.getGridHeight() * gridSize * getZoomAspect());
     }
 
-    @Override
-    protected void registerListeners() {
-        super.registerListeners();
-        /*getCanvas().addEventHandler(MouseEvent.MOUSE_MOVED, e ->{
-            System.out.println("coordinateX: " + getGridCoordinate(e.getX(), getOriginX()) + " coordinateY: " + getGridCoordinate(e.getY(), getOriginY()));
-            System.out.println("gridLocationX: " + getGridLocation(getGridCoordinate(e.getX(), getOriginX()),getOriginX()) + " gridLocationY: " + getGridLocation(getGridCoordinate(e.getY(), getOriginY()),getOriginY()));
-            System.out.println("coordinateXRetroCalculation: " + getGridCoordinate(getGridLocation(getGridCoordinate(e.getX(), getOriginX()),getOriginX()), getOriginX())
-            + " coordinateYRetroCalculation: " + getGridCoordinate(getGridLocation(getGridCoordinate(e.getY(), getOriginY()),getOriginY()), getOriginY()));
-            System.out.println("*******************************************");
-        });*/
-    }
-
     /********* SEARCHING IN GRID *********/
-   private int getGridCoordinate(double location, double originLocation){
+   public int getGridCoordinate(double location, double originLocation){
         double locationDelta = location-originLocation;
         int gridCoordinate = (int)(locationDelta/(gridSize * getZoomAspect()));
         if (location< originLocation && locationDelta % (gridSize*getZoomAspect()) != 0)gridCoordinate--;
         return gridCoordinate;
     }
 
-    private double getGridLocation(int coordinate, double originLocation){
+    public double getGridLocation(int coordinate, double originLocation){
         double location = originLocation + (coordinate * gridSize * getZoomAspect());
         return location;
     }

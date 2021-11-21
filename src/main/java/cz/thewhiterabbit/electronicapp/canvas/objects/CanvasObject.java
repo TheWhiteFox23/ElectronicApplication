@@ -3,8 +3,10 @@ package cz.thewhiterabbit.electronicapp.canvas.objects;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.CanvasEventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.layout.LayoutProperties;
+import cz.thewhiterabbit.electronicapp.canvas.layout.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
@@ -14,8 +16,10 @@ import java.util.List;
  * General canvas object. Not effected by origin position or zoomAspect
  */
 public abstract class CanvasObject {
+    private Priority priority = Priority.NONE;
+
     private final LayoutProperties layoutProperties = new LayoutProperties();
-    private List<ActiveZone> activeZones;
+    private List<ActivePoint> activePoints;
 
     /******DRAWING BOUNDS******/
     private double locationX;
@@ -31,7 +35,6 @@ public abstract class CanvasObject {
     /******EVENT HANDLING******/
     private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
 
-
     /************CONSTRUCTORS*******************/
    public CanvasObject(){
         this(0,0,0,0);
@@ -42,7 +45,7 @@ public abstract class CanvasObject {
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
-        this.activeZones = new ArrayList<>();
+        this.activePoints = new ArrayList<>();
         this.locationX = locationX;
         this.locationY = locationY;
         this.width = width;
@@ -56,34 +59,41 @@ public abstract class CanvasObject {
     private void registerListeners() {
        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_ENTERED, e->{
            if(((CanvasMouseEvent) e).getObject() == this){
-               hovered = true;
-               eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
-           }else if(hovered == true){
-               hovered = false;
-               eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+               onObjectEntered(e);
            }
        });
        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
            if(((CanvasMouseEvent)e).getObject() == this){
-               hovered = false;
-               eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+               onObjectExited(e);
            }
        });
         eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
-                selected = true;
-                eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+                onObjectSelected(e);
             }
         });
         eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
-                selected = false;
-                eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+                onObjectDeselected(e);
             }
         });
         eventAggregator.registerHandler(CanvasMouseEvent.DESELECT_ALL, e -> {
-            selected = false;
-            eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+            onObjectDeselected(e);
+        });
+        eventAggregator.registerHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
+            if(((CanvasMouseEvent)e).getObject() == this){
+                onDragDetected(e);
+            }
+        });
+        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
+            if(((CanvasMouseEvent)e).getObject() == this){
+                onObjectDragged(e);
+            }
+        });
+        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
+            if(((CanvasMouseEvent)e).getObject() == this){
+                onObjectDropped(e);
+            }
         });
     }
 
@@ -119,6 +129,26 @@ public abstract class CanvasObject {
 
     public void setDragged(boolean dragged) {this.dragged = dragged;}
 
+    public Priority getPriority() {return priority;}
+
+    public void setPriority(Priority priority) {this.priority = priority;}
+
+    public EventAggregator getEventAggregator() {return eventAggregator;}
+
+    public void setEventAggregator(EventAggregator eventAggregator) {this.eventAggregator = eventAggregator;}
+
+    public List<ActivePoint> getActiveZones() {
+        return activePoints;
+    }
+
+    public void addActiveZone(ActivePoint activePoint){
+        activePoints.add(activePoint);
+    }
+
+    public void removeActiveZone(ActivePoint activePoint){
+        activePoints.remove(activePoint);
+    }
+
     /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
     /**
      * Return true if given coordinates are within the bounds of the object
@@ -127,8 +157,8 @@ public abstract class CanvasObject {
      * @return
      */
     public boolean isInBounds(double x, double y){
-        return ((x>= getLocationX() && x<= getLocationX()+getHeight()) &&
-                (y >= getLocationY() && y <= getLocationY()+getWidth()));
+        return ((x>= getLocationX() && x<= getLocationX()+getWidth()) &&
+                (y >= getLocationY() && y <= getLocationY()+getHeight()));
     }
 
     /********* PAINT *****************/
@@ -151,14 +181,32 @@ public abstract class CanvasObject {
                 getLocationX() <locationX+height);
     }
 
-    public List<ActiveZone> getActiveZones() {
-        return activeZones;
+    /******* EVENT HANDLING *******/
+
+    protected void onObjectEntered(Event e){
+        hovered = true;
+        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+    }
+    protected void onObjectExited(Event e){
+        hovered = false;
+        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+    }
+    protected void onObjectDeselected(Event e) {
+        selected = false;
+        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
     }
 
-    public void addActiveZone(ActiveZone activeZone){
-        activeZones.add(activeZone);
+    protected void onObjectSelected(Event e) {
+        selected = true;
+        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
     }
-    public void removeActiveZone(ActiveZone activeZone){
-        activeZones.remove(activeZone);
+
+    protected void onObjectDropped(Event e) {
+    }
+
+    protected void onObjectDragged(Event e) {
+    }
+
+    protected void onDragDetected(Event e) {
     }
 }

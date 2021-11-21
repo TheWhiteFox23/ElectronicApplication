@@ -24,6 +24,8 @@ public class DrawingCanvas extends Region {
     private CanvasLayout canvasLayout;
     private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
 
+    //DRAWING CONNECTION
+
 
 
     public DrawingCanvas(){
@@ -49,10 +51,15 @@ public class DrawingCanvas extends Region {
                 getCanvasLayout().add(generalCanvasObject);
             }
         }
-        /*GeneralCanvasObject canvasObject = new GeneralCanvasObject();
-        canvasObject.getLayoutProperties().set(-5,-5,2,2);
-        addCanvasObject(new ActiveZone(canvasObject, 0, 1));
-        addCanvasObject(canvasObject);*/
+        LineObject  lineObject = new LineObject();
+        lineObject.getLayoutProperties().set(-10,-10,1,10);
+        lineObject.setRotation(LineObject.Rotation.LEFT_TO_RIGHT);
+        getCanvasLayout().add(lineObject);
+
+        LineObject  lineObject2 = new LineObject();
+        lineObject2.getLayoutProperties().set(-10,-10,10,1);
+        lineObject2.setRotation(LineObject.Rotation.LEFT_TO_BOTTOM);
+        getCanvasLayout().add(lineObject2);
     }
 
     private void initGraphics(){
@@ -67,14 +74,9 @@ public class DrawingCanvas extends Region {
         //EVENT AGGREGATOR
         canvas.addEventHandler(Event.ANY, e->eventAggregator.fireEvent(e));
         eventAggregator.registerHandler(CanvasEvent.REPAINT_ALL, e->paint());
-        eventAggregator.registerHandler(CanvasEvent.REPAINT_OBJECT,event -> {
-            CanvasObject object = ((CanvasEvent)event).getObject();
-            gc.clearRect(object.getLocationX(), object.getLocationY(), object.getWidth(), object.getHeight());
-            object.paint(gc);
-        });
-        eventAggregator.registerHandler(CanvasEvent.PAINT_OBJECT, e->{
+        eventAggregator.registerHandler(CanvasEvent.PAINT_OBJECT,e->{
             CanvasObject object = ((CanvasEvent)e).getObject();
-            object.paint(gc);
+            if(getCanvasLayout().containsObject(object)) object.paint(gc);
         });
 
 
@@ -99,6 +101,50 @@ public class DrawingCanvas extends Region {
 
             paint();
         });
+
+        eventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAGGED, h->{
+            ActivePoint activePoint = (ActivePoint) ((CanvasMouseEvent)h).getObject();
+            if(getCanvasLayout() instanceof GridLayout){
+                int coordinateStartX = activePoint.getLayoutProperties().getGridX();
+                int coordinateStartY = activePoint.getLayoutProperties().getGridY();
+                int coordinateFinishX = ((GridLayout)getCanvasLayout()).getGridCoordinate(((CanvasMouseEvent) h).getX(),
+                        ((GridLayout) getCanvasLayout()).getOriginX());
+                int coordinateFinishY = ((GridLayout)getCanvasLayout()).getGridCoordinate(((CanvasMouseEvent) h).getY(),
+                        ((GridLayout) getCanvasLayout()).getOriginY());
+
+                LineObject lineObject = new LineObject();
+
+                paint();
+                /****** XCoordinate ******/
+                int gridHeight = coordinateFinishX - coordinateStartX;
+                if(gridHeight<0){
+                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateStartY,1 , Math.abs(gridHeight));
+                }else{
+                    lineObject.getLayoutProperties().set(coordinateStartX, coordinateStartY, 1, Math.abs(gridHeight));
+                }
+                ((GridLayout) getCanvasLayout()).updatePaintProperties(lineObject);
+                lineObject.paint(gc);
+
+                int gridWidth = coordinateFinishY - coordinateStartY;
+                if(gridWidth<0){
+                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateFinishY,Math.abs(gridWidth) , 1);
+                }else{
+                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateStartY, Math.abs(gridWidth), 1);
+                }
+                ((GridLayout) getCanvasLayout()).updatePaintProperties(lineObject);
+                lineObject.setRotation(LineObject.Rotation.LEFT_TO_BOTTOM);
+                lineObject.paint(gc);
+
+                try {
+                    lineObject.finalize();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }); //todo draw line
+        //eventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAG_DROPPED, h-> System.out.println("Active point dropped")); //todo insert lineObject
 
 
         //TODO move to constructor or somewhere

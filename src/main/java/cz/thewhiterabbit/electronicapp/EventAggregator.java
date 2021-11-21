@@ -4,14 +4,13 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
 public class EventAggregator implements IEventAggregator{
     //logic
     private Map<EventType, List<EventHandler>> handlerMap = new HashMap<>();
+    Semaphore semaphore = new Semaphore(10);
     /**
      * Fire event -> pass the event to interested handlers
      * @param event
@@ -19,15 +18,15 @@ public class EventAggregator implements IEventAggregator{
      */
     @Override
     public <T extends Event> void fireEvent(T event) {
-        try{
-            if(handlerMap.containsKey(event.getEventType())){
-                handlerMap.get(event.getEventType()).forEach(handler -> handler.handle(event));
+        if(handlerMap.containsKey(event.getEventType())){
+            //handlerMap.get(event.getEventType()).forEach(handler -> handler.handle(event));
+            handlerMap.get(event.getEventType()).size();
+            for(int i = 0; i< handlerMap.get(event.getEventType()).size(); i++){
+                EventHandler handler = handlerMap.get(event.getEventType()).get(i);
+                handler.handle(event);
+                //System.out.println(event.getEventType());
             }
-        }catch (Exception e){
-            System.out.println(event.getEventType());
-            System.out.println(e.toString());
         }
-
     }
 
     /**
@@ -38,8 +37,11 @@ public class EventAggregator implements IEventAggregator{
      */
     @Override
     public <T extends EventType> void registerHandler(T eventType, EventHandler handler) {
-        if(!handlerMap.containsKey(eventType)) handlerMap.put(eventType, new ArrayList<>());
+        if(!handlerMap.containsKey(eventType)) {
+            handlerMap.put(eventType, new ArrayList<>());
+        }
         handlerMap.get(eventType).add(handler);
+
     }
 
 }

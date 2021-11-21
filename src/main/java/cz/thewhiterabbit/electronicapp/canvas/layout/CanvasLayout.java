@@ -32,7 +32,7 @@ public abstract class CanvasLayout {
         });
         updatePaintProperties(object);
         object.getActiveZones().forEach(a -> add(a));
-        canvasObjects.add(object);
+        addObject(object);
     }
 
     protected abstract void updatePaintProperties(CanvasObject object);
@@ -61,7 +61,7 @@ public abstract class CanvasLayout {
 
     public CanvasObject getObject(double x, double y){
         List<CanvasObject> visible = getVisible();
-        for (int i = 0; i<visible.size(); i++){
+        for (int i = visible.size()-1; i>=0; i--){
             CanvasObject o = visible.get(i);
             if(o.isInBounds(x, y)) return o;
         }
@@ -74,6 +74,23 @@ public abstract class CanvasLayout {
             if(o.isInBounds(locationX, locationY, width, height))visibleObjects.add(o);
         });
         return visibleObjects;
+    }
+
+    private void addObject(CanvasObject canvasObject){
+        Priority objectPriority = canvasObject.getPriority();
+        int index = getIndex(objectPriority);
+        canvasObjects.add(index, canvasObject);
+
+    }
+
+    private int getIndex(Priority priority){
+        for(int i = 0; i< canvasObjects.size(); i++){
+            CanvasObject object = canvasObjects.get(i);
+            if(object.getPriority().getPriorityIndex()> priority.getPriorityIndex()){
+                return i;
+            }
+        }
+        return canvasObjects.size();
     }
 
 
