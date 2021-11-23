@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
-public abstract class CanvasObject {
+public abstract class CanvasObject  {
     private Priority priority = Priority.NONE;
 
     private final LayoutProperties layoutProperties = new LayoutProperties();
@@ -209,4 +209,7 @@ public abstract class CanvasObject {
 
     protected void onDragDetected(Event e) {
     }
+
+
+
 }

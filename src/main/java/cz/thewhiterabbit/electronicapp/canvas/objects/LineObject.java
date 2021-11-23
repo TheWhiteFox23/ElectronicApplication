@@ -4,16 +4,22 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class LineObject extends CanvasObject{
-    public enum Rotation {LEFT_TO_RIGHT, LEFT_TO_BOTTOM}
-    Rotation rotation = Rotation.LEFT_TO_RIGHT;
+    public static int count;
+    public enum Orientation {HORIZONTAL, VERTICAL}
+    Orientation orientation = Orientation.HORIZONTAL;
+
+    public LineObject() {
+        count++;
+    }
 
     @Override
     public void paint(GraphicsContext gc) {
+        System.out.println("Count: " + count);
         double height = (getHeight()>getWidth()?getWidth():getHeight())*0.25;
         double positionX;
         double positionY;
-        switch (rotation){
-            case LEFT_TO_RIGHT:{
+        switch (orientation){
+            case HORIZONTAL:{
                 positionX = getLocationX()+getWidth();
                 positionY = getLocationY();
                 break;
@@ -28,15 +34,16 @@ public class LineObject extends CanvasObject{
         gc.strokeLine(getLocationX(), getLocationY(), positionX, positionY);
     }
 
-    public Rotation getRotation() {
-        return rotation;
+    public Orientation getOrientation() {
+        return orientation;
     }
 
-    public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
     }
 
     public void finalize() throws Throwable{
+        count--;
         //System.out.println("Object is destroyed by the Garbage Collector");
     }
 }

@@ -19,8 +19,11 @@ public class GeneralCanvasObject extends CanvasObject{
 
     @Override
     public void paint(GraphicsContext gc) {
+        gc.save();
         gc.setFill(getColor());
         gc.fillRect(getLocationX(), getLocationY(), getWidth(), getHeight());
+        gc.restore();
+
     }
 
     @Override

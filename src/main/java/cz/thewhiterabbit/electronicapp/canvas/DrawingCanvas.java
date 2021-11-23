@@ -25,6 +25,8 @@ public class DrawingCanvas extends Region {
     private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
 
     //DRAWING CONNECTION
+    LineObject firstLine;
+    LineObject secondLine;
 
 
 
@@ -53,12 +55,12 @@ public class DrawingCanvas extends Region {
         }
         LineObject  lineObject = new LineObject();
         lineObject.getLayoutProperties().set(-10,-10,1,10);
-        lineObject.setRotation(LineObject.Rotation.LEFT_TO_RIGHT);
+        lineObject.setOrientation(LineObject.Orientation.HORIZONTAL);
         getCanvasLayout().add(lineObject);
 
         LineObject  lineObject2 = new LineObject();
         lineObject2.getLayoutProperties().set(-10,-10,10,1);
-        lineObject2.setRotation(LineObject.Rotation.LEFT_TO_BOTTOM);
+        lineObject2.setOrientation(LineObject.Orientation.VERTICAL);
         getCanvasLayout().add(lineObject2);
     }
 
@@ -102,6 +104,7 @@ public class DrawingCanvas extends Region {
             paint();
         });
 
+        //TODO REFACTOR
         eventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAGGED, h->{
             ActivePoint activePoint = (ActivePoint) ((CanvasMouseEvent)h).getObject();
             if(getCanvasLayout() instanceof GridLayout){
@@ -112,40 +115,35 @@ public class DrawingCanvas extends Region {
                 int coordinateFinishY = ((GridLayout)getCanvasLayout()).getGridCoordinate(((CanvasMouseEvent) h).getY(),
                         ((GridLayout) getCanvasLayout()).getOriginY());
 
-                LineObject lineObject = new LineObject();
+                setLines(coordinateStartX, coordinateStartY, coordinateFinishX, coordinateFinishY);
 
                 paint();
-                /****** XCoordinate ******/
-                int gridHeight = coordinateFinishX - coordinateStartX;
-                if(gridHeight<0){
-                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateStartY,1 , Math.abs(gridHeight));
-                }else{
-                    lineObject.getLayoutProperties().set(coordinateStartX, coordinateStartY, 1, Math.abs(gridHeight));
+                if(firstLine != null){
+                    ((GridLayout) getCanvasLayout()).updatePaintProperties(firstLine);
+                    firstLine.paint(gc);
                 }
-                ((GridLayout) getCanvasLayout()).updatePaintProperties(lineObject);
-                lineObject.paint(gc);
-
-                int gridWidth = coordinateFinishY - coordinateStartY;
-                if(gridWidth<0){
-                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateFinishY,Math.abs(gridWidth) , 1);
-                }else{
-                    lineObject.getLayoutProperties().set(coordinateFinishX, coordinateStartY, Math.abs(gridWidth), 1);
+                if(secondLine != null){
+                    ((GridLayout) getCanvasLayout()).updatePaintProperties(secondLine);
+                    secondLine.paint(gc);
                 }
-                ((GridLayout) getCanvasLayout()).updatePaintProperties(lineObject);
-                lineObject.setRotation(LineObject.Rotation.LEFT_TO_BOTTOM);
-                lineObject.paint(gc);
-
-                try {
-                    lineObject.finalize();
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-
             }
 
-        }); //todo draw line
-        //eventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAG_DROPPED, h-> System.out.println("Active point dropped")); //todo insert lineObject
+        });
 
+        eventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAG_DROPPED, e->{
+            if(firstLine != null) {
+                getCanvasLayout().add(firstLine);
+                tryFinalizeLine(firstLine);
+                firstLine = null;
+            }
+            if(secondLine != null) {
+                getCanvasLayout().add(secondLine);
+                tryFinalizeLine(secondLine);
+                secondLine = null;
+            }
+
+
+        });
 
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -159,6 +157,64 @@ public class DrawingCanvas extends Region {
             paint();
         });
     }
+    private void setLines(int activePointX, int activePointY, int cursorX, int cursorY){
+        if(activePointX != cursorX){
+            createAndSetLine(activePointX, cursorX, activePointY, cursorY, LineObject.Orientation.HORIZONTAL);
+        }else{
+            deleteAndAdjustOrder(LineObject.Orientation.HORIZONTAL);
+        }
+
+        if(activePointY != cursorY){
+            createAndSetLine(activePointY, cursorY,activePointX, cursorX, LineObject.Orientation.VERTICAL);
+        }else{
+            deleteAndAdjustOrder(LineObject.Orientation.VERTICAL);
+        }
+    }
+
+    private void createAndSetLine(int firstLinePoint, int secondLinePoint,int firsLineLevel, int secondLineLevel, LineObject.Orientation orientation) {
+        if (firstLine == null){
+            firstLine = new LineObject();
+            firstLine.setOrientation(orientation);
+            adjustLine(firstLine, firstLinePoint, secondLinePoint, firsLineLevel);
+        }else if (firstLine.getOrientation() == orientation) {
+            adjustLine(firstLine, firstLinePoint, secondLinePoint, firsLineLevel);
+        }else if (secondLine == null)  {
+            secondLine = new LineObject();
+            secondLine.setOrientation(orientation);
+            adjustLine(secondLine, firstLinePoint, secondLinePoint, secondLineLevel);
+        }else if (secondLine.getOrientation() == orientation) {
+            adjustLine(secondLine, firstLinePoint, secondLinePoint, secondLineLevel);
+        }
+
+    }
+
+    private void deleteAndAdjustOrder(LineObject.Orientation orientation){
+        if(firstLine != null && firstLine.getOrientation() == orientation){
+            tryFinalizeLine(firstLine);
+            firstLine = secondLine;
+            secondLine = null;
+        }else if (secondLine != null && secondLine.getOrientation() == orientation){
+            tryFinalizeLine(secondLine);
+            secondLine = null;
+        }
+    }
+
+    private void tryFinalizeLine(LineObject lineObject) {
+        try {
+            this.secondLine.finalize();
+        }catch (Throwable throwable){
+
+        }
+    }
+
+    private void adjustLine(LineObject lineObject, int firstPoint, int secondPoint, int level) {
+        int length = secondPoint - firstPoint;
+        if(lineObject.getOrientation() == LineObject.Orientation.HORIZONTAL){
+            lineObject.getLayoutProperties().set((length<0? secondPoint:firstPoint), level,1, Math.abs(length));
+        }else{
+            lineObject.getLayoutProperties().set(level,(length<0? secondPoint:firstPoint), Math.abs(length), 1);
+        }
+    }
 
     private RectangleBounds getRectangleBounds(CanvasMouseEvent e) {
         double height = e.getX() - e.getStartX();
@@ -171,7 +227,9 @@ public class DrawingCanvas extends Region {
 
     private void paint(){
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.save();
         getVisible().forEach(o->{o.paint(gc);});
+        gc.restore();
     }
 
 
