@@ -4,6 +4,7 @@ import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import javafx.event.Event;
 import javafx.event.EventType;
 
+//TODO transform into command
 public class CanvasEvent extends Event {
     private double x = 0;
     private double y = 0;

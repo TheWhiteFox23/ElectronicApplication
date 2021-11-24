@@ -1,19 +1,19 @@
-package cz.thewhiterabbit.electronicapp.canvas.layout;
+package cz.thewhiterabbit.electronicapp;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class LayoutProperties {
-    private List<PropertiesListener> propertiesListenerList; //TODO move to document object
-
+/**
+ * Basic document object, represents component or some part of the circuit (conductor, node)
+ */
+public abstract class DocumentComponent {
+    //LAYOUT PROPERTIES
     /***** GRID LAYOUT *****/
     private int gridX;
     private int gridY;
     private int gridHeight;
     private int gridWidth;
 
-    public LayoutProperties() {
-        propertiesListenerList = new ArrayList<>();
+    public DocumentComponent() {
         this.gridX = 0;
         this.gridY = 0;
         this.gridHeight = 0;
@@ -25,7 +25,6 @@ public class LayoutProperties {
         this.gridY = gridY;
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
-        propertiesChange();
     }
 
     /**** GRID LAYOUT *****/
@@ -51,12 +50,10 @@ public class LayoutProperties {
         propertiesChange();
     }
 
-    /****** PROPERTIES CHANGE ******/
-    public void addPropertiesListener(PropertiesListener propertiesListener){
-        propertiesListenerList.add(propertiesListener);
-    }
+    /**
+     * Fire properties change event into the event aggregator
+     */
     public void propertiesChange(){
-        propertiesListenerList.forEach(l -> l.onPropertiesChange());
-    }
 
+    }
 }

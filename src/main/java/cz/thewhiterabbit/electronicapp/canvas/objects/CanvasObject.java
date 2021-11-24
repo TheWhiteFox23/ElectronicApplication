@@ -18,7 +18,7 @@ import java.util.List;
 public abstract class CanvasObject  {
     private Priority priority = Priority.NONE;
 
-    private final LayoutProperties layoutProperties = new LayoutProperties();
+    private final LayoutProperties layoutProperties = new LayoutProperties(); //replace with documentObject
     private List<ActivePoint> activePoints;
 
     /******DRAWING BOUNDS******/

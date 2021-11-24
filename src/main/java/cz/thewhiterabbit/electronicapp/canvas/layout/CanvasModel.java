@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * Manage layout of the components on the screen;
  */
-public abstract class CanvasLayout {
+public abstract class CanvasModel {
     private Canvas canvas; //todo manage width and height different way
     private EventAggregator canvasEventAggregator;
     private List<CanvasObject> canvasObjects;
 
-    public CanvasLayout(Canvas canvas, EventAggregator eventAggregator){
+    public CanvasModel(Canvas canvas, EventAggregator eventAggregator){
         this.canvas = canvas;
         this.canvasEventAggregator = eventAggregator; //todo get aggregator through injections
         this.canvasObjects = new ArrayList<>();
@@ -96,4 +96,7 @@ public abstract class CanvasLayout {
 
 
 
+
+
 }
+

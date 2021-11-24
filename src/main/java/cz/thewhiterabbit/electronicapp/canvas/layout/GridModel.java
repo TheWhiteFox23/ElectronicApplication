@@ -6,10 +6,10 @@ import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import javafx.scene.canvas.Canvas;
 
-public class GridLayout extends RelativeLayout{
+public class GridModel extends RelativeModel {
     private double gridSize = 10;
 
-    public GridLayout(Canvas canvas, EventAggregator eventAggregator) {
+    public GridModel(Canvas canvas, EventAggregator eventAggregator) {
         super(canvas, eventAggregator);
     }
 
@@ -22,7 +22,6 @@ public class GridLayout extends RelativeLayout{
     /********** METHODS -> OVERRIDES *************/
     @Override
     protected void onObjectDragged(CanvasMouseEvent e) {
-        //super.onObjectDragged(e);
         CanvasObject canvasObject = e.getObject();
         if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
             CanvasMouseEvent event = e;
@@ -47,7 +46,6 @@ public class GridLayout extends RelativeLayout{
 
     @Override
     protected void onObjectDragDropped(CanvasMouseEvent e) {
-        //super.onObjectDragDropped(e);
         CanvasObject canvasObject = e.getObject();
         if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
             CanvasMouseEvent event = e;
