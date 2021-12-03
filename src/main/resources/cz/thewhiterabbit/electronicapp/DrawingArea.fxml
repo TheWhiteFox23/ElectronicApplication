@@ -2,11 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Text?>
-
-
-<?import java.net.URL?>
-<?import cz.thewhiterabbit.electronicapp.DrawingRegion?>
 <?import cz.thewhiterabbit.electronicapp.canvas.DrawingCanvas?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -19,5 +14,6 @@
         <fx:include source="ComponentInfoPane.fxml" fx:id="componentInfoPane" AnchorPane.rightAnchor="10.0"/>
         <fx:include source="DrawingAreaControlMenu.fxml" fx:id="drawingAreaControlMenu" AnchorPane.bottomAnchor="10.0"/>
         -->
+
 
 </AnchorPane>

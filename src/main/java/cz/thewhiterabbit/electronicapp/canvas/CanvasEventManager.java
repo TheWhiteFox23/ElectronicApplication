@@ -181,8 +181,8 @@ public class CanvasEventManager {
         canvasEventAggregator.registerHandler(CanvasMouseEvent.ACTIVE_POINT_DRAGGED, h->{
             ActivePoint activePoint = (ActivePoint) ((CanvasMouseEvent)h).getObject();
             if(drawingCanvas.getCanvasLayout() instanceof GridModel){
-                int coordinateStartX = activePoint.getLayoutProperties().getGridX();
-                int coordinateStartY = activePoint.getLayoutProperties().getGridY();
+                int coordinateStartX = activePoint.getDocumentComponent().getGridX();
+                int coordinateStartY = activePoint.getDocumentComponent().getGridY();
                 int coordinateFinishX = ((GridModel)drawingCanvas.getCanvasLayout()).getGridCoordinate(((CanvasMouseEvent) h).getX(),
                         ((GridModel) drawingCanvas.getCanvasLayout()).getOriginX());
                 int coordinateFinishY = ((GridModel)drawingCanvas.getCanvasLayout()).getGridCoordinate(((CanvasMouseEvent) h).getY(),
@@ -272,9 +272,9 @@ public class CanvasEventManager {
     private void adjustLine(LineObject lineObject, int firstPoint, int secondPoint, int level) {
         int length = secondPoint - firstPoint;
         if(lineObject.getOrientation() == LineObject.Orientation.HORIZONTAL){
-            lineObject.getLayoutProperties().set((length<0? secondPoint:firstPoint), level,1, Math.abs(length));
+            lineObject.getDocumentComponent().set((length<0? secondPoint:firstPoint), level,1, Math.abs(length));
         }else{
-            lineObject.getLayoutProperties().set(level,(length<0? secondPoint:firstPoint), Math.abs(length), 1);
+            lineObject.getDocumentComponent().set(level,(length<0? secondPoint:firstPoint), Math.abs(length), 1);
         }
     }
 

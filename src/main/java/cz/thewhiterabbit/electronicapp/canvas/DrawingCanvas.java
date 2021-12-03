@@ -45,7 +45,7 @@ public class DrawingCanvas extends Region {
         for(int i = 0; i< 100; i+= 4){
             for(int j = 0; j< 100; j+=4){
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                generalCanvasObject.getLayoutProperties().set(i,j,2, 2);
+                generalCanvasObject.getDocumentComponent().set(i,j,2, 2);
                 getCanvasLayout().add(generalCanvasObject);
             }
         }

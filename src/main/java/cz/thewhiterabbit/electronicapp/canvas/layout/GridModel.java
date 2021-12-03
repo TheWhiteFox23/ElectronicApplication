@@ -1,9 +1,12 @@
 package cz.thewhiterabbit.electronicapp.canvas.layout;
 
+import cz.thewhiterabbit.electronicapp.DocumentObject;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.events.DocumentObjectCommand;
 import javafx.scene.canvas.Canvas;
 
 public class GridModel extends RelativeModel {
@@ -55,9 +58,15 @@ public class GridModel extends RelativeModel {
                 if(o.isSelected()){
                     int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
                     int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
-                    LayoutProperties properties = o.getLayoutProperties();
-                    properties.setGridX(gridX);
-                    properties.setGridY(gridY);
+                    //DocumentObject properties = o.getDocumentComponent();
+                    //properties.setGridX(gridX);
+                    //properties.setGridY(gridY);
+                    EventAggregator eventAggregator = GUIEventAggregator.getInstance();
+                    DocumentObjectCommand command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridX(), o.getDocumentComponent().gridX().getValue(), gridX);
+                    eventAggregator.fireEvent(command);
+                    command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridY(), o.getDocumentComponent().gridY().getValue(), gridY);
+                    eventAggregator.fireEvent(command);
+                    updatePaintProperties(o);
                 }
             });
 
@@ -67,7 +76,7 @@ public class GridModel extends RelativeModel {
 
     @Override
     public void updatePaintProperties(CanvasObject object) {
-        LayoutProperties properties = object.getLayoutProperties();
+        DocumentObject properties = object.getDocumentComponent();
         object.setLocationX(getGridLocation(properties.getGridX(), getOriginX()));
         object.setLocationY(getGridLocation(properties.getGridY(), getOriginY()));
         object.setWidth(properties.getGridWidth() * gridSize * getZoomAspect());

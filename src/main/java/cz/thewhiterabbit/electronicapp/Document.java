@@ -8,7 +8,7 @@ public class Document {
     private String fileName;
 
     /** COMPONENTS LIST **/
-    private List<DocumentComponent> componentList;
+    private List<DocumentObject> componentList;
 
     /**** CONSTRUCTORS ****/
     public Document(String fileName){
@@ -19,15 +19,15 @@ public class Document {
     /****GETTERS AND SETTERS ****/
     public String getFileName() {return fileName;}
     public void setFileName(String fileName) {this.fileName = fileName;}
-    public List<DocumentComponent> getComponentList() {return componentList;}
-    public void setComponentList(List<DocumentComponent> componentList) {this.componentList = componentList;}
+    public List<DocumentObject> getComponentList() {return componentList;}
+    public void setComponentList(List<DocumentObject> componentList) {this.componentList = componentList;}
 
     /****METHODS ****/
-    public void addComponent(DocumentComponent documentComponent){
-        this.componentList.add(documentComponent);
+    public void addComponent(DocumentObject documentObject){
+        this.componentList.add(documentObject);
     }
 
-    public void removeComponent(DocumentComponent documentComponent){
-        this.componentList.remove(documentComponent);
+    public void removeComponent(DocumentObject documentObject){
+        this.componentList.remove(documentObject);
     }
 }

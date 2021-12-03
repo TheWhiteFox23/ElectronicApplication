@@ -1,8 +1,11 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
+import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.layout.Priority;
 import cz.thewhiterabbit.electronicapp.canvas.layout.PropertiesListener;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.events.DocumentObjectCommand;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +21,7 @@ public class ActivePoint extends CanvasObject{
         setOwner(owner);
         this.relativeLocationX = relativeLocationX;
         this.relativeLocationY = relativeLocationY;
-        getLayoutProperties().set(0,0,1,1);
+        getDocumentComponent().set(0,0,1,1);
         setPriority(Priority.ALWAYS_ON_TOP);
     }
 
@@ -95,8 +98,14 @@ public class ActivePoint extends CanvasObject{
     /****** METHODS *******/
 
     private void initLocation(CanvasObject owner) {
-        getLayoutProperties().setGridX(owner.getLayoutProperties().getGridX()+relativeLocationX);
-        getLayoutProperties().setGridY(owner.getLayoutProperties().getGridY()+relativeLocationY);
+        int gridX = owner.getDocumentComponent().getGridX()+relativeLocationX;
+        int gridY = owner.getDocumentComponent().getGridY()+relativeLocationY;
+
+        EventAggregator eventAggregator = GUIEventAggregator.getInstance();
+        DocumentObjectCommand command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,getDocumentComponent(), getDocumentComponent().gridX(), getDocumentComponent().gridX().getValue(), gridX);
+        eventAggregator.fireEvent(command);
+        command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,getDocumentComponent(), getDocumentComponent().gridY(), getDocumentComponent().gridY().getValue(), gridY);
+        eventAggregator.fireEvent(command);
     }
 
     /****** GETTERS AND SETTERS ******/
@@ -106,7 +115,7 @@ public class ActivePoint extends CanvasObject{
 
     public void setOwner(CanvasObject owner) {
         this.owner = owner;
-        owner.getLayoutProperties().addPropertiesListener(new PropertiesListener() { //TODO MOVE TO AGGREGATOR
+        owner.getDocumentComponent().addPropertiesListener(new PropertiesListener() { //TODO MOVE TO AGGREGATOR
             @Override
             public void onPropertiesChange() {
                 initLocation(owner);
@@ -121,6 +130,4 @@ public class ActivePoint extends CanvasObject{
     public int getRelativeLocationY() {return relativeLocationY;}
 
     public void setRelativeLocationY(int relativeLocationY) {this.relativeLocationY = relativeLocationY;}
-
-
 }

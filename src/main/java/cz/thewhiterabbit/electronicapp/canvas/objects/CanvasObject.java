@@ -1,8 +1,8 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
+import cz.thewhiterabbit.electronicapp.DocumentObject;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.CanvasEventAggregator;
-import cz.thewhiterabbit.electronicapp.canvas.layout.LayoutProperties;
 import cz.thewhiterabbit.electronicapp.canvas.layout.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
@@ -15,10 +15,8 @@ import java.util.List;
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
-public abstract class CanvasObject  {
+public abstract class CanvasObject  { //TODO should wrap
     private Priority priority = Priority.NONE;
-
-    private final LayoutProperties layoutProperties = new LayoutProperties(); //replace with documentObject
     private List<ActivePoint> activePoints;
 
     /******DRAWING BOUNDS******/
@@ -35,6 +33,9 @@ public abstract class CanvasObject  {
     /******EVENT HANDLING******/
     private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
 
+    /****** TEST *****/
+    private DocumentObject documentComponent;
+
     /************CONSTRUCTORS*******************/
    public CanvasObject(){
         this(0,0,0,0);
@@ -45,6 +46,7 @@ public abstract class CanvasObject  {
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
+        this.documentComponent = new DocumentObject();
         this.activePoints = new ArrayList<>();
         this.locationX = locationX;
         this.locationY = locationY;
@@ -53,6 +55,7 @@ public abstract class CanvasObject  {
         this.hovered = false;
         this.selected = false;
         this.dragged = false;
+
         registerListeners();
     }
 
@@ -99,7 +102,7 @@ public abstract class CanvasObject  {
 
     /***********GETTERS AND SETTERS*************/
 
-    public LayoutProperties getLayoutProperties() {return layoutProperties;}
+    //public LayoutProperties getLayoutProperties() {return layoutProperties;}
 
     public double getLocationX() {return locationX;}
 
@@ -148,6 +151,8 @@ public abstract class CanvasObject  {
     public void removeActiveZone(ActivePoint activePoint){
         activePoints.remove(activePoint);
     }
+
+    public DocumentObject getDocumentComponent() {return documentComponent;}
 
     /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
     /**
@@ -209,7 +214,5 @@ public abstract class CanvasObject  {
 
     protected void onDragDetected(Event e) {
     }
-
-
 
 }
