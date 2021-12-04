@@ -1,4 +1,4 @@
-package cz.thewhiterabbit.electronicapp.canvas.layout;
+package cz.thewhiterabbit.electronicapp.canvas.model;
 
 public enum Priority {
     ALWAYS_ON_BOTTOM(0),

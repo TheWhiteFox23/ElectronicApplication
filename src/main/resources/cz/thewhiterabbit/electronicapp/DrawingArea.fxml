@@ -8,7 +8,7 @@
             fx:controller="cz.thewhiterabbit.electronicapp.controllers.DrawingAreaController"
             fx:id="canvas">
 
-    <DrawingCanvas AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
+    <DrawingCanvas fx:id="drawingArea" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
     <!--
         <fx:include source="PropertiesPane.fxml" fx:id="propertiesPane" AnchorPane.leftAnchor="10.0"/>
         <fx:include source="ComponentInfoPane.fxml" fx:id="componentInfoPane" AnchorPane.rightAnchor="10.0"/>

@@ -2,15 +2,17 @@ package cz.thewhiterabbit.electronicapp.canvas;
 
 import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
-import cz.thewhiterabbit.electronicapp.canvas.layout.*;
+import cz.thewhiterabbit.electronicapp.canvas.model.*;
 import cz.thewhiterabbit.electronicapp.canvas.objects.*;
-import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
@@ -22,34 +24,15 @@ public class DrawingCanvas extends Region {
     private GraphicsContext gc;
 
     private CanvasModel canvasModel;
-    private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
-
-    //DRAWING CONNECTION //TODO move to line manager
-
-
 
 
     public DrawingCanvas(){
         //TODO Clean up constructor
         getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
         initGraphics();
-
-        GridModel gridLayout = new GridModel(canvas, eventAggregator);
-        gridLayout.setGridSize(10);
-        gridLayout.setOriginX(600);
-        gridLayout.setOriginY(400);
-        setCanvasLayout(gridLayout);
-        CanvasEventManager manager = new CanvasEventManager(this); //todo this is weird, solve it somehow
-
-        addCanvasObject(new RelativePointBackground(canvas));
-        for(int i = 0; i< 100; i+= 4){
-            for(int j = 0; j< 100; j+=4){
-                GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                generalCanvasObject.getDocumentComponent().set(i,j,2, 2);
-                getCanvasLayout().add(generalCanvasObject);
-            }
-        }
     }
+
+
 
     private void initGraphics(){
         canvas = new Canvas();
@@ -60,46 +43,29 @@ public class DrawingCanvas extends Region {
     }
 
     private void registerListeners() {
-        //EVENT AGGREGATOR
-        canvas.addEventHandler(Event.ANY, e->eventAggregator.fireEvent(e));
-        eventAggregator.registerHandler(CanvasEvent.REPAINT_ALL, e->paint());
-        eventAggregator.registerHandler(CanvasEvent.PAINT_OBJECT,e->{
-            CanvasObject object = ((CanvasEvent)e).getObject();
-            if(getCanvasLayout().containsObject(object)) object.paint(gc);
+        //DELEGATE ALL EVENTS TO MODEL INNER EVENT AGGREGATOR
+        canvas.addEventHandler(CanvasMouseEvent.ANY, e ->{
+            if(getCanvasLayout()!= null){
+                System.out.println(e.getEventType());
+                getCanvasLayout().getInnerEventAggregator().fireEvent(e);
+            }
         });
 
-
-        /****** SELECTION *******/
-        eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_MOVE, event->{
-            paint();
-            RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
-
-            //TODO move to paint selection method
-            gc.setStroke(Color.GREENYELLOW);
-            gc.strokeRect(bounds.locationX, bounds.locationY, bounds.height, bounds.width);
+        /*canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e ->{
+            System.out.println("CANVAS -> DRAG DETECTED");
         });
 
-        eventAggregator.registerHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event->{
-            RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
-            List<CanvasObject> objects = getCanvasLayout().getInBounds(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
-
-            //TODO Refactor selecting into the command
-            objects.forEach(o -> {
-                eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o));
-            });
-
-            paint();
-        });
+        canvas.addEventHandler(MouseEvent.DRAG_DETECTED, e ->{
+            System.out.println("CANVAS -> DRAG DETECTED");
+        });*/
 
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {
             canvas.setWidth((Double) newVal);
-            //canvasBackground.setWidth((Double) newVal);
             paint();
         });
         heightProperty().addListener((obs, oldVal, newVal) -> {
             canvas.setHeight((Double) newVal);
-            //canvasBackground.setHeight((Double) newVal);
             paint();
         });
     }
@@ -115,23 +81,56 @@ public class DrawingCanvas extends Region {
     }
 
     private void paint(){
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.save();
         getVisible().forEach(o->{o.paint(gc);});
-        gc.restore();
     }
 
-
-    private void addCanvasObject(CanvasObject canvasObject){
-        getCanvasLayout().add(canvasObject);
+    private void clear(){
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     public CanvasModel getCanvasLayout() {
         return canvasModel;
     }
 
-    public void setCanvasLayout(CanvasModel canvasModel) {
+    public void setModel(CanvasModel canvasModel) {
+        //TODO deregister handles
+        if(this.canvasModel != null){
+            removeEventHandlers(this.canvasModel.getInnerEventAggregator());
+            this.canvasModel.setCanvas(null);
+        }
+
         this.canvasModel = canvasModel;
+
+
+        if(this.canvasModel != null){
+            this.canvasModel.setCanvas(canvas);
+            addModelHandlers(this.canvasModel.getInnerEventAggregator());
+            //TODO MOVE TO SOMEWHERE MORE APPROPRIATE
+
+            /****** SELECTION *******/
+            canvasModel.getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SELECTION_MOVE, event->{
+                clear();
+                paint();
+                RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
+
+                //TODO move to paint selection method
+                gc.setStroke(Color.GREENYELLOW);
+                gc.strokeRect(bounds.locationX, bounds.locationY, bounds.height, bounds.width);
+            });
+
+            canvasModel.getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event->{
+                RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent)event);
+                List<CanvasObject> objects = getCanvasLayout().getInBounds(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
+
+                //TODO Refactor selecting into the command
+                objects.forEach(o -> {
+                    canvasModel.getInnerEventAggregator().fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o));
+                });
+
+                clear();
+                paint();
+            });
+        }
     }
 
     public List<CanvasObject> getVisible(){
@@ -155,4 +154,73 @@ public class DrawingCanvas extends Region {
             this.height = height;
         }
     }
+
+    /**** HANDLERS ****/
+    private final EventHandler<CanvasPaintEvent> paintHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            paint();
+        }
+    };
+    private final EventHandler<CanvasPaintEvent> paintObjectHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            CanvasObject o =canvasPaintEvent.getCanvasObject();
+            if(o != null) {
+               o.paint(gc);
+            }
+        }
+    };
+    private final EventHandler<CanvasPaintEvent> repaintHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            clear();
+            paint();
+        }
+    };
+    private final EventHandler<CanvasPaintEvent> repaintObjectHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            CanvasObject o =canvasPaintEvent.getCanvasObject();
+            if(o != null) {
+                gc.clearRect(o.getLocationX(), o.getLocationY(), o.getWidth(), o.getHeight());
+                o.paint(gc);
+            }
+        }
+    };
+    private final EventHandler<CanvasPaintEvent> clearHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            clear();
+        }
+    };
+    private final EventHandler<CanvasPaintEvent> clearObjectHandler = new EventHandler<CanvasPaintEvent>() {
+        @Override
+        public void handle(CanvasPaintEvent canvasPaintEvent) {
+            CanvasObject o =canvasPaintEvent.getCanvasObject();
+            if(o != null) {
+                gc.clearRect(o.getLocationX(), o.getLocationY(), o.getWidth(), o.getHeight());
+            }
+        }
+    };
+
+    private void addModelHandlers(EventAggregator aggregator){
+        /**** PAINT LISTENERS ****/
+        aggregator.addEventHandler(CanvasPaintEvent.PAINT, paintHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.PAINT_OBJECT, paintObjectHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.REPAINT, repaintHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.REPAINT_OBJECT, repaintObjectHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.CLEAN, clearHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);
+    }
+
+    private void removeEventHandlers(EventAggregator aggregator){
+        aggregator.removeEventHandler(CanvasPaintEvent.PAINT, paintHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.PAINT_OBJECT, paintObjectHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.REPAINT, repaintHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.REPAINT_OBJECT, repaintObjectHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.CLEAN, clearHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);
+    }
+
 }

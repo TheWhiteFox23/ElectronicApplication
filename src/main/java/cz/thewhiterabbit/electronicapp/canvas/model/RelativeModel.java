@@ -1,10 +1,9 @@
-package cz.thewhiterabbit.electronicapp.canvas.layout;
+package cz.thewhiterabbit.electronicapp.canvas.model;
 
-import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
-import javafx.scene.canvas.Canvas;
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 
 public abstract class RelativeModel extends CanvasModel {
     private double originX;
@@ -12,8 +11,8 @@ public abstract class RelativeModel extends CanvasModel {
     private double zoomAspect;
     private final double[] zoomAspects = new double[]{0.1,0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 7.0};
 
-    public RelativeModel(Canvas canvas, EventAggregator eventAggregator) {
-        super(canvas, eventAggregator);
+    public RelativeModel() {
+        super();
         originX = 0;
         originY = 0;
         zoomAspect = 1.0;
@@ -34,19 +33,19 @@ public abstract class RelativeModel extends CanvasModel {
 
     /********* METHODS ***********************/
     protected void registerListeners() {
-        getCanvasEventAggregator().registerHandler(CanvasMouseEvent.CANVAS_DRAGGED, e ->{
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_DRAGGED, e ->{
             onCanvasDragged((CanvasMouseEvent) e);
         });
 
-        getCanvasEventAggregator().registerHandler(CanvasMouseEvent.OBJECT_DRAGGED, e->{
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e->{
             onObjectDragged((CanvasMouseEvent) e);
         });
 
-        getCanvasEventAggregator().registerHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e->{
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e->{
             onObjectDragDropped((CanvasMouseEvent) e);
         });
 
-        getCanvasEventAggregator().registerHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
             onCanvasScrolled((CanvasMouseEvent) e);
         });
     }
@@ -56,7 +55,7 @@ public abstract class RelativeModel extends CanvasModel {
         double deltaX = event.getX() - event.getLastX();
         double deltaY = event.getY() - event.getLastY();
         moveOriginBy(deltaX, deltaY);
-        getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+        getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
     }
 
     protected abstract void onObjectDragged(CanvasMouseEvent e);
@@ -78,7 +77,7 @@ public abstract class RelativeModel extends CanvasModel {
             index--;
         }
         setZoomAspect(zoomAspects[index]);
-        getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+        getInnerEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
     }
 
     @Override

@@ -1,19 +1,16 @@
-package cz.thewhiterabbit.electronicapp.canvas.layout;
+package cz.thewhiterabbit.electronicapp.canvas.model;
 
-import cz.thewhiterabbit.electronicapp.DocumentObject;
-import cz.thewhiterabbit.electronicapp.EventAggregator;
-import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
+
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
-import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
-import cz.thewhiterabbit.electronicapp.events.DocumentObjectCommand;
-import javafx.scene.canvas.Canvas;
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
+
 
 public class GridModel extends RelativeModel {
     private double gridSize = 10;
 
-    public GridModel(Canvas canvas, EventAggregator eventAggregator) {
-        super(canvas, eventAggregator);
+    public GridModel() {
+        super();
     }
 
 
@@ -25,6 +22,7 @@ public class GridModel extends RelativeModel {
     /********** METHODS -> OVERRIDES *************/
     @Override
     protected void onObjectDragged(CanvasMouseEvent e) {
+        System.out.println("Object dragged -> model");
         CanvasObject canvasObject = e.getObject();
         if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
             CanvasMouseEvent event = e;
@@ -35,16 +33,17 @@ public class GridModel extends RelativeModel {
             if(deltaX != 0 || deltaY != 0){
                 getAll().forEach(o -> {
                     if(o.isSelected()){
+                        //o.clear();
                         int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
                         int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
                         o.setLocationX(getGridLocation(gridX, getOriginX()));
                         o.setLocationY(getGridLocation(gridY, getOriginY()));
+                        //o.paint();
                     }
                 });
             }
-            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+            getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         }
-
     }
 
     @Override
@@ -61,26 +60,26 @@ public class GridModel extends RelativeModel {
                     //DocumentObject properties = o.getDocumentComponent();
                     //properties.setGridX(gridX);
                     //properties.setGridY(gridY);
-                    EventAggregator eventAggregator = GUIEventAggregator.getInstance();
+                    /*EventAggregator eventAggregator = GUIEventAggregator.getInstance();
                     DocumentObjectCommand command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridX(), o.getDocumentComponent().gridX().getValue(), gridX);
                     eventAggregator.fireEvent(command);
                     command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridY(), o.getDocumentComponent().gridY().getValue(), gridY);
-                    eventAggregator.fireEvent(command);
+                    eventAggregator.fireEvent(command);*/
+                    //TODO fire property change event
                     updatePaintProperties(o);
                 }
             });
 
-            getCanvasEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
+            getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         }
     }
 
     @Override
     public void updatePaintProperties(CanvasObject object) {
-        DocumentObject properties = object.getDocumentComponent();
-        object.setLocationX(getGridLocation(properties.getGridX(), getOriginX()));
-        object.setLocationY(getGridLocation(properties.getGridY(), getOriginY()));
-        object.setWidth(properties.getGridWidth() * gridSize * getZoomAspect());
-        object.setHeight(properties.getGridHeight() * gridSize * getZoomAspect());
+        object.setLocationX(getGridLocation(object.getGridX(), getOriginX()));
+        object.setLocationY(getGridLocation(object.getGridY(), getOriginY()));
+        object.setWidth(object.getGridWidth() * gridSize * getZoomAspect());
+        object.setHeight(object.getGridHeight() * gridSize * getZoomAspect());
     }
 
     /********* SEARCHING IN GRID *********/

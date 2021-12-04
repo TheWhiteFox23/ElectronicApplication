@@ -1,11 +1,13 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
-import cz.thewhiterabbit.electronicapp.DocumentObject;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
-import cz.thewhiterabbit.electronicapp.canvas.CanvasEventAggregator;
-import cz.thewhiterabbit.electronicapp.canvas.layout.Priority;
+import cz.thewhiterabbit.electronicapp.canvas.model.CanvasModel;
+import cz.thewhiterabbit.electronicapp.canvas.model.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -16,8 +18,17 @@ import java.util.List;
  * General canvas object. Not effected by origin position or zoomAspect
  */
 public abstract class CanvasObject  { //TODO should wrap
+    private CanvasModel parentModel;
+
     private Priority priority = Priority.NONE;
     private List<ActivePoint> activePoints;
+
+    /***** Properties -> communicate change to observers ******/
+    private IntegerProperty gridX;
+    private IntegerProperty gridY;
+    private IntegerProperty gridWidth;
+    private IntegerProperty gridHeight;
+    private IntegerProperty rotation;
 
     /******DRAWING BOUNDS******/
     private double locationX;
@@ -31,13 +42,10 @@ public abstract class CanvasObject  { //TODO should wrap
     private boolean dragged;
 
     /******EVENT HANDLING******/
-    private EventAggregator eventAggregator = CanvasEventAggregator.getInstance();
-
-    /****** TEST *****/
-    private DocumentObject documentComponent;
+    private EventAggregator eventAggregator;
 
     /************CONSTRUCTORS*******************/
-   public CanvasObject(){
+    public CanvasObject(){
         this(0,0,0,0);
     }
 
@@ -46,7 +54,6 @@ public abstract class CanvasObject  { //TODO should wrap
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
-        this.documentComponent = new DocumentObject();
         this.activePoints = new ArrayList<>();
         this.locationX = locationX;
         this.locationY = locationY;
@@ -55,45 +62,51 @@ public abstract class CanvasObject  { //TODO should wrap
         this.hovered = false;
         this.selected = false;
         this.dragged = false;
+        //PROPERTIES
+        this.gridY = new SimpleIntegerProperty();
+        this.gridX = new SimpleIntegerProperty();
+        this.gridWidth = new SimpleIntegerProperty();
+        this.gridHeight = new SimpleIntegerProperty();
+        this.rotation = new SimpleIntegerProperty();
 
-        registerListeners();
+        //registerListeners(eventAggregator);
     }
 
-    private void registerListeners() {
-       eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_ENTERED, e->{
+    protected void registerListeners(EventAggregator eventAggregator) {
+       eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_ENTERED, e->{
            if(((CanvasMouseEvent) e).getObject() == this){
                onObjectEntered(e);
            }
        });
-       eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
+       eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
            if(((CanvasMouseEvent)e).getObject() == this){
                onObjectExited(e);
            }
        });
-        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectSelected(e);
             }
         });
-        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectDeselected(e);
             }
         });
-        eventAggregator.registerHandler(CanvasMouseEvent.DESELECT_ALL, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.DESELECT_ALL, e -> {
             onObjectDeselected(e);
         });
-        eventAggregator.registerHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onDragDetected(e);
             }
         });
-        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectDragged(e);
             }
         });
-        eventAggregator.registerHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectDropped(e);
             }
@@ -137,8 +150,15 @@ public abstract class CanvasObject  { //TODO should wrap
     public void setPriority(Priority priority) {this.priority = priority;}
 
     public EventAggregator getEventAggregator() {return eventAggregator;}
+    public void setEventAggregator(EventAggregator eventAggregator) {
+        //TODO Deregister listeners
+        this.eventAggregator = eventAggregator;
+        registerListeners(eventAggregator);
+    }
+    public CanvasModel getParentModel() {return parentModel;}
+    public void setParentModel(CanvasModel parentModel) {this.parentModel = parentModel;}
 
-    public void setEventAggregator(EventAggregator eventAggregator) {this.eventAggregator = eventAggregator;}
+    //TODO transform active zones into the children
 
     public List<ActivePoint> getActiveZones() {
         return activePoints;
@@ -152,7 +172,24 @@ public abstract class CanvasObject  { //TODO should wrap
         activePoints.remove(activePoint);
     }
 
-    public DocumentObject getDocumentComponent() {return documentComponent;}
+    /****** PROPERTIES ******/
+    public int getGridX() {return gridX.get();}
+    public IntegerProperty gridXProperty() {return gridX;}
+    public void setGridX(int gridX) {this.gridX.set(gridX);}
+    public int getGridY() {return gridY.get();}
+    public IntegerProperty gridYProperty() {return gridY;}
+    public void setGridY(int gridY) {this.gridY.set(gridY);}
+    public int getGridWidth() {return gridWidth.get();}
+    public IntegerProperty gridWidthProperty() {return gridWidth;}
+    public void setGridWidth(int gridWidth) {this.gridWidth.set(gridWidth);}
+    public int getGridHeight() {return gridHeight.get();}
+    public IntegerProperty gridHeightProperty() {return gridHeight;}
+    public void setGridHeight(int gridHeight) {this.gridHeight.set(gridHeight);}
+    public int getRotation() {return rotation.get();}
+    public IntegerProperty rotationProperty() {return rotation;}
+    public void setRotation(int rotation) {this.rotation.set(rotation);}
+
+
 
     /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
     /**
@@ -186,24 +223,32 @@ public abstract class CanvasObject  { //TODO should wrap
                 getLocationX() <locationX+height);
     }
 
+    public void set(int gridX, int gridY, int gridHeight, int gridWidth) {
+        this.gridX.set(gridX);
+        this.gridY.set(gridY);
+        this.gridHeight.set(gridHeight);
+        this.gridWidth.set(gridWidth);
+        //TODO repaint call
+    }
+
     /******* EVENT HANDLING *******/
 
     protected void onObjectEntered(Event e){
         hovered = true;
-        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+        repaint();
     }
     protected void onObjectExited(Event e){
         hovered = false;
-        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+        repaint();
     }
     protected void onObjectDeselected(Event e) {
         selected = false;
-        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+        repaint();
     }
 
     protected void onObjectSelected(Event e) {
         selected = true;
-        eventAggregator.fireEvent(new CanvasEvent(CanvasEvent.PAINT_OBJECT, this));
+        repaint();
     }
 
     protected void onObjectDropped(Event e) {
@@ -213,6 +258,18 @@ public abstract class CanvasObject  { //TODO should wrap
     }
 
     protected void onDragDetected(Event e) {
+    }
+
+    protected void repaint(){//
+        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT, this));
+    }
+
+    protected void clear(){
+        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.CLEAN_OBJECT, this));
+    }
+
+    protected void paint(){
+        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.PAINT_OBJECT, this));
     }
 
 }

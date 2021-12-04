@@ -5,27 +5,29 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
-public class EventAggregator implements IEventAggregator{
+public class EventAggregator{
     //logic
     private Map<EventType, List<EventHandler>> handlerMap = new HashMap<>();
-    Semaphore semaphore = new Semaphore(10);
     /**
      * Fire event -> pass the event to interested handlers
      * @param event
      * @param <T>
      */
-    @Override
     public <T extends Event> void fireEvent(T event) {
-        if(handlerMap.containsKey(event.getEventType())){
-            //handlerMap.get(event.getEventType()).forEach(handler -> handler.handle(event));
-            handlerMap.get(event.getEventType()).size();
-            for(int i = 0; i< handlerMap.get(event.getEventType()).size(); i++){
-                EventHandler handler = handlerMap.get(event.getEventType()).get(i);
+        fireEvent(event.getEventType(), event);
+    }
+
+    public <T extends Event> void fireEvent(EventType eventType, T event) {
+        if(handlerMap.containsKey(eventType)){
+            handlerMap.get(eventType).size();
+            for(int i = 0; i< handlerMap.get(eventType).size(); i++){
+                EventHandler handler = handlerMap.get(eventType).get(i);
                 handler.handle(event);
-                //System.out.println(event.getEventType());
             }
+        }
+        if(eventType.getSuperType() != null){
+            fireEvent(eventType.getSuperType(), event);
         }
     }
 
@@ -35,8 +37,7 @@ public class EventAggregator implements IEventAggregator{
      * @param handler
      * @param <T>
      */
-    @Override
-    public <T extends EventType> void registerHandler(T eventType, EventHandler handler) {
+    public <T extends EventType> void addEventHandler(T eventType, EventHandler handler) {
         if(!handlerMap.containsKey(eventType)) {
             handlerMap.put(eventType, new ArrayList<>());
         }
@@ -44,4 +45,14 @@ public class EventAggregator implements IEventAggregator{
 
     }
 
+    public void removeEventHandler(EventType eventType, EventHandler eventHandler) {
+        if(handlerMap.containsKey(eventType)){
+            ListIterator iterator = handlerMap.get(eventType).listIterator();
+            while (iterator.hasNext()){
+                if(iterator.next() == eventHandler){
+                    iterator.remove();
+                }
+            }
+        }
+    }
 }

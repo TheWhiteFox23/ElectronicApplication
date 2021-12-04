@@ -18,6 +18,7 @@ public class CanvasEvent extends Event {
     public static final EventType<CanvasEvent> REPAINT_OBJECT = new EventType<>(Event.ANY, "REPAINT_OBJECT");
     public static final EventType<CanvasEvent> PAINT_OBJECT = new EventType<>(Event.ANY, "PAINT_OBJECT");
     public static final EventType<CanvasEvent> ZOOM_ASPECT_CHANGED = new EventType<>(Event.ANY, "ZOOM_ASPECT_CHANGED");
+    public static final EventType<CanvasEvent> CLEAR = new EventType<>(Event.ANY, "CLEAR");
 
     public CanvasEvent(EventType<? extends Event> eventType, double x, double y, double width, double height) {
         super(eventType);

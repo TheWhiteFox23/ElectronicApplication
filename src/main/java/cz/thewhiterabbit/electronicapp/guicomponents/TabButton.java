@@ -1,6 +1,5 @@
 package cz.thewhiterabbit.electronicapp.guicomponents;
 
-import cz.thewhiterabbit.electronicapp.Document;
 import cz.thewhiterabbit.electronicapp.App;
 
 import javafx.event.EventHandler;
@@ -13,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 public class TabButton extends AnchorPane {
     private Label tabText;
     private Button closeButton;
-    private Document document;
+    //private Document document;
 
 
     public TabButton()  {
@@ -38,13 +37,6 @@ public class TabButton extends AnchorPane {
         this.getChildren().addAll(tabText, closeButton);
     }
 
-
-    public Document getDocument() {
-        return document;
-    }
-    public void setDocument(Document document) {
-        this.document = document;
-    }
 
     public void setOnAction(EventHandler eventHandler){
         closeButton.setOnAction(eventHandler);

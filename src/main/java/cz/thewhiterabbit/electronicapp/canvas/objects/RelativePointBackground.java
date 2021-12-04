@@ -1,5 +1,10 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
+import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.canvas.model.RelativeModel;
+import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
+import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -9,6 +14,7 @@ public class RelativePointBackground extends CanvasObject{
     private Canvas canvas; //todo get width and height by another way
     private double distance = 10;
     private double pointRadius = 2;
+    private double zoomAspect = 1.0;
     private Paint pointColor = Color.GREENYELLOW;
 
     public RelativePointBackground(Canvas canvas) {
@@ -16,8 +22,21 @@ public class RelativePointBackground extends CanvasObject{
     }
 
     @Override
+    protected void registerListeners(EventAggregator eventAggregator) {
+        super.registerListeners(eventAggregator);
+        getEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
+            if(getParentModel() instanceof RelativeModel){
+                RelativeModel model = (RelativeModel) getParentModel();
+                this.zoomAspect = model.getZoomAspect();
+                repaint();
+            }
+        });
+    }
+
+    @Override
     public void paint(GraphicsContext gc) {
-        double gridSize = distance;
+        double gridSize = distance * zoomAspect;
+        if(gridSize < 7.0) return;
 
         double firstPointX = getLocationX()%gridSize;
         double firstPointY = getLocationY()%gridSize;
@@ -27,7 +46,7 @@ public class RelativePointBackground extends CanvasObject{
 
         for(int i = 0; i< stepsY ;i++){
             for(int j = 0; j< stepsX; j++){
-                drawGridPoint(gc, firstPointX+ i*distance, firstPointY +j*distance);
+                drawGridPoint(gc, firstPointX+ i*gridSize, firstPointY +j*gridSize);
             }
         }
     }

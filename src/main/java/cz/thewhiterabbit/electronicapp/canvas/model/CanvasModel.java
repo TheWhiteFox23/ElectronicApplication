@@ -1,8 +1,10 @@
-package cz.thewhiterabbit.electronicapp.canvas.layout;
+package cz.thewhiterabbit.electronicapp.canvas.model;
 
-import cz.thewhiterabbit.electronicapp.Document;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.canvas.Canvas;
 
 import java.util.ArrayList;
@@ -13,33 +15,34 @@ import java.util.List;
  */
 public abstract class CanvasModel {
     private Canvas canvas; //todo manage width and height different way
-    private EventAggregator canvasEventAggregator;
+    private final EventAggregator innerEventAggregator;
+    private final EventAggregator modelEventAggregator;
     private List<CanvasObject> canvasObjects;
-    private Document document;
+    private final ModelEventManager modelEventManager;
 
-    public CanvasModel(Canvas canvas, EventAggregator eventAggregator){
-        this.canvas = canvas;
-        this.canvasEventAggregator = eventAggregator; //todo get aggregator through injections
+    public CanvasModel(){
+        //this.canvas = canvas; //TODO remove from constructor -> set when set as model to drawing canvas
+        this.innerEventAggregator = new EventAggregator();
+        this.modelEventAggregator = new EventAggregator();
         this.canvasObjects = new ArrayList<>();
+        this.modelEventManager = new ModelEventManager(this, innerEventAggregator);
     }
 
     /************GETTERS AND SETTERS***********/
     public Canvas getCanvas() {return canvas;}
-    public EventAggregator getCanvasEventAggregator() {return canvasEventAggregator;}
+    //public EventAggregator getCanvasEventAggregator() {return canvasEventAggregator;}
     public void setCanvas(Canvas canvas) {this.canvas = canvas;}
-    public void setCanvasEventAggregator(EventAggregator canvasEventAggregator) {this.canvasEventAggregator = canvasEventAggregator;}
+    //public void setCanvasEventAggregator(EventAggregator canvasEventAggregator) {this.canvasEventAggregator = canvasEventAggregator;}
     public List<CanvasObject> getCanvasObjects() {return canvasObjects;}
     public void setCanvasObjects(List<CanvasObject> canvasObjects) {this.canvasObjects = canvasObjects;}
-    public Document getDocument() {return document;}
-    public void setDocument(Document document) {this.document = document;}
+    public EventAggregator getInnerEventAggregator() {return innerEventAggregator;}
+    public EventAggregator getModelEventAggregator() {return modelEventAggregator;}
 
     /************METHODS**********************/
     //TODO Modify to add and remove handlers
-    //TODO link to the add DocumentComponent
     public void add(CanvasObject object){
-        object.getDocumentComponent().addPropertiesListener(()->{
-            updatePaintProperties(object);
-        });
+        object.setParentModel(this);
+        object.setEventAggregator(innerEventAggregator);
         updatePaintProperties(object);
         object.getActiveZones().forEach(a -> add(a));
         addObject(object);
@@ -64,6 +67,7 @@ public abstract class CanvasModel {
     //TODO link to remove DocumentComponent
     public void remove(CanvasObject o){
         canvasObjects.remove(o);
+        o.setParentModel(null);
     }
 
     public boolean containsObject(CanvasObject o){
@@ -105,7 +109,6 @@ public abstract class CanvasModel {
      * Add object to the canvasObjects list to the proper index
      * @param canvasObject
      */
-    //TODO link do add DocumentComponent
     private void addObject(CanvasObject canvasObject){
         Priority objectPriority = canvasObject.getPriority();
         int index = getIndex(objectPriority);
@@ -131,6 +134,22 @@ public abstract class CanvasModel {
         }
         return canvasObjects.size();
     }
+
+    /***** EVENTS *****/
+    public void addEventHandler(EventType eventType, EventHandler eventHandler){
+        modelEventAggregator.addEventHandler(eventType, eventHandler);
+    }
+
+    public void notify(Event event){
+        modelEventAggregator.fireEvent(event);
+    }
+
+    public void removeEventHandler(EventType eventType, EventHandler eventHandler){
+        modelEventAggregator.removeEventHandler(eventType, eventHandler);
+    }
+
+
+
 
 
 

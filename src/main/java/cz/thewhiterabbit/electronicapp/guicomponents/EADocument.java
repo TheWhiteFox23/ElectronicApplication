@@ -1,6 +1,6 @@
 package cz.thewhiterabbit.electronicapp.guicomponents;
 
-import cz.thewhiterabbit.electronicapp.canvas.layout.GridModel;
+import cz.thewhiterabbit.electronicapp.canvas.model.GridModel;
 
 /**
  * Holds structure of the items and manage ist representation on the canvas and event processing
