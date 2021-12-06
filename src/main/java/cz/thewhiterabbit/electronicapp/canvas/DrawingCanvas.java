@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -44,21 +45,22 @@ public class DrawingCanvas extends Region {
     }
 
     private void registerListeners() {
+        /*** CANVAS EVENT PROPAGATION ***/ //TODO probably can be refactored
         canvas.addEventHandler(CanvasMouseEvent.ANY, e ->{
             if(getCanvasLayout()!= null){
                 getCanvasLayout().getInnerEventAggregator().fireEvent(e);
             }
         });
+        /*** KEY EVENTS ***/
+        this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
+            this.requestFocus();
+        });
+        this.addEventHandler(KeyEvent.ANY, e->{
+            if(getCanvasLayout()!= null){
+                getCanvasLayout().getInnerEventAggregator().fireEvent(e);
+            }
+        });
 
-        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
-            gc.setFill(Color.GREENYELLOW);
-            gc.fillOval(e.getX(), e.getY(), 3,3);
-        });
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e ->{
-            gc.setFill(Color.RED);
-            gc.fillOval(e.getX(), e.getY(), 3,3);
-            //System.out.println("Mouse dragged");
-        });
 
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {

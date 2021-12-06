@@ -4,6 +4,8 @@ import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import javafx.event.EventType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
@@ -49,6 +51,20 @@ public class ModelEventManager {
         registerDragEvent(CanvasMouseEvent.CANVAS_SELECTION_DETECTED, CanvasMouseEvent.CANVAS_SELECTION_MOVE,
                 CanvasMouseEvent.CANVAS_SELECTION_FINISH, selectionDragEvent);
         registerObjectSelection();
+        registerKeyPressListeners();
+    }
+
+    private void registerKeyPressListeners() {
+        eventAggregator.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
+            KeyEvent event = (KeyEvent) e;
+            //ROTATION
+            if(event.getCode() == KeyCode.R && !event.isAltDown()){
+                System.out.println("Rotate selection clockwise");
+            }else if(event.getCode() == KeyCode.R && event.isAltDown()){
+                System.out.println("Rotate selection counter clockwise");
+            }
+
+        });
     }
 
     private void registerMouseMovementListeners() {
