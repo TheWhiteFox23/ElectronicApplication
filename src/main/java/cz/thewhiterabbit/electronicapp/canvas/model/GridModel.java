@@ -22,32 +22,16 @@ public class GridModel extends RelativeModel {
     /********** METHODS -> OVERRIDES *************/
     @Override
     protected void onObjectDragged(CanvasMouseEvent e) {
-        System.out.println("Object dragged -> model");
-        CanvasObject canvasObject = e.getObject();
-        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
-            CanvasMouseEvent event = e;
-            //grid delta
-            int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getLastX(), getOriginX());
-            int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
 
-            if(deltaX != 0 || deltaY != 0){
-                getAll().forEach(o -> {
-                    if(o.isSelected()){
-                        //o.clear();
-                        int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
-                        int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
-                        o.setLocationX(getGridLocation(gridX, getOriginX()));
-                        o.setLocationY(getGridLocation(gridY, getOriginY()));
-                        //o.paint();
-                    }
-                });
-            }
-            getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
-        }
     }
 
     @Override
     protected void onObjectDragDropped(CanvasMouseEvent e) {
+
+    }
+
+    @Override
+    protected void onObjectMoved(CanvasMouseEvent e) {
         CanvasObject canvasObject = e.getObject();
         if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
             CanvasMouseEvent event = e;
@@ -70,6 +54,31 @@ public class GridModel extends RelativeModel {
                 }
             });
 
+            getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+        }
+
+    }
+
+    @Override
+    protected void onObjectMoving(CanvasMouseEvent e) {
+        //System.out.println("Object dragged -> model");
+        //TODO DRAGGING LOGIC
+        CanvasObject canvasObject = e.getObject();
+        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
+            CanvasMouseEvent event = e;
+            int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getLastX(), getOriginX());
+            int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
+
+            if(deltaX != 0 || deltaY != 0){
+                getAll().forEach(o -> {
+                    if(o.isSelected()){
+                        int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
+                        int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
+                        o.setLocationX(getGridLocation(gridX, getOriginX()));
+                        o.setLocationY(getGridLocation(gridY, getOriginY()));
+                    }
+                });
+            }
             getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         }
     }

@@ -2,7 +2,7 @@ package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.model.RelativeModel;
-import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
+
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.scene.canvas.Canvas;
@@ -28,7 +28,7 @@ public class RelativePointBackground extends CanvasObject{
             if(getParentModel() instanceof RelativeModel){
                 RelativeModel model = (RelativeModel) getParentModel();
                 this.zoomAspect = model.getZoomAspect();
-                repaint();
+                this.getEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
             }
         });
     }

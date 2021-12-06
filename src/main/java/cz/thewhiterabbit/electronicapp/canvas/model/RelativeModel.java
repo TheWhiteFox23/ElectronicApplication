@@ -48,6 +48,14 @@ public abstract class RelativeModel extends CanvasModel {
         getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
             onCanvasScrolled((CanvasMouseEvent) e);
         });
+
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.OBJECT_MOVING, e->{
+            onObjectMoving((CanvasMouseEvent) e);
+        });
+
+        getInnerEventAggregator().addEventHandler(CanvasMouseEvent.OBJECT_MOVED, e->{
+            onObjectMoved((CanvasMouseEvent) e);
+        });
     }
 
     private void onCanvasDragged(CanvasMouseEvent e) {
@@ -61,6 +69,10 @@ public abstract class RelativeModel extends CanvasModel {
     protected abstract void onObjectDragged(CanvasMouseEvent e);
 
     protected abstract void onObjectDragDropped(CanvasMouseEvent e);
+
+    protected abstract void onObjectMoved(CanvasMouseEvent e);
+
+    protected abstract void onObjectMoving(CanvasMouseEvent e);
 
     private void onCanvasScrolled(CanvasMouseEvent e) {
         //get currant zoom aspect index

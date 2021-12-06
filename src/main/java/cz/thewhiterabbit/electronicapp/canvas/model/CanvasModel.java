@@ -44,7 +44,7 @@ public abstract class CanvasModel {
         object.setParentModel(this);
         object.setEventAggregator(innerEventAggregator);
         updatePaintProperties(object);
-        object.getActiveZones().forEach(a -> add(a));
+        object.getChildrenList().forEach(this::add);
         addObject(object);
     }
 

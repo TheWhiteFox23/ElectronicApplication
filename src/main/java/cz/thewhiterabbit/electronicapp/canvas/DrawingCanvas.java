@@ -7,7 +7,7 @@ import cz.thewhiterabbit.electronicapp.canvas.objects.*;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
-import javafx.event.Event;
+
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrawingCanvas extends Region {
@@ -43,21 +44,21 @@ public class DrawingCanvas extends Region {
     }
 
     private void registerListeners() {
-        //DELEGATE ALL EVENTS TO MODEL INNER EVENT AGGREGATOR
         canvas.addEventHandler(CanvasMouseEvent.ANY, e ->{
             if(getCanvasLayout()!= null){
-                System.out.println(e.getEventType());
                 getCanvasLayout().getInnerEventAggregator().fireEvent(e);
             }
         });
 
-        /*canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e ->{
-            System.out.println("CANVAS -> DRAG DETECTED");
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+            gc.setFill(Color.GREENYELLOW);
+            gc.fillOval(e.getX(), e.getY(), 3,3);
         });
-
-        canvas.addEventHandler(MouseEvent.DRAG_DETECTED, e ->{
-            System.out.println("CANVAS -> DRAG DETECTED");
-        });*/
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, e ->{
+            gc.setFill(Color.RED);
+            gc.fillOval(e.getX(), e.getY(), 3,3);
+            //System.out.println("Mouse dragged");
+        });
 
         //TODO move to constructor or somewhere
         widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -134,7 +135,12 @@ public class DrawingCanvas extends Region {
     }
 
     public List<CanvasObject> getVisible(){
-        return getCanvasLayout().getVisible();
+        if(getCanvasLayout() != null){
+            return getCanvasLayout().getVisible();
+        }else{
+            return new ArrayList<>();
+        }
+
     }
 
     public Canvas getCanvas() {
@@ -205,7 +211,6 @@ public class DrawingCanvas extends Region {
     };
 
     private void addModelHandlers(EventAggregator aggregator){
-        /**** PAINT LISTENERS ****/
         aggregator.addEventHandler(CanvasPaintEvent.PAINT, paintHandler);
         aggregator.addEventHandler(CanvasPaintEvent.PAINT_OBJECT, paintObjectHandler);
         aggregator.addEventHandler(CanvasPaintEvent.REPAINT, repaintHandler);

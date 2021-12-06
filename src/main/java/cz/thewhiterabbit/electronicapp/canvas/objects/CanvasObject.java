@@ -6,7 +6,9 @@ import cz.thewhiterabbit.electronicapp.canvas.model.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,7 +23,9 @@ public abstract class CanvasObject  { //TODO should wrap
     private CanvasModel parentModel;
 
     private Priority priority = Priority.NONE;
-    private List<ActivePoint> activePoints;
+    private List<CanvasObject> childrenList;
+    private CanvasObject parent;
+    //private List<ActivePoint> activePoints;
 
     /***** Properties -> communicate change to observers ******/
     private IntegerProperty gridX;
@@ -31,10 +35,10 @@ public abstract class CanvasObject  { //TODO should wrap
     private IntegerProperty rotation;
 
     /******DRAWING BOUNDS******/
-    private double locationX;
-    private double locationY;
-    private double width;
-    private double height;
+    private DoubleProperty locationX;
+    private DoubleProperty locationY;
+    private DoubleProperty width;
+    private DoubleProperty height;
 
     /******EVENTS STATES*******/
     private boolean hovered;
@@ -54,11 +58,11 @@ public abstract class CanvasObject  { //TODO should wrap
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
-        this.activePoints = new ArrayList<>();
-        this.locationX = locationX;
-        this.locationY = locationY;
-        this.width = width;
-        this.height = height;
+        //this.activePoints = new ArrayList<>();
+        this.locationX = new SimpleDoubleProperty(locationX);
+        this.locationY = new SimpleDoubleProperty(locationY);
+        this.width = new SimpleDoubleProperty(width);
+        this.height = new SimpleDoubleProperty(height);
         this.hovered = false;
         this.selected = false;
         this.dragged = false;
@@ -68,6 +72,8 @@ public abstract class CanvasObject  { //TODO should wrap
         this.gridWidth = new SimpleIntegerProperty();
         this.gridHeight = new SimpleIntegerProperty();
         this.rotation = new SimpleIntegerProperty();
+
+        this.childrenList = new ArrayList<>();
 
         //registerListeners(eventAggregator);
     }
@@ -102,36 +108,50 @@ public abstract class CanvasObject  { //TODO should wrap
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this){
+            if(((CanvasMouseEvent)e).getObject() == this ){
                 onObjectDragged(e);
+            }else if(((CanvasMouseEvent)e).getObject() == getParent() && !isSelected()){
+                onObjectMoving(e);
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectDropped(e);
+            }else if(((CanvasMouseEvent)e).getObject() == getParent() && !isSelected()){
+                onObjectMoved(e);
             }
         });
     }
+
+    public double getLocationX() {return locationX.get();}
+
+    public DoubleProperty locationXProperty() {return locationX;}
+
+    public void setLocationX(double locationX) {this.locationX.set(locationX);}
+
+    public double getLocationY() {return locationY.get();}
+
+    public DoubleProperty locationYProperty() {return locationY;}
+
+    public void setLocationY(double locationY) {this.locationY.set(locationY);}
+
+    public double getWidth() {return width.get();}
+
+    public DoubleProperty widthProperty() {return width;}
+
+    public void setWidth(double width) {this.width.set(width);}
+
+    public double getHeight() {return height.get();}
+
+    public DoubleProperty heightProperty() {return height;}
+
+    public void setHeight(double height) {this.height.set(height);}
 
     /***********GETTERS AND SETTERS*************/
 
     //public LayoutProperties getLayoutProperties() {return layoutProperties;}
 
-    public double getLocationX() {return locationX;}
 
-    public void setLocationX(double locationX) {this.locationX = locationX;}
-
-    public double getLocationY() {return locationY;}
-
-    public void setLocationY(double locationY) {this.locationY = locationY;}
-
-    public double getWidth() {return width;}
-
-    public void setWidth(double width) {this.width = width;}
-
-    public double getHeight() {return height;}
-
-    public void setHeight(double height) {this.height = height;}
 
     public boolean isHovered() {return hovered;}
 
@@ -158,18 +178,26 @@ public abstract class CanvasObject  { //TODO should wrap
     public CanvasModel getParentModel() {return parentModel;}
     public void setParentModel(CanvasModel parentModel) {this.parentModel = parentModel;}
 
-    //TODO transform active zones into the children
-
-    public List<ActivePoint> getActiveZones() {
-        return activePoints;
+    public List<CanvasObject> getChildrenList() {
+        return childrenList;
     }
 
-    public void addActiveZone(ActivePoint activePoint){
-        activePoints.add(activePoint);
+    public void addChildren(CanvasObject children){
+        childrenList.add(children);
+        children.setParent(this);
     }
 
-    public void removeActiveZone(ActivePoint activePoint){
-        activePoints.remove(activePoint);
+    public void removeChildren(CanvasObject children){
+        childrenList.remove(children);
+        children.setParent(null);
+    }
+
+    public CanvasObject getParent() {
+        return parent;
+    }
+
+    public void setParent(CanvasObject parent) {
+        this.parent = parent;
     }
 
     /****** PROPERTIES ******/
@@ -243,25 +271,48 @@ public abstract class CanvasObject  { //TODO should wrap
     }
     protected void onObjectDeselected(Event e) {
         selected = false;
+        childrenList.forEach(ch -> {
+            ch.setSelected(false);
+            ch.onObjectDeselected(e);
+        });
         repaint();
     }
 
     protected void onObjectSelected(Event e) {
         selected = true;
+        childrenList.forEach(ch -> {
+            ch.setSelected(true);
+            ch.onObjectSelected(e);
+        });
         repaint();
     }
 
-    protected void onObjectDropped(Event e) {
+    protected void onObjectDropped(Event event) {
+       onObjectMoved(event);
     }
 
-    protected void onObjectDragged(Event e) {
+    protected void onObjectDragged(Event event) {
+        onObjectMoving(event);
     }
+
+    protected void onObjectMoving(Event event){
+        CanvasMouseEvent e = (CanvasMouseEvent)event;
+        event.consume();
+        eventAggregator.fireEvent( new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVING,e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
+    }
+
+    protected void onObjectMoved(Event event){
+        CanvasMouseEvent e = (CanvasMouseEvent)event;
+        event.consume();
+        eventAggregator.fireEvent( new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVED,e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
+    }
+
 
     protected void onDragDetected(Event e) {
     }
 
     protected void repaint(){//
-        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT, this));
+        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT_OBJECT, this));
     }
 
     protected void clear(){

@@ -4,41 +4,25 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class GeneralCanvasObject extends CanvasObject{
-    private List<ActivePoint> activePoints;
 
     public GeneralCanvasObject(){
         super();
-        activePoints = new ArrayList<>();
-        ActivePoint activePoint = new ActivePoint(this, 0, 0);
-        addActiveZone(activePoint);
     }
 
     @Override
     public void paint(GraphicsContext gc) {
         gc.save();
+        gc.setFill(Color.DARKSLATEGRAY);
+        gc.fillRect(getLocationX(), getLocationY(), getHeight(), getHeight());
         gc.setFill(getColor());
-        gc.fillRect(getLocationX(), getLocationY(), getWidth(), getHeight());
+        gc.translate(getLocationX() + getWidth(), getLocationY() );
+        gc.rotate(90);
+        gc.fillRect(0, 0, getWidth()/2, getHeight()/2);
+        gc.fillRect(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
         gc.restore();
 
-    }
-
-    @Override
-    public List<ActivePoint> getActiveZones() {
-        return activePoints;
-    }
-
-    @Override
-    public void addActiveZone(ActivePoint activePoint) {
-        activePoints.add(activePoint);
-    }
-
-    @Override
-    public void removeActiveZone(ActivePoint activePoint) {
-        activePoints.remove(activePoint);
     }
 
     private Paint getColor(){

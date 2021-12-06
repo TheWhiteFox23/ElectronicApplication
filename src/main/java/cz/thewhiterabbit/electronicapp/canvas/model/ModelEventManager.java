@@ -113,7 +113,7 @@ public class ModelEventManager {
 
     private void registerDragEvent(EventType start, EventType move, EventType finish, EventCrate eventCrate){
         eventAggregator.addEventHandler(MouseEvent.DRAG_DETECTED, event->{
-            System.out.println("MODEL EVENT MANAGER -> drag detected");
+            //System.out.println("MODEL EVENT MANAGER -> drag detected");
             if(eventCrate.startX != -1){
                 MouseEvent e = (MouseEvent) event;
                 eventCrate.dragDetected = true;
