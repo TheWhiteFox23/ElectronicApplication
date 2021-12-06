@@ -7,26 +7,29 @@ public class LineObject extends CanvasObject{
     public enum Orientation {HORIZONTAL, VERTICAL}
     Orientation orientation = Orientation.HORIZONTAL;
 
+    public LineObject() {
+        setRotationStrategy(RotationStrategy.DO_NOT_ROTATE);
+    }
 
     @Override
-    public void paint(GraphicsContext gc) {
+    public void doPaint(GraphicsContext gc) {
         double height = (getHeight()>getWidth()?getWidth():getHeight())*0.25;
         double positionX;
         double positionY;
         switch (orientation){
             case HORIZONTAL:{
-                positionX = getLocationX()+getWidth();
-                positionY = getLocationY();
+                positionX = getWidth();
+                positionY = 0;
                 break;
             } default:{
-                positionX = getLocationX();
-                positionY = getLocationY() + getHeight();
+                positionX = 0;
+                positionY = getHeight();
                 break;
             }
         }
         gc.setStroke(Color.DARKSLATEGRAY);
         gc.setLineWidth(height);
-        gc.strokeLine(getLocationX(), getLocationY(), positionX, positionY);
+        gc.strokeLine(0, 0, positionX, positionY);
     }
 
     public Orientation getOrientation() {

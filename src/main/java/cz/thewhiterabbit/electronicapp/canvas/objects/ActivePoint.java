@@ -13,12 +13,16 @@ public class ActivePoint extends CanvasObject{
     private LineObject firstLine;
     private LineObject secondLine;
 
+    public ActivePoint(){
+        setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+    }
+
     /***** OVERRIDES *****/
     @Override
-    public void paint(GraphicsContext gc) {
+    public void doPaint(GraphicsContext gc) {
         double height = getHeight()*0.4;
-        double locationX = getLocationX()-height/2;
-        double locationY = getLocationY()-height/2;
+        double locationX = -height/2;
+        double locationY = -height/2;
         gc.setFill(Color.DARKSLATEGRAY);
         gc.fillOval(locationX, locationY, height, height);
     }

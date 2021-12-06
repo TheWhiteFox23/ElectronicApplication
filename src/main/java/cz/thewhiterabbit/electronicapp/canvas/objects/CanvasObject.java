@@ -3,7 +3,6 @@ package cz.thewhiterabbit.electronicapp.canvas.objects;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.canvas.model.Priority;
-import cz.thewhiterabbit.electronicapp.events.CanvasEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.beans.property.DoubleProperty;
@@ -45,6 +44,8 @@ public abstract class CanvasObject  { //TODO should wrap
     private boolean selected;
     private boolean dragged;
 
+    private RotationStrategy rotationStrategy;
+
     /******EVENT HANDLING******/
     private EventAggregator eventAggregator;
 
@@ -75,7 +76,7 @@ public abstract class CanvasObject  { //TODO should wrap
 
         this.childrenList = new ArrayList<>();
 
-        //registerListeners(eventAggregator);
+        this.rotationStrategy = RotationStrategy.ROTATE;
     }
 
     protected void registerListeners(EventAggregator eventAggregator) {
@@ -147,12 +148,6 @@ public abstract class CanvasObject  { //TODO should wrap
 
     public void setHeight(double height) {this.height.set(height);}
 
-    /***********GETTERS AND SETTERS*************/
-
-    //public LayoutProperties getLayoutProperties() {return layoutProperties;}
-
-
-
     public boolean isHovered() {return hovered;}
 
     public void setHovered(boolean hovered) {this.hovered = hovered;}
@@ -170,17 +165,23 @@ public abstract class CanvasObject  { //TODO should wrap
     public void setPriority(Priority priority) {this.priority = priority;}
 
     public EventAggregator getEventAggregator() {return eventAggregator;}
+
+    public RotationStrategy getRotationStrategy() {
+        return rotationStrategy;
+    }
+
+    public void setRotationStrategy(RotationStrategy rotationStrategy) {
+        this.rotationStrategy = rotationStrategy;
+    }
+
     public void setEventAggregator(EventAggregator eventAggregator) {
-        //TODO Deregister listeners
         this.eventAggregator = eventAggregator;
         registerListeners(eventAggregator);
     }
+
     public CanvasModel getParentModel() {return parentModel;}
     public void setParentModel(CanvasModel parentModel) {this.parentModel = parentModel;}
-
-    public List<CanvasObject> getChildrenList() {
-        return childrenList;
-    }
+    public List<CanvasObject> getChildrenList() {return childrenList;}
 
     public void addChildren(CanvasObject children){
         childrenList.add(children);
@@ -192,13 +193,8 @@ public abstract class CanvasObject  { //TODO should wrap
         children.setParent(null);
     }
 
-    public CanvasObject getParent() {
-        return parent;
-    }
-
-    public void setParent(CanvasObject parent) {
-        this.parent = parent;
-    }
+    public CanvasObject getParent() {return parent;}
+    public void setParent(CanvasObject parent) {this.parent = parent;}
 
     /****** PROPERTIES ******/
     public int getGridX() {return gridX.get();}
@@ -235,7 +231,42 @@ public abstract class CanvasObject  { //TODO should wrap
     /**
      * Paint object on the screen
      */
-    public abstract void paint(GraphicsContext gc);
+    public void paint(GraphicsContext gc){
+        prePaint(gc);
+        doPaint(gc);
+        postPaint(gc);
+    }
+
+    private void prePaint(GraphicsContext gc){
+        gc.save();
+        manageGCRotation(gc);
+    }
+
+    private void manageGCRotation(GraphicsContext gc) {
+        if(getRotationStrategy() == RotationStrategy.ROTATE){
+            if(getRotation()%4 == 0){
+                gc.translate(locationX.get(), locationY.get());
+            }else if(getRotation()%4 == 1){
+                gc.translate(locationX.get() +getWidth(), locationY.get());
+                gc.rotate(90);
+            }else if(getRotation()%4 == 2){
+                gc.translate(locationX.get() +getWidth(), locationY.get() + getHeight());
+                gc.rotate(180);
+            }else if(getRotation()%4 == 3){
+                gc.translate(locationX.get(), locationY.get() + getHeight());
+                gc.rotate(270);
+            }
+        }else{
+            gc.translate(getLocationX(), getLocationY());
+        }
+
+    }
+
+    protected abstract void doPaint(GraphicsContext gc);
+
+    private void postPaint(GraphicsContext gc){
+        gc.restore();
+    }
 
     public boolean isVisible(double canvasWidth, double canvasHeight) {
         return (getLocationY()<canvasHeight
@@ -321,6 +352,12 @@ public abstract class CanvasObject  { //TODO should wrap
 
     protected void paint(){
         eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.PAINT_OBJECT, this));
+    }
+
+    public enum RotationStrategy{
+        DO_NOT_ROTATE,
+        ROTATE,
+        MOVE_WITH_PARENT_ROTATION
     }
 
 }

@@ -21,7 +21,6 @@ public abstract class CanvasModel {
     private final ModelEventManager modelEventManager;
 
     public CanvasModel(){
-        //this.canvas = canvas; //TODO remove from constructor -> set when set as model to drawing canvas
         this.innerEventAggregator = new EventAggregator();
         this.modelEventAggregator = new EventAggregator();
         this.canvasObjects = new ArrayList<>();
@@ -146,6 +145,14 @@ public abstract class CanvasModel {
 
     public void removeEventHandler(EventType eventType, EventHandler eventHandler){
         modelEventAggregator.removeEventHandler(eventType, eventHandler);
+    }
+
+    public List<CanvasObject> getSelectedObject(){
+        List<CanvasObject> selected = new ArrayList<>();
+        getCanvasObjects().forEach(o -> {
+            if(o.isSelected())selected.add(o);
+        });
+        return selected;
     }
 
 

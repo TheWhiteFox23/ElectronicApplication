@@ -9,6 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
+import java.util.List;
+
 import static cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent.OBJECT_DESELECTED;
 import static cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent.OBJECT_SELECTED;
 
@@ -59,7 +61,12 @@ public class ModelEventManager {
             KeyEvent event = (KeyEvent) e;
             //ROTATION
             if(event.getCode() == KeyCode.R && !event.isAltDown()){
-                System.out.println("Rotate selection clockwise");
+                List<CanvasObject> selected = parentModel.getSelectedObject();
+                selected.forEach(o -> {
+                    o.setRotation((o.getRotation() + 1)%4);
+                    o.paint(parentModel.getCanvas().getGraphicsContext2D());
+                });
+                //System.out.println("Rotate selection clockwise");
             }else if(event.getCode() == KeyCode.R && event.isAltDown()){
                 System.out.println("Rotate selection counter clockwise");
             }

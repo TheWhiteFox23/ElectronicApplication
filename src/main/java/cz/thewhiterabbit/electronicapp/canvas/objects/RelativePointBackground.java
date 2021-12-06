@@ -19,6 +19,7 @@ public class RelativePointBackground extends CanvasObject{
 
     public RelativePointBackground(Canvas canvas) {
         this.canvas = canvas;
+        setRotationStrategy(RotationStrategy.DO_NOT_ROTATE);
     }
 
     @Override
@@ -34,7 +35,8 @@ public class RelativePointBackground extends CanvasObject{
     }
 
     @Override
-    public void paint(GraphicsContext gc) {
+    public void doPaint(GraphicsContext gc) {
+        gc.restore();
         double gridSize = distance * zoomAspect;
         if(gridSize < 7.0) return;
 

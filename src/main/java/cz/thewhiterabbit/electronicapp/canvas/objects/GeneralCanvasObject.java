@@ -12,13 +12,10 @@ public class GeneralCanvasObject extends CanvasObject{
     }
 
     @Override
-    public void paint(GraphicsContext gc) {
-        gc.save();
+    public void doPaint(GraphicsContext gc) {
         gc.setFill(Color.DARKSLATEGRAY);
-        gc.fillRect(getLocationX(), getLocationY(), getHeight(), getHeight());
+        gc.fillRect(0, 0, getHeight(), getHeight());
         gc.setFill(getColor());
-        gc.translate(getLocationX() + getWidth(), getLocationY() );
-        gc.rotate(90);
         gc.fillRect(0, 0, getWidth()/2, getHeight()/2);
         gc.fillRect(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
         gc.restore();
