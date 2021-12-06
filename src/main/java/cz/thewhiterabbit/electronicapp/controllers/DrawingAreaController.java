@@ -32,8 +32,8 @@ public class DrawingAreaController {
         for(int i = 0; i< 100; i+= 4){
             for(int j = 0; j< 100; j+=4){
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                GeneralCanvasObject linkedObject = new GeneralCanvasObject();
-                linkedObject.set(i+2,j+2,2,2);
+                ActivePoint linkedObject = new ActivePoint();
+                linkedObject.set(i+1,j,1,1);
                 generalCanvasObject.addChildren(linkedObject);
                 generalCanvasObject.set(i,j,2, 2);
                 gridLayout.add(generalCanvasObject);

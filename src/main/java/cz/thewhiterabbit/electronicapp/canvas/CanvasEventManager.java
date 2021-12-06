@@ -27,7 +27,7 @@ public class CanvasEventManager {
         //registerLineDrawingListeners();
     }
 
-    /*private void registerLineDrawingListeners(){
+   /* private void registerLineDrawingListeners(){
         //TODO REFACTOR
         canvasEventAggregator.addEventHandler(CanvasMouseEvent.ACTIVE_POINT_DRAGGED, h->{
             ActivePoint activePoint = (ActivePoint) ((CanvasMouseEvent)h).getObject();
