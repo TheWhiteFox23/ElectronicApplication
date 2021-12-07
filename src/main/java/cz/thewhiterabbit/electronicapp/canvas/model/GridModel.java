@@ -1,9 +1,12 @@
 package cz.thewhiterabbit.electronicapp.canvas.model;
 
 
+import cz.thewhiterabbit.electronicapp.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
+
+import java.util.function.Consumer;
 
 
 public class GridModel extends RelativeModel {
@@ -15,8 +18,13 @@ public class GridModel extends RelativeModel {
 
 
     /*********** GETTERS AND SETTERS *************/
-    public double getGridSize() {return gridSize;}
-    public void setGridSize(double gridSize) {this.gridSize = gridSize;}
+    public double getGridSize() {
+        return gridSize;
+    }
+
+    public void setGridSize(double gridSize) {
+        this.gridSize = gridSize;
+    }
 
 
     /********** METHODS -> OVERRIDES *************/
@@ -33,12 +41,12 @@ public class GridModel extends RelativeModel {
     @Override
     protected void onObjectMoved(CanvasMouseEvent e) {
         CanvasObject canvasObject = e.getObject();
-        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
+        if (canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()) {
             CanvasMouseEvent event = e;
             int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getLastX(), getOriginX());
             int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
             getAll().forEach(o -> {
-                if(o.isSelected()){
+                if (o.isSelected()) {
                     int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
                     int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
                     //DocumentObject properties = o.getDocumentComponent();
@@ -61,26 +69,40 @@ public class GridModel extends RelativeModel {
 
     @Override
     protected void onObjectMoving(CanvasMouseEvent e) {
-        //System.out.println("Object dragged -> model");
-        //TODO DRAGGING LOGIC
         CanvasObject canvasObject = e.getObject();
-        if(canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()){
+        if (canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()) {
             CanvasMouseEvent event = e;
             int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getLastX(), getOriginX());
             int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
 
-            if(deltaX != 0 || deltaY != 0){
-                getAll().forEach(o -> {
-                    if(o.isSelected()){
-                        int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
-                        int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
-                        o.setLocationX(getGridLocation(gridX, getOriginX()));
-                        o.setLocationY(getGridLocation(gridY, getOriginY()));
-                    }
+            if (deltaX != 0 || deltaY != 0) {
+                getSelectedObject().forEach(o -> {
+                    moveObject(o, deltaX, deltaY);
                 });
             }
             getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         }
+    }
+
+    private void moveChildren(CanvasObject object, int deltaX, int deltaY){
+        if(object.getChildrenList().size() == 0) return;
+        object.getChildrenList().forEach(o -> {
+            if(!o.isSelected()){
+                moveObject(o, deltaX, deltaY);
+            }
+        });
+
+    }
+    private void moveObject(CanvasObject o, int deltaX, int deltaY) {
+        doMoveObject(o, deltaX, deltaY);
+        moveChildren(o, deltaX,deltaY);
+    }
+
+    private void doMoveObject(CanvasObject o, int deltaX, int deltaY) {
+        int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
+        int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
+        o.setLocationX(getGridLocation(gridX, getOriginX()));
+        o.setLocationY(getGridLocation(gridY, getOriginY()));
     }
 
     @Override
@@ -92,14 +114,14 @@ public class GridModel extends RelativeModel {
     }
 
     /********* SEARCHING IN GRID *********/
-   public int getGridCoordinate(double location, double originLocation){
-        double locationDelta = location-originLocation;
-        int gridCoordinate = (int)(locationDelta/(gridSize * getZoomAspect()));
-        if (location< originLocation && locationDelta % (gridSize*getZoomAspect()) != 0)gridCoordinate--;
+    public int getGridCoordinate(double location, double originLocation) {
+        double locationDelta = location - originLocation;
+        int gridCoordinate = (int) (locationDelta / (gridSize * getZoomAspect()));
+        if (location < originLocation && locationDelta % (gridSize * getZoomAspect()) != 0) gridCoordinate--;
         return gridCoordinate;
     }
 
-    public double getGridLocation(int coordinate, double originLocation){
+    public double getGridLocation(int coordinate, double originLocation) {
         double location = originLocation + (coordinate * gridSize * getZoomAspect());
         return location;
     }

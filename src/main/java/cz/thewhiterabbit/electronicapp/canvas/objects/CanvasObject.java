@@ -111,15 +111,11 @@ public abstract class CanvasObject  { //TODO should wrap
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this ){
                 onObjectDragged(e);
-            }else if(((CanvasMouseEvent)e).getObject() == getParent() && !isSelected()){
-                onObjectMoving(e);
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
             if(((CanvasMouseEvent)e).getObject() == this){
                 onObjectDropped(e);
-            }else if(((CanvasMouseEvent)e).getObject() == getParent() && !isSelected()){
-                onObjectMoved(e);
             }
         });
     }

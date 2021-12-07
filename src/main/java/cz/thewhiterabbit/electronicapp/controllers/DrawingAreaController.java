@@ -40,18 +40,14 @@ public class DrawingAreaController {
             }
         }
 
-        /*GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-        generalCanvasObject.set(0,0,2,2);
+        GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
+        generalCanvasObject.set(-10,-10,2,2);
 
-        ActivePoint activePoint = new ActivePoint();
-        activePoint.set(0,0,1,1);
+        GeneralCanvasObject activePoint = new GeneralCanvasObject();
+        activePoint.set(-8,-8,2,2);
         generalCanvasObject.addChildren(activePoint);
 
-        activePoint = new ActivePoint();
-        activePoint.set(0,1,1,1);
-        generalCanvasObject.addChildren(activePoint);
-
-        gridLayout.add(generalCanvasObject);*/
+        gridLayout.add(generalCanvasObject);
     }
 
 
