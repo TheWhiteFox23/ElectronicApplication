@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.canvas.model;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import javafx.event.EventType;
@@ -54,6 +55,13 @@ public class ModelEventManager {
                 CanvasMouseEvent.CANVAS_SELECTION_FINISH, selectionDragEvent);
         registerObjectSelection();
         registerKeyPressListeners();
+        registerModelPropagationListener();
+    }
+
+    private void registerModelPropagationListener() {
+        eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e->{
+            parentModel.getModelEventAggregator().fireEvent(e);
+        });
     }
 
     private void registerKeyPressListeners() {

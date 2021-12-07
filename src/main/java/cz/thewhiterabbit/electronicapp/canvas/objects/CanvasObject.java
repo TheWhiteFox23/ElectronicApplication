@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
-public abstract class CanvasObject  { //TODO should wrap
+public abstract class CanvasObject { //TODO should wrap
     private CanvasModel parentModel;
 
     private Priority priority = Priority.NONE;
@@ -50,12 +50,12 @@ public abstract class CanvasObject  { //TODO should wrap
     private EventAggregator eventAggregator;
 
     /************CONSTRUCTORS*******************/
-    public CanvasObject(){
-        this(0,0,0,0);
+    public CanvasObject() {
+        this(0, 0, 0, 0);
     }
 
     public CanvasObject(double width, double height) {
-        this(0,0, width, height);
+        this(0, 0, width, height);
     }
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
@@ -80,23 +80,23 @@ public abstract class CanvasObject  { //TODO should wrap
     }
 
     protected void registerListeners(EventAggregator eventAggregator) {
-       eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_ENTERED, e->{
-           if(((CanvasMouseEvent) e).getObject() == this){
-               onObjectEntered(e);
-           }
-       });
-       eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
-           if(((CanvasMouseEvent)e).getObject() == this){
-               onObjectExited(e);
-           }
-       });
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_ENTERED, e -> {
+            if (((CanvasMouseEvent) e).getObject() == this) {
+                onObjectEntered(e);
+            }
+        });
+        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
+            if (((CanvasMouseEvent) e).getObject() == this) {
+                onObjectExited(e);
+            }
+        });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this){
+            if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectSelected(e);
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this){
+            if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDeselected(e);
             }
         });
@@ -104,63 +104,105 @@ public abstract class CanvasObject  { //TODO should wrap
             onObjectDeselected(e);
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this){
+            if (((CanvasMouseEvent) e).getObject() == this) {
                 onDragDetected(e);
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this ){
+            if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDragged(e);
             }
         });
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
-            if(((CanvasMouseEvent)e).getObject() == this){
+            if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDropped(e);
             }
         });
     }
 
-    public double getLocationX() {return locationX.get();}
+    public double getLocationX() {
+        return locationX.get();
+    }
 
-    public DoubleProperty locationXProperty() {return locationX;}
+    public DoubleProperty locationXProperty() {
+        return locationX;
+    }
 
-    public void setLocationX(double locationX) {this.locationX.set(locationX);}
+    public void setLocationX(double locationX) {
+        this.locationX.set(locationX);
+    }
 
-    public double getLocationY() {return locationY.get();}
+    public double getLocationY() {
+        return locationY.get();
+    }
 
-    public DoubleProperty locationYProperty() {return locationY;}
+    public DoubleProperty locationYProperty() {
+        return locationY;
+    }
 
-    public void setLocationY(double locationY) {this.locationY.set(locationY);}
+    public void setLocationY(double locationY) {
+        this.locationY.set(locationY);
+    }
 
-    public double getWidth() {return width.get();}
+    public double getWidth() {
+        return width.get();
+    }
 
-    public DoubleProperty widthProperty() {return width;}
+    public DoubleProperty widthProperty() {
+        return width;
+    }
 
-    public void setWidth(double width) {this.width.set(width);}
+    public void setWidth(double width) {
+        this.width.set(width);
+    }
 
-    public double getHeight() {return height.get();}
+    public double getHeight() {
+        return height.get();
+    }
 
-    public DoubleProperty heightProperty() {return height;}
+    public DoubleProperty heightProperty() {
+        return height;
+    }
 
-    public void setHeight(double height) {this.height.set(height);}
+    public void setHeight(double height) {
+        this.height.set(height);
+    }
 
-    public boolean isHovered() {return hovered;}
+    public boolean isHovered() {
+        return hovered;
+    }
 
-    public void setHovered(boolean hovered) {this.hovered = hovered;}
+    public void setHovered(boolean hovered) {
+        this.hovered = hovered;
+    }
 
-    public boolean isSelected() {return selected;}
+    public boolean isSelected() {
+        return selected;
+    }
 
-    public void setSelected(boolean selected) {this.selected = selected;}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
-    public boolean isDragged() {return dragged;}
+    public boolean isDragged() {
+        return dragged;
+    }
 
-    public void setDragged(boolean dragged) {this.dragged = dragged;}
+    public void setDragged(boolean dragged) {
+        this.dragged = dragged;
+    }
 
-    public Priority getPriority() {return priority;}
+    public Priority getPriority() {
+        return priority;
+    }
 
-    public void setPriority(Priority priority) {this.priority = priority;}
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
 
-    public EventAggregator getEventAggregator() {return eventAggregator;}
+    public EventAggregator getEventAggregator() {
+        return eventAggregator;
+    }
 
     public RotationStrategy getRotationStrategy() {
         return rotationStrategy;
@@ -175,84 +217,141 @@ public abstract class CanvasObject  { //TODO should wrap
         registerListeners(eventAggregator);
     }
 
-    public CanvasModel getParentModel() {return parentModel;}
-    public void setParentModel(CanvasModel parentModel) {this.parentModel = parentModel;}
-    public List<CanvasObject> getChildrenList() {return childrenList;}
+    public CanvasModel getParentModel() {
+        return parentModel;
+    }
 
-    public void addChildren(CanvasObject children){
+    public void setParentModel(CanvasModel parentModel) {
+        this.parentModel = parentModel;
+    }
+
+    public List<CanvasObject> getChildrenList() {
+        return childrenList;
+    }
+
+    public void addChildren(CanvasObject children) {
         childrenList.add(children);
         children.setParent(this);
     }
 
-    public void removeChildren(CanvasObject children){
+    public void removeChildren(CanvasObject children) {
         childrenList.remove(children);
         children.setParent(null);
     }
 
-    public CanvasObject getParent() {return parent;}
-    public void setParent(CanvasObject parent) {this.parent = parent;}
+    public CanvasObject getParent() {
+        return parent;
+    }
+
+    public void setParent(CanvasObject parent) {
+        this.parent = parent;
+    }
 
     /****** PROPERTIES ******/
-    public int getGridX() {return gridX.get();}
-    public IntegerProperty gridXProperty() {return gridX;}
-    public void setGridX(int gridX) {this.gridX.set(gridX);}
-    public int getGridY() {return gridY.get();}
-    public IntegerProperty gridYProperty() {return gridY;}
-    public void setGridY(int gridY) {this.gridY.set(gridY);}
-    public int getGridWidth() {return gridWidth.get();}
-    public IntegerProperty gridWidthProperty() {return gridWidth;}
-    public void setGridWidth(int gridWidth) {this.gridWidth.set(gridWidth);}
-    public int getGridHeight() {return gridHeight.get();}
-    public IntegerProperty gridHeightProperty() {return gridHeight;}
-    public void setGridHeight(int gridHeight) {this.gridHeight.set(gridHeight);}
-    public int getRotation() {return rotation.get();}
-    public IntegerProperty rotationProperty() {return rotation;}
-    public void setRotation(int rotation) {this.rotation.set(rotation);}
+    public int getGridX() {
+        return gridX.get();
+    }
 
+    public IntegerProperty gridXProperty() {
+        return gridX;
+    }
+
+    public void setGridX(int gridX) {
+        this.gridX.set(gridX);
+    }
+
+    public int getGridY() {
+        return gridY.get();
+    }
+
+    public IntegerProperty gridYProperty() {
+        return gridY;
+    }
+
+    public void setGridY(int gridY) {
+        this.gridY.set(gridY);
+    }
+
+    public int getGridWidth() {
+        return gridWidth.get();
+    }
+
+    public IntegerProperty gridWidthProperty() {
+        return gridWidth;
+    }
+
+    public void setGridWidth(int gridWidth) {
+        this.gridWidth.set(gridWidth);
+    }
+
+    public int getGridHeight() {
+        return gridHeight.get();
+    }
+
+    public IntegerProperty gridHeightProperty() {
+        return gridHeight;
+    }
+
+    public void setGridHeight(int gridHeight) {
+        this.gridHeight.set(gridHeight);
+    }
+
+    public int getRotation() {
+        return rotation.get();
+    }
+
+    public IntegerProperty rotationProperty() {
+        return rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation.set(rotation);
+    }
 
 
     /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
     /**
      * Return true if given coordinates are within the bounds of the object
+     *
      * @param x
      * @param y
      * @return
      */
-    public boolean isInBounds(double x, double y){
-        return ((x>= getLocationX() && x<= getLocationX()+getWidth()) &&
-                (y >= getLocationY() && y <= getLocationY()+getHeight()));
+    public boolean isInBounds(double x, double y) {
+        return ((x >= getLocationX() && x <= getLocationX() + getWidth()) &&
+                (y >= getLocationY() && y <= getLocationY() + getHeight()));
     }
 
     /********* PAINT *****************/
     /**
      * Paint object on the screen
      */
-    public void paint(GraphicsContext gc){
+    public void paint(GraphicsContext gc) {
         prePaint(gc);
         doPaint(gc);
         postPaint(gc);
     }
 
-    private void prePaint(GraphicsContext gc){
+    private void prePaint(GraphicsContext gc) {
         gc.save();
         manageGCRotation(gc);
     }
 
     private void manageGCRotation(GraphicsContext gc) {
-        if(getRotationStrategy() == RotationStrategy.ROTATE){
-            if(getRotation()%4 == 0){
+        if (getRotationStrategy() == RotationStrategy.ROTATE) {
+            if (getRotation() % 4 == 0) {
                 gc.translate(locationX.get(), locationY.get());
-            }else if(getRotation()%4 == 1){
-                gc.translate(locationX.get() +getWidth(), locationY.get());
+            } else if (getRotation() % 4 == 1) {
+                gc.translate(locationX.get() + getWidth(), locationY.get());
                 gc.rotate(90);
-            }else if(getRotation()%4 == 2){
-                gc.translate(locationX.get() +getWidth(), locationY.get() + getHeight());
+            } else if (getRotation() % 4 == 2) {
+                gc.translate(locationX.get() + getWidth(), locationY.get() + getHeight());
                 gc.rotate(180);
-            }else if(getRotation()%4 == 3){
+            } else if (getRotation() % 4 == 3) {
                 gc.translate(locationX.get(), locationY.get() + getHeight());
                 gc.rotate(270);
             }
-        }else{
+        } else {
             gc.translate(getLocationX(), getLocationY());
         }
 
@@ -260,22 +359,22 @@ public abstract class CanvasObject  { //TODO should wrap
 
     protected abstract void doPaint(GraphicsContext gc);
 
-    private void postPaint(GraphicsContext gc){
+    private void postPaint(GraphicsContext gc) {
         gc.restore();
     }
 
     public boolean isVisible(double canvasWidth, double canvasHeight) {
-        return (getLocationY()<canvasHeight
-                && getLocationY()+getHeight()>0
-                && getLocationX()<canvasWidth
-                && getLocationX()+getWidth()>0);
+        return (getLocationY() < canvasHeight
+                && getLocationY() + getHeight() > 0
+                && getLocationX() < canvasWidth
+                && getLocationX() + getWidth() > 0);
     }
 
-    public boolean isInBounds(double locationX, double locationY, double width, double height){
-        return (getLocationX()+getHeight()>locationX &&
-                getLocationY()+getWidth()>locationY &&
-                getLocationY() <locationY+width &&
-                getLocationX() <locationX+height);
+    public boolean isInBounds(double locationX, double locationY, double width, double height) {
+        return (getLocationX() + getHeight() > locationX &&
+                getLocationY() + getWidth() > locationY &&
+                getLocationY() < locationY + width &&
+                getLocationX() < locationX + height);
     }
 
     public void set(int gridX, int gridY, int gridHeight, int gridWidth) {
@@ -288,14 +387,16 @@ public abstract class CanvasObject  { //TODO should wrap
 
     /******* EVENT HANDLING *******/
 
-    protected void onObjectEntered(Event e){
+    protected void onObjectEntered(Event e) {
         hovered = true;
         repaint();
     }
-    protected void onObjectExited(Event e){
+
+    protected void onObjectExited(Event e) {
         hovered = false;
         repaint();
     }
+
     protected void onObjectDeselected(Event e) {
         selected = false;
         childrenList.forEach(ch -> {
@@ -315,42 +416,42 @@ public abstract class CanvasObject  { //TODO should wrap
     }
 
     protected void onObjectDropped(Event event) {
-       onObjectMoved(event);
+        onObjectMoved(event);
     }
 
     protected void onObjectDragged(Event event) {
         onObjectMoving(event);
     }
 
-    protected void onObjectMoving(Event event){
-        CanvasMouseEvent e = (CanvasMouseEvent)event;
+    protected void onObjectMoving(Event event) {
+        CanvasMouseEvent e = (CanvasMouseEvent) event;
         event.consume();
-        eventAggregator.fireEvent( new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVING,e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
+        eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVING, e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
     }
 
-    protected void onObjectMoved(Event event){
-        CanvasMouseEvent e = (CanvasMouseEvent)event;
+    protected void onObjectMoved(Event event) {
+        CanvasMouseEvent e = (CanvasMouseEvent) event;
         event.consume();
-        eventAggregator.fireEvent( new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVED,e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
+        eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVED, e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
     }
 
 
     protected void onDragDetected(Event e) {
     }
 
-    protected void repaint(){//
+    protected void repaint() {//
         eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT_OBJECT, this));
     }
 
-    protected void clear(){
+    protected void clear() {
         eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.CLEAN_OBJECT, this));
     }
 
-    protected void paint(){
+    protected void paint() {
         eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.PAINT_OBJECT, this));
     }
 
-    public enum RotationStrategy{
+    public enum RotationStrategy {
         DO_NOT_ROTATE,
         ROTATE,
         MOVE_WITH_PARENT_ROTATION

@@ -6,7 +6,6 @@ import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 
-import java.util.function.Consumer;
 
 
 public class GridModel extends RelativeModel {
@@ -29,40 +28,25 @@ public class GridModel extends RelativeModel {
 
     /********** METHODS -> OVERRIDES *************/
     @Override
-    protected void onObjectDragged(CanvasMouseEvent e) {
-
-    }
+    protected void onObjectDragged(CanvasMouseEvent e) {}
 
     @Override
-    protected void onObjectDragDropped(CanvasMouseEvent e) {
-
-    }
+    protected void onObjectDragDropped(CanvasMouseEvent e) {}
 
     @Override
     protected void onObjectMoved(CanvasMouseEvent e) {
         CanvasObject canvasObject = e.getObject();
         if (canvasObject != null && containsObject(canvasObject) && canvasObject.isSelected()) {
             CanvasMouseEvent event = e;
-            int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getLastX(), getOriginX());
-            int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
-            getAll().forEach(o -> {
-                if (o.isSelected()) {
-                    int gridX = getGridCoordinate(o.getLocationX(), getOriginX()) + deltaX;
-                    int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
-                    //DocumentObject properties = o.getDocumentComponent();
-                    //properties.setGridX(gridX);
-                    //properties.setGridY(gridY);
-                    /*EventAggregator eventAggregator = GUIEventAggregator.getInstance();
-                    DocumentObjectCommand command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridX(), o.getDocumentComponent().gridX().getValue(), gridX);
-                    eventAggregator.fireEvent(command);
-                    command = new DocumentObjectCommand(DocumentObjectCommand.CHANGE_PROPERTY,o.getDocumentComponent(), o.getDocumentComponent().gridY(), o.getDocumentComponent().gridY().getValue(), gridY);
-                    eventAggregator.fireEvent(command);*/
-                    //TODO fire property change event
-                    updatePaintProperties(o);
-                }
-            });
+            int deltaX = getGridCoordinate(event.getX(), getOriginX()) - getGridCoordinate(event.getStartX(), getOriginX());
+            int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getStartY(), getOriginY());
 
-            getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+            if (deltaX != 0 || deltaY != 0) {
+                getSelectedObject().forEach(o -> {
+                    setObjectLocations(o, deltaX, deltaY);
+                });
+                getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+            }
         }
 
     }
@@ -103,6 +87,27 @@ public class GridModel extends RelativeModel {
         int gridY = getGridCoordinate(o.getLocationY(), getOriginY()) + deltaY;
         o.setLocationX(getGridLocation(gridX, getOriginX()));
         o.setLocationY(getGridLocation(gridY, getOriginY()));
+    }
+
+    private void doSetObjectLocations(CanvasObject o, int deltaX, int deltaY){
+        int gridX = o.getGridX() + deltaX;
+        int gridY = o.getGridY() + deltaY;
+        getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.gridXProperty(), o.getGridX(), gridX));
+        getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.gridYProperty(), o.getGridY(), gridY));
+    }
+
+    private void setChildrenLocation(CanvasObject object, int deltaX, int deltaY){
+        if(object.getChildrenList().size() == 0) return;
+        object.getChildrenList().forEach(o -> {
+            if(!o.isSelected()){
+                setObjectLocations(o, deltaX, deltaY);
+            }
+        });
+    }
+
+    private void setObjectLocations(CanvasObject o, int deltaX, int deltaY) {
+        doSetObjectLocations(o, deltaX, deltaY);
+        setChildrenLocation(o, deltaX, deltaY);
     }
 
     @Override

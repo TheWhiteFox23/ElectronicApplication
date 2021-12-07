@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 
+import cz.thewhiterabbit.electronicapp.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
@@ -55,13 +56,14 @@ public class ActivePoint extends CanvasObject{
 
     private void activePontDragDropped() {
         if(firstLine != null) {
-            //drawingCanvas.getCanvasLayout().add(firstLine);// insertLineObject
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
             firstLine = null;
         }
         if(secondLine != null) {
-            //drawingCanvas.getCanvasLayout().add(secondLine);// insert LineObject
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
             secondLine = null;
         }
+        if(firstLine != null ||secondLine!= null)getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
     }
 
     private void activePointDragged(CanvasMouseEvent h) {

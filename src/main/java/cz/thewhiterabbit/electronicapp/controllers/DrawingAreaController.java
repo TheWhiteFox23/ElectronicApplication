@@ -23,8 +23,13 @@ public class DrawingAreaController {
         drawingArea.setModel(gridLayout);
 
         /***** REGISTER LISTENERS *****/
-        gridLayout.addEventHandler(DrawingAreaEvent.ANY, e-> {
-            //System.out.println(e.getEventType());
+        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
+            DrawingAreaEvent event = (DrawingAreaEvent) e;
+            event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
+        });
+
+        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{
+            gridLayout.add(((DrawingAreaEvent)e).getCanvasObject());
         });
 
 
