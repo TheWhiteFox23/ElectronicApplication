@@ -32,6 +32,11 @@ public class DrawingAreaController {
             gridLayout.add(((DrawingAreaEvent)e).getCanvasObject());
         });
 
+        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{
+            DrawingAreaEvent event = (DrawingAreaEvent) e;
+            gridLayout.remove(event.getCanvasObject());
+        });
+
 
         gridLayout.add(new RelativePointBackground(drawingArea.getCanvas()));
         for(int i = 0; i< 100; i+= 4){

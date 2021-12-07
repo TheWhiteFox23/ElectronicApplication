@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.canvas.model;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.canvas.objects.CanvasObject;
+import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -67,6 +68,7 @@ public abstract class CanvasModel {
     public void remove(CanvasObject o){
         canvasObjects.remove(o);
         o.setParentModel(null);
+        innerEventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
     }
 
     public boolean containsObject(CanvasObject o){
