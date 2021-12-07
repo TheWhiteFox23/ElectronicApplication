@@ -16,6 +16,7 @@ public class CanvasPaintEvent extends Event {
 
     /**** INFORMATION ****/
     private CanvasObject canvasObject;
+    private boolean force = false;
 
     /**** CONSTRUCTORS ****/
     public CanvasPaintEvent(EventType<? extends Event> eventType, CanvasObject canvasObject) {
@@ -26,6 +27,18 @@ public class CanvasPaintEvent extends Event {
     public CanvasPaintEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, CanvasObject canvasObject) {
         super(o, eventTarget, eventType);
         this.canvasObject = canvasObject;
+    }
+
+    public CanvasPaintEvent(EventType<? extends Event> eventType, CanvasObject canvasObject, boolean force) {
+        super(eventType);
+        this.canvasObject = canvasObject;
+        this.force = force;
+    }
+
+    public CanvasPaintEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, CanvasObject canvasObject, boolean force) {
+        super(o, eventTarget, eventType);
+        this.canvasObject = canvasObject;
+        this.force = force;
     }
 
     public CanvasPaintEvent(EventType<? extends Event> eventType) {
@@ -44,5 +57,13 @@ public class CanvasPaintEvent extends Event {
 
     public void setCanvasObject(CanvasObject canvasObject) {
         this.canvasObject = canvasObject;
+    }
+
+    public boolean isForce() {
+        return force;
+    }
+
+    public void setForce(boolean force) {
+        this.force = force;
     }
 }

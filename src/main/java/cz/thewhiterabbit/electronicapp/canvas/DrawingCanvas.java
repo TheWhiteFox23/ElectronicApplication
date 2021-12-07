@@ -174,7 +174,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null) {
+            if(o != null && getCanvasLayout().containsObject(o)) {
                o.paint(gc);
             }
         }
@@ -190,7 +190,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null) {
+            if(o != null && getCanvasLayout().containsObject(o)) {
                 gc.clearRect(o.getLocationX(), o.getLocationY(), o.getWidth(), o.getHeight());
                 o.paint(gc);
             }
@@ -206,7 +206,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null) {
+            if(o != null && getCanvasLayout().containsObject(o)) {
                 gc.clearRect(o.getLocationX(), o.getLocationY(), o.getWidth(), o.getHeight());
             }
         }
