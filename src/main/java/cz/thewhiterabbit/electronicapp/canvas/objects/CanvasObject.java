@@ -363,6 +363,10 @@ public abstract class CanvasObject { //TODO should wrap
         gc.restore();
     }
 
+    public void clean(GraphicsContext gc){
+        gc.clearRect(getLocationX(), getLocationY(), getWidth(), getHeight());
+    }
+
     public boolean isVisible(double canvasWidth, double canvasHeight) {
         return (getLocationY() < canvasHeight
                 && getLocationY() + getHeight() > 0
