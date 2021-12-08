@@ -3,6 +3,7 @@ package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 import cz.thewhiterabbit.electronicapp.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.canvas.model.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.events.CanvasPaintEvent;
 import javafx.event.Event;
@@ -15,6 +16,7 @@ public class ActivePoint extends CanvasObject{
     private LineObject secondLine;
 
     public ActivePoint(){
+        setPriority(Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
     }
 
@@ -24,7 +26,13 @@ public class ActivePoint extends CanvasObject{
         double height = getHeight()*0.4;
         double locationX = -height/2;
         double locationY = -height/2;
-        gc.setFill(Color.DARKSLATEGRAY);
+
+        if(isHovered()){
+            gc.setFill(Color.BLUEVIOLET);
+        }else{
+            gc.setFill(Color.DARKSLATEGRAY);
+        }
+
         gc.fillOval(locationX, locationY, height, height);
     }
 
@@ -56,14 +64,34 @@ public class ActivePoint extends CanvasObject{
 
     private void activePontDragDropped() {
         if(firstLine != null) {
+            initializeLineActivePoints(firstLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
             firstLine = null;
         }
         if(secondLine != null) {
+            initializeLineActivePoints(secondLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
             secondLine = null;
         }
         if(firstLine != null ||secondLine!= null)getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    @Override
+    public void clean(GraphicsContext gc) {
+        //super.clean(gc);
+    }
+
+    private void initializeLineActivePoints(LineObject line){
+        ActivePoint activePoint = new ActivePoint();
+        activePoint.set(line.getGridX(), line.getGridY(), 1,1);
+        line.addChildren(activePoint);
+        activePoint = new ActivePoint();
+        if(line.getOrientation() == LineObject.Orientation.HORIZONTAL){
+            activePoint.set(line.getGridX() + line.getGridWidth(), line.getGridY(), 1,1);
+        }else{
+            activePoint.set(line.getGridX(), line.getGridY() + line.getGridHeight(), 1,1);
+        }
+        line.addChildren(activePoint);
     }
 
     private void activePointDragged(CanvasMouseEvent h) {

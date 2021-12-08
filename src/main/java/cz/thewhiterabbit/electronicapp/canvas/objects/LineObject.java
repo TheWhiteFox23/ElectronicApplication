@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class LineObject extends CanvasObject {
+
     private double X2 = 0;
     private double Y2 = 0;
 
@@ -38,10 +39,8 @@ public class LineObject extends CanvasObject {
 
     @Override
     public void doPaint(GraphicsContext gc) {
-        //paint bounds
         double X2 = this.X2 - getLocationX();
         double Y2 = this.Y2 - getLocationY();
-
 
         if(isHovered()){
             gc.setFill(Color.WHEAT);
@@ -98,16 +97,21 @@ public class LineObject extends CanvasObject {
 
     @Override
     public boolean isInBounds(double x, double y) {
-        return (x> getLocationX()-getLineHeight()/2 && x<X2 && y> getLocationY()-getLineHeight()/2 && y< Y2);
+        return (x> getLocationX()-getLineHeight()/2 && y> getLocationY()-getLineHeight()/2 && x< X2-getLineHeight()/2 && y < Y2-getLineHeight()/2);
     }
 
     @Override
     public boolean isVisible(double canvasWidth, double canvasHeight) {
+        //todo fix
         return super.isVisible(canvasWidth, canvasHeight);
     }
 
     @Override
     public boolean isInBounds(double locationX, double locationY, double width, double height) {
-        return super.isInBounds(locationX, locationY, width, height);
+        //todo fix this
+        return (getLocationX() + getHeight() > locationX &&
+                getLocationY() + getWidth() > locationY &&
+                getLocationY() < locationY + width &&
+                getLocationX() < locationX + height);
     }
 }
