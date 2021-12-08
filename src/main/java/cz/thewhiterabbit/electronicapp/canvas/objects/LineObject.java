@@ -54,6 +54,13 @@ public class LineObject extends CanvasObject {
         gc.fillRoundRect(-getLineHeight()/2, -getLineHeight()/2, X2, Y2, getLineHeight(), getLineHeight());
     }
 
+    @Override
+    public void clean(GraphicsContext gc) {
+        double X2 = this.X2 - getLocationX();
+        double Y2 = this.Y2 - getLocationY();
+        gc.clearRect(-getLineHeight()/2, -getLineHeight()/2, X2, Y2);
+    }
+
     private double getLineHeight() {
         return (getHeight() > getWidth() ? getWidth() : getHeight()) * 0.25;
     }
