@@ -48,7 +48,7 @@ public abstract class CanvasModel {
         addObject(object);
     }
 
-    protected abstract void updatePaintProperties(CanvasObject object);
+    public abstract void updatePaintProperties(CanvasObject object);
 
     /**
      * Return list of objects currently visible on the screen

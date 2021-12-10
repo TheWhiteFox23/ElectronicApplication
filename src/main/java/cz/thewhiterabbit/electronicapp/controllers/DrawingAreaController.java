@@ -6,6 +6,7 @@ import cz.thewhiterabbit.electronicapp.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.canvas.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.canvas.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.canvas.objects.RelativePointBackground;
+import cz.thewhiterabbit.electronicapp.canvas.objects.TwoPointLineObject;
 import javafx.fxml.FXML;
 
 public class DrawingAreaController {
@@ -58,6 +59,9 @@ public class DrawingAreaController {
         generalCanvasObject.addChildren(activePoint);
 
         gridLayout.add(generalCanvasObject);
+
+        TwoPointLineObject line = new TwoPointLineObject(0,0,-30,-10);
+        gridLayout.add(line);
     }
 
 
