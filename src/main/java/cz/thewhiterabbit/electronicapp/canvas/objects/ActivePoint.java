@@ -10,12 +10,12 @@ import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class ActivePoint extends CanvasObject{
+public class ActivePoint extends CanvasObject {
 
     private LineObject firstLine;
     private LineObject secondLine;
 
-    public ActivePoint(){
+    public ActivePoint() {
         setPriority(Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
     }
@@ -23,13 +23,13 @@ public class ActivePoint extends CanvasObject{
     /***** OVERRIDES *****/
     @Override
     public void doPaint(GraphicsContext gc) {
-        double height = getHeight()*0.4;
-        double locationX = -height/2;
-        double locationY = -height/2;
+        double height = getHeight() * 0.4;
+        double locationX = -height / 2;
+        double locationY = -height / 2;
 
-        if(isHovered()){
+        if (isHovered()) {
             gc.setFill(Color.BLUEVIOLET);
-        }else{
+        } else {
             gc.setFill(Color.DARKSLATEGRAY);
         }
 
@@ -38,10 +38,10 @@ public class ActivePoint extends CanvasObject{
 
     @Override
     public boolean isInBounds(double x, double y) {
-        double height = getHeight()*0.5;
-        double locationX = getLocationX()-height/2;
-        double locationY = getLocationY()-height/2;
-        return ((x>=locationX && x<=locationX+height)&&(y>=locationY && y<= locationY+height));
+        double height = getHeight() * 0.5;
+        double locationX = getLocationX() - height / 2;
+        double locationY = getLocationY() - height / 2;
+        return ((x >= locationX && x <= locationX + height) && (y >= locationY && y <= locationY + height));
     }
 
     @Override
@@ -63,17 +63,36 @@ public class ActivePoint extends CanvasObject{
 
 
     private void activePontDragDropped() {
-        if(firstLine != null) {
+        if (firstLine != null) {
             initializeLineActivePoints(firstLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
             firstLine = null;
         }
-        if(secondLine != null) {
+        if (secondLine != null) {
             initializeLineActivePoints(secondLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
             secondLine = null;
         }
-        if(firstLine != null ||secondLine!= null)getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+        if (firstLine != null || secondLine != null)
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    private void updateLocationByParent() {
+        int gridX;
+        int gridY;
+
+        LineObject line = (LineObject) getParent();
+
+        if (line.getOrientation() == LineObject.Orientation.HORIZONTAL) {
+            gridX = line.getGridX() + line.getGridWidth();
+            gridY = line.getGridY();
+        } else {
+            gridX = line.getGridX();
+            gridY = line.getGridY() + line.getGridHeight();
+        }
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, gridXProperty(), getGridX(), gridX));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, gridYProperty(), getGridY(), gridY));
+
     }
 
     @Override
@@ -81,78 +100,82 @@ public class ActivePoint extends CanvasObject{
         //super.clean(gc);
     }
 
-    private void initializeLineActivePoints(LineObject line){
+    private void initializeLineActivePoints(LineObject line) {
         ActivePoint activePoint = new ActivePoint();
-        activePoint.set(line.getGridX(), line.getGridY(), 1,1);
+        activePoint.set(line.getGridX(), line.getGridY(), 1, 1);
         line.addChildren(activePoint);
         activePoint = new ActivePoint();
-        if(line.getOrientation() == LineObject.Orientation.HORIZONTAL){
-            activePoint.set(line.getGridX() + line.getGridWidth(), line.getGridY(), 1,1);
-        }else{
-            activePoint.set(line.getGridX(), line.getGridY() + line.getGridHeight(), 1,1);
+        if (line.getOrientation() == LineObject.Orientation.HORIZONTAL) {
+            activePoint.set(line.getGridX() + line.getGridWidth(), line.getGridY(), 1, 1);
+        } else {
+            activePoint.set(line.getGridX(), line.getGridY() + line.getGridHeight(), 1, 1);
         }
         line.addChildren(activePoint);
     }
 
     private void activePointDragged(CanvasMouseEvent h) {
-        if(getParentModel() instanceof GridModel){
-            GridModel model = (GridModel)getParentModel();
-
-            int coordinateStartX = getGridX();
-            int coordinateStartY = getGridY();
-            int coordinateFinishX = model.getGridCoordinate(h.getX(), model.getOriginX());
-            int coordinateFinishY = model.getGridCoordinate(h.getY(), model.getOriginY());
-
-            setLines(coordinateStartX, coordinateStartY, coordinateFinishX, coordinateFinishY);
-
-            getEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
-            if(firstLine != null){
-                model.updatePaintProperties(firstLine);
-                firstLine.paint(getParentModel().getCanvas().getGraphicsContext2D());
-            }
-            if(secondLine != null){
-               model.updatePaintProperties(secondLine);
-               secondLine.paint(getParentModel().getCanvas().getGraphicsContext2D());
-            }
+        if (getParentModel() instanceof GridModel) {
+            updateAndPaintLines(h);
         }
     }
 
-    private void setLines(int activePointX, int activePointY, int cursorX, int cursorY){
-        if(activePointX != cursorX){
+    private void updateAndPaintLines(CanvasMouseEvent h) {
+        GridModel model = (GridModel) getParentModel();
+
+        int coordinateStartX = getGridX();
+        int coordinateStartY = getGridY();
+        int coordinateFinishX = model.getGridCoordinate(h.getX(), model.getOriginX());
+        int coordinateFinishY = model.getGridCoordinate(h.getY(), model.getOriginY());
+
+        setLines(coordinateStartX, coordinateStartY, coordinateFinishX, coordinateFinishY);
+
+        getEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+        if (firstLine != null) {
+            model.updatePaintProperties(firstLine);
+            firstLine.paint(getParentModel().getCanvas().getGraphicsContext2D());
+        }
+        if (secondLine != null) {
+            model.updatePaintProperties(secondLine);
+            secondLine.paint(getParentModel().getCanvas().getGraphicsContext2D());
+        }
+    }
+
+    private void setLines(int activePointX, int activePointY, int cursorX, int cursorY) {
+        if (activePointX != cursorX) {
             createAndSetLine(activePointX, cursorX, activePointY, cursorY, LineObject.Orientation.HORIZONTAL);
-        }else{
+        } else {
             deleteAndAdjustOrder(LineObject.Orientation.HORIZONTAL);
         }
 
-        if(activePointY != cursorY){
-            createAndSetLine(activePointY, cursorY,activePointX, cursorX, LineObject.Orientation.VERTICAL);
-        }else{
+        if (activePointY != cursorY) {
+            createAndSetLine(activePointY, cursorY, activePointX, cursorX, LineObject.Orientation.VERTICAL);
+        } else {
             deleteAndAdjustOrder(LineObject.Orientation.VERTICAL);
         }
     }
 
-    private void createAndSetLine(int firstLinePoint, int secondLinePoint,int firsLineLevel, int secondLineLevel, LineObject.Orientation orientation) {
-        if (firstLine == null){
+    private void createAndSetLine(int firstLinePoint, int secondLinePoint, int firsLineLevel, int secondLineLevel, LineObject.Orientation orientation) {
+        if (firstLine == null) {
             firstLine = new LineObject();
             firstLine.setOrientation(orientation);
             adjustLine(firstLine, firstLinePoint, secondLinePoint, firsLineLevel);
-        }else if (firstLine.getOrientation() == orientation) {
+        } else if (firstLine.getOrientation() == orientation) {
             adjustLine(firstLine, firstLinePoint, secondLinePoint, firsLineLevel);
-        }else if (secondLine == null)  {
+        } else if (secondLine == null) {
             secondLine = new LineObject();
             secondLine.setOrientation(orientation);
             adjustLine(secondLine, firstLinePoint, secondLinePoint, secondLineLevel);
-        }else if (secondLine.getOrientation() == orientation) {
+        } else if (secondLine.getOrientation() == orientation) {
             adjustLine(secondLine, firstLinePoint, secondLinePoint, secondLineLevel);
         }
 
     }
 
-    private void deleteAndAdjustOrder(LineObject.Orientation orientation){
-        if(firstLine != null && firstLine.getOrientation() == orientation){
+    private void deleteAndAdjustOrder(LineObject.Orientation orientation) {
+        if (firstLine != null && firstLine.getOrientation() == orientation) {
             firstLine = secondLine;
             secondLine = null;
-        }else if (secondLine != null && secondLine.getOrientation() == orientation){
+        } else if (secondLine != null && secondLine.getOrientation() == orientation) {
             secondLine = null;
         }
     }
@@ -160,10 +183,10 @@ public class ActivePoint extends CanvasObject{
 
     private void adjustLine(LineObject lineObject, int firstPoint, int secondPoint, int level) {
         int length = secondPoint - firstPoint;
-        if(lineObject.getOrientation() == LineObject.Orientation.HORIZONTAL){
-            lineObject.set((length<0? secondPoint:firstPoint), level,1, Math.abs(length));
-        }else{
-            lineObject.set(level,(length<0? secondPoint:firstPoint), Math.abs(length), 1);
+        if (lineObject.getOrientation() == LineObject.Orientation.HORIZONTAL) {
+            lineObject.set((length < 0 ? secondPoint : firstPoint), level, 1, Math.abs(length));
+        } else {
+            lineObject.set(level, (length < 0 ? secondPoint : firstPoint), Math.abs(length), 1);
         }
     }
 }
