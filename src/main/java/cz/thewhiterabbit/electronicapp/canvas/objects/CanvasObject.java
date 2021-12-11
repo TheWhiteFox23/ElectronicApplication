@@ -311,6 +311,7 @@ public abstract class CanvasObject { //TODO should wrap
         this.gridY.set(gridY);
         this.gridHeight.set(gridHeight);
         this.gridWidth.set(gridWidth);
+        if(getParentModel() != null)getParentModel().updatePaintProperties(this);
         //TODO repaint call
     }
 

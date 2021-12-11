@@ -10,14 +10,21 @@ import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ActivePoint extends CanvasObject {
 
+    private List<DragListener> dragListeners;
+    private List<DropListener> dropListeners;
     private LineObject firstLine;
     private LineObject secondLine;
 
     public ActivePoint() {
         setPriority(Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+        this.dragListeners = new ArrayList<>();
+        this.dropListeners = new ArrayList<>();
     }
 
     /***** OVERRIDES *****/
@@ -52,13 +59,21 @@ public class ActivePoint extends CanvasObject {
     @Override
     protected void onObjectDropped(Event e) {
         e.consume();
-        activePontDragDropped();
+        dropListeners.forEach(l -> l.onDrop(e));
     }
 
     @Override
     protected void onObjectDragged(Event e) {
         e.consume();
-        activePointDragged((CanvasMouseEvent) e);
+        dragListeners.forEach(l -> l.onDrag(e));
+    }
+
+    public void addDragListener(DragListener eventListener){
+        this.dragListeners.add(eventListener);
+    }
+
+    public void addDropListener(DropListener dropListener){
+        this.dropListeners.add(dropListener);
     }
 
 
@@ -117,6 +132,7 @@ public class ActivePoint extends CanvasObject {
         if (getParentModel() instanceof GridModel) {
             updateAndPaintLines(h);
         }
+
     }
 
     private void updateAndPaintLines(CanvasMouseEvent h) {
@@ -188,5 +204,13 @@ public class ActivePoint extends CanvasObject {
         } else {
             lineObject.set(level, (length < 0 ? secondPoint : firstPoint), Math.abs(length), 1);
         }
+    }
+
+    public interface DragListener{
+        void onDrag(Event h);
+    }
+
+    public interface DropListener{
+        void onDrop(Event h);
     }
 }

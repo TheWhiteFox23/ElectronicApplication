@@ -14,34 +14,18 @@ public class TwoPointLineObject extends CanvasObject{
 
     public TwoPointLineObject(int x1, int y1, int x2, int y2) {
         this.x1 = new SimpleIntegerProperty(x1);
-        //this.x1.addListener(l -> mapProperties());
-
         this.x2 = new SimpleIntegerProperty(x2);
-        //this.x2.addListener(l -> mapProperties());
-
         this.y1 = new SimpleIntegerProperty(y1);
-        //this.y1.addListener(l -> mapProperties());
-
         this.y2 = new SimpleIntegerProperty(y2);
-        //this.y2.addListener(l -> mapProperties());
         mapProperties();
 
-        /*gridXProperty().addListener( l->{
-            onObjectMoved();
+        this.locationXProperty().addListener(l -> {
+            onGridXChanged();
         });
 
-        gridYProperty().addListener( l->{
-            onObjectMoved();
-        });*/
-
-        locationXProperty().addListener(l ->{
-            onObjectMoving();
+        this.locationYProperty().addListener(l ->{
+            onGridYChanged();
         });
-        locationYProperty().addListener(l-> {
-            onObjectMoving();
-        });
-
-
     }
 
     @Override
@@ -68,30 +52,28 @@ public class TwoPointLineObject extends CanvasObject{
         this.setGridHeight(Math.abs(getY1() - getY2()));
         this.setGridX((getX1() > getX2()? getX2():getX1()));
         this.setGridY((getY1() > getY2()? getY2():getY1()));
+        if(getParentModel() != null){
+            this.getParentModel().updatePaintProperties(this);
+        }
     }
 
-    private void onObjectMoved(){
-        int originalGridX = (getX1() > getX2()? getX2():getX1());
-        int originalGridY = (getY1() > getY2()? getY2():getY1());
-        int deltaX = originalGridX - getGridX();
-        int deltaY = originalGridY - getGridY();
-        setX1(getX1() - deltaX);
-        setX2(getX2() - deltaX);
-        setY2(getY2() - deltaY);
-        setY1(getY1() - deltaY);
-    }
-
-    private void onObjectMoving(){
+    private void onGridXChanged(){
         if(getParentModel() != null && getParentModel() instanceof GridModel){
             GridModel m = (GridModel) getParentModel();
             int originalGridX = (getX1() > getX2()? getX2():getX1());
-            int originalGridY = (getY1() > getY2()? getY2():getY1());
             int deltaX = originalGridX - m.getGridCoordinate(getLocationX(), m.getOriginX());
-            int deltaY = originalGridY - m.getGridCoordinate(getLocationY(), m.getOriginY());
             setX1(getX1() - deltaX);
             setX2(getX2() - deltaX);
-            setY2(getY2() - deltaY);
+        }
+    }
+
+    private void onGridYChanged(){
+        if(getParentModel() != null && getParentModel() instanceof GridModel){
+            GridModel m = (GridModel) getParentModel();
+            int originalGridY = (getY1() > getY2()? getY2():getY1());
+            int deltaY = originalGridY - m.getGridCoordinate(getLocationY(), m.getOriginY());
             setY1(getY1() - deltaY);
+            setY2(getY2() - deltaY);
         }
     }
 
@@ -122,22 +104,31 @@ public class TwoPointLineObject extends CanvasObject{
 
     @Override
     public boolean isInBounds(double x, double y) {
+        GridModel m = (GridModel) getParentModel();
         double tolerance = getLineWidth();
         if(x<getLocationX()-tolerance || x> getLocationX() + getWidth() + tolerance || y<getLocationY() -tolerance || y>getLocationY() + getHeight() + tolerance)return false;
-        int deltaX = getX2() - getX1();
-        int deltaY = getY2() - getY1();
+        double deltaX = m.getGridLocation(getX2(), m.getOriginX()) - m.getGridLocation(getX1(), m.getOriginX());
+        double deltaY = m.getGridLocation(getY2(), m.getOriginY()) - m.getGridLocation(getY1(), m.getOriginY());
 
 
         if(deltaX == 0 || deltaY == 0){
             return true;
         }else{
-            double a = getHeight()/getWidth();
+            double a = deltaY/deltaX;
             double xRelative = x -getLocationX();
             double yRelative = y -getLocationY();
-            double yCalculated = a*xRelative;
-            if(Math.abs(yRelative -yCalculated)<tolerance){
-                return true;
+            if(a > 0){
+                double yCalculated = a*xRelative;
+                if(Math.abs(yRelative -yCalculated)<tolerance){
+                    return true;
+                }
+            }else{
+                double yCalculated = Math.abs(a)*xRelative;
+                if(Math.abs(yRelative -(getHeight() - yCalculated))<tolerance){
+                    return true;
+                }
             }
+
         }
         return false;
 
@@ -156,4 +147,10 @@ public class TwoPointLineObject extends CanvasObject{
     private double getLineWidth(){
         return 2;
     }
+
+    @Override
+    public void clean(GraphicsContext gc) {
+        super.clean(gc);
+    }
+
 }
