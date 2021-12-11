@@ -47,7 +47,7 @@ public class TwoPointLineObject extends CanvasObject{
         gc.strokeLine(locationX1, locationY1,locationX2, locationY2);
     }
 
-    private void mapProperties(){
+    public void mapProperties(){
         this.setGridWidth(Math.abs(getX2() - getX1()));
         this.setGridHeight(Math.abs(getY1() - getY2()));
         this.setGridX((getX1() > getX2()? getX2():getX1()));
