@@ -54,7 +54,28 @@ public class ActivePoint extends CanvasObject {
     @Override
     protected void onObjectDropped(Event e) {
         e.consume();
-        //insert created line or modify currantLine, delete helper lines
+        onActivePointDropped();
+    }
+
+    private void onActivePointDropped() {
+        if(firstLine != null){
+            initLineActivePoints(firstLine);
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
+        }
+
+        if(secondLine != null){
+            initLineActivePoints(secondLine);
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
+        }
+    }
+
+    private void initLineActivePoints(TwoPointLineObject line) {
+        ActivePoint activePoint = new ActivePoint();
+        activePoint.set(line.getX1(), line.getY1(), 1,1);
+        line.addChildren(activePoint);
+        activePoint = new ActivePoint();
+        activePoint.set(line.getX2(), line.getY2(), 1,1);
+        line.addChildren(activePoint);
     }
 
     @Override
