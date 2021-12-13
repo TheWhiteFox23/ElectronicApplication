@@ -30,21 +30,23 @@ public class TwoPointLineObject extends CanvasObject{
 
     @Override
     protected void doPaint(GraphicsContext gc) {
-        GridModel m = (GridModel)getParentModel();
+        if(getParentModel() != null && getParentModel() instanceof GridModel){
+            GridModel m = (GridModel)getParentModel();
 
-        double locationX1 = m.getGridLocation(getX1(), m.getOriginX()) - getLocationX();
-        double locationX2 = m.getGridLocation(getX2(), m.getOriginX()) - getLocationX();
-        double locationY1 = m.getGridLocation(getY1(), m.getOriginY()) - getLocationY();
-        double locationY2 = m.getGridLocation(getY2(), m.getOriginY()) - getLocationY();
+            double locationX1 = m.getGridLocation(getX1(), m.getOriginX()) - getLocationX();
+            double locationX2 = m.getGridLocation(getX2(), m.getOriginX()) - getLocationX();
+            double locationY1 = m.getGridLocation(getY1(), m.getOriginY()) - getLocationY();
+            double locationY2 = m.getGridLocation(getY2(), m.getOriginY()) - getLocationY();
 
-        if(isHovered()){
-            gc.setStroke(Color.RED);
-        }else{
-            gc.setStroke(Color.TURQUOISE);
+            if(isHovered()){
+                gc.setStroke(Color.RED);
+            }else{
+                gc.setStroke(Color.TURQUOISE);
+            }
+
+            gc.setLineWidth(getLineWidth());
+            gc.strokeLine(locationX1, locationY1,locationX2, locationY2);
         }
-
-        gc.setLineWidth(getLineWidth());
-        gc.strokeLine(locationX1, locationY1,locationX2, locationY2);
     }
 
     public void mapProperties(){
@@ -101,6 +103,23 @@ public class TwoPointLineObject extends CanvasObject{
     public IntegerProperty y2Property() {return y2;}
 
     public void setY2(int y2) {this.y2.set(y2);}
+
+    public int getLoverX(){
+        return (getX2() > getX1()? getX1():getX2());
+    }
+
+    public int getHigherX(){
+        return (getX2() > getX1()? getX2():getX1());
+    }
+
+    public int getLoverY(){
+        return (getY2() > getY1()? getY1():getY2());
+    }
+
+    public int getHigherY(){
+        return (getY2() > getY1()? getY2():getY1());
+    }
+
 
     @Override
     public boolean isInBounds(double x, double y) {

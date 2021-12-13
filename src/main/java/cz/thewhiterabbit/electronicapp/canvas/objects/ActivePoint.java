@@ -10,12 +10,15 @@ import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 
 public class ActivePoint extends CanvasObject {
 
     //Line drawing
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
+    private boolean deleteOrigin = false;
 
     public ActivePoint() {
         setPriority(Priority.ALWAYS_ON_TOP);
@@ -58,23 +61,46 @@ public class ActivePoint extends CanvasObject {
     }
 
     private void onActivePointDropped() {
-        if(firstLine != null){
+        if (firstLine != null) {
             initLineActivePoints(firstLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
+            optimizeLine(firstLine);
+            firstLine = null;
         }
 
-        if(secondLine != null){
+        if (secondLine != null) {
             initLineActivePoints(secondLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
+            optimizeLine(secondLine);
+            secondLine = null;
         }
+
+        if (deleteOrigin) {
+            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, getParent()));
+            getParent().getChildrenList().forEach(o -> getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, o)));
+        }
+
+        //todo: optimize lines
+
+        //todo: fire editing completed event
     }
+
+    private void optimizeLine(TwoPointLineObject lineObject) {
+        //detect line splitting by node
+        lineObject.getChildrenList().forEach(o ->{
+            if(getParentModel().getInBounds(o.getLocationX(), o.getLocationY(), getWidth(), getHeight()).size()!= 1){
+                //getParentModel().getInBounds(o.getLocationX(), o.getLocationY(), getWidth(), getHeight()).forEach(l-> System.out.println(l));
+            }
+        });
+    }
+
 
     private void initLineActivePoints(TwoPointLineObject line) {
         ActivePoint activePoint = new ActivePoint();
-        activePoint.set(line.getX1(), line.getY1(), 1,1);
+        activePoint.set(line.getX1(), line.getY1(), 1, 1);
         line.addChildren(activePoint);
         activePoint = new ActivePoint();
-        activePoint.set(line.getX2(), line.getY2(), 1,1);
+        activePoint.set(line.getX2(), line.getY2(), 1, 1);
         line.addChildren(activePoint);
     }
 
@@ -88,6 +114,69 @@ public class ActivePoint extends CanvasObject {
     }
 
     private void onActivePointDragged(CanvasMouseEvent e) {
+        if (getParent() instanceof TwoPointLineObject) {
+            List<CanvasObject> objects = getParentModel().getInBounds(getLocationX(), getLocationY(), getWidth(), getHeight());
+            if (objects.size() == 1) {
+
+                TwoPointLineObject line = (TwoPointLineObject) getParent();
+                CanvasMouseEvent event = e;
+                GridModel m = (GridModel) getParentModel();
+                //shortening the line
+                if(getLineOrientation(line) == Orientation.HORIZONTAL){
+                    int x = m.getGridCoordinate(event.getX(), m.getOriginX());
+                    int y = m.getGridCoordinate(event.getY(), m.getOriginY());
+                    if(line.getY2() == y &&  x >= line.getLoverX() && x<= line.getHigherX()){
+                        firstLine = null;
+                        secondLine = null;
+                        adjustCurrantLine(line, event, m);
+                    }else {
+                        line.setVisible(true);
+                        deleteOrigin = false;
+                        onDraggedNewLines(e);
+                    }
+                }else if(getLineOrientation(line) == Orientation.VERTICAL){
+                    int x = m.getGridCoordinate(event.getX(), m.getOriginX());
+                    int y = m.getGridCoordinate(event.getY(), m.getOriginY());
+                    if(line.getX2() == x &&  y >= line.getLoverY() && y<= line.getHigherY()){
+                        firstLine = null;
+                        secondLine = null;
+                        adjustCurrantLine(line, event, m);
+                    }else{
+                        line.setVisible(true);
+                        deleteOrigin = false;
+                        onDraggedNewLines(e);
+                    }
+                }
+            } else {
+                onDraggedNewLines(e);
+            }
+        } else {
+            onDraggedNewLines(e);
+        }
+
+
+    }
+
+    private void adjustCurrantLine(TwoPointLineObject line, CanvasMouseEvent event, GridModel m) {
+        line.setVisible(false); //TODO active points still visible
+
+
+        int gridStartX = (line.getX2() == getGridX() ? line.getX1() : line.getX2());
+        int gridStartY = (line.getY2()) == getGridY() ? line.getY1() : line.getY2();
+        int gridX = m.getGridCoordinate(event.getX(), m.getOriginX());
+        int gridY = m.getGridCoordinate(event.getY(), m.getOriginY());
+        int deltaX = gridX - gridStartX;
+        int deltaY = gridY - gridStartY;
+
+        System.out.println(gridStartX +  " : " + gridStartY);
+        System.out.println(firstLine + " : " + secondLine);
+
+        adjustLines(gridStartX, gridStartY, gridX, gridY, deltaX, deltaY);
+        managePainting(m, deltaX, deltaY);
+        deleteOrigin = true;
+    }
+
+    private void onDraggedNewLines(CanvasMouseEvent e) {
         CanvasMouseEvent event = e;
         GridModel m = (GridModel) getParentModel();
 
@@ -117,7 +206,7 @@ public class ActivePoint extends CanvasObject {
     }
 
     private void managePainting(GridModel m, int deltaX, int deltaY) {
-        if((firstLine != null || secondLine != null) || (deltaY == 0 && deltaX == 0)){
+        if ((firstLine != null || secondLine != null) || (deltaY == 0 && deltaX == 0)) {
             getEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         }
 
@@ -138,15 +227,15 @@ public class ActivePoint extends CanvasObject {
 
     private void setLine(Orientation orientation, int firstPoint, int secondPoint, int level1, int level2) {
         if (firstLine == null) {
-            if(orientation == Orientation.HORIZONTAL){
+            if (orientation == Orientation.HORIZONTAL) {
                 firstLine = new TwoPointLineObject(firstPoint, level1, secondPoint, level1);
-            }else{
+            } else {
                 firstLine = new TwoPointLineObject(level1, firstPoint, level1, secondPoint);
             }
         } else if (secondLine == null && getLineOrientation(firstLine) != orientation) {
-            if(orientation == Orientation.HORIZONTAL){
+            if (orientation == Orientation.HORIZONTAL) {
                 secondLine = new TwoPointLineObject(firstPoint, level2, secondPoint, level2);
-            }else{
+            } else {
                 secondLine = new TwoPointLineObject(level2, firstPoint, level2, secondPoint);
             }
         } else {
@@ -155,18 +244,18 @@ public class ActivePoint extends CanvasObject {
     }
 
     private void adjustLines(Orientation orientation, int secondPoint, int level2) {
-        if(getLineOrientation(firstLine) == orientation){
-            if(orientation == Orientation.HORIZONTAL){
+        if (getLineOrientation(firstLine) == orientation) {
+            if (orientation == Orientation.HORIZONTAL) {
                 firstLine.setX2(secondPoint);
-            }else{
+            } else {
                 firstLine.setY2(secondPoint);
             }
         } else if (getLineOrientation(secondLine) == orientation) {
-            if(orientation == Orientation.HORIZONTAL){
+            if (orientation == Orientation.HORIZONTAL) {
                 secondLine.setX2(secondPoint);
                 secondLine.setY1(level2);
                 secondLine.setY2(level2);
-            }else{
+            } else {
                 secondLine.setY2(secondPoint);
                 secondLine.setX1(level2);
                 secondLine.setX2(level2);
@@ -178,11 +267,11 @@ public class ActivePoint extends CanvasObject {
     private void deleteLine(Orientation orientation, int newLevel) {
         if (firstLine != null && getLineOrientation(firstLine) == orientation) {
             firstLine = secondLine;
-            if(firstLine != null) {
-                if(orientation == Orientation.HORIZONTAL){
+            if (firstLine != null) {
+                if (orientation == Orientation.HORIZONTAL) {
                     firstLine.setX1(newLevel);
                     firstLine.setX2(newLevel);
-                }else{
+                } else {
                     firstLine.setY2(newLevel);
                     firstLine.setY1(newLevel);
                 }
@@ -198,16 +287,16 @@ public class ActivePoint extends CanvasObject {
         //super.clean(gc);
     }
 
-    private Orientation getLineOrientation(TwoPointLineObject lineObject){
-            if(lineObject.getY2() == lineObject.getY1()){
-                return Orientation.HORIZONTAL;
-            }else if(lineObject.getX1() == lineObject.getX2()){
-                return Orientation.VERTICAL;
-            }
-            return null;
+    private Orientation getLineOrientation(TwoPointLineObject lineObject) {
+        if (lineObject.getY2() == lineObject.getY1()) {
+            return Orientation.HORIZONTAL;
+        } else if (lineObject.getX1() == lineObject.getX2()) {
+            return Orientation.VERTICAL;
+        }
+        return null;
     }
 
-    private enum Orientation{
+    private enum Orientation {
         HORIZONTAL,
         VERTICAL
     }
