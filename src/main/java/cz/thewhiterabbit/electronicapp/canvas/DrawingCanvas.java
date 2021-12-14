@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DrawingCanvas extends Region {
     //DRAWING
@@ -30,7 +31,7 @@ public class DrawingCanvas extends Region {
 
     public DrawingCanvas(){
         //TODO Clean up constructor
-        getStylesheets().add(App.class.getResource("stylesheets/drawing-area.css").toExternalForm());
+        getStylesheets().add(Objects.requireNonNull(App.class.getResource("stylesheets/drawing-area.css")).toExternalForm());
         initGraphics();
     }
 
@@ -45,16 +46,14 @@ public class DrawingCanvas extends Region {
     }
 
     private void registerListeners() {
-        /*** CANVAS EVENT PROPAGATION ***/ //TODO probably can be refactored
+        /* CANVAS EVENT PROPAGATION */ //TODO probably can be refactored
         canvas.addEventHandler(CanvasMouseEvent.ANY, e ->{
             if(getCanvasLayout()!= null){
                 getCanvasLayout().getInnerEventAggregator().fireEvent(e);
             }
         });
         /*** KEY EVENTS ***/
-        this.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
-            this.requestFocus();
-        });
+        this.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> this.requestFocus());
         this.addEventHandler(KeyEvent.ANY, e->{
             if(getCanvasLayout()!= null){
                 getCanvasLayout().getInnerEventAggregator().fireEvent(e);
@@ -79,12 +78,11 @@ public class DrawingCanvas extends Region {
         double height = e.getY()- e.getStartY();
         double locationX = (width>0 ? e.getStartX() : e.getX());
         double locationY = (height>0 ? e.getStartY() : e.getY());
-        RectangleBounds bounds = new RectangleBounds(locationX, locationY, Math.abs(height), Math.abs(width));
-        return bounds;
+        return new RectangleBounds(locationX, locationY, Math.abs(height), Math.abs(width));
     }
 
     private void paint(){
-        getVisible().forEach(o->{o.paint(gc);});
+        getVisible().forEach(o-> o.paint(gc));
     }
 
     private void clear(){
@@ -126,9 +124,7 @@ public class DrawingCanvas extends Region {
                 List<CanvasObject> objects = getCanvasLayout().getInBounds(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
 
                 //TODO Refactor selecting into the command
-                objects.forEach(o -> {
-                    canvasModel.getInnerEventAggregator().fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o));
-                });
+                objects.forEach(o -> canvasModel.getInnerEventAggregator().fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o)));
 
                 clear();
                 paint();
@@ -164,29 +160,24 @@ public class DrawingCanvas extends Region {
     }
 
     /**** HANDLERS ****/
-    private final EventHandler<CanvasPaintEvent> paintHandler = new EventHandler<CanvasPaintEvent>() {
+    private final EventHandler<CanvasPaintEvent> paintHandler = canvasPaintEvent -> paint();
+    private final EventHandler<CanvasPaintEvent> paintObjectHandler = new EventHandler<>() {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
-            paint();
-        }
-    };
-    private final EventHandler<CanvasPaintEvent> paintObjectHandler = new EventHandler<CanvasPaintEvent>() {
-        @Override
-        public void handle(CanvasPaintEvent canvasPaintEvent) {
-            CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null && getCanvasLayout().containsObject(o)) {
-               o.paint(gc);
+            CanvasObject o = canvasPaintEvent.getCanvasObject();
+            if (o != null && getCanvasLayout().containsObject(o)) {
+                o.paint(gc);
             }
         }
     };
-    private final EventHandler<CanvasPaintEvent> repaintHandler = new EventHandler<CanvasPaintEvent>() {
+    private final EventHandler<CanvasPaintEvent> repaintHandler = new EventHandler<>() {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             clear();
             paint();
         }
     };
-    private final EventHandler<CanvasPaintEvent> repaintObjectHandler = new EventHandler<CanvasPaintEvent>() {
+    private final EventHandler<CanvasPaintEvent> repaintObjectHandler = new EventHandler<>() {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
@@ -196,13 +187,13 @@ public class DrawingCanvas extends Region {
             }
         }
     };
-    private final EventHandler<CanvasPaintEvent> clearHandler = new EventHandler<CanvasPaintEvent>() {
+    private final EventHandler<CanvasPaintEvent> clearHandler = new EventHandler<>() {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             clear();
         }
     };
-    private final EventHandler<CanvasPaintEvent> clearObjectHandler = new EventHandler<CanvasPaintEvent>() {
+    private final EventHandler<CanvasPaintEvent> clearObjectHandler = new EventHandler<>() {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();

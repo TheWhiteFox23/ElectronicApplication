@@ -102,9 +102,7 @@ public abstract class CanvasObject { //TODO should wrap
                 onObjectDeselected(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.DESELECT_ALL, e -> {
-            onObjectDeselected(e);
-        });
+        eventAggregator.addEventHandler(CanvasMouseEvent.DESELECT_ALL, e -> onObjectDeselected(e));
         eventAggregator.addEventHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onDragDetected(e);
@@ -232,23 +230,11 @@ public abstract class CanvasObject { //TODO should wrap
 
     public void setVisible(boolean visible) {this.visible = visible;}
 
-    /********** EVENT DETECTION LOGIC AND EVENT HANDLING ************/
-    /**
-     * Return true if given coordinates are within the bounds of the object
-     *
-     * @param x
-     * @param y
-     * @return
-     */
     public boolean isInBounds(double x, double y) {
         return ((x >= getLocationX() && x <= getLocationX() + getWidth()) &&
                 (y >= getLocationY() && y <= getLocationY() + getHeight()));
     }
 
-    /********* PAINT *****************/
-    /**
-     * Paint object on the screen
-     */
     public void paint(GraphicsContext gc) {
         prePaint(gc);
         doPaint(gc);
