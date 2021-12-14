@@ -75,10 +75,10 @@ public class DrawingCanvas extends Region {
 
 
     private RectangleBounds getRectangleBounds(CanvasMouseEvent e) {
-        double height = e.getX() - e.getStartX();
-        double width = e.getY()- e.getStartY();
-        double locationX = (height>0 ? e.getStartX() : e.getX());
-        double locationY = (width>0 ? e.getStartY() : e.getY());
+        double width = e.getX() - e.getStartX();
+        double height = e.getY()- e.getStartY();
+        double locationX = (width>0 ? e.getStartX() : e.getX());
+        double locationY = (height>0 ? e.getStartY() : e.getY());
         RectangleBounds bounds = new RectangleBounds(locationX, locationY, Math.abs(height), Math.abs(width));
         return bounds;
     }
@@ -118,7 +118,7 @@ public class DrawingCanvas extends Region {
 
                 //TODO move to paint selection method
                 gc.setStroke(Color.GREENYELLOW);
-                gc.strokeRect(bounds.locationX, bounds.locationY, bounds.height, bounds.width);
+                gc.strokeRect(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
             });
 
             canvasModel.getInnerEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event->{

@@ -40,6 +40,8 @@ public class TwoPointLineObject extends CanvasObject{
 
             if(isHovered()){
                 gc.setStroke(Color.RED);
+            }else if(isSelected()){
+                gc.setStroke(Color.BLUE);
             }else{
                 gc.setStroke(Color.TURQUOISE);
             }
@@ -160,7 +162,25 @@ public class TwoPointLineObject extends CanvasObject{
 
     @Override
     public boolean isInBounds(double locationX, double locationY, double width, double height) {
-        return super.isInBounds(locationX, locationY, width, height);
+        if(getParentModel() != null && getParentModel() instanceof  GridModel){
+            GridModel m = (GridModel) getParentModel();
+
+            System.out.println("X: " + locationX + " Y: " + locationY + " W: " + width + " H: " + height);
+            double x1 = m.getGridLocation(getLoverX(), m.getOriginX());
+            double y1 = m.getGridLocation(getLoverY(), m.getOriginY());
+            double x2 = m.getGridLocation(getHigherX(), m.getOriginX());
+            double y2 = m.getGridLocation(getHigherY(), m.getOriginY());
+
+            //first point in bounds
+            boolean firstPointInBounds = (x1 >= locationX && x1 <= locationX + width && y1 >= locationY && y1 <= locationY + height);
+            //second point in bounds
+            boolean secondPointInBounds = (x2 >= locationX && x2 <= locationX + width && y2 >= locationY && y2 <= locationY + height);
+            //location x, location y, locationX +height, location y;
+
+            System.out.println("First point in bounds: " + firstPointInBounds);
+            System.out.println("Second point in bounds: " + secondPointInBounds);
+        }
+        return false;
     }
 
     private double getLineWidth(){

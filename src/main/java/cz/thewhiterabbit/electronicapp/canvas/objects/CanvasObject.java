@@ -300,10 +300,10 @@ public abstract class CanvasObject { //TODO should wrap
 
     public boolean isInBounds(double locationX, double locationY, double width, double height) {
         if(!isVisible())return false;
-        return (getLocationX() + getHeight() > locationX &&
-                getLocationY() + getWidth() > locationY &&
-                getLocationY() < locationY + width &&
-                getLocationX() < locationX + height);
+        return (getLocationX() + getWidth() > locationX &&
+                getLocationY() + getHeight() > locationY &&
+                getLocationY() < locationY + height &&
+                getLocationX() < locationX + width);
     }
 
     public void set(int gridX, int gridY, int gridHeight, int gridWidth) {
