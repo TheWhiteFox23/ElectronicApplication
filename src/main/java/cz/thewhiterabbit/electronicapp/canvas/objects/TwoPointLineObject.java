@@ -216,56 +216,64 @@ public class TwoPointLineObject extends CanvasObject {
 
     private boolean isIntersection(LineCrate line1, LineCrate line2) {
         try{
-            line1.tryCalculate();
-            line2.tryCalculate();
+            line1.calculateCoefficients();
+            line2.calculateCoefficients();
         }catch (Exception e){
-            if((line1.isHorizontal() || line1.isVertical()) && (line2.isVertical() || line1.isHorizontal())){
-                return isIntersectionExtreme(line1, line2);
-            }else{
-                return isIntersection(
-                        new LineCrate(line1.y1, line1.x1, line1.y2, line1.x2),
-                        new LineCrate(line2.y1, line2.x1, line2.y2, line2.x2)
-                );
-            }
+            return isIntersectionExtreme(line1, line2);
         }
 
-        //TODO:  extract method
+        try{
+            RealVector solution = getIntersectionSolution(line1, line2);
+            return isInLinesBonds(line1, line2,  solution.getEntry(0), solution.getEntry(1));
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    private boolean isInLinesBonds(LineCrate line1, LineCrate line2, double intersectionX, double intersectionY) {
+        return intersectionX >= Math.min(line1.x1, line1.x2) && intersectionX <= Math.max(line1.x2, line1.x1) &&
+                intersectionX >= Math.min(line2.x1, line2.x2) && intersectionX <= Math.max(line2.x2, line2.x1) &&
+                intersectionY >= Math.min(line1.y1, line1.y2) && intersectionY <= Math.max(line1.y2, line1.y1) &&
+                intersectionY >= Math.min(line2.y1, line2.y2) && intersectionY <= Math.max(line2.y2, line2.y1);
+    }
+
+    private RealVector getIntersectionSolution(LineCrate line1, LineCrate line2) {
         RealMatrix coefficients =
                 new Array2DRowRealMatrix(new double[][]{{line1.a, -1}, {line2.a, -1}},
                         false);
         DecompositionSolver solver = new LUDecomposition(coefficients).getSolver();
         RealVector constants = new ArrayRealVector(new double[]{-line1.b, -line2.b}, false);
         RealVector solution;
-
-        try {
-            solution= solver.solve(constants);
-        }catch (Exception e){
-            return false;
-        }
-
-        double intersectionX = solution.getEntry(0);
-        double intersectionY = solution.getEntry(1);
-        return (intersectionX >= Math.min(line1.x1, line1.x2) && intersectionX <= Math.max(line1.x2, line1.x1) &&
-                intersectionX >= Math.min(line2.x1, line2.x2) && intersectionX <= Math.max(line2.x2, line2.x1) &&
-                intersectionY >= Math.min(line1.y1, line1.y2) && intersectionY <= Math.max(line1.y2, line1.y1) &&
-                intersectionY >= Math.min(line2.y1, line2.y2) && intersectionY <= Math.max(line2.y2, line2.y1));
+        solution= solver.solve(constants);
+        return solution;
     }
-    
+
     private boolean isIntersectionExtreme(LineCrate line1, LineCrate line2){
+        if((line1.isHorizontal() || line1.isVertical()) && (line2.isVertical() || line1.isHorizontal())){
+            return isIntersectionPerpendicular(line1, line2);
+        }else{
+            return isIntersection(
+                    new LineCrate(line1.y1, line1.x1, line1.y2, line1.x2),
+                    new LineCrate(line2.y1, line2.x1, line2.y2, line2.x2)
+            );
+        }
+    }
+
+    private boolean isIntersectionPerpendicular(LineCrate line1, LineCrate line2) {
         if(line1.isHorizontal() && line2.isHorizontal()){
             return line1.y1 == line2.y1;
         }else if(line1.isHorizontal() && line2.isVertical()){
-            return isIntersectingPerpendicular(line1, line2);
+            return doIsIntersectingPerpendicular(line1, line2);
         }else if(line1.isVertical() && line1.isVertical()){
             return line1.x1 == line2.x1;
         }else if(line1.isVertical() && line2.isHorizontal()){
-            return isIntersectingPerpendicular(line2, line1);
+            return doIsIntersectingPerpendicular(line2, line1);
         }else {
             return false;
         }
     }
 
-    private boolean isIntersectingPerpendicular(LineCrate line1, LineCrate line2) {
+    private boolean doIsIntersectingPerpendicular(LineCrate line1, LineCrate line2) {
         return (line1.y1 >= Math.min(line2.y1, line2.y2) && line1.y1 <= Math.max(line2.y1, line2.y2)
                 && line2.x1 >= Math.min(line1.x1, line1.x2) && line2.x1 <= Math.max(line1.x1, line1.x2));
     }
@@ -280,7 +288,7 @@ public class TwoPointLineObject extends CanvasObject {
             this.y2 = y2;
         }
 
-        public void tryCalculate() {
+        public void calculateCoefficients() {
 
             RealMatrix coefficients =
                     new Array2DRowRealMatrix(new double[][]{{x1, 1}, {x2, 1}},
