@@ -198,7 +198,6 @@ public class TwoPointLineObject extends CanvasObject {
             boolean rightYIntersection = isIntersection(line, new LineCrate(locationX+width, locationY, locationX+width, locationY+height));
 
             boolean result = firstPointInBounds || secondPointInBounds || upperXIntersection || lowerXIntersection || leftYIntersection || rightYIntersection;
-            System.out.println(result);
             return result;
         }
         return false;
@@ -275,13 +274,12 @@ public class TwoPointLineObject extends CanvasObject {
     private boolean isIntersectionExtreme(LineCrate line1, LineCrate line2){
         if((line1.isHorizontal() || line1.isVertical()) && (line2.isVertical() || line1.isHorizontal())){
             return isIntersectionPerpendicular(line1, line2);
-        }else{
-            //Invert line and solve
+        }else if(!line1.isInverted() && !line2.isInverted()) {
             return isIntersection(
-                    new LineCrate(line1.y1, line1.x1, line1.y2, line1.x2),
-                    new LineCrate(line2.y1, line2.x1, line2.y2, line2.x2)
-            );
+                    line1.invert(),
+                    line2.invert());
         }
+        return false;
     }
 
     /**
@@ -320,6 +318,7 @@ public class TwoPointLineObject extends CanvasObject {
      */
     private class LineCrate {
         double x1, y1, x2, y2, a, b;
+        private boolean inverted = false;
 
         public LineCrate(double x1, double y1, double x2, double y2) {
             this.x1 = x1;
@@ -349,6 +348,21 @@ public class TwoPointLineObject extends CanvasObject {
         
         public boolean isVertical(){
             return x1 == x2;
+        }
+
+        public LineCrate invert(){
+            double temp = x1;
+            x1 = y1;
+            y1 = temp;
+            temp = x2;
+            x2 = y2;
+            y2 = temp;
+            inverted = !inverted;
+            return this;
+        }
+
+        public boolean isInverted() {
+            return inverted;
         }
     }
 

@@ -79,17 +79,11 @@ public class ModelEventManager {
                 System.out.println("Rotate selection counter clockwise");
             }else if(event.getCode() == KeyCode.DELETE){
                 parentModel.getSelectedObject().forEach(o -> {
-                    callForDelete(o);
+                    o.callForDelete();
                 });
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
             }
         });
-    }
-
-    private void callForDelete(CanvasObject o){
-        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, o));
-        if(o.getChildrenList().size() == 0)return;
-        o.getChildrenList().forEach(ch -> callForDelete(ch));
     }
 
     private void registerMouseMovementListeners() {

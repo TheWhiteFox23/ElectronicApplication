@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.canvas.objects;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.canvas.model.Priority;
 import cz.thewhiterabbit.electronicapp.events.CanvasMouseEvent;
@@ -371,6 +372,12 @@ public abstract class CanvasObject { //TODO should wrap
         DO_NOT_ROTATE,
         ROTATE,
         MOVE_WITH_PARENT_ROTATION
+    }
+
+    public void callForDelete(){
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, this));
+        if(getChildrenList().size() == 0)return;
+        getChildrenList().forEach(ch -> ch.callForDelete());
     }
 
 }
