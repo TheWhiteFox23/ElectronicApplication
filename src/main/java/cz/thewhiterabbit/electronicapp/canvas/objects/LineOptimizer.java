@@ -258,6 +258,12 @@ public class LineOptimizer {
         return lineCrateList;
     }
 
+    /**
+     * Get the splitting points and filter them
+     * @param line
+     * @param splittingObjects
+     * @return
+     */
     private List<PointCrate> getSplittingPoints(TwoPointLineObject line, List<CanvasObject> splittingObjects) {
         //as splitting point is count every active point and intersecting line with different orientation
         List<PointCrate> pointList = new ArrayList<>();
@@ -272,6 +278,12 @@ public class LineOptimizer {
         return pointList;
     }
 
+    /**
+     * Do get splitting points
+     * @param line
+     * @param splittingObjects
+     * @param pointList
+     */
     private void doGetSplittingPoints(TwoPointLineObject line, List<CanvasObject> splittingObjects, List<PointCrate> pointList) {
         for (CanvasObject o : splittingObjects) {
             if (o instanceof ActivePoint) {
@@ -283,6 +295,12 @@ public class LineOptimizer {
         }
     }
 
+    /**
+     * get splitting point on the intersection with another line
+     * @param line
+     * @param pointList
+     * @param o
+     */
     private void splitOnLineIntersection(TwoPointLineObject line, List<PointCrate> pointList, TwoPointLineObject o) {
         if (isHorizontal(o) != isHorizontal(line)) {
             TwoPointLineObject line2 = o;
@@ -296,6 +314,12 @@ public class LineOptimizer {
         }
     }
 
+    /**
+     * Split line on the given points
+     * @param lineObject
+     * @param points
+     * @param gridModel
+     */
     private void splitLine(TwoPointLineObject lineObject, List<PointCrate> points, GridModel gridModel) {
         points.add(new PointCrate(lineObject.getX1(), lineObject.getY1()));
         points.add(new PointCrate(lineObject.getX2(), lineObject.getY2()));
@@ -305,6 +329,12 @@ public class LineOptimizer {
         replaceLineWithSplits(lineObject, points, gridModel);
     }
 
+    /**
+     * Replace given line with given splits
+     * @param lineObject
+     * @param points
+     * @param gridModel
+     */
     private void replaceLineWithSplits(TwoPointLineObject lineObject, List<PointCrate> points, GridModel gridModel) {
         lineObject.callForDelete();
 
@@ -315,6 +345,11 @@ public class LineOptimizer {
         }
     }
 
+    /**
+     * Sort points based on the line orientation
+     * @param lineObject
+     * @param points
+     */
     private void sortPoints(TwoPointLineObject lineObject, List<PointCrate> points) {
         if (isHorizontal(lineObject)) {
             points.sort(new SortByX());
@@ -323,6 +358,12 @@ public class LineOptimizer {
         }
     }
 
+    /**
+     * Init line and call for add
+     * @param gridModel
+     * @param point1
+     * @param point2
+     */
     private void callForAdd(GridModel gridModel, PointCrate point1, PointCrate point2) {
         TwoPointLineObject lineObject1 = new TwoPointLineObject(point1.x, point1.y, point2.x, point2.y);
         initLineActivePoints(lineObject1);
@@ -330,6 +371,10 @@ public class LineOptimizer {
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, lineObject1));
     }
 
+    /**
+     * Initialize line active points
+     * @param line
+     */
     private void initLineActivePoints(TwoPointLineObject line) {
         ActivePoint activePoint = new ActivePoint();
         activePoint.set(line.getX1(), line.getY1(), 1, 1);
