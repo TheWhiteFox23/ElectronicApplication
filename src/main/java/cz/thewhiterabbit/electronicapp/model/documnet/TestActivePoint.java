@@ -1,12 +1,13 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
-public class TestObject extends DocumentObject{
-    public TestObject(RawObject rawObject) {
+public class TestActivePoint extends DocumentObject{
+    public TestActivePoint(RawObject rawObject) {
         super(rawObject);
 
         RawProperty stringGridX = rawObject.getProperty("gridX");
@@ -19,7 +20,8 @@ public class TestObject extends DocumentObject{
         int gridWidth = Integer.parseInt(stringGridWidth.getValue());
         int gridHeight = Integer.parseInt(stringGridHeight.getValue());
 
-        CanvasObject object = new GeneralCanvasObject();
+
+        CanvasObject object = new ActivePoint();
         object.set(gridX, gridY, gridWidth, gridHeight);
         setCanvasObject(object);
     }

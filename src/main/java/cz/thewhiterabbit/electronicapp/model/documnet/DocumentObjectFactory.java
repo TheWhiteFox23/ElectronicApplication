@@ -11,9 +11,18 @@ public class DocumentObjectFactory {
     {
         switch (rawObject.getType()){
             case "TEST_OBJECT":
-                return new TestObject(rawObject);
+                return init(new TestObject(rawObject));
+            case "ACTIVE_POINT":
+                return init(new TestActivePoint(rawObject));
             default:
                 return null;
         }
+    }
+
+    private static DocumentObject init(DocumentObject documentObject){
+        documentObject.getRawObject().getChildren().forEach(o -> {
+            documentObject.getChildren().add(createDocumentObject(o));
+        });
+        return documentObject;
     }
 }

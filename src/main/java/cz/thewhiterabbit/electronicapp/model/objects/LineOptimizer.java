@@ -177,7 +177,7 @@ public class LineOptimizer {
      * @param gridModel
      */
     private void doMerge(List<LineCrate> toMerge, GridModel gridModel) {
-        if (toMerge.size() == 1) return;
+        if (toMerge.size() <= 1 ) return;
 
         PointCrate point1 = toMerge.get(0).point1;
         PointCrate point2 = toMerge.get(toMerge.size() - 1).point2;

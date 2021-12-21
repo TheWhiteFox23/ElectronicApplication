@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.rawdocument;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +9,13 @@ public class RawObject {
     private RawProperty id;
     private RawProperty type;
     private Map<String, RawProperty> propertyMap;
+    private List<RawObject> children;
 
     public RawObject(String id, String type){
         this.id = new RawProperty("name", id);
         this.type = new RawProperty("type", type);
-        propertyMap = new HashMap<>();
+        this.propertyMap = new HashMap<>();
+        this.children = new ArrayList<>();
     }
 
     public String getId(){
@@ -43,4 +46,11 @@ public class RawObject {
         return (List<RawProperty>) propertyMap.values();
     }
 
+    public List<RawObject> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<RawObject> children) {
+        this.children = children;
+    }
 }

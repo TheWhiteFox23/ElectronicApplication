@@ -5,10 +5,6 @@ import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
-import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
-import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
-import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
 import javafx.fxml.FXML;
 
 public class DrawingAreaController {
