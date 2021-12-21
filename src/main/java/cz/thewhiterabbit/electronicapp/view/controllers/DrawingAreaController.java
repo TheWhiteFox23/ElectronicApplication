@@ -1,5 +1,7 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.model.documnet.Document;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -39,7 +41,11 @@ public class DrawingAreaController {
         });
 
 
-        gridLayout.add(new RelativePointBackground(drawingArea.getCanvas()));
+        TestRawDocument testRawDocument = new TestRawDocument("TestDocument");
+        Document document = new Document(testRawDocument);
+        drawingArea.setModel(document.getGridModel());
+
+        /*gridLayout.add(new RelativePointBackground(drawingArea.getCanvas()));
         for(int i = 0; i< 100; i+= 4){
             for(int j = 0; j< 100; j+=4){
                 GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
@@ -61,7 +67,7 @@ public class DrawingAreaController {
         gridLayout.add(generalCanvasObject);
 
         TwoPointLineObject line = new TwoPointLineObject(0,0,-30,-10);
-        gridLayout.add(line);
+        gridLayout.add(line);*/
     }
 
 

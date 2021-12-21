@@ -1,11 +1,11 @@
 package cz.thewhiterabbit.electronicapp.model.rawdocument;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Typeless document. Store the data and is used for XML import/export. It is the backbone of the application
+ * Typeless Document. Store the data and is used for XML import/export. It is the backbone of the application
  */
 public class RawDocument {
     private RawProperty name;
@@ -54,7 +54,7 @@ public class RawDocument {
         if(objectMap.containsKey(objectID))objectMap.remove(objectID);
     }
 
-    public List<RawObject> getObjects(){
-        return (List<RawObject>) objectMap.values();
+    public Collection<RawObject> getObjects(){
+        return  objectMap.values();
     }
 }

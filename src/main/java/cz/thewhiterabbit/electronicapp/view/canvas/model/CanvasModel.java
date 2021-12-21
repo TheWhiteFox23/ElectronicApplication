@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Is used as the paint cache for canvas, is specific to given document
+ * Is used as the paint cache for canvas, is specific to given Document
  */
 public abstract class CanvasModel {
     private Canvas canvas; //todo manage width and height different way

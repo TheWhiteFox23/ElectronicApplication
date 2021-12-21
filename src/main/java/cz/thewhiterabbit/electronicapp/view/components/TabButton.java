@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 public class TabButton extends AnchorPane {
     private Label tabText;
     private Button closeButton;
-    //private Document document;
+    //private Document Document;
 
 
     public TabButton()  {
