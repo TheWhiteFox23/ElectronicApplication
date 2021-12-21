@@ -5,7 +5,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cz.thewhiterabbit.electronicapp.controllers.TabPaneController"
+      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.TabPaneController"
       fx:id="tabPane"
       spacing="10">
     <Button text="+" prefWidth="30" fx:id="newFile"/>

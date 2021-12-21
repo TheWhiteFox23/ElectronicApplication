@@ -2,10 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import cz.thewhiterabbit.electronicapp.canvas.DrawingCanvas?>
+<?import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.controllers.DrawingAreaController"
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.DrawingAreaController"
             fx:id="canvas">
 
     <DrawingCanvas fx:id="drawingArea" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>

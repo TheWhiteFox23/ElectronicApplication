@@ -5,14 +5,14 @@ module cz.thewhiterabbit.electronicapp {
 
     opens cz.thewhiterabbit.electronicapp to javafx.fxml;
     exports cz.thewhiterabbit.electronicapp;
-    exports cz.thewhiterabbit.electronicapp.controllers;
-    opens cz.thewhiterabbit.electronicapp.controllers to javafx.fxml;
-    exports cz.thewhiterabbit.electronicapp.guicomponents;
-    opens cz.thewhiterabbit.electronicapp.guicomponents to javafx.fxml;
-    exports cz.thewhiterabbit.electronicapp.canvas;
-    opens cz.thewhiterabbit.electronicapp.canvas to javafx.fxml;
-    exports cz.thewhiterabbit.electronicapp.canvas.model;
-    opens cz.thewhiterabbit.electronicapp.canvas.model to javafx.fxml;
-    exports cz.thewhiterabbit.electronicapp.canvas.objects;
-    opens cz.thewhiterabbit.electronicapp.canvas.objects to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.view.controllers;
+    opens cz.thewhiterabbit.electronicapp.view.controllers to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.view.components;
+    opens cz.thewhiterabbit.electronicapp.view.components to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.view.canvas;
+    opens cz.thewhiterabbit.electronicapp.view.canvas to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.view.canvas.model;
+    opens cz.thewhiterabbit.electronicapp.view.canvas.model to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.model.objects;
+    opens cz.thewhiterabbit.electronicapp.model.objects to javafx.fxml;
 }

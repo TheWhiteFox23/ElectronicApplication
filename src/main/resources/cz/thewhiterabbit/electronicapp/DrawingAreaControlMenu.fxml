@@ -8,7 +8,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.controllers.DrawingAreaControlMenuController"
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.DrawingAreaControlMenuController"
             spacing="10"
             stylesheets="@stylesheets/Style.css"
             styleClass="canvas_control_menu">

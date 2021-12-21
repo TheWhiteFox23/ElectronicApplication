@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.controllers.ComponentInfoPaneController"
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ComponentInfoPaneController"
             prefHeight="600.0" prefWidth="300.0">
     <Text text="COMPONENT INFO PANE" AnchorPane.topAnchor="10"/>
 
