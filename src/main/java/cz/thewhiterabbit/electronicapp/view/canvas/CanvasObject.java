@@ -17,13 +17,12 @@ import java.util.List;
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
-public abstract class CanvasObject { //TODO should wrap
+public abstract class CanvasObject {
     private CanvasModel parentModel;
 
     private CanvasModel.Priority priority = CanvasModel.Priority.NONE;
     private List<CanvasObject> childrenList;
     private CanvasObject parent;
-    //private List<ActivePoint> activePoints;
 
     /***** Properties -> communicate change to observers ******/
     private IntegerProperty gridX;
@@ -76,7 +75,6 @@ public abstract class CanvasObject { //TODO should wrap
         this.rotation = new SimpleIntegerProperty();
 
         this.childrenList = new ArrayList<>();
-
         this.rotationStrategy = RotationStrategy.ROTATE;
     }
 
@@ -118,116 +116,6 @@ public abstract class CanvasObject { //TODO should wrap
             }
         });
     }
-
-    public double getLocationX() {return locationX.get();}
-
-    public DoubleProperty locationXProperty() {return locationX;}
-
-    public void setLocationX(double locationX) {this.locationX.set(locationX);}
-
-    public double getLocationY() {return locationY.get();}
-
-    public DoubleProperty locationYProperty() {return locationY;}
-
-    public void setLocationY(double locationY) {this.locationY.set(locationY);}
-
-    public double getWidth() {return width.get();}
-
-    public DoubleProperty widthProperty() {return width;}
-
-    public void setWidth(double width) {this.width.set(width);}
-
-    public double getHeight() {return height.get();}
-
-    public DoubleProperty heightProperty() {return height;}
-
-    public void setHeight(double height) {this.height.set(height);}
-
-    public boolean isHovered() {return hovered;}
-
-    public void setHovered(boolean hovered) {this.hovered = hovered;}
-
-    public boolean isSelected() {return selected;}
-
-    public void setSelected(boolean selected) {this.selected = selected;}
-
-    public boolean isDragged() {return dragged;}
-
-    public void setDragged(boolean dragged) {this.dragged = dragged;}
-
-    public CanvasModel.Priority getPriority() {return priority;}
-
-    public void setPriority(CanvasModel.Priority priority) {this.priority = priority;}
-
-    public EventAggregator getEventAggregator() {return eventAggregator;}
-
-    public RotationStrategy getRotationStrategy() {
-        return rotationStrategy;
-    }
-
-    public void setRotationStrategy(RotationStrategy rotationStrategy) {
-        this.rotationStrategy = rotationStrategy;
-    }
-
-    public void setEventAggregator(EventAggregator eventAggregator) {
-        this.eventAggregator = eventAggregator;
-        registerListeners(eventAggregator);
-    }
-
-    public CanvasModel getParentModel() {return parentModel;}
-
-    public void setParentModel(CanvasModel parentModel) {this.parentModel = parentModel;}
-
-    public List<CanvasObject> getChildrenList() {return childrenList;}
-
-    public void addChildren(CanvasObject children) {
-        childrenList.add(children);
-        children.setParent(this);
-    }
-
-    public void removeChildren(CanvasObject children) {
-        childrenList.remove(children);
-        children.setParent(null);
-    }
-
-    public CanvasObject getParent() {return parent;}
-
-    public void setParent(CanvasObject parent) {this.parent = parent;}
-
-    /****** PROPERTIES ******/
-    public int getGridX() {return gridX.get();}
-
-    public IntegerProperty gridXProperty() {return gridX;}
-
-    public void setGridX(int gridX) {this.gridX.set(gridX);}
-
-    public int getGridY() {return gridY.get();}
-
-    public IntegerProperty gridYProperty() {return gridY;}
-
-    public void setGridY(int gridY) {this.gridY.set(gridY);}
-
-    public int getGridWidth() {return gridWidth.get();}
-
-    public IntegerProperty gridWidthProperty() {return gridWidth;}
-
-    public void setGridWidth(int gridWidth) {this.gridWidth.set(gridWidth);}
-
-    public int getGridHeight() {return gridHeight.get();}
-
-    public IntegerProperty gridHeightProperty() {return gridHeight;}
-
-    public void setGridHeight(int gridHeight) {this.gridHeight.set(gridHeight);}
-
-    public int getRotation() {return rotation.get();}
-
-    public IntegerProperty rotationProperty() {return rotation;}
-
-    public void setRotation(int rotation) {this.rotation.set(rotation);}
-
-    public boolean isVisible() {return visible;}
-
-    public void setVisible(boolean visible) {this.visible = visible;}
 
     public boolean isInBounds(double x, double y) {
         return ((x >= getLocationX() && x <= getLocationX() + getWidth()) &&
@@ -271,12 +159,12 @@ public abstract class CanvasObject { //TODO should wrap
         gc.restore();
     }
 
-    public void clean(GraphicsContext gc){
+    public void clean(GraphicsContext gc) {
         gc.clearRect(getLocationX(), getLocationY(), getWidth(), getHeight());
     }
 
     public boolean isVisible(double canvasWidth, double canvasHeight) {
-        if(!isVisible())return false;
+        if (!isVisible()) return false;
         return (getLocationY() < canvasHeight
                 && getLocationY() + getHeight() > 0
                 && getLocationX() < canvasWidth
@@ -284,7 +172,7 @@ public abstract class CanvasObject { //TODO should wrap
     }
 
     public boolean isInBounds(double locationX, double locationY, double width, double height) {
-        if(!isVisible())return false;
+        if (!isVisible()) return false;
         return (getLocationX() + getWidth() > locationX &&
                 getLocationY() + getHeight() > locationY &&
                 getLocationY() < locationY + height &&
@@ -296,7 +184,7 @@ public abstract class CanvasObject { //TODO should wrap
         this.gridY.set(gridY);
         this.gridHeight.set(gridHeight);
         this.gridWidth.set(gridWidth);
-        if(getParentModel() != null)getParentModel().updatePaintProperties(this);
+        if (getParentModel() != null) getParentModel().updatePaintProperties(this);
         //TODO repaint call
     }
 
@@ -350,9 +238,10 @@ public abstract class CanvasObject { //TODO should wrap
         eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVED, e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
     }
 
+    protected void onDragDetected(Event e) {}
 
-    protected void onDragDetected(Event e) {
-    }
+
+    /******* PAINTING ******/
 
     protected void repaint() {//
         eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT_OBJECT, this));
@@ -372,10 +261,207 @@ public abstract class CanvasObject { //TODO should wrap
         MOVE_WITH_PARENT_ROTATION
     }
 
-    public void callForDelete(){
+    public void callForDelete() { //TODO is obsolete -> responsible for removing children should be another component
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, this));
-        if(getChildrenList().size() == 0)return;
+        if (getChildrenList().size() == 0) return;
         getChildrenList().forEach(ch -> ch.callForDelete());
+    }
+
+    /******* GETTERS AND SETTERS ********/
+    public double getLocationX() {
+        return locationX.get();
+    }
+
+    public DoubleProperty locationXProperty() {
+        return locationX;
+    }
+
+    public void setLocationX(double locationX) {
+        this.locationX.set(locationX);
+    }
+
+    public double getLocationY() {
+        return locationY.get();
+    }
+
+    public DoubleProperty locationYProperty() {
+        return locationY;
+    }
+
+    public void setLocationY(double locationY) {
+        this.locationY.set(locationY);
+    }
+
+    public double getWidth() {
+        return width.get();
+    }
+
+    public DoubleProperty widthProperty() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width.set(width);
+    }
+
+    public double getHeight() {
+        return height.get();
+    }
+
+    public DoubleProperty heightProperty() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height.set(height);
+    }
+
+    public boolean isHovered() {
+        return hovered;
+    }
+
+    public void setHovered(boolean hovered) {
+        this.hovered = hovered;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isDragged() {
+        return dragged;
+    }
+
+    public void setDragged(boolean dragged) {
+        this.dragged = dragged;
+    }
+
+    public CanvasModel.Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(CanvasModel.Priority priority) {
+        this.priority = priority;
+    }
+
+    public EventAggregator getEventAggregator() {
+        return eventAggregator;
+    }
+
+    public RotationStrategy getRotationStrategy() {
+        return rotationStrategy;
+    }
+
+    public void setRotationStrategy(RotationStrategy rotationStrategy) {
+        this.rotationStrategy = rotationStrategy;
+    }
+
+    public CanvasModel getParentModel() {
+        return parentModel;
+    }
+
+    public void setParentModel(CanvasModel parentModel) {
+        this.parentModel = parentModel;
+    }
+
+    public List<CanvasObject> getChildrenList() {
+        return childrenList;
+    }
+
+    public CanvasObject getParent() {
+        return parent;
+    }
+
+    public void setParent(CanvasObject parent) {
+        this.parent = parent;
+    }
+
+    /****** PROPERTIES ******/
+    public int getGridX() {
+        return gridX.get();
+    }
+
+    public IntegerProperty gridXProperty() {
+        return gridX;
+    }
+
+    public void setGridX(int gridX) {
+        this.gridX.set(gridX);
+    }
+
+    public int getGridY() {
+        return gridY.get();
+    }
+
+    public IntegerProperty gridYProperty() {
+        return gridY;
+    }
+
+    public void setGridY(int gridY) {
+        this.gridY.set(gridY);
+    }
+
+    public int getGridWidth() {
+        return gridWidth.get();
+    }
+
+    public IntegerProperty gridWidthProperty() {
+        return gridWidth;
+    }
+
+    public void setGridWidth(int gridWidth) {
+        this.gridWidth.set(gridWidth);
+    }
+
+    public int getGridHeight() {
+        return gridHeight.get();
+    }
+
+    public IntegerProperty gridHeightProperty() {
+        return gridHeight;
+    }
+
+    public void setGridHeight(int gridHeight) {
+        this.gridHeight.set(gridHeight);
+    }
+
+    public int getRotation() {
+        return rotation.get();
+    }
+
+    public IntegerProperty rotationProperty() {
+        return rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation.set(rotation);
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public void setEventAggregator(EventAggregator eventAggregator) {
+        this.eventAggregator = eventAggregator;
+        registerListeners(eventAggregator);
+    }
+
+    public void addChildren(CanvasObject children) {
+        childrenList.add(children);
+        children.setParent(this);
+    }
+
+    public void removeChildren(CanvasObject children) {
+        childrenList.remove(children);
+        children.setParent(null);
     }
 
 }

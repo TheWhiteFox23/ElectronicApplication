@@ -1,21 +1,24 @@
 package cz.thewhiterabbit.electronicapp.model.rawdocument;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+
+import java.util.*;
 
 /**
  * Typeless Document. Store the data and is used for XML import/export. It is the backbone of the application
  */
 public class RawDocument {
+    private List<RawDocumentListener> listeners;
     private RawProperty name;
     private RawProperty filePath;
-    private Map<String, RawObject> objectMap;
+    private ObservableMap<String, RawObject> objectMap;
 
     public RawDocument(String name){
         this.name = new RawProperty("name", name);
         this.filePath = new RawProperty("file_path", "");
-        objectMap = new HashMap<>();
+        this.objectMap = FXCollections.observableMap(new HashMap<>());
+        this.listeners = new ArrayList<>();
     }
 
     public String getName(){
@@ -44,6 +47,7 @@ public class RawDocument {
 
     public void addObject(RawObject object){
         objectMap.put(object.getId(), object);
+        listeners.forEach(l -> l.onRawObjectAdded(object));
     }
 
     public RawObject getObject(String objectID){
@@ -51,10 +55,22 @@ public class RawDocument {
     }
 
     public void removeObject(String objectID){
-        if(objectMap.containsKey(objectID))objectMap.remove(objectID);
+        if(objectMap.containsKey(objectID)){
+            listeners.forEach(l -> l.onRawObjectRemoved(objectMap.get(objectID)));
+            objectMap.remove(objectID);
+        }
     }
 
-    public Collection<RawObject> getObjects(){
-        return  objectMap.values();
+    public ObservableMap<String, RawObject> getObjects(){
+        return  objectMap;
+    }
+
+    public void addListener(RawDocumentListener listener){
+        this.listeners.add(listener);
+    }
+
+    public interface RawDocumentListener{
+        void onRawObjectRemoved(RawObject rawObject);
+        void onRawObjectAdded(RawObject rawObject);
     }
 }

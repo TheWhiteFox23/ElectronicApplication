@@ -1,7 +1,9 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -21,25 +23,37 @@ public class DrawingAreaController {
         gridLayout.setOriginY(400);
         drawingArea.setModel(gridLayout);
 
+        TestRawDocument testRawDocument = new TestRawDocument("TestDocument");
+        Document document = new Document(testRawDocument);
+        drawingArea.setModel(document.getGridModel());
+
         /***** REGISTER LISTENERS *****/
-        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
+        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
             DrawingAreaEvent event = (DrawingAreaEvent) e;
             event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
         });
 
-        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{
+        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{
             gridLayout.add(((DrawingAreaEvent)e).getCanvasObject());
         });
 
-        gridLayout.addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{
+        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{
             DrawingAreaEvent event = (DrawingAreaEvent) e;
-            gridLayout.remove(event.getCanvasObject());
+            //gridLayout.remove(event.getCanvasObject());
+            CanvasObject canvasObject = event.getCanvasObject();
+            DocumentObject o = document.getCanvasObjectMap().get(canvasObject);
+            if(o!= null) {
+                //System.out.println("deleting object");
+                document.getRawDocument().removeObject(o.getRawObject().getId());
+            }else {
+
+                //System.out.println("object is null");
+            }
+            //System.out.println("deleting object event");
         });
 
 
-        TestRawDocument testRawDocument = new TestRawDocument("TestDocument");
-        Document document = new Document(testRawDocument);
-        drawingArea.setModel(document.getGridModel());
+
 
         /*gridLayout.add(new RelativePointBackground(drawingArea.getCanvas()));
         for(int i = 0; i< 100; i+= 4){

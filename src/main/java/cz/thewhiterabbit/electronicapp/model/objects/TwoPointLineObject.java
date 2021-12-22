@@ -1,7 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
-import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +15,7 @@ public class TwoPointLineObject extends CanvasObject {
     private IntegerProperty y2;
 
 
-    public TwoPointLineObject(int x1, int y1, int x2, int y2) {
+    public TwoPointLineObject( int x1, int y1, int x2, int y2) {
         this.x1 = new SimpleIntegerProperty(x1);
         this.x2 = new SimpleIntegerProperty(x2);
         this.y1 = new SimpleIntegerProperty(y1);

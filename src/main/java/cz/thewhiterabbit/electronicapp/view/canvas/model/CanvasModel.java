@@ -120,7 +120,10 @@ public abstract class CanvasModel {
         Priority objectPriority = canvasObject.getPriority();
         int index = getIndex(objectPriority);
         canvasObjects.add(index, canvasObject);
+    }
 
+    public void clear(){
+        canvasObjects.clear();
     }
 
     public List<CanvasObject> getAll(){

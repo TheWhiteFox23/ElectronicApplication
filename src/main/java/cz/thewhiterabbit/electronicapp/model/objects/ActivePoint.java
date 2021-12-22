@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -15,11 +16,11 @@ import java.util.List;
 
 
 public class ActivePoint extends CanvasObject {
-
     //Line drawing
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
     private boolean deleteOrigin = false;
+
 
     public ActivePoint() {
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);

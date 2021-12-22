@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -7,9 +8,7 @@ import javafx.scene.paint.Paint;
 
 
 public class GeneralCanvasObject extends CanvasObject {
-
     public GeneralCanvasObject(){
-        super();
     }
 
     @Override

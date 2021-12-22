@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
 /**
  * Responsible for creating object corresponding to RawObjects
@@ -21,8 +22,9 @@ public class DocumentObjectFactory {
 
     private static DocumentObject init(DocumentObject documentObject){
         documentObject.getRawObject().getChildren().forEach(o -> {
-            documentObject.getChildren().add(createDocumentObject(o));
+            documentObject.getChildren().add((CanvasObject) createDocumentObject(o));
         });
+        documentObject.init();
         return documentObject;
     }
 }

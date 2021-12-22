@@ -15,9 +15,25 @@ public class Document {
     private GridModel gridModel;
     private RawDocument rawDocument;
     private Map<String, DocumentObject> objectMap;
+    protected Map<CanvasObject, DocumentObject> canvasObjectMap;
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
+        this.rawDocument.addListener(new RawDocument.RawDocumentListener() {
+            @Override
+            public void onRawObjectRemoved(RawObject rawObject) {
+                DocumentObject object = objectMap.get(rawObject.getId());
+                gridModel.remove(object.getCanvasObject());
+                object.getChildren().forEach(o -> gridModel.remove(o));//TODO -> cascade remove children
+                objectMap.remove(rawObject.getId());
+                canvasObjectMap.remove(object.getCanvasObject());
+            }
+
+            @Override
+            public void onRawObjectAdded(RawObject rawObject) {
+
+            }
+        });
         //TODO init raw document listeners -> property listening is managed by objects its self, manage only object added/deleted
         this.gridModel = new GridModel();
 
@@ -26,11 +42,16 @@ public class Document {
         gridModel.setOriginY(400);
 
         this.objectMap = new HashMap<>();
+        this.canvasObjectMap = new HashMap<>();
+        loadDocument(rawDocument);
+    }
 
-        for(RawObject ro: rawDocument.getObjects()){
+    private void loadDocument(RawDocument rawDocument){
+        for(RawObject ro: rawDocument.getObjects().values()){
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro.getId(), o);
             gridModel.add(o.getCanvasObject());
+            canvasObjectMap.put(o.getCanvasObject(), o);
         }
     }
 
@@ -57,4 +78,9 @@ public class Document {
     public void setObjectMap(Map<String, DocumentObject> objectMap) {
         this.objectMap = objectMap;
     }
+
+    public Map<CanvasObject, DocumentObject> getCanvasObjectMap() {
+        return canvasObjectMap;
+    }
+
 }
