@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.rawdocument;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.util.*;
@@ -12,12 +13,12 @@ public class RawDocument {
     private List<RawDocumentListener> listeners;
     private RawProperty name;
     private RawProperty filePath;
-    private ObservableMap<String, RawObject> objectMap;
+    private List<RawObject> objectMap;
 
     public RawDocument(String name){
         this.name = new RawProperty("name", name);
         this.filePath = new RawProperty("file_path", "");
-        this.objectMap = FXCollections.observableMap(new HashMap<>());
+        this.objectMap = new ArrayList<>();
         this.listeners = new ArrayList<>();
     }
 
@@ -46,22 +47,18 @@ public class RawDocument {
     }
 
     public void addObject(RawObjectImpl object){
-        objectMap.put(object.getId(), object);
+        objectMap.add(object);
         listeners.forEach(l -> l.onRawObjectAdded(object));
     }
 
-    public RawObject getObject(String objectID){
-        return objectMap.get(objectID);
-    }
-
-    public void removeObject(String objectID){
-        if(objectMap.containsKey(objectID)){
-            listeners.forEach(l -> l.onRawObjectRemoved(objectMap.get(objectID)));
-            objectMap.remove(objectID);
+    public void removeObject(RawObject rawObject){
+        if(objectMap.contains(rawObject)){
+            listeners.forEach(l -> l.onRawObjectRemoved(rawObject));
+            objectMap.remove(rawObject);
         }
     }
 
-    public ObservableMap<String, RawObject> getObjects(){
+    public List<RawObject> getObjects(){
         return  objectMap;
     }
 

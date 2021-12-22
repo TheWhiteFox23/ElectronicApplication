@@ -11,19 +11,19 @@ import java.util.Map;
  * Extension of the RawDocument. Respond to the changes in the raw Document and adjust the corresponding grid model.
  */
 public class Document {
-    private GridModel gridModel;
-    private RawDocument rawDocument;
-    private Map<String, DocumentObject> objectMap;
+    private final GridModel gridModel;
+    private final RawDocument rawDocument;
+    private Map<RawObject, DocumentObject> objectMap;
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
         this.rawDocument.addListener(new RawDocument.RawDocumentListener() {
             @Override
             public void onRawObjectRemoved(RawObject rawObject) {
-                DocumentObject object = objectMap.get(rawObject.getId());
+                DocumentObject object = objectMap.get(rawObject);
                 gridModel.remove(object);
                 object.getChildrenList().forEach(o -> gridModel.remove(o));//TODO -> cascade remove children
-                objectMap.remove(rawObject.getId());
+                objectMap.remove(rawObject);
             }
 
             @Override
@@ -43,9 +43,9 @@ public class Document {
     }
 
     private void loadDocument(RawDocument rawDocument){
-        for(RawObject ro: rawDocument.getObjects().values()){
+        for(RawObject ro: rawDocument.getObjects()){
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
-            objectMap.put(ro.getId(), o);
+            objectMap.put(ro, o);
             gridModel.add(o);
         }
     }
@@ -54,24 +54,8 @@ public class Document {
         return gridModel;
     }
 
-    public void setGridModel(GridModel gridModel) {
-        this.gridModel = gridModel;
-    }
-
     public RawDocument getRawDocument() {
         return rawDocument;
-    }
-
-    public void setRawDocument(RawDocument rawDocument) {
-        this.rawDocument = rawDocument;
-    }
-
-    public Map<String, DocumentObject> getObjectMap() {
-        return objectMap;
-    }
-
-    public void setObjectMap(Map<String, DocumentObject> objectMap) {
-        this.objectMap = objectMap;
     }
 
 }

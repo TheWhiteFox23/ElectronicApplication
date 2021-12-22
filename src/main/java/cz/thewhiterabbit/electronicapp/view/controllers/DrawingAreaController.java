@@ -41,7 +41,7 @@ public class DrawingAreaController {
             DrawingAreaEvent event = (DrawingAreaEvent) e;
             DocumentObject o = (DocumentObject) event.getCanvasObject();
             if(o!= null) {
-                document.getRawDocument().removeObject(o.getRawObject().getId());
+                document.getRawDocument().removeObject(o.getRawObject());
             }
         });
 
