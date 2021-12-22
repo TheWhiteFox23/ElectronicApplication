@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
@@ -30,7 +31,13 @@ public class DrawingAreaController {
         /***** REGISTER LISTENERS *****/
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
             DrawingAreaEvent event = (DrawingAreaEvent) e;
-            event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
+            DocumentObject o = (DocumentObject) event.getCanvasObject();
+            RawProperty p = o.getProperty(((DrawingAreaEvent) e).getProperty().getName());
+            if(p != null){
+                p.setValue(String.valueOf(((DrawingAreaEvent) e).getNewVale()));
+            }
+
+            //event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
         });
 
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{

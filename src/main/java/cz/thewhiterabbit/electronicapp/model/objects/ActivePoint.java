@@ -356,7 +356,22 @@ public class ActivePoint extends DocumentObject {
 
     @Override
     public void init() {
+    }
 
+    @Override
+    public void mapProperties() {
+        getRawObject().getProperty("gridX").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setGridX(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("gridY").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setGridY(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("gridWidth").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setGridWidth(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("gridHeight").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setGridHeight(Integer.parseInt(newVal));
+        });
     }
 
     private enum Orientation {

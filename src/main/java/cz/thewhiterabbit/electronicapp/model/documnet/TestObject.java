@@ -16,6 +16,7 @@ public class TestObject extends GeneralCanvasObject{
         setGridY(Integer.parseInt(getRawObject().getProperty("gridY").getValue()));
         setGridWidth(Integer.parseInt(getRawObject().getProperty("gridWidth").getValue()));
         setGridHeight(Integer.parseInt(getRawObject().getProperty("gridHeight").getValue()));
+        mapProperties();
     }
 
 }

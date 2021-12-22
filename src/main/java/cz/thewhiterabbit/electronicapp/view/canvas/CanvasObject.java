@@ -68,11 +68,11 @@ public abstract class CanvasObject {
         this.dragged = false;
         this.visible = true;
         //PROPERTIES
-        this.gridY = new SimpleIntegerProperty();
-        this.gridX = new SimpleIntegerProperty();
-        this.gridWidth = new SimpleIntegerProperty();
-        this.gridHeight = new SimpleIntegerProperty();
-        this.rotation = new SimpleIntegerProperty();
+        this.gridY = new SimpleIntegerProperty(this, "gridY");
+        this.gridX = new SimpleIntegerProperty(this, "gridX");
+        this.gridWidth = new SimpleIntegerProperty(this, "gridWidth");
+        this.gridHeight = new SimpleIntegerProperty(this, "gridHeight");
+        this.rotation = new SimpleIntegerProperty(this, "rotation");
 
         this.childrenList = new ArrayList<>();
         this.rotationStrategy = RotationStrategy.ROTATE;

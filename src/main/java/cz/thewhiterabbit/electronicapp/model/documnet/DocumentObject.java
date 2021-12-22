@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Extends concrete RawObjectImpl. One side mapping of the properties.
  */
-public abstract class DocumentObject extends CanvasObject implements RawObject {
+public abstract class DocumentObject extends CanvasObject implements RawObject { //TODO don't need to implement raw object???
     private RawObject rawObject;
 
     public RawObject getRawObject() {
@@ -23,22 +23,29 @@ public abstract class DocumentObject extends CanvasObject implements RawObject {
 
     public abstract void init();
 
-    public String getId(){
+    public abstract void mapProperties();
+
+    public String getId() {
         return rawObject.getId();
     }
-    public String getType(){
+
+    public String getType() {
         return rawObject.getType();
     }
-    public void addProperty(RawProperty rawProperty){
+
+    public void addProperty(RawProperty rawProperty) {
         rawObject.addProperty(rawProperty);
     }
-    public RawProperty getProperty(String name){
+
+    public RawProperty getProperty(String name) {
         return rawObject.getProperty(name);
     }
-    public List<RawProperty> getProperties(){
+
+    public List<RawProperty> getProperties() {
         return rawObject.getProperties();
     }
-    public List<RawObjectImpl> getChildren(){
+
+    public List<RawObjectImpl> getChildren() {
         return rawObject.getChildren();
     }
 }
