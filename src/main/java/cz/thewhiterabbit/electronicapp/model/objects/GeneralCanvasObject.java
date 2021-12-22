@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class GeneralCanvasObject extends CanvasObject {
+public class GeneralCanvasObject extends DocumentObject {
     public GeneralCanvasObject(){
     }
 
@@ -32,4 +32,8 @@ public class GeneralCanvasObject extends CanvasObject {
         }
     }
 
+    @Override
+    public void init() {
+
+    }
 }

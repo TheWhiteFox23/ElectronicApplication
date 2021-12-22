@@ -15,7 +15,6 @@ public class Document {
     private GridModel gridModel;
     private RawDocument rawDocument;
     private Map<String, DocumentObject> objectMap;
-    protected Map<CanvasObject, DocumentObject> canvasObjectMap;
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
@@ -23,10 +22,9 @@ public class Document {
             @Override
             public void onRawObjectRemoved(RawObject rawObject) {
                 DocumentObject object = objectMap.get(rawObject.getId());
-                gridModel.remove(object.getCanvasObject());
-                object.getChildren().forEach(o -> gridModel.remove(o));//TODO -> cascade remove children
+                gridModel.remove(object);
+                object.getChildrenList().forEach(o -> gridModel.remove(o));//TODO -> cascade remove children
                 objectMap.remove(rawObject.getId());
-                canvasObjectMap.remove(object.getCanvasObject());
             }
 
             @Override
@@ -42,7 +40,6 @@ public class Document {
         gridModel.setOriginY(400);
 
         this.objectMap = new HashMap<>();
-        this.canvasObjectMap = new HashMap<>();
         loadDocument(rawDocument);
     }
 
@@ -50,8 +47,7 @@ public class Document {
         for(RawObject ro: rawDocument.getObjects().values()){
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro.getId(), o);
-            gridModel.add(o.getCanvasObject());
-            canvasObjectMap.put(o.getCanvasObject(), o);
+            gridModel.add(o);
         }
     }
 
@@ -77,10 +73,6 @@ public class Document {
 
     public void setObjectMap(Map<String, DocumentObject> objectMap) {
         this.objectMap = objectMap;
-    }
-
-    public Map<CanvasObject, DocumentObject> getCanvasObjectMap() {
-        return canvasObjectMap;
     }
 
 }

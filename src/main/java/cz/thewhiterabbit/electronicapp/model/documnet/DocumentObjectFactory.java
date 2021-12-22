@@ -22,7 +22,7 @@ public class DocumentObjectFactory {
 
     private static DocumentObject init(DocumentObject documentObject){
         documentObject.getRawObject().getChildren().forEach(o -> {
-            documentObject.getChildren().add((CanvasObject) createDocumentObject(o));
+            documentObject.getChildrenList().add(createDocumentObject(o));
         });
         documentObject.init();
         return documentObject;

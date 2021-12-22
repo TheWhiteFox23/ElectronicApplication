@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import java.util.List;
 
 
-public class ActivePoint extends CanvasObject {
+public class ActivePoint extends DocumentObject {
     //Line drawing
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
@@ -352,6 +352,11 @@ public class ActivePoint extends CanvasObject {
             return Orientation.VERTICAL;
         }
         return null;
+    }
+
+    @Override
+    public void init() {
+
     }
 
     private enum Orientation {

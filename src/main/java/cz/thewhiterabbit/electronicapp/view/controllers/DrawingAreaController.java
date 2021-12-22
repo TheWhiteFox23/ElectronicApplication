@@ -40,8 +40,7 @@ public class DrawingAreaController {
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{
             DrawingAreaEvent event = (DrawingAreaEvent) e;
             //gridLayout.remove(event.getCanvasObject());
-            CanvasObject canvasObject = event.getCanvasObject();
-            DocumentObject o = document.getCanvasObjectMap().get(canvasObject);
+            DocumentObject o = (DocumentObject) event.getCanvasObject();
             if(o!= null) {
                 //System.out.println("deleting object");
                 document.getRawDocument().removeObject(o.getRawObject().getId());
