@@ -1,7 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
 /**
  * Responsible for creating object corresponding to RawObjects

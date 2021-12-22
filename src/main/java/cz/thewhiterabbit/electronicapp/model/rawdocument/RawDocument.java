@@ -45,7 +45,7 @@ public class RawDocument {
         return this.filePath;
     }
 
-    public void addObject(RawObject object){
+    public void addObject(RawObjectImpl object){
         objectMap.put(object.getId(), object);
         listeners.forEach(l -> l.onRawObjectAdded(object));
     }

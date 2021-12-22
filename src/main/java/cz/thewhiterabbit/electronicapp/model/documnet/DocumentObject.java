@@ -1,14 +1,16 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObjectImpl;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
 import java.util.List;
 
 /**
- * Extends concrete RawObject. One side mapping of the properties.
+ * Extends concrete RawObjectImpl. One side mapping of the properties.
  */
-public abstract class DocumentObject extends CanvasObject {
+public abstract class DocumentObject extends CanvasObject implements RawObject {
     private RawObject rawObject;
 
     public RawObject getRawObject() {
@@ -20,4 +22,23 @@ public abstract class DocumentObject extends CanvasObject {
     }
 
     public abstract void init();
+
+    public String getId(){
+        return rawObject.getId();
+    }
+    public String getType(){
+        return rawObject.getType();
+    }
+    public void addProperty(RawProperty rawProperty){
+        rawObject.addProperty(rawProperty);
+    }
+    public RawProperty getProperty(String name){
+        return rawObject.getProperty(name);
+    }
+    public List<RawProperty> getProperties(){
+        return rawObject.getProperties();
+    }
+    public List<RawObjectImpl> getChildren(){
+        return rawObject.getChildren();
+    }
 }

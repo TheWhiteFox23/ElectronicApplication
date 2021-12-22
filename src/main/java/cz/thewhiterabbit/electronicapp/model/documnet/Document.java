@@ -1,8 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
 import java.util.HashMap;

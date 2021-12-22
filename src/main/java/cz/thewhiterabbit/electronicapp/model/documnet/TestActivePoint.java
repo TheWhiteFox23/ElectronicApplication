@@ -2,11 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestActivePoint extends ActivePoint {
 
