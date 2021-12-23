@@ -1,6 +1,8 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -16,6 +18,9 @@ import java.util.List;
 
 
 public class ActivePoint extends GeneralObject {
+    //Logic
+    private final LineOptimizer lineOptimizer = new LineOptimizer();
+
     //Line drawing
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
@@ -69,16 +74,14 @@ public class ActivePoint extends GeneralObject {
 
     private void onActivePointDropped() {
         if (firstLine != null) {
-            initLineActivePoints(firstLine);
+            lineOptimizer.initLineActivePoints(firstLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
-            //optimizeLine(firstLine);
             firstLine = null;
         }
 
         if (secondLine != null) {
-            initLineActivePoints(secondLine);
+            lineOptimizer.initLineActivePoints(secondLine);
             getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
-            //optimizeLine(secondLine);
             secondLine = null;
         }
 
@@ -89,86 +92,7 @@ public class ActivePoint extends GeneralObject {
 
         LineOptimizer lineOptimizer = new LineOptimizer();
         lineOptimizer.optimize((GridModel)getParentModel());
-
-        //todo: optimize lines
-
         //todo: fire editing completed event
-    }
-
-    private void optimizeLine(TwoPointLineObject lineObject) {
-        //detect line splitting by node
-        lineObject.getChildrenList().forEach(o ->{
-            if(o instanceof ActivePoint){
-                List<CanvasObject> objectOnLocation = o.getParentModel().getInBounds(o.getLocationX(), o.getLocationY(), o.getWidth(), o.getHeight());
-                if(objectOnLocation.contains(o))objectOnLocation.remove(o);
-                if(objectOnLocation.contains(o.getParent()))objectOnLocation.remove(o.getParent());
-                if(objectOnLocation.size() != 0){
-                    objectOnLocation.forEach(l -> {
-                        if(l instanceof TwoPointLineObject){
-                            TwoPointLineObject line = (TwoPointLineObject) l;
-                            if((line.getY2() == o.getGridY() && line.getX2() == o.getGridX()) ||
-                                    line.getY1() == o.getGridY() && line.getX1() == o.getGridX()){
-                                return;
-                            }else{
-                                if(getLineOrientation(line) != getLineOrientation((TwoPointLineObject) o.getParent())){
-                                    splitTheLine(line, o.getGridX(), o.getGridY());
-                                }else{
-                                    mergeLines(line,((TwoPointLineObject) o.getParent()));
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    private void mergeLines(TwoPointLineObject lineObject, TwoPointLineObject lineObject2) {
-        if(getLineOrientation(lineObject)!= getLineOrientation(lineObject2)){
-            return;
-        }
-        if(getLineOrientation(lineObject)==Orientation.HORIZONTAL){
-            int y = lineObject.getY1();
-            int x1 = Math.min(lineObject.getLoverX(), lineObject2.getLoverX());
-            int x2 = Math.max(lineObject.getHigherX(), lineObject2.getHigherX());
-            lineObject.callForDelete();
-            lineObject2.callForDelete();
-            TwoPointLineObject lineObject1 = new TwoPointLineObject(x1, y, x2, y);
-            initLineActivePoints(lineObject1);
-            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, lineObject1));
-        }else{
-            int x = lineObject.getX1();
-            int y1 = Math.min(lineObject.getLoverY(), lineObject2.getLoverY());
-            int y2 = Math.max(lineObject.getHigherY(), lineObject2.getHigherY());
-            lineObject.callForDelete();
-            lineObject2.callForDelete();
-            TwoPointLineObject lineObject1 = new TwoPointLineObject(x, y1, x, y2);
-            initLineActivePoints(lineObject1);
-            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, lineObject1));
-        }
-    }
-
-    private void splitTheLine(TwoPointLineObject line, int splitX, int splitY) {
-        if(splitX >= Math.min(line.getX1(), line.getX2()) && splitX <= Math.max(line.getX1(),line.getX2())
-                && splitY >= Math.min(line.getY1(), line.getY2()) && splitY <= Math.max(line.getY1(), line.getY2())){
-            line.callForDelete();
-            TwoPointLineObject lineObject = new TwoPointLineObject(line.getX1(), line.getY1(), splitX, splitY);
-            initLineActivePoints(lineObject);
-            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED,lineObject));
-            lineObject = new TwoPointLineObject(line.getX2(), line.getY2(), splitX, splitY);
-            initLineActivePoints(lineObject);
-            getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED,lineObject));
-        }
-    }
-
-
-    private void initLineActivePoints(TwoPointLineObject line) {
-        ActivePoint activePoint = new ActivePoint();
-        activePoint.set(line.getX1(), line.getY1(), 1, 1);
-        line.addChildren(activePoint);
-        activePoint = new ActivePoint();
-        activePoint.set(line.getX2(), line.getY2(), 1, 1);
-        line.addChildren(activePoint);
     }
 
     @Override
@@ -358,6 +282,23 @@ public class ActivePoint extends GeneralObject {
         }
         return null;
     }
+
+    @Override
+    public RawObject toRawObject() {
+        if(getRawObject() == null){
+            RawObject rawObject = new RawObject("ACTIVE_POINT");
+            rawObject.addProperty(new RawProperty("gridX", String.valueOf(getGridX())));
+            rawObject.addProperty(new RawProperty("gridY", String.valueOf(getGridY())));
+            rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(getGridWidth())));
+            rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(getGridHeight())));
+            getChildrenList().forEach(l -> {
+                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
+            });
+            setRawObject(rawObject);
+        }
+        return getRawObject();
+    }
+
 
     private enum Orientation {
         HORIZONTAL,

@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import javafx.beans.property.IntegerProperty;
@@ -18,10 +19,10 @@ public class TwoPointLineObject extends DocumentObject {
 
 
     public TwoPointLineObject( int x1, int y1, int x2, int y2) {
-        this.x1 = new SimpleIntegerProperty(x1);
-        this.x2 = new SimpleIntegerProperty(x2);
-        this.y1 = new SimpleIntegerProperty(y1);
-        this.y2 = new SimpleIntegerProperty(y2);
+        this.x1 = new SimpleIntegerProperty(this,"X1", x1);
+        this.x2 = new SimpleIntegerProperty(this,"X2", x2);
+        this.y1 = new SimpleIntegerProperty(this,"Y1",y1);
+        this.y2 = new SimpleIntegerProperty(this,"Y2",y2);
         mapLineProperties();
 
         this.locationXProperty().addListener(l -> onGridXChanged());
@@ -30,8 +31,6 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     public TwoPointLineObject(RawObject rawObject) {
-        setRawObject(rawObject);
-
         this.x1 = new SimpleIntegerProperty(this, "X1");
         this.x2 = new SimpleIntegerProperty(this, "X2");
         this.y1 = new SimpleIntegerProperty(this, "Y1");
@@ -39,6 +38,7 @@ public class TwoPointLineObject extends DocumentObject {
 
         this.locationXProperty().addListener(l -> onGridXChanged());
         this.locationYProperty().addListener(l -> onGridYChanged());
+        setRawObject(rawObject);
     }
 
     @Override
@@ -88,6 +88,22 @@ public class TwoPointLineObject extends DocumentObject {
         getRawObject().getProperty("Y2").valueProperty().addListener((obs, oldVal, newVal) -> {
             setY2(Integer.parseInt(newVal));
         });
+    }
+
+    @Override
+    public RawObject toRawObject() {
+        if(getRawObject() == null){
+            RawObject rawObject = new RawObject("LINE");
+            rawObject.addProperty(new RawProperty("X1", String.valueOf(getX1())));
+            rawObject.addProperty(new RawProperty("X2", String.valueOf(getX2())));
+            rawObject.addProperty(new RawProperty("Y1", String.valueOf(getY1())));
+            rawObject.addProperty(new RawProperty("Y2", String.valueOf(getY2())));
+            getChildrenList().forEach(l -> {
+                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
+            });
+            setRawObject(rawObject);
+        }
+        return getRawObject();
     }
 
     @Override

@@ -28,8 +28,12 @@ public class Document {
             }
 
             @Override
-            public void onRawObjectAdded(RawObject rawObject) {
-
+            public void onRawObjectAdded(RawObject ro) {
+                if(!objectMap.containsKey(ro)){
+                    DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
+                    objectMap.put(ro, o);
+                    gridModel.add(o);
+                }
             }
         });
         //TODO init raw document listeners -> property listening is managed by objects its self, manage only object added/deleted
@@ -58,6 +62,12 @@ public class Document {
 
     public RawDocument getRawDocument() {
         return rawDocument;
+    }
+
+    public void add(DocumentObject documentObject){
+        objectMap.put(documentObject.toRawObject(), documentObject);
+        gridModel.add(documentObject);
+        rawDocument.addObject(documentObject.toRawObject());
     }
 
 }

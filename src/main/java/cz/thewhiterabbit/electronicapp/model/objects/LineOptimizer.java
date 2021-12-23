@@ -376,7 +376,7 @@ public class LineOptimizer {
      * Initialize line active points
      * @param line
      */
-    private void initLineActivePoints(TwoPointLineObject line) {
+    public void initLineActivePoints(TwoPointLineObject line) {
         ActivePoint activePoint = new ActivePoint();
         activePoint.set(line.getX1(), line.getY1(), 1, 1);
         line.addChildren(activePoint);

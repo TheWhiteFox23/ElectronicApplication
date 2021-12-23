@@ -6,20 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public class RawObject {
-    private RawProperty id;
     private RawProperty type;
     private Map<String, RawProperty> propertyMap;
     private final List<RawObject> children;
 
-    public RawObject(String id, String type){
-        this.id = new RawProperty("name", id);
+    public RawObject(String type){
         this.type = new RawProperty("type", type);
         this.propertyMap = new HashMap<>();
         this.children = new ArrayList<>();
-    }
-
-    public String getId(){
-        return id.getValue();
     }
 
     public String getType(){

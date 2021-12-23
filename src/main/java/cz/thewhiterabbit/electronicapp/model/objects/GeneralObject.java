@@ -27,4 +27,5 @@ public abstract class GeneralObject extends DocumentObject{
             setGridHeight(Integer.parseInt(newVal));
         });
     }
+
 }

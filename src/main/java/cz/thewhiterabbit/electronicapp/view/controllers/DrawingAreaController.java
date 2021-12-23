@@ -36,13 +36,17 @@ public class DrawingAreaController {
             RawProperty p = o.getProperty(((DrawingAreaEvent) e).getProperty().getName());
             if(p != null){
                 p.setValue(String.valueOf(((DrawingAreaEvent) e).getNewVale()));
+            }else{
+                System.out.println("property is null");
             }
 
             //event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
         });
 
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{
-            gridLayout.add(((DrawingAreaEvent)e).getCanvasObject());
+            document.add((DocumentObject) ((DrawingAreaEvent)e).getCanvasObject());
+
+
         });
 
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{

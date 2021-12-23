@@ -16,17 +16,18 @@ public abstract class DocumentObject extends CanvasObject { //TODO don't need to
         return rawObject;
     }
 
-    public void setRawObject(RawObject rawObject) {
+    public void setRawObject(RawObject rawObject)
+    {
         this.rawObject = rawObject;
+        init();
+        mapProperties();
     }
 
     public abstract void init();
 
     public abstract void mapProperties();
 
-    public String getId() {
-        return rawObject.getId();
-    }
+    public abstract RawObject toRawObject();
 
     public String getType() {
         return rawObject.getType();
