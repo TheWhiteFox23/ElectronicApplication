@@ -15,4 +15,6 @@ module cz.thewhiterabbit.electronicapp {
     opens cz.thewhiterabbit.electronicapp.view.canvas.model to javafx.fxml;
     exports cz.thewhiterabbit.electronicapp.model.objects;
     opens cz.thewhiterabbit.electronicapp.model.objects to javafx.fxml;
+    exports cz.thewhiterabbit.electronicapp.model.objects.utilities;
+    opens cz.thewhiterabbit.electronicapp.model.objects.utilities to javafx.fxml;
 }

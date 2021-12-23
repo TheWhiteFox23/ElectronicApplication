@@ -90,7 +90,7 @@ public class GridModel extends RelativeModel {
     }
 
     private void doSetObjectLocations(CanvasObject o, int deltaX, int deltaY){
-        o.setLocation(deltaX, deltaY);
+        o.setPosition(deltaX, deltaY);
     }
 
     private void setChildrenLocation(CanvasObject object, int deltaX, int deltaY){
@@ -98,7 +98,7 @@ public class GridModel extends RelativeModel {
         object.getChildrenList().forEach(o -> {
             if(!o.isSelected()){
                 System.out.println(o + "setting location");
-                o.setLocation(deltaX, deltaY);
+                o.setPosition(deltaX, deltaY);
             }
         });
     }

@@ -1,6 +1,8 @@
-package cz.thewhiterabbit.electronicapp.model.objects;
+package cz.thewhiterabbit.electronicapp.model.objects.utilities;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
+import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
