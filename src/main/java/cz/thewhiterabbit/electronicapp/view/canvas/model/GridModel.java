@@ -77,7 +77,7 @@ public class GridModel extends RelativeModel {
         });
 
     }
-    private void moveObject(CanvasObject o, int deltaX, int deltaY) {
+    private void moveObject(CanvasObject o, int deltaX, int deltaY) {//TODO: refactor -> object it self should decide its movement
         doMoveObject(o, deltaX, deltaY);
         moveChildren(o, deltaX,deltaY);
     }
@@ -90,10 +90,7 @@ public class GridModel extends RelativeModel {
     }
 
     private void doSetObjectLocations(CanvasObject o, int deltaX, int deltaY){
-        int gridX = o.getGridX() + deltaX;
-        int gridY = o.getGridY() + deltaY;
-        getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.gridXProperty(), o.getGridX(), gridX));
-        getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.gridYProperty(), o.getGridY(), gridY));
+        o.setLocation(deltaX, deltaY);
     }
 
     private void setChildrenLocation(CanvasObject object, int deltaX, int deltaY){

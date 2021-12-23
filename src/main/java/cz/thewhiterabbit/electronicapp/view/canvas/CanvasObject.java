@@ -238,6 +238,13 @@ public abstract class CanvasObject {
         eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_MOVED, e.getStartX(), e.getStartY(), e.getLastX(), e.getLastY(), e.getX(), e.getY(), this));
     }
 
+    public void setLocation(int deltaX, int deltaY){
+        int gridX = getGridX() + deltaX;
+        int gridY = getGridY() + deltaY;
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, gridXProperty(), getGridX(), gridX));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, gridYProperty(), getGridY(), gridY));
+    }
+
     protected void onDragDetected(Event e) {}
 
 

@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -31,10 +32,10 @@ public class TwoPointLineObject extends DocumentObject {
     public TwoPointLineObject(RawObject rawObject) {
         setRawObject(rawObject);
 
-        this.x1 = new SimpleIntegerProperty();
-        this.x2 = new SimpleIntegerProperty();
-        this.y1 = new SimpleIntegerProperty();
-        this.y2 = new SimpleIntegerProperty();
+        this.x1 = new SimpleIntegerProperty(this, "X1");
+        this.x2 = new SimpleIntegerProperty(this, "X2");
+        this.y1 = new SimpleIntegerProperty(this, "Y1");
+        this.y2 = new SimpleIntegerProperty(this, "Y2");
 
         this.locationXProperty().addListener(l -> onGridXChanged());
         this.locationYProperty().addListener(l -> onGridYChanged());
@@ -87,6 +88,15 @@ public class TwoPointLineObject extends DocumentObject {
         getRawObject().getProperty("Y2").valueProperty().addListener((obs, oldVal, newVal) -> {
             setY2(Integer.parseInt(newVal));
         });
+    }
+
+    @Override
+    public void setLocation(int deltaX, int deltaY){
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x1Property(), getX1()-deltaX, getX1()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x2Property(), getX2()-deltaX, getX2()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y1Property(), getY1()-deltaY, getY1()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y2Property(), getY2()-deltaY, getY2()));
+        mapLineProperties();
     }
 
     public void mapLineProperties() {
