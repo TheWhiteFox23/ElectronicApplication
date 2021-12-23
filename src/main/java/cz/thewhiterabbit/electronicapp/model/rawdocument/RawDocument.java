@@ -6,14 +6,17 @@ import java.util.*;
  * Typeless Document. Store the data and is used for XML import/export. It is the backbone of the application
  */
 public class RawDocument {
+    private final String NAME_PROPERTY = "NAME";
+    private final String FILE_PATH_PROPERTY = "FILE_PATH";
+
     private List<RawDocumentListener> listeners;
     private RawProperty name;
     private RawProperty filePath;
     private List<RawObject> objectMap;
 
     public RawDocument(String name){
-        this.name = new RawProperty("name", name);
-        this.filePath = new RawProperty("file_path", "");
+        this.name = new RawProperty(NAME_PROPERTY, name);
+        this.filePath = new RawProperty(FILE_PATH_PROPERTY, "");
         this.objectMap = new ArrayList<>();
         this.listeners = new ArrayList<>();
     }

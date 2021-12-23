@@ -18,6 +18,7 @@ import java.util.List;
 
 
 public class ActivePoint extends GeneralObject {
+    private final String type = "ACTIVE_POINT";
     //Logic
     private final LineOptimizer lineOptimizer = new LineOptimizer();
 
@@ -283,20 +284,10 @@ public class ActivePoint extends GeneralObject {
         return null;
     }
 
+
     @Override
-    public RawObject toRawObject() {
-        if(getRawObject() == null){
-            RawObject rawObject = new RawObject("ACTIVE_POINT");
-            rawObject.addProperty(new RawProperty("gridX", String.valueOf(getGridX())));
-            rawObject.addProperty(new RawProperty("gridY", String.valueOf(getGridY())));
-            rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(getGridWidth())));
-            rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(getGridHeight())));
-            getChildrenList().forEach(l -> {
-                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
-            });
-            setRawObject(rawObject);
-        }
-        return getRawObject();
+    public String getType() {
+        return type;
     }
 
 

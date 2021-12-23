@@ -1,8 +1,12 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 
 public abstract class GeneralObject extends DocumentObject{
+
+
     @Override
     public void init() {
         setGridX(Integer.parseInt(getRawObject().getProperty("gridX").getValue()));
@@ -27,5 +31,23 @@ public abstract class GeneralObject extends DocumentObject{
             setGridHeight(Integer.parseInt(newVal));
         });
     }
+
+    @Override
+    public RawObject toRawObject() {
+        if(getRawObject() == null){
+            RawObject rawObject = new RawObject(getType());
+            rawObject.addProperty(new RawProperty("gridX", String.valueOf(getGridX())));
+            rawObject.addProperty(new RawProperty("gridY", String.valueOf(getGridY())));
+            rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(getGridWidth())));
+            rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(getGridHeight())));
+            getChildrenList().forEach(l -> {
+                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
+            });
+            setRawObject(rawObject);
+        }
+        return getRawObject();
+    }
+
+    public abstract String getType();
 
 }

@@ -12,33 +12,33 @@ import javafx.scene.paint.Color;
 import org.apache.commons.math3.linear.*;
 
 public class TwoPointLineObject extends DocumentObject {
-    private IntegerProperty x1;
-    private IntegerProperty x2;
-    private IntegerProperty y1;
-    private IntegerProperty y2;
+    private final String _X1 = "X1";
+    private final String _X2 = "X2";
+    private final String _Y1 = "Y1";
+    private final String _Y2 = "Y2";
+    private final String _TYPE = "LINE";
+
+    private final IntegerProperty x1 = new SimpleIntegerProperty(this, _X1);
+    private final IntegerProperty x2 = new SimpleIntegerProperty(this, _X2);
+    private final IntegerProperty y1 = new SimpleIntegerProperty(this, _Y1);
+    private final IntegerProperty y2 = new SimpleIntegerProperty(this, _Y2);
 
 
     public TwoPointLineObject( int x1, int y1, int x2, int y2) {
-        this.x1 = new SimpleIntegerProperty(this,"X1", x1);
-        this.x2 = new SimpleIntegerProperty(this,"X2", x2);
-        this.y1 = new SimpleIntegerProperty(this,"Y1",y1);
-        this.y2 = new SimpleIntegerProperty(this,"Y2",y2);
+        setX1(x1);setX2(x2);setY1(y1);setY2(y2);
+
         mapLineProperties();
-
-        this.locationXProperty().addListener(l -> onGridXChanged());
-
-        this.locationYProperty().addListener(l -> onGridYChanged());
+        initListeners();
     }
 
     public TwoPointLineObject(RawObject rawObject) {
-        this.x1 = new SimpleIntegerProperty(this, "X1");
-        this.x2 = new SimpleIntegerProperty(this, "X2");
-        this.y1 = new SimpleIntegerProperty(this, "Y1");
-        this.y2 = new SimpleIntegerProperty(this, "Y2");
+        initListeners();
+        setRawObject(rawObject);
+    }
 
+    private void initListeners() {
         this.locationXProperty().addListener(l -> onGridXChanged());
         this.locationYProperty().addListener(l -> onGridYChanged());
-        setRawObject(rawObject);
     }
 
     @Override
@@ -66,26 +66,26 @@ public class TwoPointLineObject extends DocumentObject {
 
     @Override
     public void init() {
-        setX1(Integer.parseInt(getRawObject().getProperty("X1").getValue()));
-        setY1(Integer.parseInt(getRawObject().getProperty("Y1").getValue()));
-        setX2(Integer.parseInt(getRawObject().getProperty("X2").getValue()));
-        setY2(Integer.parseInt(getRawObject().getProperty("Y2").getValue()));
+        setX1(Integer.parseInt(getRawObject().getProperty(_X1).getValue()));
+        setY1(Integer.parseInt(getRawObject().getProperty(_Y1).getValue()));
+        setX2(Integer.parseInt(getRawObject().getProperty(_X2).getValue()));
+        setY2(Integer.parseInt(getRawObject().getProperty(_Y2).getValue()));
         mapProperties();
         mapLineProperties();
     }
 
     @Override
     public void mapProperties() {
-        getRawObject().getProperty("X1").valueProperty().addListener((obs, oldVal, newVal) -> {
+        getRawObject().getProperty(_X1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX1(Integer.parseInt(newVal));
         });
-        getRawObject().getProperty("Y1").valueProperty().addListener((obs, oldVal, newVal) -> {
+        getRawObject().getProperty(_Y1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY1(Integer.parseInt(newVal));
         });
-        getRawObject().getProperty("X2").valueProperty().addListener((obs, oldVal, newVal) -> {
+        getRawObject().getProperty(_X2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX2(Integer.parseInt(newVal));
         });
-        getRawObject().getProperty("Y2").valueProperty().addListener((obs, oldVal, newVal) -> {
+        getRawObject().getProperty(_Y2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY2(Integer.parseInt(newVal));
         });
     }
@@ -93,11 +93,11 @@ public class TwoPointLineObject extends DocumentObject {
     @Override
     public RawObject toRawObject() {
         if(getRawObject() == null){
-            RawObject rawObject = new RawObject("LINE");
-            rawObject.addProperty(new RawProperty("X1", String.valueOf(getX1())));
-            rawObject.addProperty(new RawProperty("X2", String.valueOf(getX2())));
-            rawObject.addProperty(new RawProperty("Y1", String.valueOf(getY1())));
-            rawObject.addProperty(new RawProperty("Y2", String.valueOf(getY2())));
+            RawObject rawObject = new RawObject(_TYPE);
+            rawObject.addProperty(new RawProperty(_X1, String.valueOf(getX1())));
+            rawObject.addProperty(new RawProperty(_X2, String.valueOf(getX2())));
+            rawObject.addProperty(new RawProperty(_Y1, String.valueOf(getY1())));
+            rawObject.addProperty(new RawProperty(_Y2, String.valueOf(getY2())));
             getChildrenList().forEach(l -> {
                 rawObject.getChildren().add(((DocumentObject)l).toRawObject());
             });
@@ -115,6 +115,7 @@ public class TwoPointLineObject extends DocumentObject {
         mapLineProperties();
     }
 
+    //TODO -> better way to manage this
     public void mapLineProperties() {
         this.setGridWidth(Math.abs(getX2() - getX1()));
         this.setGridHeight(Math.abs(getY1() - getY2()));
@@ -125,6 +126,7 @@ public class TwoPointLineObject extends DocumentObject {
         }
     }
 
+    //TODO -> better way to manage this
     private void onGridXChanged() {
         if (getParentModel() != null && getParentModel() instanceof GridModel) {
             GridModel m = (GridModel) getParentModel();
@@ -135,6 +137,7 @@ public class TwoPointLineObject extends DocumentObject {
         }
     }
 
+    //TODO -> better way to manage this
     private void onGridYChanged() {
         if (getParentModel() != null && getParentModel() instanceof GridModel) {
             GridModel m = (GridModel) getParentModel();
@@ -278,6 +281,8 @@ public class TwoPointLineObject extends DocumentObject {
         super.clean(gc);
     }
 
+
+    //TODO -> move bound calculation to separate utility class
 
     /**
      * Return if two given lines are intersecting.

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Extends concrete RawObject. One side mapping of the properties.
  */
-public abstract class DocumentObject extends CanvasObject { //TODO don't need to implement raw object???
+public abstract class DocumentObject extends CanvasObject {
     private RawObject rawObject;
 
     public RawObject getRawObject() {
