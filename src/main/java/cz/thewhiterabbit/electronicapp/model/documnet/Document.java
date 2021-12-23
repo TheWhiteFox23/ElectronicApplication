@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
+import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -37,6 +38,7 @@ public class Document {
         gridModel.setGridSize(10);
         gridModel.setOriginX(600);
         gridModel.setOriginY(400);
+        gridModel.add(new RelativePointBackground(gridModel.getCanvas()));
 
         this.objectMap = new HashMap<>();
         loadDocument(rawDocument);

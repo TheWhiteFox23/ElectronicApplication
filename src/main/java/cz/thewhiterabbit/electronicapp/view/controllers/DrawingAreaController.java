@@ -32,6 +32,7 @@ public class DrawingAreaController {
         document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
             DrawingAreaEvent event = (DrawingAreaEvent) e;
             DocumentObject o = (DocumentObject) event.getCanvasObject();
+            System.out.println(event.getProperty().getName());
             RawProperty p = o.getProperty(((DrawingAreaEvent) e).getProperty().getName());
             if(p != null){
                 p.setValue(String.valueOf(((DrawingAreaEvent) e).getNewVale()));

@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -8,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.apache.commons.math3.linear.*;
 
-public class TwoPointLineObject extends CanvasObject {
+public class TwoPointLineObject extends DocumentObject {
     private IntegerProperty x1;
     private IntegerProperty x2;
     private IntegerProperty y1;
@@ -20,10 +21,22 @@ public class TwoPointLineObject extends CanvasObject {
         this.x2 = new SimpleIntegerProperty(x2);
         this.y1 = new SimpleIntegerProperty(y1);
         this.y2 = new SimpleIntegerProperty(y2);
-        mapProperties();
+        mapLineProperties();
 
         this.locationXProperty().addListener(l -> onGridXChanged());
 
+        this.locationYProperty().addListener(l -> onGridYChanged());
+    }
+
+    public TwoPointLineObject(RawObject rawObject) {
+        setRawObject(rawObject);
+
+        this.x1 = new SimpleIntegerProperty();
+        this.x2 = new SimpleIntegerProperty();
+        this.y1 = new SimpleIntegerProperty();
+        this.y2 = new SimpleIntegerProperty();
+
+        this.locationXProperty().addListener(l -> onGridXChanged());
         this.locationYProperty().addListener(l -> onGridYChanged());
     }
 
@@ -50,7 +63,33 @@ public class TwoPointLineObject extends CanvasObject {
         }
     }
 
+    @Override
+    public void init() {
+        setX1(Integer.parseInt(getRawObject().getProperty("X1").getValue()));
+        setY1(Integer.parseInt(getRawObject().getProperty("Y1").getValue()));
+        setX2(Integer.parseInt(getRawObject().getProperty("X2").getValue()));
+        setY2(Integer.parseInt(getRawObject().getProperty("Y2").getValue()));
+        mapProperties();
+        mapLineProperties();
+    }
+
+    @Override
     public void mapProperties() {
+        getRawObject().getProperty("X1").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setX1(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("Y1").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setY1(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("X2").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setX2(Integer.parseInt(newVal));
+        });
+        getRawObject().getProperty("Y2").valueProperty().addListener((obs, oldVal, newVal) -> {
+            setY2(Integer.parseInt(newVal));
+        });
+    }
+
+    public void mapLineProperties() {
         this.setGridWidth(Math.abs(getX2() - getX1()));
         this.setGridHeight(Math.abs(getY1() - getY2()));
         this.setGridX((Math.min(getX1(), getX2())));

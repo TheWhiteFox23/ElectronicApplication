@@ -74,6 +74,7 @@ public class ModelEventManager {
                     o.setRotation((o.getRotation() + 1)%4);
                     o.paint(parentModel.getCanvas().getGraphicsContext2D());
                 });
+                //TODO: manage rotation as property
                 //System.out.println("Rotate selection clockwise");
             }else if(event.getCode() == KeyCode.R && event.isAltDown()){
                 System.out.println("Rotate selection counter clockwise");

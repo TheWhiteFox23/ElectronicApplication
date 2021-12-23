@@ -1,6 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
-import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import java.util.List;
 
 
-public class ActivePoint extends DocumentObject {
+public class ActivePoint extends GeneralObject {
     //Line drawing
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
@@ -25,6 +25,11 @@ public class ActivePoint extends DocumentObject {
     public ActivePoint() {
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+    }
+
+    public ActivePoint(RawObject rawObject){
+        this();
+        setRawObject(rawObject);
     }
 
     /***** OVERRIDES *****/
@@ -278,7 +283,7 @@ public class ActivePoint extends DocumentObject {
 
     private void paintLine(GridModel m, TwoPointLineObject firstLine) {
         firstLine.setParentModel(m);
-        firstLine.mapProperties();
+        firstLine.mapLineProperties();
         m.updatePaintProperties(firstLine);
         firstLine.paint(m.getCanvas().getGraphicsContext2D());
     }
@@ -342,7 +347,7 @@ public class ActivePoint extends DocumentObject {
 
     @Override
     public void clean(GraphicsContext gc) {
-        //super.clean(gc);
+
     }
 
     private Orientation getLineOrientation(TwoPointLineObject lineObject) {
@@ -352,26 +357,6 @@ public class ActivePoint extends DocumentObject {
             return Orientation.VERTICAL;
         }
         return null;
-    }
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void mapProperties() {
-        getRawObject().getProperty("gridX").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridX(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridY").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridY(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridWidth").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridWidth(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridHeight").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridHeight(Integer.parseInt(newVal));
-        });
     }
 
     private enum Orientation {

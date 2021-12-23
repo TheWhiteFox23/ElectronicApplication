@@ -1,5 +1,8 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
+import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 
 /**
@@ -11,9 +14,11 @@ public class DocumentObjectFactory {
     {
         switch (rawObject.getType()){
             case "TEST_OBJECT":
-                return init(new TestObject(rawObject));
+                return init(new GeneralCanvasObject(rawObject));
             case "ACTIVE_POINT":
-                return init(new TestActivePoint(rawObject));
+                return init(new ActivePoint(rawObject));
+            case "LINE":
+                return init(new TwoPointLineObject(rawObject));
             default:
                 return null;
         }

@@ -42,7 +42,7 @@ public class RawDocument {
         return this.filePath;
     }
 
-    public void addObject(RawObjectImpl object){
+    public void addObject(RawObject object){
         objectMap.add(object);
         listeners.forEach(l -> l.onRawObjectAdded(object));
     }

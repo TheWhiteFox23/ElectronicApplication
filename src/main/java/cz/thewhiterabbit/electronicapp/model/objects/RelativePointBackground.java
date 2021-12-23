@@ -44,6 +44,7 @@ public class RelativePointBackground extends CanvasObject {
         double firstPointX = getLocationX()%gridSize;
         double firstPointY = getLocationY()%gridSize;
 
+        if(getParentModel().getCanvas() != null)this.canvas = getParentModel().getCanvas();
         int stepsX = (int) (canvas.getHeight()/gridSize) +1;
         int stepsY = (int) (canvas.getWidth()/gridSize) +1;
 
