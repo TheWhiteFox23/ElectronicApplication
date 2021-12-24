@@ -4,6 +4,7 @@ import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -62,6 +63,9 @@ public class ModelEventManager {
         eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e->{
             parentModel.getModelEventAggregator().fireEvent(e);
         });
+        eventAggregator.addEventHandler(EditControlEvent.ANY, e->{
+            parentModel.getModelEventAggregator().fireEvent(e);
+        });
     }
 
     private void registerKeyPressListeners() {
@@ -77,12 +81,16 @@ public class ModelEventManager {
                 //TODO: manage rotation as property
                 //System.out.println("Rotate selection clockwise");
             }else if(event.getCode() == KeyCode.R && event.isAltDown()){
-                System.out.println("Rotate selection counter clockwise");
+                //System.out.println("Rotate selection counter clockwise");
             }else if(event.getCode() == KeyCode.DELETE){
                 parentModel.getSelectedObject().forEach(o -> {
                     o.callForDelete();
                 });
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+            }else if(event.getCode() == KeyCode.Z && event.isControlDown() && !event.isAltDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.UNDO));
+            }else if(event.getCode() == KeyCode.Z && event.isControlDown() && event.isAltDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.REDO));
             }
         });
     }

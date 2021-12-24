@@ -24,8 +24,8 @@ public class RelativePointBackground extends CanvasObject {
     }
 
     @Override
-    protected void registerListeners(EventAggregator eventAggregator) {
-        super.registerListeners(eventAggregator);
+    protected void registerHandlers(EventAggregator eventAggregator) {
+        super.registerHandlers(eventAggregator);
         getEventAggregator().addEventHandler(CanvasMouseEvent.CANVAS_SCROLLED, e->{
             if(getParentModel() instanceof RelativeModel){
                 RelativeModel model = (RelativeModel) getParentModel();

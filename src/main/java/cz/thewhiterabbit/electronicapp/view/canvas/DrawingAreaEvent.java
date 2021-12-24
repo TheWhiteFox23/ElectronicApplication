@@ -17,6 +17,7 @@ public class DrawingAreaEvent extends Event {
     public static final EventType<DrawingAreaEvent> OBJECT_DELETED = new EventType<>(ANY, "OBJECT_DELETED");
     public static final EventType<DrawingAreaEvent> OBJECT_PROPERTY_CHANGE = new EventType<>(ANY, "OBJECT_PROPERTY_CHANGE");
     public static final EventType<DrawingAreaEvent> EDITING_FINISHED = new EventType<>(ANY, "EDITING_FINISHED");
+    public static final EventType<DrawingAreaEvent> UNDO = new EventType<>(ANY, "UNDO");//TODO probably move to general event
 
 
     public DrawingAreaEvent(EventType<? extends Event> eventType, CanvasObject canvasObject) {

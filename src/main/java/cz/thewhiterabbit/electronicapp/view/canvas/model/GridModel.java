@@ -97,7 +97,7 @@ public class GridModel extends RelativeModel {
         if(object.getChildrenList().size() == 0) return;
         object.getChildrenList().forEach(o -> {
             if(!o.isSelected()){
-                System.out.println(o + "setting location");
+                //System.out.println(o + "setting location");
                 o.setPosition(deltaX, deltaY);
             }
         });

@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EventAggregator{
     //logic
@@ -54,5 +55,12 @@ public class EventAggregator{
                 }
             }
         }
+    }
+
+    public boolean contains(EventHandler eventHandler){
+        for(List<EventHandler> l:handlerMap.values()){
+            if (l.contains(eventHandler)) return true;
+        }
+        return false;
     }
 }

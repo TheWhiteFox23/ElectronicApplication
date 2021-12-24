@@ -3,6 +3,7 @@ package cz.thewhiterabbit.electronicapp.model.documnet;
 import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
+import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import java.util.Map;
  * Extension of the RawDocument. Respond to the changes in the raw Document and adjust the corresponding grid model.
  */
 public class Document {
+    private final CommandService commandService = new CommandService(this);
+
     private final GridModel gridModel;
     private final RawDocument rawDocument;
     private Map<RawObject, DocumentObject> objectMap;
@@ -68,6 +71,24 @@ public class Document {
         objectMap.put(documentObject.toRawObject(), documentObject);
         gridModel.add(documentObject);
         rawDocument.addObject(documentObject.toRawObject());
+    }
+
+    public void remove(DocumentObject documentObject){
+        objectMap.remove(documentObject);
+        gridModel.remove(documentObject);
+        rawDocument.removeObject(documentObject.toRawObject());
+    }
+
+    public void applyCommand(DrawingAreaEvent e){
+        commandService.interpret(e);
+    }
+
+    public void undo(){
+        commandService.undo();
+    }
+
+    public void redo(){
+        commandService.redo();
     }
 
 }

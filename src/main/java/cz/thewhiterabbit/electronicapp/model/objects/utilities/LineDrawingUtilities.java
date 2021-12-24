@@ -17,6 +17,7 @@ public class LineDrawingUtilities {
     private TwoPointLineObject firstLine;
     private TwoPointLineObject secondLine;
     private boolean deleteOrigin = false;
+    private boolean edited = false;
 
     public void onActivePointDragged(GridModel m, CanvasObject parent, CanvasObject object, CanvasMouseEvent e) {
         if (parent instanceof TwoPointLineObject) {
@@ -67,21 +68,28 @@ public class LineDrawingUtilities {
             lineOptimizer.initLineActivePoints(firstLine);
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, firstLine));
             firstLine = null;
+            edited = true;
         }
 
         if (secondLine != null) {
             lineOptimizer.initLineActivePoints(secondLine);
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, secondLine));
             secondLine = null;
+            edited = true;
         }
 
         if (deleteOrigin) {
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, parent));
             parent.getChildrenList().forEach(o -> eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, o)));
+            edited = true;
         }
 
         LineOptimizer lineOptimizer = new LineOptimizer();
         lineOptimizer.optimize((GridModel)model);
+        if(edited){
+            edited = false;
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+        }
         //todo: fire editing completed event
     }
 

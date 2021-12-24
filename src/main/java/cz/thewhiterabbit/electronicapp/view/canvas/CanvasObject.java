@@ -9,15 +9,20 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * General canvas object. Not effected by origin position or zoomAspect
  */
 public abstract class CanvasObject {
+    private final HashMap<EventType, EventHandler> handlerMap = new HashMap<>();
+
     private CanvasModel parentModel;
 
     private CanvasModel.Priority priority = CanvasModel.Priority.NONE;
@@ -59,6 +64,7 @@ public abstract class CanvasObject {
 
     public CanvasObject(double locationX, double locationY, double width, double height) {
         //this.activePoints = new ArrayList<>();
+
         this.locationX = new SimpleDoubleProperty(locationX);
         this.locationY = new SimpleDoubleProperty(locationY);
         this.width = new SimpleDoubleProperty(width);
@@ -76,41 +82,55 @@ public abstract class CanvasObject {
 
         this.childrenList = new ArrayList<>();
         this.rotationStrategy = RotationStrategy.ROTATE;
+        prepareHandlers();
     }
 
-    protected void registerListeners(EventAggregator eventAggregator) {
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_ENTERED, e -> {
+    //TODO deregister handlers
+    protected void registerHandlers(EventAggregator eventAggregator) {
+        handlerMap.forEach((type, handler)->{
+            if(!eventAggregator.contains(handler)){
+                eventAggregator.addEventHandler(type,handler);
+            }
+        });
+    }
+    private void prepareHandlers() {
+        handlerMap.put(CanvasMouseEvent.OBJECT_ENTERED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectEntered(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_EXITED, e -> {
+        handlerMap.put(CanvasMouseEvent.OBJECT_ENTERED, e -> {
+            if (((CanvasMouseEvent) e).getObject() == this) {
+                onObjectEntered(e);
+            }
+        });
+        handlerMap.put(CanvasMouseEvent.OBJECT_EXITED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectExited(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_SELECTED, e -> {
+        handlerMap.put(CanvasMouseEvent.OBJECT_SELECTED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectSelected(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
+        handlerMap.put(CanvasMouseEvent.OBJECT_DESELECTED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDeselected(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.DESELECT_ALL, e -> onObjectDeselected(e));
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
+        handlerMap.put(CanvasMouseEvent.DESELECT_ALL, e -> onObjectDeselected(e));
+        handlerMap.put(CanvasMouseEvent.OBJECTS_DRAG_DETECTED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onDragDetected(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
+        handlerMap.put(CanvasMouseEvent.OBJECT_DRAGGED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDragged(e);
             }
         });
-        eventAggregator.addEventHandler(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
+        handlerMap.put(CanvasMouseEvent.OBJECT_DRAG_DROPPED, e -> {
             if (((CanvasMouseEvent) e).getObject() == this) {
                 onObjectDropped(e);
             }
@@ -458,7 +478,7 @@ public abstract class CanvasObject {
 
     public void setEventAggregator(EventAggregator eventAggregator) {
         this.eventAggregator = eventAggregator;
-        registerListeners(eventAggregator);
+        registerHandlers(eventAggregator);
     }
 
     public void addChildren(CanvasObject children) {
@@ -470,5 +490,4 @@ public abstract class CanvasObject {
         childrenList.remove(children);
         children.setParent(null);
     }
-
 }

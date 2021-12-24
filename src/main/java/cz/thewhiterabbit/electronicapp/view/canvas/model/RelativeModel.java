@@ -94,6 +94,7 @@ public abstract class RelativeModel extends CanvasModel {
 
     @Override
     public void add(CanvasObject object) {
+        if(getAll().contains(object))return;
         updatePaintProperties(object);
         super.add(object);
     }

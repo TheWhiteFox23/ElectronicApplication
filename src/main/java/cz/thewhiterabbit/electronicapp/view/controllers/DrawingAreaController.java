@@ -1,13 +1,14 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import javafx.fxml.FXML;
 
 public class DrawingAreaController {
@@ -28,8 +29,21 @@ public class DrawingAreaController {
         Document document = new Document(testRawDocument);
         drawingArea.setModel(document.getGridModel());
 
+        document.getGridModel().addEventHandler(DrawingAreaEvent.ANY, h->{
+            document.applyCommand((DrawingAreaEvent) h);
+        });
+
+
+        document.getGridModel().addEventHandler(EditControlEvent.UNDO, h->{
+            document.undo();
+        });
+
+        document.getGridModel().addEventHandler(EditControlEvent.REDO, h->{
+            document.redo();
+        });
+
         /***** REGISTER LISTENERS *****/
-        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
+        /*document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
             DrawingAreaEvent event = (DrawingAreaEvent) e;
             DocumentObject o = (DocumentObject) event.getCanvasObject();
             System.out.println(event.getProperty().getName());
@@ -55,7 +69,7 @@ public class DrawingAreaController {
             if(o!= null) {
                 document.getRawDocument().removeObject(o.getRawObject());
             }
-        });
+        });*/
 
 
 
