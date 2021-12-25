@@ -221,19 +221,29 @@ public abstract class CanvasObject {
     }
 
     protected void onObjectDeselected(Event e) {
-        selected = false;
+        /*selected = false;
         childrenList.forEach(ch -> {
             ch.setSelected(false);
+            ch.onObjectDeselected(e);
+        });
+        repaint();*/
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.SELECTION_CHANGED,this, isSelected(), false));
+        childrenList.forEach(ch ->{
             ch.onObjectDeselected(e);
         });
         repaint();
     }
 
     protected void onObjectSelected(Event e) {
-        selected = true;
+        /*selected = true;
         childrenList.forEach(ch -> {
             ch.setSelected(true);
             ch.onObjectSelected(e);
+        });
+        repaint();*/
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.SELECTION_CHANGED,this, isSelected(), true));
+        childrenList.forEach(ch ->{
+            ch.onObjectDeselected(e);
         });
         repaint();
     }

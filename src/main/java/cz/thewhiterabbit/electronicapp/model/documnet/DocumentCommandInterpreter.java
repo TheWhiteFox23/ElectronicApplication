@@ -26,6 +26,8 @@ public class DocumentCommandInterpreter {
             onObjectAdded(drawingAreaEvent);
         }else if(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE.equals(drawingAreaEvent.getEventType())){
             onPropertyChange(drawingAreaEvent);
+        }else if(DrawingAreaEvent.SELECTION_CHANGED.equals(drawingAreaEvent.getEventType())){
+            onSelectionChanged(drawingAreaEvent);
         }
     }
 
@@ -40,6 +42,8 @@ public class DocumentCommandInterpreter {
             onObjectAddedReverse(drawingAreaEvent);
         }else if(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE.equals(drawingAreaEvent.getEventType())){
             onPropertyChangeReverse(drawingAreaEvent);
+        }else if(DrawingAreaEvent.SELECTION_CHANGED.equals(drawingAreaEvent.getEventType())){
+            onSelectionChangedReverse(drawingAreaEvent);
         }
     }
 
@@ -86,6 +90,14 @@ public class DocumentCommandInterpreter {
         if(p != null){
             p.setValue(String.valueOf(event.getOldValue()));
         }
+    }
+
+    private void onSelectionChanged(DrawingAreaEvent event){
+        event.getCanvasObject().setSelected(event.getNewSelected());
+    }
+
+    private void onSelectionChangedReverse(DrawingAreaEvent event){
+        event.getCanvasObject().setSelected(event.getOldSelected());
     }
 
 }

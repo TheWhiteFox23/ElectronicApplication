@@ -202,12 +202,16 @@ public class ModelEventManager {
                 if (o != null && !o.isSelected() && !e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
                     eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
                 } else if (o == null && !e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
                 } else if (o != null && !o.isSelected() && e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
                 } else if (o != null && e.isControlDown() && o.isSelected()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_DESELECTED, o));
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
                 }
             }
         });
@@ -217,6 +221,7 @@ public class ModelEventManager {
             if (e.getX() == lastDragStartX && o != null && !e.isControlDown()) { //TODO refactor selection detection logic
                 eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
                 eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
+                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
             }
         });
     }
@@ -243,6 +248,7 @@ public class ModelEventManager {
             //TODO Refactor selecting into the command
             objects.forEach(o -> eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o)));
             eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
         });
     }
 
