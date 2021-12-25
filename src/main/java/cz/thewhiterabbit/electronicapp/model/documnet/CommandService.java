@@ -30,16 +30,21 @@ public class CommandService {
     }
 
     public void redo(){
-        /*while(redoList.peek().getEventType() != DrawingAreaEvent.EDITING_FINISHED || redoList.empty()){
-            DrawingAreaEvent event = undoList.pop();
+        while(!redoList.empty() && redoList.peek().getEventType() != DrawingAreaEvent.EDITING_FINISHED){
+            DrawingAreaEvent event = redoList.pop();
+            System.out.println("REDO: " + event.getEventType());
             interpreter.interpret(event);
-            redoList.push(event);
-        }*/
+            undoList.push(event);
+        }
+        if(!redoList.empty() && redoList.peek().getEventType() == DrawingAreaEvent.EDITING_FINISHED){
+            undoList.push(redoList.pop());
+        }
     }
 
     public void interpret(DrawingAreaEvent drawingAreaEvent){
         interpreter.interpret(drawingAreaEvent);
         undoList.push(drawingAreaEvent);
+        redoList.clear();
         //System.out.println(drawingAreaEvent.getEventType());
     }
 
