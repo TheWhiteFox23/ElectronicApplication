@@ -32,7 +32,7 @@ public class CommandService {
     public void redo(){
         while(!redoList.empty() && redoList.peek().getEventType() != DrawingAreaEvent.EDITING_FINISHED){
             DrawingAreaEvent event = redoList.pop();
-            System.out.println("REDO: " + event.getEventType());
+            //System.out.println("REDO: " + event.getEventType());
             interpreter.interpret(event);
             undoList.push(event);
         }
