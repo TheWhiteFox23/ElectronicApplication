@@ -23,7 +23,6 @@ public class CommandService {
         redoList.push(undoList.pop());
         while(!undoList.empty() && undoList.peek().getEventType() != DrawingAreaEvent.EDITING_FINISHED){
             DrawingAreaEvent event = undoList.pop();
-            //System.out.println("UNDO: " + event.getEventType());
             interpreter.interpretReverse(event);
             redoList.push(event);
         }
@@ -32,7 +31,6 @@ public class CommandService {
     public void redo(){
         while(!redoList.empty() && redoList.peek().getEventType() != DrawingAreaEvent.EDITING_FINISHED){
             DrawingAreaEvent event = redoList.pop();
-            //System.out.println("REDO: " + event.getEventType());
             interpreter.interpret(event);
             undoList.push(event);
         }
@@ -45,7 +43,6 @@ public class CommandService {
         interpreter.interpret(drawingAreaEvent);
         undoList.push(drawingAreaEvent);
         redoList.clear();
-        //System.out.println(drawingAreaEvent.getEventType());
     }
 
 

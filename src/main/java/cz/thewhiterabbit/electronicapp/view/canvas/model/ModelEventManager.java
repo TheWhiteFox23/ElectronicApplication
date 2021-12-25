@@ -3,13 +3,18 @@ package cz.thewhiterabbit.electronicapp.view.canvas.model;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
+import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
+import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import javafx.event.EventType;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 
@@ -57,13 +62,14 @@ public class ModelEventManager {
         registerObjectSelection();
         registerKeyPressListeners();
         registerModelPropagationListener();
+        registerPaintSelectionHandler();
     }
 
     private void registerModelPropagationListener() {
-        eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e->{
+        eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e -> {
             parentModel.getModelEventAggregator().fireEvent(e);
         });
-        eventAggregator.addEventHandler(EditControlEvent.ANY, e->{
+        eventAggregator.addEventHandler(EditControlEvent.ANY, e -> {
             parentModel.getModelEventAggregator().fireEvent(e);
         });
     }
@@ -72,24 +78,24 @@ public class ModelEventManager {
         eventAggregator.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
             KeyEvent event = (KeyEvent) e;
             //ROTATION
-            if(event.getCode() == KeyCode.R && !event.isAltDown()){
+            if (event.getCode() == KeyCode.R && !event.isAltDown()) {
                 List<CanvasObject> selected = parentModel.getSelectedObject();
                 selected.forEach(o -> {
-                    o.setRotation((o.getRotation() + 1)%4);
+                    o.setRotation((o.getRotation() + 1) % 4);
                     o.paint(parentModel.getCanvas().getGraphicsContext2D());
                 });
                 //TODO: manage rotation as property
                 //System.out.println("Rotate selection clockwise");
-            }else if(event.getCode() == KeyCode.R && event.isAltDown()){
+            } else if (event.getCode() == KeyCode.R && event.isAltDown()) {
                 //System.out.println("Rotate selection counter clockwise");
-            }else if(event.getCode() == KeyCode.DELETE){
+            } else if (event.getCode() == KeyCode.DELETE) {
                 parentModel.getSelectedObject().forEach(o -> {
                     o.callForDelete();
                 });
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
-            }else if(event.getCode() == KeyCode.Z && event.isControlDown() && !event.isAltDown()){
+            } else if (event.getCode() == KeyCode.Z && event.isControlDown() && !event.isAltDown()) {
                 eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.UNDO));
-            }else if(event.getCode() == KeyCode.Z && event.isControlDown() && event.isAltDown()){
+            } else if (event.getCode() == KeyCode.Z && event.isControlDown() && event.isAltDown()) {
                 eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.REDO));
             }
         });
@@ -155,63 +161,88 @@ public class ModelEventManager {
 
     }
 
-    private void registerDragEvent(EventType start, EventType move, EventType finish, EventCrate eventCrate){
-        eventAggregator.addEventHandler(MouseEvent.DRAG_DETECTED, event->{
+    private void registerDragEvent(EventType start, EventType move, EventType finish, EventCrate eventCrate) {
+        eventAggregator.addEventHandler(MouseEvent.DRAG_DETECTED, event -> {
             //System.out.println("MODEL EVENT MANAGER -> drag detected");
-            if(eventCrate.startX != -1){
+            if (eventCrate.startX != -1) {
                 MouseEvent e = (MouseEvent) event;
                 eventCrate.dragDetected = true;
-                CanvasMouseEvent canvasMouseEvent= new CanvasMouseEvent(start, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(start, eventCrate.startX, eventCrate.startY, eventCrate.lastX, eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
                 eventAggregator.fireEvent(canvasMouseEvent);
             }
         });
 
-        eventAggregator.addEventHandler(MouseEvent.MOUSE_DRAGGED, event->{
+        eventAggregator.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             MouseEvent e = (MouseEvent) event;
-            if(eventCrate.startX != -1 && eventCrate.dragDetected) {
-                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(move, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+            if (eventCrate.startX != -1 && eventCrate.dragDetected) {
+                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(move, eventCrate.startX, eventCrate.startY, eventCrate.lastX, eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
                 eventAggregator.fireEvent(canvasMouseEvent);
                 eventCrate.lastX = e.getX();
                 eventCrate.lastY = e.getY();
             }
         });
 
-        eventAggregator.addEventHandler(MouseEvent.MOUSE_RELEASED, event->{
-            if(eventCrate.startX != -1 && eventCrate.dragDetected){
+        eventAggregator.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            if (eventCrate.startX != -1 && eventCrate.dragDetected) {
                 MouseEvent e = (MouseEvent) event;
-                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(finish, eventCrate.startX, eventCrate.startY, eventCrate.lastX,  eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
+                CanvasMouseEvent canvasMouseEvent = new CanvasMouseEvent(finish, eventCrate.startX, eventCrate.startY, eventCrate.lastX, eventCrate.lastY, e.getX(), e.getY(), hoveredObject);
                 eventAggregator.fireEvent(canvasMouseEvent);
                 eventCrate.reset();
             }
         });
     }
 
-    private void registerObjectSelection() {
+    private void registerObjectSelection() { //TODO manage selections by commands
         //select object on press
-        eventAggregator.addEventHandler(MouseEvent.MOUSE_PRESSED, event->{
-            MouseEvent e = (MouseEvent)event;
+        eventAggregator.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            MouseEvent e = (MouseEvent) event;
             CanvasObject o = parentModel.getObject(e.getX(), e.getY());
-            if(e.isPrimaryButtonDown()){
+            if (e.isPrimaryButtonDown()) {
                 lastDragStartX = e.getX();
-                if(o != null && !o.isSelected() && !e.isControlDown()){
+                if (o != null && !o.isSelected() && !e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
                     eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
-                }else if(o == null && !e.isControlDown()){
+                } else if (o == null && !e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
-                }else if(o != null && !o.isSelected() && e.isControlDown()){
+                } else if (o != null && !o.isSelected() && e.isControlDown()) {
                     eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
-                }else if(o!= null && e.isControlDown() && o.isSelected()){
-                    eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_DESELECTED,o));
+                } else if (o != null && e.isControlDown() && o.isSelected()) {
+                    eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_DESELECTED, o));
                 }
             }
         });
-        eventAggregator.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
-            MouseEvent e = (MouseEvent)event;
+        eventAggregator.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            MouseEvent e = (MouseEvent) event;
             CanvasObject o = parentModel.getObject(e.getX(), e.getY());
-            if(e.getX() == lastDragStartX && o!= null && !e.isControlDown()){ //TODO refactor selection detection logic
+            if (e.getX() == lastDragStartX && o != null && !e.isControlDown()) { //TODO refactor selection detection logic
                 eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.DESELECT_ALL));
                 eventAggregator.fireEvent(new CanvasMouseEvent(OBJECT_SELECTED, o));
             }
+        });
+    }
+
+    private void registerPaintSelectionHandler() {
+        eventAggregator.addEventHandler(CanvasMouseEvent.CANVAS_SELECTION_MOVE, event -> {
+            if (parentModel.getCanvas() != null) {
+                GraphicsContext gc = parentModel.getCanvas().getGraphicsContext2D();
+                eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+
+                RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent) event);
+
+                //TODO move to paint selection method
+                gc.setStroke(Color.GREENYELLOW);
+                gc.strokeRect(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
+            }
+
+        });
+
+        eventAggregator.addEventHandler(CanvasMouseEvent.CANVAS_SELECTION_FINISH, event -> {
+            RectangleBounds bounds = getRectangleBounds((CanvasMouseEvent) event);
+            List<CanvasObject> objects = parentModel.getInBounds(bounds.locationX, bounds.locationY, bounds.width, bounds.height);
+
+            //TODO Refactor selecting into the command
+            objects.forEach(o -> eventAggregator.fireEvent(new CanvasMouseEvent(CanvasMouseEvent.OBJECT_SELECTED, o)));
+            eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
         });
     }
 
@@ -228,6 +259,28 @@ public class ModelEventManager {
             lastX = -1;
             lastY = -1;
             dragDetected = false;
+        }
+    }
+
+    private RectangleBounds getRectangleBounds(CanvasMouseEvent e) {
+        double width = e.getX() - e.getStartX();
+        double height = e.getY() - e.getStartY();
+        double locationX = (width > 0 ? e.getStartX() : e.getX());
+        double locationY = (height > 0 ? e.getStartY() : e.getY());
+        return new RectangleBounds(locationX, locationY, Math.abs(height), Math.abs(width));
+    }
+
+    class RectangleBounds {
+        double locationX;
+        double locationY;
+        double width;
+        double height;
+
+        public RectangleBounds(double locationX, double locationY, double height, double width) {
+            this.locationX = locationX;
+            this.locationY = locationY;
+            this.width = width;
+            this.height = height;
         }
     }
 
