@@ -1,10 +1,11 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
+import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 
-public abstract class GeneralObject extends DocumentObject{
+public abstract class GeneralComponent extends DocumentObject{
 
 
     @Override
@@ -48,6 +49,9 @@ public abstract class GeneralObject extends DocumentObject{
         return getRawObject();
     }
 
-    public abstract String getType();
+    public String getType(){
+        return getComponent().getType();
+    }
+    public abstract Component getComponent();
 
 }

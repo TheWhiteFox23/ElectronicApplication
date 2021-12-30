@@ -1,19 +1,20 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralObject;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralComponent;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Resistor extends GeneralObject {
-    private final String _TYPE="RESISTOR";
+public class Resistor extends GeneralComponent {
+    private final Component component = Component.RESISTOR;
+
 
     @Override
-    public String getType() {
-        return _TYPE;
+    public Component getComponent() {
+        return component;
     }
 
     @Override
     protected void doPaint(GraphicsContext gc) {
         //TODO paint resistor
-        gc.fillText(_TYPE, 0, getHeight());
+        gc.fillText(getType(), 0, getHeight());
     }
 }

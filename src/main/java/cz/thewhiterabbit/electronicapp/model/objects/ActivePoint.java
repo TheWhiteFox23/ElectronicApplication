@@ -1,7 +1,9 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
+import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.objects.utilities.LineDrawingUtilities;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
@@ -12,19 +14,14 @@ import javafx.scene.paint.Color;
 
 
 
-public class ActivePoint extends GeneralObject {
+public class ActivePoint extends GeneralComponent {
     private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities();
 
-    private final String type = "ACTIVE_POINT";
+    private final Component component = Component.ACTIVE_POINT;
 
     public ActivePoint() {
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
-    }
-
-    public ActivePoint(RawObject rawObject){
-        this();
-        setRawObject(rawObject);
     }
 
     /***** OVERRIDES *****/
@@ -70,13 +67,11 @@ public class ActivePoint extends GeneralObject {
         }
     }
 
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
     @Override
     public void clean(GraphicsContext gc) {}
 
+    @Override
+    public Component getComponent() {
+        return component;
+    }
 }

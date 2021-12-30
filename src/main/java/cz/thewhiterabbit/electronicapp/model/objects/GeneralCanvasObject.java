@@ -1,22 +1,19 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.model.components.Component;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class GeneralCanvasObject extends GeneralObject {
-    private final String type = "TEST_OBJECT";
+public class GeneralCanvasObject extends GeneralComponent {
+    private final Component component = Component.TEST_COMPONENT;
 
     public GeneralCanvasObject(){
         setGridHeight(2);
         setGridWidth(2);
     }
 
-    public GeneralCanvasObject(RawObject rawObject){
-        setRawObject(rawObject);
-    }
 
     @Override
     public void doPaint(GraphicsContext gc) {
@@ -40,7 +37,7 @@ public class GeneralCanvasObject extends GeneralObject {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public Component getComponent() {
+        return component;
     }
 }
