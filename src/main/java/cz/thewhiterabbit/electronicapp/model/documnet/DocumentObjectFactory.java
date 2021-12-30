@@ -28,7 +28,7 @@ public class DocumentObjectFactory {
     //TODO: add logging
     public static DocumentObject createDocumentObject(RawObject rawObject) {
         for (Component c : Component.values()) {
-            if (c.getType() == rawObject.getType()) {
+            if (c.getType().equals(rawObject.getType())) {
                 try {
                     final DocumentObject newInstance = (DocumentObject) c.getClazz().getConstructor().newInstance();
                     newInstance.setRawObject(rawObject);

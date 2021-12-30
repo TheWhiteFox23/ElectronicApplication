@@ -106,6 +106,7 @@ public class FileService {
             String propertyValue = object.get(VALUE).toString();
             RawProperty property = new RawProperty(propertyName, propertyValue);
             rawObject.addProperty(property);
+            //System.out.println(property.getValue() + " : " +property.getName());
         }
     }
 
