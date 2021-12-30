@@ -2,6 +2,8 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -12,6 +14,7 @@ public class GeneralCanvasObject extends GeneralComponent {
     public GeneralCanvasObject(){
         setGridHeight(2);
         setGridWidth(2);
+        initChildren();
     }
 
 
@@ -39,5 +42,33 @@ public class GeneralCanvasObject extends GeneralComponent {
     @Override
     public Component getComponent() {
         return component;
+    }
+
+    private void initChildren(){
+        ActivePoint activePoint = new ActivePoint();
+        ActivePoint activePoint2= new ActivePoint();
+        activePoint2.setGridX(getGridX()+1);
+        activePoint2.setGridY(getGridY()+2);
+        activePoint.setGridX(getGridX()+1);
+        activePoint.setGridY(getGridY());
+        addChildren(activePoint);
+        addChildren(activePoint2);
+    }
+
+    @Override
+    public void addChildren(CanvasObject children) {
+        super.addChildren(children);
+        gridXProperty().addListener((obs, oldVal, newVal) -> {
+            if(getParentModel() == null){
+                int delta = (int)newVal - (int)oldVal;
+                children.setGridX(children.getGridX() + delta);
+            }
+        });
+        gridYProperty().addListener((obs, oldVal, newVal) -> {
+            if(getParentModel() == null){
+                int delta = (int)newVal - (int)oldVal;
+                children.setGridY(children.getGridY() + delta);
+            }
+        });
     }
 }

@@ -12,24 +12,8 @@ public class TestRawDocument extends RawDocument{
                 rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(2)));
                 rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(2)));
                 rawObject.addProperty(new RawProperty("rotation", String.valueOf(0)));
-
-                RawObject linkedObject = new RawObject( "ACTIVE_POINT");
-                linkedObject.addProperty(new RawProperty("gridX", String.valueOf(i+1)));
-                linkedObject.addProperty(new RawProperty("gridY", String.valueOf(j)));
-                linkedObject.addProperty(new RawProperty("gridWidth", String.valueOf(2)));
-                linkedObject.addProperty(new RawProperty("gridHeight", String.valueOf(2)));
-                linkedObject.addProperty(new RawProperty("rotation", String.valueOf(0)));
-                rawObject.getChildren().add(linkedObject);
-
                 addObject(rawObject);
             }
         }
-
-        RawObject rawObject = new RawObject( "LINE");
-        rawObject.addProperty(new RawProperty("X1", String.valueOf(-10)));
-        rawObject.addProperty(new RawProperty("Y1", String.valueOf(-10)));
-        rawObject.addProperty(new RawProperty("X2", String.valueOf(-10)));
-        rawObject.addProperty(new RawProperty("Y2", String.valueOf(0)));
-        addObject(rawObject);
     }
 }

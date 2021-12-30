@@ -36,6 +36,7 @@ public abstract class DocumentObject extends CanvasObject {
     }
 
     public RawProperty getProperty(String name) {
+        if(rawObject == null)toRawObject();
         return rawObject.getProperty(name);
     }
 

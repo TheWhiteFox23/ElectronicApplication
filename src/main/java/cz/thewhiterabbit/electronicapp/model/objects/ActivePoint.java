@@ -20,6 +20,8 @@ public class ActivePoint extends GeneralComponent {
     private final Component component = Component.ACTIVE_POINT;
 
     public ActivePoint() {
+        setGridHeight(1);
+        setGridWidth(1);
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
     }
