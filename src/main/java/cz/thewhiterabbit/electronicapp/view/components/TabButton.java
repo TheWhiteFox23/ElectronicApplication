@@ -2,9 +2,11 @@ package cz.thewhiterabbit.electronicapp.view.components;
 
 import cz.thewhiterabbit.electronicapp.App;
 
+import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 
@@ -12,11 +14,13 @@ import javafx.scene.layout.AnchorPane;
 public class TabButton extends AnchorPane {
     private Label tabText;
     private Button closeButton;
+    private boolean selected = false;
     //private Document Document;
 
 
     public TabButton()  {
         getStylesheets().add(App.class.getResource("stylesheets/tab-button.css").toExternalForm());
+        manageStyleClass(selected);
         initGraphics();
     }
 
@@ -37,9 +41,28 @@ public class TabButton extends AnchorPane {
         this.getChildren().addAll(tabText, closeButton);
     }
 
+    public void setText(String text){
+        tabText.setText(text);
+    }
 
-    public void setOnAction(EventHandler eventHandler){
+
+    public void setOnClose(EventHandler eventHandler){
         closeButton.setOnAction(eventHandler);
+    }
+
+    public void setSelected(Boolean selected){
+        this.selected = selected;
+        manageStyleClass(selected);
+    }
+
+    private void manageStyleClass(Boolean selected) {
+        if(selected){
+            getStyleClass().clear();
+            getStyleClass().add("selected");
+        }else{
+            getStyleClass().clear();
+            getStyleClass().add("deselected");
+        }
     }
 
 }

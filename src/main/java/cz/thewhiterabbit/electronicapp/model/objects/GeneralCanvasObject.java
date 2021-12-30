@@ -6,11 +6,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-
 public class GeneralCanvasObject extends GeneralObject {
     private final String type = "TEST_OBJECT";
 
     public GeneralCanvasObject(){
+        setGridHeight(2);
+        setGridWidth(2);
     }
 
     public GeneralCanvasObject(RawObject rawObject){

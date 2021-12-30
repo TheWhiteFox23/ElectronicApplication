@@ -71,11 +71,11 @@ public class DrawingCanvas extends Region {
     }
 
 
-    private void paint(){
+    public void paint(){
         getVisible().forEach(o-> o.paint(gc));
     }
 
-    private void clear(){
+    public void clear(){
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 

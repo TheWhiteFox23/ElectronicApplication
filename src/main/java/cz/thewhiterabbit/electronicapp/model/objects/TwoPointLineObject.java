@@ -40,6 +40,10 @@ public class TwoPointLineObject extends DocumentObject {
         setRawObject(rawObject);
     }
 
+    public TwoPointLineObject() {
+        initListeners();
+    }
+
     private void initListeners() {
         this.locationXProperty().addListener(l -> onGridXChanged());
         this.locationYProperty().addListener(l -> onGridYChanged());
@@ -108,6 +112,11 @@ public class TwoPointLineObject extends DocumentObject {
             setRawObject(rawObject);
         }
         return getRawObject();
+    }
+
+    @Override
+    public String getType() {
+        return _TYPE;
     }
 
     @Override

@@ -17,6 +17,11 @@ public class RawObject {
         addProperty(new RawProperty(TYPE_PROPERTY, type));
     }
 
+    public RawObject(){
+        this.propertyMap = new HashMap<>();
+        this.children = new ArrayList<>();
+    }
+
     public String getType(){
         return propertyMap.get(TYPE_PROPERTY).getValue();
     }
@@ -30,7 +35,11 @@ public class RawObject {
     }
 
     public List<RawProperty> getProperties(){
-        return (List<RawProperty>) propertyMap.values();
+        List<RawProperty> properties = new ArrayList<>();
+        propertyMap.values().forEach(p ->{
+            properties.add(p);
+        });
+        return properties;
     }
 
     public List<RawObject> getChildren() {

@@ -7,7 +7,7 @@ import javafx.event.EventType;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EventAggregator{
+public class EventAggregator implements IEventAggregator {
     //logic
     private Map<EventType, List<EventHandler>> handlerMap = new HashMap<>();
     /**
@@ -15,6 +15,7 @@ public class EventAggregator{
      * @param event
      * @param <T>
      */
+    @Override
     public <T extends Event> void fireEvent(T event) {
         fireEvent(event.getEventType(), event);
     }
@@ -38,6 +39,7 @@ public class EventAggregator{
      * @param handler
      * @param <T>
      */
+    @Override
     public <T extends EventType> void addEventHandler(T eventType, EventHandler handler) {
         if(!handlerMap.containsKey(eventType)) {
             handlerMap.put(eventType, new ArrayList<>());
@@ -46,6 +48,7 @@ public class EventAggregator{
 
     }
 
+    @Override
     public void removeEventHandler(EventType eventType, EventHandler eventHandler) {
         if(handlerMap.containsKey(eventType)){
             ListIterator iterator = handlerMap.get(eventType).listIterator();
@@ -57,6 +60,7 @@ public class EventAggregator{
         }
     }
 
+    @Override
     public boolean contains(EventHandler eventHandler){
         for(List<EventHandler> l:handlerMap.values()){
             if (l.contains(eventHandler)) return true;

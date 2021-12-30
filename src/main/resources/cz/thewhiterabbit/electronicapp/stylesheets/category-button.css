@@ -1,0 +1,14 @@
+CategoryButton.deselected{
+    -fx-text-fill:  #666666;
+}
+
+CategoryButton.selected{
+    -fx-text-fill:  #3b9be1;
+    -fx-border-color: transparent transparent #3b9be1 transparent
+}
+
+CategoryButton{
+    -fx-background-color: transparent;
+    -fx-pref-height: 30;
+    -fx-padding: 0 10 0 10;
+}

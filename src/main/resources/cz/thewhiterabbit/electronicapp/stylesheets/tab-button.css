@@ -1,7 +1,13 @@
-TabButton{
+TabButton.deselected{
     -fx-background-color: #666666;
     -fx-background-radius: 5 5 0 0;
 }
+
+TabButton.selected{
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 5 5 0 0;
+}
+
 
 Label{
     -fx-alignment: center;

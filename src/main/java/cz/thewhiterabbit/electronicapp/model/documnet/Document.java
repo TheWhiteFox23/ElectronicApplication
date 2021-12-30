@@ -6,6 +6,7 @@ import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,10 @@ public class Document {
 
     private final GridModel gridModel;
     private final RawDocument rawDocument;
+
     private Map<RawObject, DocumentObject> objectMap;
+
+    private File file;
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
@@ -91,4 +95,15 @@ public class Document {
         commandService.redo();
     }
 
+    public String getName(){
+        return rawDocument.getName();
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 }

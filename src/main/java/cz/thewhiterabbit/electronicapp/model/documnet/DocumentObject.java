@@ -29,9 +29,7 @@ public abstract class DocumentObject extends CanvasObject {
 
     public abstract RawObject toRawObject();
 
-    public String getType() {
-        return rawObject.getType();
-    }
+    public abstract String getType();
 
     public void addProperty(RawProperty rawProperty) {
         rawObject.addProperty(rawProperty);

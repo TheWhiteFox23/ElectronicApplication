@@ -1,15 +1,29 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
+import cz.thewhiterabbit.electronicapp.model.components.Category;
+import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObjectFactory;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
+import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.util.HashMap;
 
 public class DrawingAreaController {
     @FXML DrawingCanvas drawingArea;
@@ -17,86 +31,164 @@ public class DrawingAreaController {
     @FXML ComponentInfoPaneController componentInfoPaneController;
     @FXML DrawingAreaControlMenuController drawingAreaControlMenuController;
 
+    private final DocumentManager documentManager = new DocumentManager();
+    private final EventAggregator eventAggregator = GUIEventAggregator.getInstance();
+    private final HashMap<EventType, EventHandler> handlerMap = new HashMap<>();
+
+    private DocumentObject toPaint;
+
     @FXML
     private void initialize(){
-        GridModel gridLayout = new GridModel();
-        gridLayout.setGridSize(10);
-        gridLayout.setOriginX(600);
-        gridLayout.setOriginY(400);
-        drawingArea.setModel(gridLayout);
+        registerListeners();
+        prepareHandlers();
+        initDrawingAreaDropDetection(drawingArea);
+    }
 
-        TestRawDocument testRawDocument = new TestRawDocument("TestDocument");
-        Document document = new Document(testRawDocument);
-        drawingArea.setModel(document.getGridModel());
-
-        document.getGridModel().addEventHandler(DrawingAreaEvent.ANY, h->{
-            document.applyCommand((DrawingAreaEvent) h);
+    private void registerListeners(){
+        //event propagation
+        documentManager.addEventHandler(DocumentManager.DocumentManagerEvent.ANY, h-> eventAggregator.fireEvent(h.getEventType(), h));
+        documentManager.addEventHandler(DocumentManager.DocumentManagerEvent.ACTIVE_DOCUMENT_CHANGED, h->{
+            setDocument(((DocumentManager.DocumentManagerEvent)h).getDocument());
         });
 
-
-        document.getGridModel().addEventHandler(EditControlEvent.UNDO, h->{
-            document.undo();
+        eventAggregator.addEventHandler(MenuEvent.NEW_DOCUMENT, e->{
+            documentManager.createNewDocument();
         });
-
-        document.getGridModel().addEventHandler(EditControlEvent.REDO, h->{
-            document.redo();
+        eventAggregator.addEventHandler(MenuEvent.CLOSE_DOCUMENT, e->{
+            Document document = ((MenuEvent)e).getDocument();
+            documentManager.closeDocument(document);
         });
+        eventAggregator.addEventHandler(MenuEvent.CHANGE_ACTIVE_DOCUMENT, e->{
+            Document document = ((MenuEvent)e).getDocument();
+            documentManager.setActiveDocument(document);
+        });
+        eventAggregator.addEventHandler(MenuEvent.SAVE_FILE, e->{
+            onSaveFile();
+        });
+        eventAggregator.addEventHandler(MenuEvent.SAVE_FILE_AS, e->{
+            onSaveFileAs();
+        });
+        eventAggregator.addEventHandler(MenuEvent.OPEN_FILE, e->{
+            onOpenFile();
+        });
+    }
 
-        /***** REGISTER LISTENERS *****/
-        /*document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, e-> {
-            DrawingAreaEvent event = (DrawingAreaEvent) e;
-            DocumentObject o = (DocumentObject) event.getCanvasObject();
-            System.out.println(event.getProperty().getName());
-            RawProperty p = o.getProperty(((DrawingAreaEvent) e).getProperty().getName());
-            if(p != null){
-                p.setValue(String.valueOf(((DrawingAreaEvent) e).getNewVale()));
+    private void onOpenFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open");
+        File file = fileChooser.showOpenDialog(drawingArea.getScene().getWindow());
+        documentManager.loadDocument(file);
+    }
+
+    private void onSaveFileAs() {
+        if(documentManager.getActiveDocument() != null){
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save as..."); //TODO move to string properties
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AEON", "*.aeon", "*.AEON"));//TODO replace with final file type
+            File file = fileChooser.showSaveDialog(drawingArea.getScene().getWindow());
+
+            Document document = documentManager.getActiveDocument();
+            document.setFile(file);
+            document.getRawDocument().setName(file.getName().replace(".aeon", ""));//TODO notify listeners
+            documentManager.saveDocument(file);
+        }
+    }
+
+    private void onSaveFile() {
+        if(documentManager.getActiveDocument() != null){
+            if(documentManager.getActiveDocument().getFile() != null){
+                documentManager.saveDocument(documentManager.getActiveDocument().getFile());
             }else{
-                System.out.println("property is null");
-            }
-
-            //event.getProperty().set(((DrawingAreaEvent) e).getNewVale());
-        });
-
-        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_ADDED, e->{
-            document.add((DocumentObject) ((DrawingAreaEvent)e).getCanvasObject());
-
-
-        });
-
-        document.getGridModel().addEventHandler(DrawingAreaEvent.OBJECT_DELETED, e ->{
-            DrawingAreaEvent event = (DrawingAreaEvent) e;
-            DocumentObject o = (DocumentObject) event.getCanvasObject();
-            if(o!= null) {
-                document.getRawDocument().removeObject(o.getRawObject());
-            }
-        });*/
-
-
-
-
-        /*gridLayout.add(new RelativePointBackground(drawingArea.getCanvas()));
-        for(int i = 0; i< 100; i+= 4){
-            for(int j = 0; j< 100; j+=4){
-                GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-                ActivePoint linkedObject = new ActivePoint();
-                linkedObject.set(i+1,j,1,1);
-                generalCanvasObject.addChildren(linkedObject);
-                generalCanvasObject.set(i,j,2, 2);
-                gridLayout.add(generalCanvasObject);
+                onSaveFileAs();
             }
         }
 
-        GeneralCanvasObject generalCanvasObject = new GeneralCanvasObject();
-        generalCanvasObject.set(-10,-10,2,2);
+    }
 
-        GeneralCanvasObject activePoint = new GeneralCanvasObject();
-        activePoint.set(-8,-8,2,2);
-        generalCanvasObject.addChildren(activePoint);
+    private void setDocument(Document document){
+        GridModel model = document.getGridModel();
+        drawingArea.setModel(model);
+        handlerMap.forEach((type, handler)->{
+            if(!model.getModelEventAggregator().contains(handler)){
+                model.getModelEventAggregator().addEventHandler(type, handler);
+            }
+        });
+        drawingArea.clear();
+        drawingArea.paint();
+    }
 
-        gridLayout.add(generalCanvasObject);
+    private void prepareHandlers(){
+        handlerMap.put(DrawingAreaEvent.ANY, h->{
+            documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) h);
+        });
 
-        TwoPointLineObject line = new TwoPointLineObject(0,0,-30,-10);
-        gridLayout.add(line);*/
+        handlerMap.put(EditControlEvent.UNDO, h->{
+            documentManager.getActiveDocument().undo();
+        });
+
+        handlerMap.put(EditControlEvent.REDO, h->{
+            documentManager.getActiveDocument().redo();
+        });
+    }
+
+    private void initDrawingAreaDropDetection(DrawingCanvas drawingArea){
+        drawingArea.setOnDragOver(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                if (event.getGestureSource() != drawingArea &&
+                        event.getDragboard().hasString()) {
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                    if(toPaint != null)paintDraggedComponent(event);
+                }
+
+                event.consume();
+            }
+        });
+
+        drawingArea.setOnDragEntered(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                if (db.hasString()) {
+                    for(Component c: Component.values()){
+                        if(c.getType() == db.getString()){
+                            toPaint = DocumentObjectFactory.createDocumentObject(c);
+                            if(toPaint != null)paintDraggedComponent(event);
+                        }
+                    }
+                }
+
+                event.consume();
+            }
+        });
+
+        drawingArea.setOnDragDropped(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                if (db.hasString()) {
+                    if(drawingArea.getCanvasLayout() != null){
+                        drawingArea.getCanvasLayout().getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, toPaint));
+                    }
+                    toPaint= null;
+                }
+                event.setDropCompleted(true);
+
+                event.consume();
+            }
+        });
+    }
+
+    private void paintDraggedComponent(DragEvent dragEvent){
+        if(drawingArea.getCanvasLayout() != null && drawingArea.getCanvasLayout() instanceof  GridModel){
+            GridModel gridModel = (GridModel) drawingArea.getCanvasLayout();
+            int gridX = gridModel.getGridCoordinate(dragEvent.getX(), gridModel.getOriginX());
+            int gridY = gridModel.getGridCoordinate(dragEvent.getY(), gridModel.getOriginY());
+            toPaint.setGridX(gridX);
+            toPaint.setGridY(gridY);
+            gridModel.updatePaintProperties(toPaint);
+            gridModel.getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
+            toPaint.paint(gridModel.getCanvas().getGraphicsContext2D());
+        }
+
+
     }
 
 
