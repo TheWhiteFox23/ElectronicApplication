@@ -29,7 +29,7 @@ public class DrawingCanvas extends Region {
 
     public DrawingCanvas(){
         //TODO Clean up constructor
-        getStylesheets().add(Objects.requireNonNull(App.class.getResource("stylesheets/drawing-area.css")).toExternalForm());
+        getStylesheets().add(Objects.requireNonNull(App.class.getResource("stylesheets/style.css")).toExternalForm());
         initGraphics();
     }
 

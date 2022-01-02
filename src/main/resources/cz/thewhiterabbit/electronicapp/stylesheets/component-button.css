@@ -1,9 +1,0 @@
-ComponentButton{
-    -fx-background-color: transparent;
-    -fx-pref-height: 50;
-    -fx-padding: 0 10 0 10;
-}
-
-Label{
-    -fx-text-fill:  #666666;
-}

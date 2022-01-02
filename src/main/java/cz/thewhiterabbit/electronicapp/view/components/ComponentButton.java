@@ -17,7 +17,7 @@ public class ComponentButton extends VBox {
 
     public ComponentButton(String text, Component component){
         this.component = component;
-        getStylesheets().add(App.class.getResource("stylesheets/component-button.css").toExternalForm());
+        getStylesheets().add(App.class.getResource("stylesheets/style.css").toExternalForm());
         this.text = new Label(text);
         getChildren().addAll(image, this.text);
         initDragDetection(this);

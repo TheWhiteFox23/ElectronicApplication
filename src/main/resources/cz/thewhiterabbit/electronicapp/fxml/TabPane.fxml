@@ -7,7 +7,8 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.TabPaneController"
       fx:id="tabPane"
-      stylesheets="@../stylesheets/tab-pane.css"
+      stylesheets="@../stylesheets/style.css"
+      styleClass="tab_pane"
       spacing="5">
     <Button styleClass="addButton" text="+" prefWidth="30" fx:id="newFile"/>
 </HBox>

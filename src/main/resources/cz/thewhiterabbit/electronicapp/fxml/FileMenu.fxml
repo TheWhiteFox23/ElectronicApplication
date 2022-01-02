@@ -5,7 +5,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
-        stylesheets="@../stylesheets/Style.css"
+        stylesheets="@../stylesheets/style.css"
         fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.FileMenuController"
         spacing="10">
     <MenuBar >

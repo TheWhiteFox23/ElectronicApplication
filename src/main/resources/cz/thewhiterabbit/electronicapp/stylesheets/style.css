@@ -1,59 +1,151 @@
+/**** prepared colors *****/
+
+*{
+    -primary-color-light:#CCCCCC;
+    -primary-color-dark:#666666;
+    -highlight-color:#3b9be1;
+    -light-gray:#A9A9A9;
+    -dark-gray:#333333;
+    -super-light-gray:#F2F2F2;
+    -tab-button-hover:#E0E0E0;
+}
+
+/***** General *****/
+.properties_pane{
+    -fx-background-color: -primary-color-light;
+    -fx-background-radius: 10;
+}
+
+MenuBar{
+    -fx-background-color: transparent;
+}
+HBox{
+    -fx-background-color: -primary-color-light;
+}
+
+/***** CATEGORY BUTTONS *******/
+CategoryButton.deselected{
+    -fx-text-fill:  -primary-color-dark;
+}
+
+CategoryButton.selected{
+    -fx-text-fill:  -highlight-color;
+    -fx-border-color: transparent transparent -highlight-color transparent;
+}
+
+CategoryButton{
+    -fx-background-color: transparent;
+    -fx-pref-height: 30;
+    -fx-padding: 0 10 0 10;
+}
+
+/****** COMPONENT BUTTON *****/
+ComponentButton{
+    -fx-background-color: transparent;
+    -fx-pref-height: 50;
+    -fx-padding: 0 10 0 10;
+}
+
+ComponentButton Label{
+    -fx-text-fill:  -primary-color-dark;
+}
+
+/***** DRAWING AREA ******/
+DrawingArea{
+    -fx-background-color: GRAY;
+}
+
+DrawingCanvas{
+    -fx-background-color: GRAY;
+}
+
+
+DrawingRegion{
+    -fx-background-color: GRAY;
+}
+
+
+/******* TAB BUTTON ******/
+TabButton.deselected{
+    -fx-background-color: -light-gray;
+    -fx-background-radius: 5 5 0 0;
+}
+
+TabButton.selected{
+    -fx-background-color: -super-light-gray;
+    -fx-background-radius: 5 5 0 0;
+}
+
+TabButton.deselected:hover{
+    -fx-background-color: -tab-button-hover;
+    -fx-background-radius: 5 5 0 0;
+}
+
+TabButton.selected:hover{
+    -fx-background-color: -super-light-gray;
+    -fx-background-radius: 5 5 0 0;
+}
+
+TabButton Label{
+    -fx-alignment: center;
+    -fx-text-fill:  -primary-color-dark;
+}
+
+TabButton Button{
+    -fx-background-color: transparent;
+}
+TabButton Button:hover{
+    -fx-background-color: transparent;
+    -fx-text-fill:  -highlight-color;
+}
+
+/****** TAB PANE ********/
 .addButton:hover{
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: -light-gray;
     -fx-background-radius: 5 5 0 0;
 }
 
 .addButton{
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: -super-light-gray;
     -fx-background-radius: 5 5 0 0;
 }
 
-HBox{
-    -fx-background-color: #CCCCCC;
+.tab_pane{
+    -fx-background-color: -primary-color-light;
     -fx-padding: 3 0 0 0;
 }
 
-.save_button_2{
-    -fx-background-color: transparent;
-    -fx-background-image: url(../img/floppy.svg);
-    -fx-background-size: 15px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: 90%;
-}
-
 .save-button {
-    -fx-background-color: #333333;
+    -fx-background-color:  -dark-gray;
     -fx-background-insets: 5 5 5 5;
 	-fx-shape: "M2237,1481.5c55.3,0,100.1-44.8,100.1-100.1v-350.6h-225.3v350.6c0,55.3,44.8,100.1,100.1,100.1H2237z M1163.8,3136h1839c73.2,0,132.5-59.3,132.5-132.5V1415.4L2744.4,1032h-74v580H1496.2v-580h-332.4 c-73.2,0-132.5,59.3-132.5,132.5v1839C1031.3,3076.7,1090.6,3136,1163.8,3136z M1278,2031.8c0-41.9,34-76,76-76h1458.7 c41.9,0,76,34,76,76v891.8c0,42-34,76-76,76H1353.9c-41.9,0-76-34-76-76V2031.8z M1568.6,2285.6h1029.5c38,0,68.8-30.8,68.8-68.8c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8C1499.8,2254.8,1530.6,2285.6,1568.6,2285.6z M1568.6,2546.5h1029.5c38,0,68.8-30.8,68.8-68.8c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8C1499.8,2515.7,1530.6,2546.5,1568.6,2546.5z M1568.6,2807.5h1029.5c38,0,68.8-30.8,68.8-68.8l0,0c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8l0,0C1499.8,2776.7,1530.6,2807.5,1568.6,2807.5z"
 }
 
 .save-button:hover {
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: -light-gray;
     -fx-background-insets: 5 5 5 5;
 	-fx-shape: "M2237,1481.5c55.3,0,100.1-44.8,100.1-100.1v-350.6h-225.3v350.6c0,55.3,44.8,100.1,100.1,100.1H2237z M1163.8,3136h1839c73.2,0,132.5-59.3,132.5-132.5V1415.4L2744.4,1032h-74v580H1496.2v-580h-332.4 c-73.2,0-132.5,59.3-132.5,132.5v1839C1031.3,3076.7,1090.6,3136,1163.8,3136z M1278,2031.8c0-41.9,34-76,76-76h1458.7 c41.9,0,76,34,76,76v891.8c0,42-34,76-76,76H1353.9c-41.9,0-76-34-76-76V2031.8z M1568.6,2285.6h1029.5c38,0,68.8-30.8,68.8-68.8c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8C1499.8,2254.8,1530.6,2285.6,1568.6,2285.6z M1568.6,2546.5h1029.5c38,0,68.8-30.8,68.8-68.8c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8C1499.8,2515.7,1530.6,2546.5,1568.6,2546.5z M1568.6,2807.5h1029.5c38,0,68.8-30.8,68.8-68.8l0,0c0-38-30.8-68.8-68.8-68.8H1568.6 c-38,0-68.8,30.8-68.8,68.8l0,0C1499.8,2776.7,1530.6,2807.5,1568.6,2807.5z"
 }
 
 .undo-button {
-    -fx-background-color: #333333;
+    -fx-background-color:  -dark-gray;
     -fx-background-insets: 5 5 5 5;
     -fx-shape: "M30.65,107.44a2.75,2.75,0,0,1-1.78-.66L1.42,83a2.72,2.72,0,0,1-.94-2,2.68,2.68,0,0,1,.94-2.05L28.87,55a2.71,2.71,0,1,1,3.56,4.1L7.34,80.9l25.09,21.77a2.71,2.71,0,0,1-1.78,4.77Z M35,84.62H2.72c-1.5,0-2.72-.5-2.72-2s1.22-2,2.72-2H35c20.2,0,36.63-17,36.63-37.61S55,5.52,34.71,5.52a2.76,2.76,0,0,1,0-5.52A42.31,42.31,0,0,1,35,84.62Z";
 }
 .undo-button:hover {
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: -light-gray;
     -fx-background-insets: 5 5 5 5;
     -fx-shape: "M30.65,107.44a2.75,2.75,0,0,1-1.78-.66L1.42,83a2.72,2.72,0,0,1-.94-2,2.68,2.68,0,0,1,.94-2.05L28.87,55a2.71,2.71,0,1,1,3.56,4.1L7.34,80.9l25.09,21.77a2.71,2.71,0,0,1-1.78,4.77Z M35,84.62H2.72c-1.5,0-2.72-.5-2.72-2s1.22-2,2.72-2H35c20.2,0,36.63-17,36.63-37.61S55,5.52,34.71,5.52a2.76,2.76,0,0,1,0-5.52A42.31,42.31,0,0,1,35,84.62Z";
 }
 
 .redo-button {
-    -fx-background-color: #333333;
+    -fx-background-color:  -dark-gray;
     -fx-background-insets: 5 5 5 5;
     -fx-shape: "M46.69,107.72A2.72,2.72,0,0,1,44.9,103L70,81.17,44.9,59.4a2.72,2.72,0,1,1,3.57-4.1L75.92,79.12a2.71,2.71,0,0,1,0,4.1L48.47,107.05A2.71,2.71,0,0,1,46.69,107.72Z M73.34,84.88h-31A42.22,42.22,0,0,1,0,42.56C0,19,18.83,0,42,0A2.82,2.82,0,0,1,44.7,2.84,2.77,2.77,0,0,1,42,5.62c-20.16,0-36.56,17-36.56,37.63,0,20.26,16.93,37.63,37,37.63h31c1.5,0,2.71.5,2.71,2S74.84,84.88,73.34,84.88Z";
 }
 
 .redo-button:hover {
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: -light-gray;
     -fx-background-insets: 5 5 5 5;
     -fx-shape: "M46.69,107.72A2.72,2.72,0,0,1,44.9,103L70,81.17,44.9,59.4a2.72,2.72,0,1,1,3.57-4.1L75.92,79.12a2.71,2.71,0,0,1,0,4.1L48.47,107.05A2.71,2.71,0,0,1,46.69,107.72Z M73.34,84.88h-31A42.22,42.22,0,0,1,0,42.56C0,19,18.83,0,42,0A2.82,2.82,0,0,1,44.7,2.84,2.77,2.77,0,0,1,42,5.62c-20.16,0-36.56,17-36.56,37.63,0,20.26,16.93,37.63,37,37.63h31c1.5,0,2.71.5,2.71,2S74.84,84.88,73.34,84.88Z";
 }
-
-

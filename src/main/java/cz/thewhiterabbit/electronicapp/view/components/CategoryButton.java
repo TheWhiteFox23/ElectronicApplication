@@ -20,7 +20,7 @@ public class CategoryButton extends Button {
     }
 
     private void init() {
-        getStylesheets().add(App.class.getResource("stylesheets/category-button.css").toExternalForm());
+        getStylesheets().add(App.class.getResource("stylesheets/style.css").toExternalForm());
         manageClassStyle(active);
         setOnAction(h ->{
             setActive(!active);

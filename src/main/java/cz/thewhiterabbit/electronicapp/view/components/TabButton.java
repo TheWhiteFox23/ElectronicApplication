@@ -19,7 +19,8 @@ public class TabButton extends AnchorPane {
 
 
     public TabButton()  {
-        getStylesheets().add(App.class.getResource("stylesheets/tab-button.css").toExternalForm());
+        getStylesheets().add(App.class.getResource("stylesheets/style.css").toExternalForm());
+        getStyleClass().add("tab_button");
         manageStyleClass(selected);
         initGraphics();
     }
@@ -57,10 +58,10 @@ public class TabButton extends AnchorPane {
 
     private void manageStyleClass(Boolean selected) {
         if(selected){
-            getStyleClass().clear();
+            getStyleClass().remove("deselected");
             getStyleClass().add("selected");
         }else{
-            getStyleClass().clear();
+            getStyleClass().remove("selected");
             getStyleClass().add("deselected");
         }
     }
