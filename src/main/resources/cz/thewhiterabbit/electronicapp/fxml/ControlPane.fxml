@@ -9,11 +9,12 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ControlPaneController">
-    <!-- holder box for file menu and tab pane -->
-        <HBox>
-            <fx:include source="FileMenu.fxml" fx:id="fileMenu" />
-            <fx:include source="TabPane.fxml" fx:id="tabPane" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-        </HBox>
+        <fx:include source="FileMenu.fxml" fx:id="fileMenu" />
+    <HBox>
+        <fx:include source="QuickControlMenu.fxml"/>
+        <fx:include source="TabPane.fxml" fx:id="tabPane" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+    </HBox>
+
         <fx:include source="ComponentMenu.fxml" fx:id="componentMenu"/>
 
 </VBox>

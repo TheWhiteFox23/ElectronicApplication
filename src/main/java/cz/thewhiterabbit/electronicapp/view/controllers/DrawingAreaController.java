@@ -71,6 +71,9 @@ public class DrawingAreaController {
         eventAggregator.addEventHandler(MenuEvent.OPEN_FILE, e->{
             onOpenFile();
         });
+        eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e->{
+            documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) e);
+        });
     }
 
     private void onOpenFile() {
@@ -128,6 +131,10 @@ public class DrawingAreaController {
 
         handlerMap.put(EditControlEvent.REDO, h->{
             documentManager.getActiveDocument().redo();
+        });
+
+        handlerMap.put(EditControlEvent.ACTIVE_OBJECT_CHANGE, h->{
+            eventAggregator.fireEvent(h);
         });
     }
 

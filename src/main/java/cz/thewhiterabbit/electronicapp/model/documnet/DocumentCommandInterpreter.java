@@ -99,5 +99,4 @@ public class DocumentCommandInterpreter {
     private void onSelectionChangedReverse(DrawingAreaEvent event){
         event.getCanvasObject().setSelected(event.getOldSelected());
     }
-
 }

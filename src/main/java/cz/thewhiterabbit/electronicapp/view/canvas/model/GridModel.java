@@ -9,8 +9,8 @@ import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 
 
 public class GridModel extends RelativeModel {
+    private CanvasObject activeElement;
     private double gridSize = 10;
-
     public GridModel() {
         super();
     }
@@ -127,5 +127,13 @@ public class GridModel extends RelativeModel {
     public double getGridLocation(int coordinate, double originLocation) {
         double location = originLocation + (coordinate * gridSize * getZoomAspect());
         return location;
+    }
+
+    public CanvasObject getActiveElement() {
+        return activeElement;
+    }
+
+    public void setActiveElement(CanvasObject activeElement) {
+        this.activeElement = activeElement;
     }
 }

@@ -3,13 +3,26 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+@PropertiesPaneController.Component
 public class GeneralCanvasObject extends GeneralComponent {
     private final Component component = Component.TEST_COMPONENT;
+
+    @PropertiesPaneController.Property(propertyType = PropertiesPaneController.PropertyType.INTEGER)
+    private final IntegerProperty _gridX = gridXProperty();
+    @PropertiesPaneController.Property(propertyType = PropertiesPaneController.PropertyType.INTEGER)
+    private final IntegerProperty _gridY = gridYProperty();
+    @PropertiesPaneController.Property(propertyType = PropertiesPaneController.PropertyType.INTEGER, editable = false)
+    private final IntegerProperty _gridHeight = gridHeightProperty();
+    @PropertiesPaneController.Property(propertyType = PropertiesPaneController.PropertyType.INTEGER, editable = false)
+    private final IntegerProperty _gridWidth = gridWidthProperty();
 
     public GeneralCanvasObject(){
         setGridHeight(2);

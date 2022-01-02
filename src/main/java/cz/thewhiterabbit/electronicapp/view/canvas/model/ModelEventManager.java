@@ -36,6 +36,8 @@ public class ModelEventManager {
     private EventCrate objectDragEvent;
     private EventCrate selectionDragEvent;
 
+    private boolean propertiesDialogVisible = false;
+
     private double lastDragStartX;
 
     public ModelEventManager(CanvasModel parentModel, EventAggregator eventAggregator) {
@@ -63,6 +65,21 @@ public class ModelEventManager {
         registerKeyPressListeners();
         registerModelPropagationListener();
         registerPaintSelectionHandler();
+        registerDoubleClickListener();
+    }
+
+    private void registerDoubleClickListener() {
+        eventAggregator.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            GridModel m = (GridModel) parentModel;
+            MouseEvent mouseEvent = (MouseEvent) e;
+            if (mouseEvent.getClickCount() == 2 && hoveredObject != null && (m.getActiveElement()==null || m.getActiveElement()!=hoveredObject)) {
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.ACTIVE_OBJECT_CHANGE, m.getActiveElement(), hoveredObject));
+                m.setActiveElement(hoveredObject);
+            } else if (mouseEvent.getClickCount() == 1 && hoveredObject == null && m.getActiveElement()!= null) {
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.ACTIVE_OBJECT_CHANGE, m.getActiveElement(), null));
+                m.setActiveElement(null);
+            }
+        });
     }
 
     private void registerModelPropagationListener() {

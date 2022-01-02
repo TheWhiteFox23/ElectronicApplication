@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.QuickControlController"
+      fx:id="quickControlMenu"
+      stylesheets="@../stylesheets/tab-pane.css">
+    <Button styleClass="save-button" prefHeight="20" prefWidth="25"/>
+    <Button styleClass="undo-button" prefHeight="20" prefWidth="25"/>
+    <Button styleClass="redo-button" prefHeight="20" prefWidth="25"/>
+
+</HBox>

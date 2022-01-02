@@ -4,9 +4,15 @@ TabButton.deselected{
 }
 
 TabButton.selected{
-    -fx-background-color: #CCCCCC;
+    -fx-background-color: #F2F2F2;
     -fx-background-radius: 5 5 0 0;
 }
+
+TabButton.deselected:hover{
+    -fx-background-color: #A9A9A9;
+    -fx-background-radius: 5 5 0 0;
+}
+
 
 
 Label{
@@ -15,4 +21,8 @@ Label{
 
 Button{
     -fx-background-color: transparent;
+}
+Button:hover{
+    -fx-background-color: transparent;
+    -fx-text-fill:  #3b9be1;
 }

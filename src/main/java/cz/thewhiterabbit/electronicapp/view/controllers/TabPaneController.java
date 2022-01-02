@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
@@ -51,7 +52,7 @@ public class TabPaneController {
         TabButton button = new TabButton();
         button.setText(document.getName());
         documentHashMap.put(button, document);
-        tabPane.getChildren().add(button);
+        tabPane.getChildren().add(tabPane.getChildren().size()-1, button);
         button.setOnClose(h ->{
             eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLOSE_DOCUMENT, documentHashMap.get(button)));
         });

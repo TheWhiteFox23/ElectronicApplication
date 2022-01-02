@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController"
+      prefHeight="100.0" prefWidth="200.0"
+      stylesheets="@../stylesheets/Style.css"
+      styleClass="properties_pane"
+      fx:id="propertiesPane">
+</VBox>

@@ -3,7 +3,6 @@ module cz.thewhiterabbit.electronicapp {
     requires javafx.fxml;
     requires commons.math3;
     requires json.simple;
-    requires reflections;
 
 
     opens cz.thewhiterabbit.electronicapp to javafx.fxml;

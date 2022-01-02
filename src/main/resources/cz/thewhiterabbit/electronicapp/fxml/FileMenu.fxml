@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        stylesheets="@../stylesheets/Style.css"
+        fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.FileMenuController"
+        spacing="10">
+    <MenuBar >
+        <menus>
+            <Menu mnemonicParsing="false" text="%menu.file">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="%menu.file.new_file" fx:id="newFile" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.open" fx:id="openFile" />
+                    <Menu mnemonicParsing="false" text="%menu.file.open_recent"  />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.close" fx:id="closeFile" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.save" fx:id="saveFile"/>
+                    <MenuItem mnemonicParsing="false" text="%menu.file.save_as" fx:id="saveFileAs" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.revert" />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.preferences" />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="%menu.file.quit" fx:id="quit"/>
+                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%menu.edit">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.undo" fx:id="undo" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.redo" fx:id="redo"/>
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.cut" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.copy" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.paste" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.delete" fx:id="delete"/>
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.select_all" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.unselect_all" />
+                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%menu.help">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="%menu.help.about" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+</HBox>
