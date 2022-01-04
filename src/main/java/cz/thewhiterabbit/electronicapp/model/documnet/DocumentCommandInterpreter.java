@@ -66,9 +66,6 @@ public class DocumentCommandInterpreter {
     private void onObjectDeleted(DrawingAreaEvent event) {
         //TODO validation
         DocumentObject o = (DocumentObject) event.getCanvasObject();
-        /*if(o!= null) {
-            parentDocument.getRawDocument().removeObject(o.getRawObject());
-        }*/
         if(o!= null){
             parentDocument.remove(o);
         }

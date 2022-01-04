@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 
+import cz.thewhiterabbit.electronicapp.model.components.ComponentType;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController;
 import javafx.beans.property.IntegerProperty;
@@ -12,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 @PropertiesPaneController.Component
+@ComponentType
 public class GeneralCanvasObject extends GeneralComponent {
     private final Component component = Component.TEST_COMPONENT;
 

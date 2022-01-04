@@ -41,7 +41,7 @@ public abstract class CanvasModel {
 
     /************METHODS**********************/
     //TODO Modify to add and remove handlers
-    public void add(CanvasObject object){
+    public void add(CanvasObject object){ //TODO test
         object.setParentModel(this);
         object.setEventAggregator(innerEventAggregator);
         updatePaintProperties(object);
@@ -55,15 +55,20 @@ public abstract class CanvasModel {
      * Return list of objects currently visible on the screen
      * @return
      */
-    public List<CanvasObject> getVisible(){
+    private List<CanvasObject> getVisible(double canvasWidth, double canvasHeight){ //TODO test
         List<CanvasObject> visibleObjects = new ArrayList<>();
-        double canvasHeight = getCanvas().getHeight();
-        double canvasWidth = getCanvas().getWidth();
         canvasObjects.forEach(o ->{
             if(o.isVisible(canvasWidth, canvasHeight))visibleObjects.add(o);
         });
         return visibleObjects;
     }
+
+    public List<CanvasObject> getVisible(){
+        double canvasHeight = getCanvas().getHeight();
+        double canvasWidth = getCanvas().getWidth();
+        return getVisible(canvasWidth, canvasHeight);
+    }
+
 
     //TODO link to remove DocumentComponent
     public void remove(CanvasObject o){
@@ -158,7 +163,11 @@ public abstract class CanvasModel {
         modelEventAggregator.removeEventHandler(eventType, eventHandler);
     }
 
-    public List<CanvasObject> getSelectedObject(){
+    /**
+     * Return all selected object of the model
+     * @return List of CanvasObject
+     */
+    public List<CanvasObject> getSelected(){
         List<CanvasObject> selected = new ArrayList<>();
         getCanvasObjects().forEach(o -> {
             if(o.isSelected())selected.add(o);

@@ -4,6 +4,7 @@ import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
+import cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController;
 
 public enum Component {
     RESISTOR("RESISTOR", Resistor.class, Category.R_C_L),

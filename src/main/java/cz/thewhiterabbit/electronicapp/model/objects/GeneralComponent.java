@@ -54,4 +54,6 @@ public abstract class GeneralComponent extends DocumentObject{
     }
     public abstract Component getComponent();
 
+
+
 }

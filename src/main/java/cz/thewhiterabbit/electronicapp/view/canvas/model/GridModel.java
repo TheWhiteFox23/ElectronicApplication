@@ -42,7 +42,7 @@ public class GridModel extends RelativeModel {
             int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getStartY(), getOriginY());
 
             if (deltaX != 0 || deltaY != 0) {
-                getSelectedObject().forEach(o -> {
+                getSelected().forEach(o -> {
                     setObjectLocations(o, deltaX, deltaY);
                 });
                 getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
@@ -60,7 +60,7 @@ public class GridModel extends RelativeModel {
             int deltaY = getGridCoordinate(event.getY(), getOriginY()) - getGridCoordinate(event.getLastY(), getOriginY());
 
             if (deltaX != 0 || deltaY != 0) {
-                getSelectedObject().forEach(o -> {
+                getSelected().forEach(o -> {
                     moveObject(o, deltaX, deltaY);
                 });
             }

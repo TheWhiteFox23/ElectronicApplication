@@ -3,12 +3,10 @@ package cz.thewhiterabbit.electronicapp.view.canvas.model;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
-import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import javafx.event.EventType;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -96,7 +94,7 @@ public class ModelEventManager {
             KeyEvent event = (KeyEvent) e;
             //ROTATION
             if (event.getCode() == KeyCode.R && !event.isAltDown()) {
-                List<CanvasObject> selected = parentModel.getSelectedObject();
+                List<CanvasObject> selected = parentModel.getSelected();
                 selected.forEach(o -> {
                     o.setRotation((o.getRotation() + 1) % 4);
                     o.paint(parentModel.getCanvas().getGraphicsContext2D());
@@ -106,7 +104,7 @@ public class ModelEventManager {
             } else if (event.getCode() == KeyCode.R && event.isAltDown()) {
                 //System.out.println("Rotate selection counter clockwise");
             } else if (event.getCode() == KeyCode.DELETE) {
-                parentModel.getSelectedObject().forEach(o -> {
+                parentModel.getSelected().forEach(o -> {
                     o.callForDelete();
                 });
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));

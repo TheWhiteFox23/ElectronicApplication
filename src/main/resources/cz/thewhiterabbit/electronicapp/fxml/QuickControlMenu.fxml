@@ -7,7 +7,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.QuickControlController"
       fx:id="quickControlMenu"
-      stylesheets="@../stylesheets/tab-pane.css">
+      stylesheets="@../stylesheets/style.css">
     <Button styleClass="save-button" prefHeight="20" prefWidth="25"/>
     <Button styleClass="undo-button" prefHeight="20" prefWidth="25"/>
     <Button styleClass="redo-button" prefHeight="20" prefWidth="25"/>
