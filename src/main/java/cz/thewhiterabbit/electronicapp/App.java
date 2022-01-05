@@ -22,11 +22,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Window.fxml"));
         loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
-        //loader.load();
-
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Window.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        //Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("Electronic app");
         stage.setScene(scene);
         stage.show();

@@ -1,4 +1,6 @@
-package cz.thewhiterabbit.electronicapp.model.components;
+package cz.thewhiterabbit.electronicapp.model.property;
+
+import javafx.beans.property.Property;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ public class ComponentAnnotationProcessor {
      * Return if object is annotated with ComponentType annotation
      * @param object
      */
-    public boolean isComponent(Object object){
+    public static boolean isComponent(Object object){
         return object.getClass().isAnnotationPresent(ComponentType.class);
     }
 
@@ -17,21 +19,25 @@ public class ComponentAnnotationProcessor {
      * Return list of obtained from object annotations
      * @return
      */
-    public List<AnnotationProperty> getProperties(Object object){
-        List<AnnotationProperty> properties = new ArrayList<>();
+    public static List<VisibleProperty> getProperties(Object object) throws IllegalAccessException {
+        List<VisibleProperty> properties = new ArrayList<>();
         List<Field> fields = getAnnotatedFields(object);
         for(Field f: fields){
-            ComponentProperty annotation = f.getAnnotation(ComponentProperty.class);
-            properties.add(new AnnotationProperty(annotation, f));
+            f.setAccessible(true);
+            PropertyDialogField annotation = f.getAnnotation(PropertyDialogField.class);
+            if(f.get(object) instanceof Property){
+                var property = new VisibleProperty<>(annotation, (Property) f.get(object));
+                properties.add(property);
+            }
         }
         return properties;
     }
 
-    private List<Field> getAnnotatedFields(Object object) {
+    private static List<Field> getAnnotatedFields(Object object) {
         List<Field> fieldList = new ArrayList<>();
         Field[] fields = object.getClass().getDeclaredFields();
         for(Field f : fields){
-            if(f.isAnnotationPresent(ComponentProperty.class)){
+            if(f.isAnnotationPresent(PropertyDialogField.class)){
                 fieldList.add(f);
             }
         }

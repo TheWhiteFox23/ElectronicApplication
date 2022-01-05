@@ -3,8 +3,6 @@ package cz.thewhiterabbit.electronicapp.model.documnet;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 
-import java.util.List;
-
 /**
  * Interprets incoming command
  */
@@ -48,7 +46,7 @@ public class DocumentCommandInterpreter {
     }
 
 
-    private void onPropertyChange(DrawingAreaEvent event) {
+    private void onPropertyChange(DrawingAreaEvent event) { //TODO property type validation
         //TODO property validation
         DocumentObject o = (DocumentObject) event.getCanvasObject();
         //System.out.println(event.getProperty().getName());

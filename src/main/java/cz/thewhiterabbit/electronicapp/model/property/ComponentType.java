@@ -1,4 +1,4 @@
-package cz.thewhiterabbit.electronicapp.model.components;
+package cz.thewhiterabbit.electronicapp.model.property;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import cz.thewhiterabbit.electronicapp.model.property.*;
+import javafx.beans.property.*;
 import org.junit.jupiter.api.*;
 
 import java.util.Arrays;
@@ -36,21 +36,21 @@ class ComponentAnnotationProcessorTest {
     @Nested
     class getProperties{
         @Test
-        void getPropertiesSimple() {
+        void getPropertiesSimple() throws IllegalAccessException {
             Object o = new SimpleValidObject();
-            List<AnnotationProperty> properties = annotationProcessor.getProperties(o);
+            List<VisibleProperty> properties = annotationProcessor.getProperties(o);
             Assertions.assertTrue(properties.size() == 1);
-            AnnotationProperty property = properties.get(0);
+            VisibleProperty property = properties.get(0);
             Assertions.assertTrue(property.getName().equals("TestProperty"));
-            Assertions.assertTrue(property.getType().equals(ComponentPropertyType.TEXT));
+            Assertions.assertTrue(property.getType().equals(ComponentPropertyType.TEXT_FIELD));
             Assertions.assertTrue(property.getUnit().equals("testUnit"));
             Assertions.assertTrue(Arrays.equals(property.getValues(), new String[]{"value1", "value2"}));
         }
 
         @Test
-        void getPropertiesMultiple() {
+        void getPropertiesMultiple() throws IllegalAccessException {
             Object o = new MultipleValidObject();
-            List<AnnotationProperty> properties = annotationProcessor.getProperties(o);
+            List<VisibleProperty> properties = annotationProcessor.getProperties(o);
             Assertions.assertTrue(properties.size() == 2);
         }
     }
@@ -61,7 +61,7 @@ class ComponentAnnotationProcessorTest {
 
     @ComponentType
     private class SimpleValidObject {
-        @ComponentProperty(name = "TestProperty", type = ComponentPropertyType.TEXT, unit = "testUnit", values = {"value1", "value2"})
+        @PropertyDialogField(name = "TestProperty", type = ComponentPropertyType.TEXT_FIELD, unit = "testUnit", values = {"value1", "value2"})
         private final StringProperty stringPropertyValid = new SimpleStringProperty("Test");
 
         private final StringProperty stringPropertyInvalid = new SimpleStringProperty("Test");
@@ -69,9 +69,9 @@ class ComponentAnnotationProcessorTest {
 
     @ComponentType
     private class MultipleValidObject {
-        @ComponentProperty(name = "TestProperty", type = ComponentPropertyType.TEXT, unit = "testUnit", values = {"value1", "value2"})
+        @PropertyDialogField(name = "TestProperty", type = ComponentPropertyType.TEXT_FIELD, unit = "testUnit", values = {"value1", "value2"})
         private final StringProperty stringPropertyValid = new SimpleStringProperty("Test");
-        @ComponentProperty(name = "TestProperty", type = ComponentPropertyType.TEXT, unit = "testUnit", values = {"value1", "value2"})
+        @PropertyDialogField(name = "TestProperty", type = ComponentPropertyType.TEXT_FIELD, unit = "testUnit", values = {"value1", "value2"})
         private final StringProperty stringPropertyInvalid = new SimpleStringProperty("Test");
     }
 

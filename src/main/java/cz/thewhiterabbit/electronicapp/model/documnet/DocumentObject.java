@@ -19,8 +19,8 @@ public abstract class DocumentObject extends CanvasObject {
     public void setRawObject(RawObject rawObject)
     {
         this.rawObject = rawObject;
-        init();
-        mapProperties();
+        //init();
+        //mapProperties();
     }
 
     public abstract void init();

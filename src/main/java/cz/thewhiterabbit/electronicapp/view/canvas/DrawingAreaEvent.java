@@ -1,15 +1,17 @@
 package cz.thewhiterabbit.electronicapp.view.canvas;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 
 public class DrawingAreaEvent extends Event {
     private CanvasObject canvasObject;
-    private IntegerProperty property;
-    private int oldValue;
-    private int newVale;
+    private Property property;
+    private Object oldValue;
+    private Object newVale;
     private boolean oldSelected;
     private boolean newSelected;
 
@@ -38,18 +40,19 @@ public class DrawingAreaEvent extends Event {
         this.oldSelected = oldSelected;
     }
 
-    public DrawingAreaEvent(EventType<? extends Event> eventType, CanvasObject canvasObject, IntegerProperty property, int oldValue, int newVale) {
+    public DrawingAreaEvent(EventType<? extends Event> eventType, CanvasObject canvasObject, Property integerProperty, Object oldValue, Object newVale) {
         super(eventType);
         this.canvasObject = canvasObject;
-        this.property = property;
+        this.property = integerProperty;
         this.oldValue = oldValue;
         this.newVale = newVale;
     }
 
-    public DrawingAreaEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, CanvasObject canvasObject, IntegerProperty property, int oldValue, int newVale) {
+
+    public DrawingAreaEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, CanvasObject canvasObject, Property integerProperty, Object oldValue, Object newVale) {
         super(o, eventTarget, eventType);
         this.canvasObject = canvasObject;
-        this.property = property;
+        this.property = integerProperty;
         this.oldValue = oldValue;
         this.newVale = newVale;
     }
@@ -66,15 +69,15 @@ public class DrawingAreaEvent extends Event {
         return canvasObject;
     }
 
-    public IntegerProperty getProperty() {
+    public Property getProperty() {
         return property;
     }
 
-    public int getOldValue() {
+    public Object getOldValue() {
         return oldValue;
     }
 
-    public int getNewVale() {
+    public Object getNewVale() {
         return newVale;
     }
 

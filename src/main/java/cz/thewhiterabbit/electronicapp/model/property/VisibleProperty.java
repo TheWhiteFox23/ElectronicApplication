@@ -1,20 +1,20 @@
-package cz.thewhiterabbit.electronicapp.model.components;
+package cz.thewhiterabbit.electronicapp.model.property;
 
-import java.lang.reflect.Field;
+import javafx.beans.property.Property;
 
-public class AnnotationProperty {
+public class VisibleProperty<T extends Property> {
         private String name;
-        private Object property; //TODO add factory to create appropriate property
+        private T linkedProperty; //TODO add factory to create appropriate property
         private ComponentPropertyType type;
         private String unit;
         private String[] values;
 
-        public AnnotationProperty(ComponentProperty componentProperty, Field field){
-            this.name = componentProperty.name();
-            this.property = field;
-            this.type = componentProperty.type();
-            this.unit = componentProperty.unit();
-            this.values = componentProperty.values();
+        public VisibleProperty(PropertyDialogField propertyDialogField, T linkedProperty){
+            this.name = propertyDialogField.name();
+            this.linkedProperty = linkedProperty;
+            this.type = propertyDialogField.type();
+            this.unit = propertyDialogField.unit();
+            this.values = propertyDialogField.values();
         }
 
         public String getName() {
@@ -25,12 +25,12 @@ public class AnnotationProperty {
             this.name = name;
         }
 
-        public Object getProperty() {
-            return property;
+        public Object getLinkedProperty() {
+            return linkedProperty;
         }
 
-        public void setProperty(Object property) {
-            this.property = property;
+        public void setLinkedProperty(T property) {
+            this.linkedProperty = property;
         }
 
         public ComponentPropertyType getType() {
