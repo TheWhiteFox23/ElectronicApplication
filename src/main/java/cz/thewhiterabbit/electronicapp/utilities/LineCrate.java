@@ -1,4 +1,4 @@
-package cz.thewhiterabbit.electronicapp.model.objects.utilities;
+package cz.thewhiterabbit.electronicapp.utilities;
 
 import org.apache.commons.math3.linear.*;
 

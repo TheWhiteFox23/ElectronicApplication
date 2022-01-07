@@ -30,6 +30,10 @@ public class RawObject {
         propertyMap.put(rawProperty.getName(), rawProperty);
     }
 
+    public void removeProperty(RawProperty rawProperty){
+        propertyMap.remove(rawProperty.getName());
+    }
+
     public RawProperty getProperty(String name){
         return propertyMap.get(name);
     }

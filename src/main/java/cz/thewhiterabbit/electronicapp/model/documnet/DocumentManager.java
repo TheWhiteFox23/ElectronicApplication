@@ -5,10 +5,13 @@ import cz.thewhiterabbit.electronicapp.IEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
+import cz.thewhiterabbit.electronicapp.view.dialogs.FileLoadError;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -41,15 +44,55 @@ public class DocumentManager implements IEventAggregator {
     }
 
     public void loadDocument(File file){
+        Document document = tryLoadDocument(file);
+        if(document != null){
+            tryManageDocumentLoading(document);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid file",  ButtonType.OK);
+            alert.showAndWait();
+        }
+
+    }
+
+    private void tryManageDocumentLoading(Document document) {
         try {
-            Document document = fileService.load(file);
-            addDocument(document);
+            manageDocumentLoading(document);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+
         }
     }
+
+    private Document tryLoadDocument(File file) {
+        try {
+            Document document = fileService.load(file);
+            return document;
+        } catch (IOException e) {
+            return null;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    private void manageDocumentLoading(Document document) throws IOException {
+        if(fileService.getInvalidRawObjects().size() == 0){
+            addDocument(document);
+        }else{
+            FileLoadError fileLoadError = new FileLoadError(document.getName(), fileService.getInvalidRawObjects());
+            fileLoadError.getStage().showAndWait();
+            switch (fileLoadError.getResponse()){
+                case FIX :
+                    addDocument(fileService.correctCorruptedObjects(document, fileService.getInvalidRawObjects()));
+                    break;
+                case IGNORE:
+                    addDocument(document);
+                    break;
+                case CANCEL:
+                    return;
+            }
+        }
+    }
+
     public void closeDocument(Document document){
         if(document == activeDocument){
             if(documents.size() != 1){

@@ -72,15 +72,15 @@ public class Document {
     }
 
     public void add(DocumentObject documentObject){
-        objectMap.put(documentObject.toRawObject(), documentObject);
+        objectMap.put(documentObject.getRawObject(), documentObject);
         gridModel.add(documentObject);
-        rawDocument.addObject(documentObject.toRawObject());
+        rawDocument.addObject(documentObject.getRawObject());
     }
 
     public void remove(DocumentObject documentObject){
         objectMap.remove(documentObject);
         gridModel.remove(documentObject);
-        rawDocument.removeObject(documentObject.toRawObject());
+        rawDocument.removeObject(documentObject.getRawObject());
     }
 
     public void applyCommand(DrawingAreaEvent e){

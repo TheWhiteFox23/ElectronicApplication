@@ -1,7 +1,12 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
+import cz.thewhiterabbit.electronicapp.utilities.ValueValidator;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 
 /**
  * Interprets incoming command
@@ -46,23 +51,23 @@ public class DocumentCommandInterpreter {
     }
 
 
-    private void onPropertyChange(DrawingAreaEvent event) { //TODO property type validation
-        //TODO property validation
+    private void onPropertyChange(DrawingAreaEvent event) {
         DocumentObject o = (DocumentObject) event.getCanvasObject();
-        //System.out.println(event.getProperty().getName());
         RawProperty p = o.getProperty(event.getProperty().getName());
-        if(p != null){
-            p.setValue(String.valueOf(event.getNewVale()));
+        setRawPropertyIfValid(p, event.getProperty(), event.getNewValue());
+    }
+
+    private void setRawPropertyIfValid(RawProperty rawProperty, Property linkedProperty, Object value){
+        if(rawProperty != null && ValueValidator.validateProperty(linkedProperty, value)){
+            rawProperty.setValue(value.toString());
         }
-    };
+    }
 
     private void onObjectAdded(DrawingAreaEvent event) {
-        //TODO validation
         parentDocument.add((DocumentObject) (event.getCanvasObject()));
     };
 
     private void onObjectDeleted(DrawingAreaEvent event) {
-        //TODO validation
         DocumentObject o = (DocumentObject) event.getCanvasObject();
         if(o!= null){
             parentDocument.remove(o);
@@ -78,13 +83,9 @@ public class DocumentCommandInterpreter {
     }
 
     private void onPropertyChangeReverse(DrawingAreaEvent event){
-        //TODO property validation
         DocumentObject o = (DocumentObject) event.getCanvasObject();
-        //System.out.println(event.getProperty().getName());
         RawProperty p = o.getProperty(event.getProperty().getName());
-        if(p != null){
-            p.setValue(String.valueOf(event.getOldValue()));
-        }
+        setRawPropertyIfValid(p, event.getProperty(), event.getOldValue());
     }
 
     private void onSelectionChanged(DrawingAreaEvent event){

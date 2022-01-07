@@ -77,7 +77,7 @@ public class DrawingAreaEvent extends Event {
         return oldValue;
     }
 
-    public Object getNewVale() {
+    public Object getNewValue() {
         return newVale;
     }
 

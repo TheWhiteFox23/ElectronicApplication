@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox fx:id="holder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml">
+   <children>
+      <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="600.0" style="-fx-alignment: center; -fx-label-padding: 10 10 10 10;">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-insets: 10 10 10 10;" />
+      <VBox prefHeight="100.0" prefWidth="600.0" spacing="5.0" style="-fx-padding: 10 10 10 10;">
+         <children>
+            <RadioButton fx:id="fixButton" mnemonicParsing="false" text="Try to fix corrupted objects" />
+            <RadioButton fx:id="excludeButton" mnemonicParsing="false" text="Load without corrupted objects" />
+            <RadioButton fx:id="doNotLoadButton" mnemonicParsing="false" text="Cancel loading" />
+         </children>
+      </VBox>
+      <AnchorPane prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            <Button fx:id="confirmButton" alignment="BASELINE_LEFT" layoutY="25.0" mnemonicParsing="false" text="Confirm" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

@@ -5,6 +5,7 @@ import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.property.*;
+import cz.thewhiterabbit.electronicapp.utilities.ValueValidator;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
@@ -199,17 +200,28 @@ public class PropertiesPaneController {
         Property linkedProperty = (Property)visibleProperty.getLinkedProperty();
         textField.setText(linkedProperty.getValue().toString());
 
+        InvalidationListener textPropertyListener = new WeakInvalidationListener(l -> {
+            boolean validation = ValueValidator.validateProperty(linkedProperty, textField.textProperty().getValue());
+            if(!validation) System.out.println("InvalidValue");//TODO visually highlight
+        });
+        textField.textProperty().addListener(textPropertyListener);
+
         InvalidationListener invalidationListener = new WeakInvalidationListener(e ->firePropertyChange(linkedProperty, linkedProperty.getValue().toString(),
                 textField.getText()));
         textField.focusedProperty().addListener(invalidationListener);
 
+        ChangeListener changeListener = initChangeListener(textField, linkedProperty);
+
+        nodeMap.put(textField, new ListenersCrate(changeListener, invalidationListener,textPropertyListener, linkedProperty));
+        return textField;
+    }
+
+    private ChangeListener initChangeListener(TextField textField, Property linkedProperty) {
         ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> {
             textField.setText(newVal.toString());
         });
         linkedProperty.addListener(changeListener);
-
-        nodeMap.put(textField, new ListenersCrate(changeListener, invalidationListener, linkedProperty));
-        return textField;
+        return changeListener;
     }
 
     private TextField getTextField(){
@@ -244,6 +256,7 @@ public class PropertiesPaneController {
         }else if(node instanceof TextField){
             textFieldsFree.push((TextField) node);
             node.focusedProperty().removeListener(nodeMap.get(node).invalidationListener);
+            ((TextField) node).textProperty().removeListener(nodeMap.get(node).textPropertyListener);
         }else if(node instanceof TextArea){
             textAreasFree.push((TextArea) node);
             node.focusedProperty().removeListener(nodeMap.get(node).invalidationListener);
@@ -273,15 +286,25 @@ public class PropertiesPaneController {
         return ComponentAnnotationProcessor.isComponent(activeObject);
     }
 
+
     private class ListenersCrate{
         ChangeListener changeListener;
         InvalidationListener invalidationListener;
+        InvalidationListener textPropertyListener;
         Property property;
         EventHandler eventHandler;
 
         public ListenersCrate(ChangeListener changeListener, InvalidationListener invalidationListener, Property property) {
             this.changeListener = changeListener;
             this.invalidationListener = invalidationListener;
+            this.property = property;
+        }
+
+        public ListenersCrate(ChangeListener changeListener, InvalidationListener invalidationListener,
+                              InvalidationListener textPropertyListener,Property property) {
+            this.changeListener = changeListener;
+            this.invalidationListener = invalidationListener;
+            this.textPropertyListener = textPropertyListener;
             this.property = property;
         }
 

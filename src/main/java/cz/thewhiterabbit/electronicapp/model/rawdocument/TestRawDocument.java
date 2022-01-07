@@ -16,16 +16,7 @@ public class TestRawDocument extends RawDocument{
                 generalCanvasObject.setRotation(0);
                 RawObject rawObject = generalCanvasObject.toRawObject();
                 addObject(rawObject);
-
-               /* RawObject rawObject = new RawObject("TEST_OBJECT");
-                rawObject.addProperty(new RawProperty("gridX", String.valueOf(i)));
-                rawObject.addProperty(new RawProperty("gridY", String.valueOf(j)));
-                rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(2)));
-                rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(2)));
-                rawObject.addProperty(new RawProperty("rotation", String.valueOf(0)));
-                addObject(rawObject);*/
             }
         }
-        System.out.println("test");
     }
 }

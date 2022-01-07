@@ -1,4 +1,4 @@
-package cz.thewhiterabbit.electronicapp.model.objects.utilities;
+package cz.thewhiterabbit.electronicapp.utilities;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;

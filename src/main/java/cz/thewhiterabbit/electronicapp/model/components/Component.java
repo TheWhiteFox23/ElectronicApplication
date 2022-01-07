@@ -33,4 +33,11 @@ public enum Component {
     public Category getCategory() {
         return category;
     }
+
+    public static Component getComponent(String type){
+        for (Component c: Component.values()){
+            if(c.getType().equals(type))return c;
+        }
+        return null;
+    }
 }

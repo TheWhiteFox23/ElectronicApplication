@@ -1,9 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
-import cz.thewhiterabbit.electronicapp.model.objects.utilities.LineDrawingUtilities;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.utilities.LineDrawingUtilities;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
@@ -13,11 +11,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 
-
 public class ActivePoint extends GeneralComponent {
     private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities();
-
     private final Component component = Component.ACTIVE_POINT;
+
 
     public ActivePoint() {
         setGridHeight(1);

@@ -2,58 +2,80 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentAnnotationProcessor;
+import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
+import javafx.beans.property.*;
 
-public abstract class GeneralComponent extends DocumentObject{
+import java.util.List;
 
+public abstract class GeneralComponent extends DocumentObject {
+
+    @RawPropertyMapping
+    private final IntegerProperty _gridX = gridXProperty();
+    @RawPropertyMapping
+    private final IntegerProperty _gridY = gridYProperty();
+    @RawPropertyMapping
+    private final IntegerProperty _gridWidth = gridWidthProperty();
+    @RawPropertyMapping
+    private final IntegerProperty _gridHeight = gridHeightProperty();
 
     @Override
     public void init() {
-        setGridX(Integer.parseInt(getRawObject().getProperty("gridX").getValue()));
-        setGridY(Integer.parseInt(getRawObject().getProperty("gridY").getValue()));
-        setGridWidth(Integer.parseInt(getRawObject().getProperty("gridWidth").getValue()));
-        setGridHeight(Integer.parseInt(getRawObject().getProperty("gridHeight").getValue()));
-        mapProperties();
+        List<Property> properties = ComponentAnnotationProcessor.getMappingProperties(this);
+        properties.forEach(p -> {
+            if (p instanceof IntegerProperty) {
+                p.setValue(Integer.parseInt(getProperty(p.getName()).getValue()));
+            } else if (p instanceof DoubleProperty) {
+                p.setValue(Double.parseDouble(getProperty(p.getName()).getValue()));
+            } else if (p instanceof FloatProperty) {
+                p.setValue(Float.parseFloat(getProperty(p.getName()).getValue()));
+            } else if (p instanceof StringProperty) {
+                p.setValue(getProperty(p.getName()).getValue());
+            }
+        });
     }
 
     @Override
     public void mapProperties() {
-        getRawObject().getProperty("gridX").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridX(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridY").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridY(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridWidth").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridWidth(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty("gridHeight").valueProperty().addListener((obs, oldVal, newVal) -> {
-            setGridHeight(Integer.parseInt(newVal));
+        List<Property> properties = ComponentAnnotationProcessor.getMappingProperties(this);
+        properties.forEach(p -> {
+            if (p instanceof IntegerProperty) {
+                getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
+                    p.setValue(Integer.parseInt(newVal));
+                });
+            } else if (p instanceof DoubleProperty) {
+                getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
+                    p.setValue(Double.parseDouble(newVal));
+                });
+            } else if (p instanceof FloatProperty) {
+                getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
+                    p.setValue(Float.parseFloat(newVal));
+                });
+            } else if (p instanceof StringProperty) {
+                getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
+                    p.setValue(newVal);
+                });
+            }
         });
     }
 
-    @Override
     public RawObject toRawObject() {
-        if(getRawObject() == null){
-            RawObject rawObject = new RawObject(getType());
-            rawObject.addProperty(new RawProperty("gridX", String.valueOf(getGridX())));
-            rawObject.addProperty(new RawProperty("gridY", String.valueOf(getGridY())));
-            rawObject.addProperty(new RawProperty("gridWidth", String.valueOf(getGridWidth())));
-            rawObject.addProperty(new RawProperty("gridHeight", String.valueOf(getGridHeight())));
-            getChildrenList().forEach(l -> {
-                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
-            });
-            setRawObject(rawObject);
-        }
-        return getRawObject();
+        RawObject rawObject = new RawObject(getType());
+        List<Property> properties = ComponentAnnotationProcessor.getMappingProperties(this);
+        properties.forEach(p -> {
+            rawObject.addProperty(new RawProperty(p.getName(), String.valueOf(p.getValue())));
+        });
+        return rawObject;
     }
 
-    public String getType(){
+
+    public String getType() {
         return getComponent().getType();
     }
-    public abstract Component getComponent();
 
+    public abstract Component getComponent();
 
 
 }

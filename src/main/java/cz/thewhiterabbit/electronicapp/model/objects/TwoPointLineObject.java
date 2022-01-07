@@ -1,8 +1,9 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
-import cz.thewhiterabbit.electronicapp.model.objects.utilities.LineCrate;
-import cz.thewhiterabbit.electronicapp.model.objects.utilities.LineUtilities;
+import cz.thewhiterabbit.electronicapp.utilities.LineCrate;
+import cz.thewhiterabbit.electronicapp.utilities.LineUtilities;
+import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
@@ -22,23 +23,25 @@ public class TwoPointLineObject extends DocumentObject {
     private final String _Y2 = "Y2";
     private final String _TYPE = "LINE";
 
+    @RawPropertyMapping
     private final IntegerProperty x1 = new SimpleIntegerProperty(this, _X1);
+    @RawPropertyMapping
     private final IntegerProperty x2 = new SimpleIntegerProperty(this, _X2);
+    @RawPropertyMapping
     private final IntegerProperty y1 = new SimpleIntegerProperty(this, _Y1);
+    @RawPropertyMapping
     private final IntegerProperty y2 = new SimpleIntegerProperty(this, _Y2);
 
 
-    public TwoPointLineObject( int x1, int y1, int x2, int y2) {
-        setX1(x1);setX2(x2);setY1(y1);setY2(y2);
-
+    public TwoPointLineObject(int x1, int y1, int x2, int y2) {
+        setX1(x1);
+        setX2(x2);
+        setY1(y1);
+        setY2(y2);
         mapLineProperties();
         initListeners();
     }
 
-    public TwoPointLineObject(RawObject rawObject) {
-        initListeners();
-        setRawObject(rawObject);
-    }
 
     public TwoPointLineObject() {
         initListeners();
@@ -100,18 +103,15 @@ public class TwoPointLineObject extends DocumentObject {
 
     @Override
     public RawObject toRawObject() {
-        if(getRawObject() == null){
-            RawObject rawObject = new RawObject(_TYPE);
-            rawObject.addProperty(new RawProperty(_X1, String.valueOf(getX1())));
-            rawObject.addProperty(new RawProperty(_X2, String.valueOf(getX2())));
-            rawObject.addProperty(new RawProperty(_Y1, String.valueOf(getY1())));
-            rawObject.addProperty(new RawProperty(_Y2, String.valueOf(getY2())));
-            getChildrenList().forEach(l -> {
-                rawObject.getChildren().add(((DocumentObject)l).toRawObject());
-            });
-            setRawObject(rawObject);
-        }
-        return getRawObject();
+        RawObject rawObject = new RawObject(_TYPE);
+        rawObject.addProperty(new RawProperty(_X1, String.valueOf(getX1())));
+        rawObject.addProperty(new RawProperty(_X2, String.valueOf(getX2())));
+        rawObject.addProperty(new RawProperty(_Y1, String.valueOf(getY1())));
+        rawObject.addProperty(new RawProperty(_Y2, String.valueOf(getY2())));
+        getChildrenList().forEach(l -> {
+            rawObject.getChildren().add(((DocumentObject) l).toRawObject());
+        });
+        return rawObject;
     }
 
     @Override
@@ -120,11 +120,11 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     @Override
-    public void setPosition(int deltaX, int deltaY){
-        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x1Property(), getX1()-deltaX, getX1()));
-        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x2Property(), getX2()-deltaX, getX2()));
-        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y1Property(), getY1()-deltaY, getY1()));
-        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y2Property(), getY2()-deltaY, getY2()));
+    public void setPosition(int deltaX, int deltaY) {
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x1Property(), getX1() - deltaX, getX1()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x2Property(), getX2() - deltaX, getX2()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y1Property(), getY1() - deltaY, getY1()));
+        getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y2Property(), getY2() - deltaY, getY2()));
         mapLineProperties();
     }
 
@@ -273,11 +273,11 @@ public class TwoPointLineObject extends DocumentObject {
             boolean firstPointInBounds = (x1 >= locationX && x1 <= locationX + width && y1 >= locationY && y1 <= locationY + height);
             boolean secondPointInBounds = (x2 >= locationX && x2 <= locationX + width && y2 >= locationY && y2 <= locationY + height);
 
-            LineCrate line = new LineCrate(x1,y1, x2, y2);
-            boolean upperXIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY, locationX+width, locationY));
-            boolean lowerXIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY+height, locationX+width, locationY+height));
-            boolean leftYIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY, locationX, locationY+height));
-            boolean rightYIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX+width, locationY, locationX+width, locationY+height));
+            LineCrate line = new LineCrate(x1, y1, x2, y2);
+            boolean upperXIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY, locationX + width, locationY));
+            boolean lowerXIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY + height, locationX + width, locationY + height));
+            boolean leftYIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX, locationY, locationX, locationY + height));
+            boolean rightYIntersection = lineUtilities.isIntersection(line, new LineCrate(locationX + width, locationY, locationX + width, locationY + height));
 
             boolean result = firstPointInBounds || secondPointInBounds || upperXIntersection || lowerXIntersection || leftYIntersection || rightYIntersection;
             return result;
