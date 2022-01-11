@@ -99,19 +99,22 @@ public class ModelEventManager {
                     o.setRotation((o.getRotation() + 1) % 4);
                     o.paint(parentModel.getCanvas().getGraphicsContext2D());
                 });
-                //TODO: manage rotation as property
-                //System.out.println("Rotate selection clockwise");
             } else if (event.getCode() == KeyCode.R && event.isAltDown()) {
-                //System.out.println("Rotate selection counter clockwise");
+
             } else if (event.getCode() == KeyCode.DELETE) {
-                parentModel.getSelected().forEach(o -> {
-                    o.callForDelete();
-                });
-                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.DELETE));
             } else if (event.getCode() == KeyCode.Z && event.isControlDown() && !event.isAltDown()) {
                 eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.UNDO));
             } else if (event.getCode() == KeyCode.Z && event.isControlDown() && event.isAltDown()) {
                 eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.REDO));
+            } else if(event.getCode() == KeyCode.C && event.isControlDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.COPY));
+            }else if(event.getCode() == KeyCode.V && event.isControlDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.PASTE));
+            }else if(event.getCode() == KeyCode.A && event.isControlDown() && !event.isAltDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.SELECT_ALL));
+            }else if(event.getCode() == KeyCode.A && event.isControlDown() && event.isAltDown()){
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.DESELECT_ALL));
             }
         });
     }

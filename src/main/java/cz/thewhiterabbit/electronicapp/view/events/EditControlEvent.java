@@ -11,6 +11,12 @@ public class EditControlEvent extends Event {
     public static final EventType<EditControlEvent> UNDO = new EventType<>(ANY, "UNDO");
     public static final EventType<EditControlEvent> REDO = new EventType<>(ANY, "REDO");
     public static final EventType<EditControlEvent> ACTIVE_OBJECT_CHANGE = new EventType<>(ANY, "ACTIVE_OBJECT_CHANGE");
+    public static final EventType<EditControlEvent> COPY = new EventType<>(ANY, "COPY");
+    public static final EventType<EditControlEvent> PASTE = new EventType<>(ANY, "PASTE");
+    public static final EventType<EditControlEvent> SELECT_ALL = new EventType<>(ANY, "SELECT_ALL");
+    public static final EventType<EditControlEvent> DESELECT_ALL = new EventType<>(ANY, "DESELECT_ALL");
+    public static final EventType<EditControlEvent> CUT = new EventType<>(ANY, "CUT");
+    public static final EventType<EditControlEvent> DELETE = new EventType<>(ANY, "DELETE");
 
     private CanvasObject oldObject;
     private CanvasObject newObject;

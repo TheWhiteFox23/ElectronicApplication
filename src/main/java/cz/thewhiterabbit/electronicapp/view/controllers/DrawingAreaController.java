@@ -8,6 +8,7 @@ import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObjectFactory;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -20,10 +21,13 @@ import javafx.fxml.FXML;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DrawingAreaController {
     @FXML DrawingCanvas drawingArea;
@@ -34,6 +38,7 @@ public class DrawingAreaController {
     private final DocumentManager documentManager = new DocumentManager();
     private final EventAggregator eventAggregator = GUIEventAggregator.getInstance();
     private final HashMap<EventType, EventHandler> handlerMap = new HashMap<>();
+    private final List<CanvasObject> copyMemory = new ArrayList<>();
 
     private DocumentObject toPaint;
 
@@ -73,6 +78,38 @@ public class DrawingAreaController {
         });
         eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e->{
             documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) e);
+        });
+
+        eventAggregator.addEventHandler(EditControlEvent.COPY, h->{
+            onCopy();
+        });
+        eventAggregator.addEventHandler(EditControlEvent.PASTE, h->{
+            onPaste();
+        });
+        eventAggregator.addEventHandler(EditControlEvent.SELECT_ALL, h->{
+            onSelectAll();
+        });
+        eventAggregator.addEventHandler(EditControlEvent.DESELECT_ALL, h->{
+            onDeselectAll();
+        });
+        eventAggregator.addEventHandler(EditControlEvent.CUT, h->{
+            onCut();
+        });
+        eventAggregator.addEventHandler(EditControlEvent.DELETE, h->{
+            onDelete();
+        });
+
+        eventAggregator.addEventHandler(EditControlEvent.UNDO, h->{
+            if(documentManager.getActiveDocument() != null){
+                documentManager.getActiveDocument().undo();
+            }
+
+        });
+
+        eventAggregator.addEventHandler(EditControlEvent.REDO, h->{
+            if(documentManager.getActiveDocument() != null){
+                documentManager.getActiveDocument().redo();
+            }
         });
     }
 
@@ -125,18 +162,70 @@ public class DrawingAreaController {
             documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) h);
         });
 
-        handlerMap.put(EditControlEvent.UNDO, h->{
-            documentManager.getActiveDocument().undo();
-        });
-
-        handlerMap.put(EditControlEvent.REDO, h->{
-            documentManager.getActiveDocument().redo();
-        });
-
-        handlerMap.put(EditControlEvent.ACTIVE_OBJECT_CHANGE, h->{
+        handlerMap.put(EditControlEvent.ANY, h->{
             eventAggregator.fireEvent(h);
         });
     }
+
+    private void onCut() {
+        onCopy();
+        onDelete();
+    }
+
+    private void onDeselectAll() {
+        Document document = documentManager.getActiveDocument();
+        if(document != null){
+            List<CanvasObject> canvasObjects = document.getGridModel().getAll();
+            canvasObjects.forEach(o -> {
+                if(o.isSelected()){
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.SELECTION_CHANGED, o, true, false));
+                }
+            });
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+        }
+    }
+
+    private void onSelectAll() {
+        Document document = documentManager.getActiveDocument();
+        if(document != null){
+            List<CanvasObject> canvasObjects = document.getGridModel().getAll();
+            canvasObjects.forEach(o -> {
+                if(!o.isSelected()){
+                    eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.SELECTION_CHANGED, o, false, true));
+                }
+            });
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+        }
+    }
+
+    private void onPaste() {
+        copyMemory.forEach(o -> {
+            o.setSelected(true);
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, o));
+        });
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    private void onCopy() {
+        Document document = documentManager.getActiveDocument();
+        if(document != null){
+            List<CanvasObject> copyObjects = document.getGridModel().getSelected();
+            copyMemory.clear();
+            copyObjects.forEach(o -> copyMemory.add(o));
+        }
+    }
+
+    private void onDelete() {
+        Document document = documentManager.getActiveDocument();
+        if(document != null){
+            List<CanvasObject> deleteObjects = document.getGridModel().getSelected();
+            deleteObjects.forEach(o -> {
+                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, o));
+            });
+            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+        }
+    }
+
 
     private void initDrawingAreaDropDetection(DrawingCanvas drawingArea){
         drawingArea.setOnDragOver(new EventHandler<DragEvent>() {

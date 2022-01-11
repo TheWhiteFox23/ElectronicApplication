@@ -31,13 +31,13 @@
                     <MenuItem mnemonicParsing="false" text="%menu.edit.undo" fx:id="undo" />
                     <MenuItem mnemonicParsing="false" text="%menu.edit.redo" fx:id="redo"/>
                     <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem mnemonicParsing="false" text="%menu.edit.cut" />
-                    <MenuItem mnemonicParsing="false" text="%menu.edit.copy" />
-                    <MenuItem mnemonicParsing="false" text="%menu.edit.paste" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.cut" fx:id="cut" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.copy" fx:id="copy" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.paste" fx:id="paste" />
                     <MenuItem mnemonicParsing="false" text="%menu.edit.delete" fx:id="delete"/>
                     <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem mnemonicParsing="false" text="%menu.edit.select_all" />
-                    <MenuItem mnemonicParsing="false" text="%menu.edit.unselect_all" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.select_all" fx:id="selectAll" />
+                    <MenuItem mnemonicParsing="false" text="%menu.edit.unselect_all" fx:id="deselectAll" />
                 </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%menu.help">
