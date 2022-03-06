@@ -2,44 +2,36 @@ package cz.thewhiterabbit.electronicapp.model.components;
 
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralComponent;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
-import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+public class Inductor extends GeneralComponent {
+    private final Component component = Component.INDUCTOR;
 
-@ComponentType
-public class Resistor extends GeneralComponent {
-    private final Component component = Component.RESISTOR;
-
-    private final String RESISTANCE = "1";
+    private final String INDUCTANCE = "1";
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Resistance", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty resistance = new SimpleDoubleProperty(this, RESISTANCE, 1);
+    @PropertyDialogField(name = "Inductance", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty inductance = new SimpleDoubleProperty(this, INDUCTANCE, 1);
 
-    private final String path ="M66.67,65.57l-11.11-24-11.12,24-11.11-24-11.11,24L15.71,51.5H0v-3H17.63l4.59,9.93," +
-            "11.11-24,11.11,24,11.12-24,11.11,24,11.11-24L84.29,48.5H100v3H82.37l-4.59-9.93Z";
+    private final String path ="M100,48.5v3H81V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63," +
+            "2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6S19,40.69,19," +
+            "44v7.5H0v-3H16V44c0-5,4.32-9,9.63-9a9.79,9.79,0,0,1,8.12,4.2A10,10,0,0,1,50,39.2a10,10,0,0,1,16.25,0A9.79," +
+            "9.79,0,0,1,74.38,35c5.3,0,9.62,4,9.62,9v4.5ZM85.5,38A1.5,1.5,0,1,0,84,36.5,1.5,1.5,0,0,0,85.5,38Z";
 
     @Override
     public Component getComponent() {
         return component;
+
     }
 
     @Override
     protected void doPaint(GraphicsContext gc) {
-
         gc.setFill(Color.BLACK);
         gc.setStroke(Color.BLACK);
         double scale = getWidth()/100;
@@ -49,13 +41,11 @@ public class Resistor extends GeneralComponent {
         gc.appendSVGPath(path);
         gc.fill();
 
-        /*gc.setFont(new Font(200));
-        gc.fillText(String.valueOf(resistance.get()),0,0);*/
+        /*gc.setFont(new Font(10));
+        gc.fillText(String.valueOf(inductance.get()),0,0);*/
 
 
         //draw resistance
         gc.restore();
     }
-
 }
-

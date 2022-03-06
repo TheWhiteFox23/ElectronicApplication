@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.util.Map;
+
 public class RelativePointBackground extends CanvasObject {
     private Canvas canvas; //todo get width and height by another way
     private double distance = 10;
@@ -30,6 +32,9 @@ public class RelativePointBackground extends CanvasObject {
             if(getParentModel() instanceof RelativeModel){
                 RelativeModel model = (RelativeModel) getParentModel();
                 this.zoomAspect = model.getZoomAspect();
+
+
+
                 this.getEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
             }
         });

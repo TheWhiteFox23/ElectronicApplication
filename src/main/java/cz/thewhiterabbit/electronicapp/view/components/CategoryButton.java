@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.view.components;
 
 import cz.thewhiterabbit.electronicapp.App;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;

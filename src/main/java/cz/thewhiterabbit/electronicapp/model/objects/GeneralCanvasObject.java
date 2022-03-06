@@ -56,6 +56,12 @@ public class GeneralCanvasObject extends GeneralComponent {
     @PropertyDialogField(name = "Combo box property", type = ComponentPropertyType.COMBO_BOX, values = {"value1", "value2", "value3", "value4"})
     private final StringProperty comboBoxProperty = new SimpleStringProperty(this, COMBO_BOX_PROPERTY, "value1");
 
+    @PropertyDialogField(name = "locationX", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationX = locationXProperty();
+
+    @PropertyDialogField(name = "locationY", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationY = locationYProperty();
+
 
     public GeneralCanvasObject() {
         super();
@@ -88,7 +94,6 @@ public class GeneralCanvasObject extends GeneralComponent {
 
     @Override
     public Component getComponent() {
-        //System.out.println(component);
         return component;
     }
 
@@ -119,51 +124,4 @@ public class GeneralCanvasObject extends GeneralComponent {
             }
         });
     }
-
-
-    /*@Override
-    public void mapProperties() {
-        super.mapProperties();
-
-        //TODO get RawObjectMapping properties and add automatically
-        getRawObject().getProperty(TEXT_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            textTest.set(newVal);
-        });
-        getRawObject().getProperty(LONG_TEXT_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            longTextTest.set(newVal);
-        });
-        getRawObject().getProperty(INTEGER_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            integerNumberProperty.set(Integer.parseInt(newVal));
-        });
-        getRawObject().getProperty(DOUBLE_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            doubleNumberProperty.set(Double.parseDouble(newVal));
-        });
-        getRawObject().getProperty(FLOAT_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            floatNumberProperty.set(Float.parseFloat(newVal));
-        });
-        getRawObject().getProperty(CHECK_BOX_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            checkBoxProperty.set(Boolean.parseBoolean(newVal));
-        });
-        getRawObject().getProperty(COMBO_BOX_PROPERTY).valueProperty().addListener((obs, oldVal, newVal) -> {
-            comboBoxProperty.set(newVal);
-        });
-    }*/
-
-   /*@Override
-    public RawObject toRawObject() {
-       //TODO get RawObjectMapping properties and add automatically
-        if(getRawObject() == null){
-            RawObject object = super.toRawObject();
-            object.addProperty(new RawProperty(TEXT_PROPERTY, textTest.getValue()));
-            object.addProperty(new RawProperty(LONG_TEXT_PROPERTY, longTextTest.getValue()));
-            object.addProperty(new RawProperty(DOUBLE_PROPERTY, String.valueOf(doubleNumberProperty.getValue())));
-            object.addProperty(new RawProperty(FLOAT_PROPERTY, String.valueOf(floatNumberProperty.getValue())));
-            object.addProperty(new RawProperty(INTEGER_PROPERTY, String.valueOf(integerNumberProperty.getValue())));
-            object.addProperty(new RawProperty(COMBO_BOX_PROPERTY, String.valueOf(comboBoxProperty.getValue())));
-            object.addProperty(new RawProperty(CHECK_BOX_PROPERTY, String.valueOf(checkBoxProperty.getValue())));
-            setRawObject(object);
-        }
-
-        return getRawObject();
-    }*/
 }

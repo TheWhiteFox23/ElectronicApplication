@@ -3,6 +3,8 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentAnnotationProcessor;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
+import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
@@ -20,6 +22,11 @@ public abstract class GeneralComponent extends DocumentObject {
     private final IntegerProperty _gridWidth = gridWidthProperty();
     @RawPropertyMapping
     private final IntegerProperty _gridHeight = gridHeightProperty();
+
+    public GeneralComponent(){
+        setGridHeight(2);
+        setGridWidth(2);
+    }
 
     @Override
     public void init() {

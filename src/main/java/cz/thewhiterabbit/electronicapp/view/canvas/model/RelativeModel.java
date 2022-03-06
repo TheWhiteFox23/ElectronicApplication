@@ -85,9 +85,12 @@ public abstract class RelativeModel extends CanvasModel {
         }
         if(e.getDeltaY() > 0 && index <zoomAspects.length -1){
             index++;
+            //moveOriginBy(-50, -50);
         }else if(e.getDeltaY() < 0 && index >0){
             index--;
+            //moveOriginBy(50, 50);
         }
+
         setZoomAspect(zoomAspects[index]);
         getInnerEventAggregator().fireEvent(new CanvasEvent(CanvasEvent.REPAINT_ALL));
     }
