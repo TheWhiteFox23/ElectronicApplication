@@ -2,9 +2,8 @@ package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 
+import cz.thewhiterabbit.electronicapp.model.components.GeneralComponent;
 import cz.thewhiterabbit.electronicapp.model.property.*;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import javafx.beans.property.*;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +12,7 @@ import javafx.scene.paint.Paint;
 
 
 @ComponentType
-public class GeneralCanvasObject extends GeneralComponent {
+public class GeneralMappingCanvasObject extends GeneralComponent {
     private final Component component = Component.TEST_COMPONENT;
 
     private final String TEXT_PROPERTY = "text_property";
@@ -63,11 +62,13 @@ public class GeneralCanvasObject extends GeneralComponent {
     private final DoubleProperty _locationY = locationYProperty();
 
 
-    public GeneralCanvasObject() {
+    public GeneralMappingCanvasObject() {
         super();
         setGridHeight(2);
         setGridWidth(2);
-        initChildren();
+        addActivePoint(1,0);
+        addActivePoint(1,2);
+
     }
 
 
@@ -95,33 +96,5 @@ public class GeneralCanvasObject extends GeneralComponent {
     @Override
     public Component getComponent() {
         return component;
-    }
-
-    private void initChildren() {
-        ActivePoint activePoint = new ActivePoint();
-        ActivePoint activePoint2 = new ActivePoint();
-        activePoint2.setGridX(getGridX() + 1);
-        activePoint2.setGridY(getGridY() + 2);
-        activePoint.setGridX(getGridX() + 1);
-        activePoint.setGridY(getGridY());
-        addChildren(activePoint);
-        addChildren(activePoint2);
-    }
-
-    @Override
-    public void addChildren(CanvasObject children) {
-        super.addChildren(children);
-        gridXProperty().addListener((obs, oldVal, newVal) -> {
-            if (getParentModel() == null) {
-                int delta = (int) newVal - (int) oldVal;
-                children.setGridX(children.getGridX() + delta);
-            }
-        });
-        gridYProperty().addListener((obs, oldVal, newVal) -> {
-            if (getParentModel() == null) {
-                int delta = (int) newVal - (int) oldVal;
-                children.setGridY(children.getGridY() + delta);
-            }
-        });
     }
 }

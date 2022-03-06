@@ -1,10 +1,9 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralComponent;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Affine;
 
 @ComponentType
 public class CoupledInductor extends GeneralComponent {
@@ -26,23 +25,10 @@ public class CoupledInductor extends GeneralComponent {
             "0,0,1,1.57.53,2,2,0,0,1,.59,1.56,3.49,3.49,0,0,1-.34,1.55,6.88,6.88,0,0,1-1,1.51c-.47.53-1,1.16-1.77," +
             "1.89l-3.7,3.75V65H78V63H71.2Z";
 
-    @Override
-    public Component getComponent() {
-        return component;
+    public CoupledInductor(){
+        super();
+        setComponent(Component.COUPLED_INDUCTOR);
+        setPath(path);
     }
 
-    @Override
-    protected void doPaint(GraphicsContext gc) {
-        gc.translate(-1.5, 0);
-        gc.setFill(Color.BLACK);
-        gc.setStroke(Color.BLACK);
-        double scale = getWidth()/100;
-        gc.scale(scale, scale);
-        gc.beginPath();
-
-        gc.appendSVGPath(path);
-        gc.fill();
-
-        gc.restore();
-    }
 }

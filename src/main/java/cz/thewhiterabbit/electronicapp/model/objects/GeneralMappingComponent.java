@@ -12,7 +12,7 @@ import javafx.beans.property.*;
 
 import java.util.List;
 
-public abstract class GeneralComponent extends DocumentObject {
+public abstract class GeneralMappingComponent extends DocumentObject {
 
     @RawPropertyMapping
     private final IntegerProperty _gridX = gridXProperty();
@@ -22,11 +22,6 @@ public abstract class GeneralComponent extends DocumentObject {
     private final IntegerProperty _gridWidth = gridWidthProperty();
     @RawPropertyMapping
     private final IntegerProperty _gridHeight = gridHeightProperty();
-
-    public GeneralComponent(){
-        setGridHeight(2);
-        setGridWidth(2);
-    }
 
     @Override
     public void init() {

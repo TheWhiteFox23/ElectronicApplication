@@ -1,15 +1,12 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingCanvasObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FileServiceTest {
     private FileService service;
@@ -18,8 +15,8 @@ class FileServiceTest {
     @BeforeEach
     void setUp() {
         service = new FileService();
-        rawObject = new GeneralCanvasObject().toRawObject();
-        invalidRawObject = new GeneralCanvasObject().toRawObject();
+        rawObject = new GeneralMappingCanvasObject().toRawObject();
+        invalidRawObject = new GeneralMappingCanvasObject().toRawObject();
         invalidRawObject.removeProperty(invalidRawObject.getProperties().get(1));
     }
 

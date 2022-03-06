@@ -1,6 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralComponent;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
@@ -8,10 +8,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class Inductor extends GeneralComponent {
-    private final Component component = Component.INDUCTOR;
 
     private final String INDUCTANCE = "1";
 
@@ -24,28 +22,11 @@ public class Inductor extends GeneralComponent {
             "44v7.5H0v-3H16V44c0-5,4.32-9,9.63-9a9.79,9.79,0,0,1,8.12,4.2A10,10,0,0,1,50,39.2a10,10,0,0,1,16.25,0A9.79," +
             "9.79,0,0,1,74.38,35c5.3,0,9.62,4,9.62,9v4.5ZM85.5,38A1.5,1.5,0,1,0,84,36.5,1.5,1.5,0,0,0,85.5,38Z";
 
-    @Override
-    public Component getComponent() {
-        return component;
-
+    public Inductor(){
+        super();
+        setComponent(Component.INDUCTOR);
+        setPath(path);
     }
 
-    @Override
-    protected void doPaint(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
-        gc.setStroke(Color.BLACK);
-        double scale = getWidth()/100;
-        gc.scale(scale, scale);
-        gc.beginPath();
 
-        gc.appendSVGPath(path);
-        gc.fill();
-
-        /*gc.setFont(new Font(10));
-        gc.fillText(String.valueOf(inductance.get()),0,0);*/
-
-
-        //draw resistance
-        gc.restore();
-    }
 }
