@@ -22,6 +22,8 @@ public abstract class GeneralMappingComponent extends DocumentObject {
     private final IntegerProperty _gridWidth = gridWidthProperty();
     @RawPropertyMapping
     private final IntegerProperty _gridHeight = gridHeightProperty();
+    @RawPropertyMapping
+    private final IntegerProperty _rotation = rotationProperty();
 
     @Override
     public void init() {

@@ -22,6 +22,8 @@ public class Resistor extends GeneralComponent {
         super();
         setComponent(Component.RESISTOR);
         setPath(path);
+        addActivePoint(0,1);
+        addActivePoint(2,1);
     }
 
 

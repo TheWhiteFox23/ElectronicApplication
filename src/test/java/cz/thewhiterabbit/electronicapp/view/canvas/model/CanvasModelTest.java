@@ -1,6 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.canvas.model;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingCanvasObject;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -49,7 +49,7 @@ public class CanvasModelTest {
 
     private void fillModel(CanvasModel canvasModel){
         for(int i = 0; i< 100; i++){
-            canvasModel.add(new GeneralMappingCanvasObject());
+            canvasModel.add(new GeneralCanvasObject());
         }
     }
 
@@ -80,8 +80,8 @@ public class CanvasModelTest {
 
     @Test
     void add() {
-        GeneralMappingCanvasObject parentObject = new GeneralMappingCanvasObject();
-        GeneralMappingCanvasObject childObject1 = new GeneralMappingCanvasObject();
+        GeneralCanvasObject parentObject = new GeneralCanvasObject();
+        GeneralCanvasObject childObject1 = new GeneralCanvasObject();
         parentObject.addChildren(childObject1);
         canvasModel.add(parentObject);
 

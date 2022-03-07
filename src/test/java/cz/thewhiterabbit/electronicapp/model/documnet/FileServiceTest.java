@@ -1,6 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
-import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingCanvasObject;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +15,8 @@ class FileServiceTest {
     @BeforeEach
     void setUp() {
         service = new FileService();
-        rawObject = new GeneralMappingCanvasObject().toRawObject();
-        invalidRawObject = new GeneralMappingCanvasObject().toRawObject();
+        rawObject = new GeneralCanvasObject().toRawObject();
+        invalidRawObject = new GeneralCanvasObject().toRawObject();
         invalidRawObject.removeProperty(invalidRawObject.getProperties().get(1));
     }
 

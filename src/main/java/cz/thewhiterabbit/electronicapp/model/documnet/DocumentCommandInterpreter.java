@@ -60,6 +60,7 @@ public class DocumentCommandInterpreter {
     private void setRawPropertyIfValid(RawProperty rawProperty, Property linkedProperty, Object value){
         if(rawProperty != null && ValueValidator.validateProperty(linkedProperty, value)){
             rawProperty.setValue(value.toString());
+            //todo update object
         }
     }
 

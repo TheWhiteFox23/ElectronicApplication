@@ -59,7 +59,7 @@ public class GeneralComponent extends GeneralMappingComponent {
     }
 
     public void addActivePoint(int relativeX, int relativeY){
-        ActivePoint activePoint = new ActivePoint();
+        ActivePoint activePoint = new ActivePoint(relativeX, relativeY);
         activePoint.setGridY(getGridY() + relativeY);
         activePoint.setGridX(getGridX() + relativeX);
         addChildren(activePoint);

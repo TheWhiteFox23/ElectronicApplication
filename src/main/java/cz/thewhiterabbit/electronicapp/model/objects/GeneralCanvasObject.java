@@ -12,7 +12,7 @@ import javafx.scene.paint.Paint;
 
 
 @ComponentType
-public class GeneralMappingCanvasObject extends GeneralComponent {
+public class GeneralCanvasObject extends GeneralComponent {
     private final Component component = Component.TEST_COMPONENT;
 
     private final String TEXT_PROPERTY = "text_property";
@@ -62,12 +62,12 @@ public class GeneralMappingCanvasObject extends GeneralComponent {
     private final DoubleProperty _locationY = locationYProperty();
 
 
-    public GeneralMappingCanvasObject() {
+    public GeneralCanvasObject() {
         super();
         setGridHeight(2);
         setGridWidth(2);
         addActivePoint(1,0);
-        addActivePoint(1,2);
+        //addActivePoint(1,2);
 
     }
 

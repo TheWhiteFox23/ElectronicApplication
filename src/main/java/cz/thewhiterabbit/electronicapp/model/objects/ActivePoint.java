@@ -15,8 +15,20 @@ public class ActivePoint extends GeneralMappingComponent {
     private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities();
     private final Component component = Component.ACTIVE_POINT;
 
+    private int relativeLocationX = 0;
+    private int relativeLocationY = 0;
+
 
     public ActivePoint() {
+        setGridHeight(1);
+        setGridWidth(1);
+        setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
+        setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+    }
+
+    public ActivePoint(int relativeLocationX, int relativeLocationY) {
+        this.relativeLocationX = relativeLocationX;
+        this.relativeLocationY = relativeLocationY;
         setGridHeight(1);
         setGridWidth(1);
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
@@ -64,6 +76,22 @@ public class ActivePoint extends GeneralMappingComponent {
         if (getParentModel() != null && getParentModel() instanceof GridModel) {
             lineDrawingUtilities.onActivePointDragged((GridModel)getParentModel(), getParent(),this, (CanvasMouseEvent) e);
         }
+    }
+
+    public int getRelativeLocationX() {
+        return relativeLocationX;
+    }
+
+    public void setRelativeLocationX(int relativeLocationX) {
+        this.relativeLocationX = relativeLocationX;
+    }
+
+    public int getRelativeLocationY() {
+        return relativeLocationY;
+    }
+
+    public void setRelativeLocationY(int relativeLocationY) {
+        this.relativeLocationY = relativeLocationY;
     }
 
     @Override

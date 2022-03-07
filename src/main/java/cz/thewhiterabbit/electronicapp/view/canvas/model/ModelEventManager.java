@@ -94,13 +94,9 @@ public class ModelEventManager {
             KeyEvent event = (KeyEvent) e;
             //ROTATION
             if (event.getCode() == KeyCode.R && !event.isAltDown()) {
-                List<CanvasObject> selected = parentModel.getSelected();
-                selected.forEach(o -> {
-                    o.setRotation((o.getRotation() + 1) % 4);
-                    o.paint(parentModel.getCanvas().getGraphicsContext2D());
-                });
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.ROTATE_CLOCKWISE));
             } else if (event.getCode() == KeyCode.R && event.isAltDown()) {
-
+                eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.ROTATE_COUNTER_CLOCKWISE));
             } else if (event.getCode() == KeyCode.DELETE) {
                 eventAggregator.fireEvent(new EditControlEvent(EditControlEvent.DELETE));
             } else if (event.getCode() == KeyCode.Z && event.isControlDown() && !event.isAltDown()) {

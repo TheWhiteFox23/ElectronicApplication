@@ -17,6 +17,8 @@ public class EditControlEvent extends Event {
     public static final EventType<EditControlEvent> DESELECT_ALL = new EventType<>(ANY, "DESELECT_ALL");
     public static final EventType<EditControlEvent> CUT = new EventType<>(ANY, "CUT");
     public static final EventType<EditControlEvent> DELETE = new EventType<>(ANY, "DELETE");
+    public static final EventType<EditControlEvent> ROTATE_CLOCKWISE = new EventType<>(ANY, "ROTATE_CLOCKWISE");
+    public static final EventType<EditControlEvent> ROTATE_COUNTER_CLOCKWISE = new EventType<>(ANY, "ROTATE_COUNTER_CLOCKWISE");
 
     private CanvasObject oldObject;
     private CanvasObject newObject;
