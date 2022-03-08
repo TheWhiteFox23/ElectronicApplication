@@ -9,13 +9,13 @@ public abstract class RelativeModel extends CanvasModel {
     private double originX;
     private double originY;
     private double zoomAspect;
-    private final double[] zoomAspects = new double[]{0.1,0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 7.0};
+    private final double[] zoomAspects = new double[]{0.1,0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 7.0,8.0,9.0,10.0};
 
     public RelativeModel() {
         super();
         originX = 0;
         originY = 0;
-        zoomAspect = 1.0;
+        zoomAspect = 2.0;
         registerListeners();
     }
 
