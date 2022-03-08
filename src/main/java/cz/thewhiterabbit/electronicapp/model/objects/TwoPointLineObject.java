@@ -63,11 +63,11 @@ public class TwoPointLineObject extends DocumentObject {
             double locationY2 = m.getGridLocation(getY2(), m.getOriginY()) - getLocationY();
 
             if (isHovered()) {
-                gc.setStroke(Color.RED);
+                gc.setStroke(Color.BLUEVIOLET);
             } else if (isSelected()) {
-                gc.setStroke(Color.BLUE);
+                gc.setStroke(Color.GREENYELLOW);
             } else {
-                gc.setStroke(Color.TURQUOISE);
+                gc.setStroke(Color.BLACK);
             }
 
             gc.setLineWidth(getLineWidth());
@@ -286,7 +286,9 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     private double getLineWidth() {
-        return 2;
+        GridModel model = (GridModel) getParentModel();
+        return (model.getGridSize() * model.getZoomAspect())*0.05;
+        //return 2;
     }
 
     @Override
