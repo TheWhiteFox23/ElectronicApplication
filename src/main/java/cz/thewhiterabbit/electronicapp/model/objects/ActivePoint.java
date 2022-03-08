@@ -49,14 +49,14 @@ public class ActivePoint extends GeneralMappingComponent {
     /***** OVERRIDES *****/
     @Override
     public void doPaint(GraphicsContext gc) {
-        double height = getHeight() * 0.4;
+        double height = getHeight() * 0.125;
         double locationX = -height / 2;
         double locationY = -height / 2;
 
         if (isHovered()) {
-            gc.setFill(Color.BLUEVIOLET);
+            gc.setFill(Color.GREENYELLOW);
         } else {
-            gc.setFill(Color.DARKSLATEGRAY);
+            gc.setFill(Color.BLACK);
         }
 
         gc.fillOval(locationX, locationY, height, height);
