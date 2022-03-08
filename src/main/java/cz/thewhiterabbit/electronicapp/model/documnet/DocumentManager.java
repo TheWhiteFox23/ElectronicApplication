@@ -25,15 +25,23 @@ public class DocumentManager implements IEventAggregator {
     private final EventAggregator eventAggregator = new EventAggregator();
     private Document activeDocument;
 
+    private int documentNumber = 0;
     public DocumentManager(){
 
     }
 
     public Document createNewDocument(){
-        RawDocument rawDocument = new TestRawDocument("new document"); //TODO-> remove after debugging
+        RawDocument rawDocument = new TestRawDocument(getDocumentName()); //TODO-> remove after debugging
         Document document = new Document(rawDocument); //TODO -> document names management
         addDocument(document);
         return document;
+    }
+
+    private String getDocumentName(){
+        String name = "Untitled";
+        if(documentNumber >0) name = name + " (" + documentNumber +")";
+        documentNumber++;
+        return name;
     }
 
     private void addDocument(Document document) {
@@ -106,11 +114,13 @@ public class DocumentManager implements IEventAggregator {
         }
         fireEvent(new DocumentManagerEvent(DocumentManagerEvent.DOCUMENT_CLOSED, document));
     }
-    public void saveDocument(File file){
+    public boolean saveDocument(File file){
         try {
             fileService.save(activeDocument, file);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -158,6 +168,7 @@ public class DocumentManager implements IEventAggregator {
         public static final EventType<DocumentManagerEvent> DOCUMENT_OPENED = new EventType<>(ANY, "DOCUMENT_OPENED");
         public static final EventType<DocumentManagerEvent> DOCUMENT_CLOSED = new EventType<>(ANY, "DOCUMENT_CLOSED");
         public static final EventType<DocumentManagerEvent> ACTIVE_DOCUMENT_CHANGED = new EventType<>(ANY, "ACTIVE_DOCUMENT_CHANGED");
+        public static final EventType<DocumentManagerEvent> DOCUMENT_RENAMED = new EventType<>(ANY, "DOCUMENT_RENAMED");
 
         //TODO DOCUMENT_SAVED and DOCUMENT_CHANGED events
 

@@ -33,6 +33,17 @@ public class ActivePoint extends GeneralMappingComponent {
         setGridWidth(1);
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+        //testing
+        gridXProperty().addListener(l->{
+            if(getParentModel() != null){
+                getParentModel().updatePaintProperties(this);
+            }
+        });
+        gridYProperty().addListener(l->{
+            if(getParentModel() != null){
+                getParentModel().updatePaintProperties(this);
+            }
+        });
     }
 
     /***** OVERRIDES *****/

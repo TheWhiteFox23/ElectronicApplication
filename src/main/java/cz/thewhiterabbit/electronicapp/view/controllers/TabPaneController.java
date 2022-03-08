@@ -46,6 +46,10 @@ public class TabPaneController {
             Document document = ((DocumentManager.DocumentManagerEvent)h).getDocument();
             onActiveDocumentChanged(document);
         });
+        eventAggregator.addEventHandler(DocumentManager.DocumentManagerEvent.DOCUMENT_RENAMED, h->{
+            Document document = ((DocumentManager.DocumentManagerEvent)h).getDocument();
+            onDocumentRenamed(document);
+        });
     }
 
     private void onDocumentCreated(Document document){
@@ -67,12 +71,20 @@ public class TabPaneController {
             documentHashMap.remove(button);
             tabPane.getChildren().remove(button);
         }
+        if(tabPane.getChildren().size()==1){
+            eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLEAN_CANVAS));
+        }
     }
 
     private void onActiveDocumentChanged(Document document){
         documentHashMap.keySet().forEach(b -> b.setSelected(false));
         TabButton button = getTabButton(document);
         if (button!=null) button.setSelected(true);
+    }
+
+    private void onDocumentRenamed(Document document){
+        TabButton button = getTabButton(document);
+        button.setText(document.getName());
     }
 
     private TabButton getTabButton(Document document) {

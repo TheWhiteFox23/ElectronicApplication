@@ -13,6 +13,7 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> OPEN_FILE = new EventType<>(ANY, "OPEN_FILE");
     public static final EventType<MenuEvent> SAVE_FILE = new EventType<>(ANY, "SAVE_FILE");
     public static final EventType<MenuEvent> SAVE_FILE_AS = new EventType<>(ANY, "SAVE_FILE_AS");
+    public static final EventType<MenuEvent> CLEAN_CANVAS = new EventType<>(ANY, "CLEAN_CANVAS");
 
     private Document document;
 
