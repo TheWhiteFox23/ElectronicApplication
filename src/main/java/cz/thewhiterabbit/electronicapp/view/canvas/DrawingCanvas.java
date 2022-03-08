@@ -46,15 +46,15 @@ public class DrawingCanvas extends Region {
     private void registerListeners() {
         /*** CANVAS EVENT PROPAGATION ***/
         canvas.addEventHandler(CanvasMouseEvent.ANY, e ->{
-            if(getCanvasLayout()!= null){
-                getCanvasLayout().getInnerEventAggregator().fireEvent(e);
+            if(getModel()!= null){
+                getModel().getInnerEventAggregator().fireEvent(e);
             }
         });
         /*** KEY EVENTS ***/
         this.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> this.requestFocus());
         this.addEventHandler(KeyEvent.ANY, e->{
-            if(getCanvasLayout()!= null){
-                getCanvasLayout().getInnerEventAggregator().fireEvent(e);
+            if(getModel()!= null){
+                getModel().getInnerEventAggregator().fireEvent(e);
             }
         });
 
@@ -79,7 +79,7 @@ public class DrawingCanvas extends Region {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    public CanvasModel getCanvasLayout() {
+    public CanvasModel getModel() {
         return canvasModel;
     }
 
@@ -98,8 +98,8 @@ public class DrawingCanvas extends Region {
     }
 
     public List<CanvasObject> getVisible(){
-        if(getCanvasLayout() != null){
-            return getCanvasLayout().getVisible();
+        if(getModel() != null){
+            return getModel().getVisible();
         }else{
             return new ArrayList<>();
         }
@@ -115,7 +115,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o = canvasPaintEvent.getCanvasObject();
-            if (o != null && getCanvasLayout().containsObject(o)) {
+            if (o != null && getModel().containsObject(o)) {
                 o.paint(gc);
             }
         }
@@ -131,7 +131,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null && getCanvasLayout().containsObject(o)) {
+            if(o != null && getModel().containsObject(o)) {
                 o.clean(gc);
                 o.paint(gc);
             }
@@ -147,7 +147,7 @@ public class DrawingCanvas extends Region {
         @Override
         public void handle(CanvasPaintEvent canvasPaintEvent) {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
-            if(o != null && getCanvasLayout().containsObject(o)) {
+            if(o != null && getModel().containsObject(o)) {
                 o.clean(gc);
             }
         }

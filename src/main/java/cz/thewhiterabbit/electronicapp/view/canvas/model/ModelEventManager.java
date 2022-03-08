@@ -38,6 +38,7 @@ public class ModelEventManager {
 
     private double lastDragStartX;
 
+
     public ModelEventManager(CanvasModel parentModel, EventAggregator eventAggregator) {
         this.parentModel = parentModel;
         this.eventAggregator = eventAggregator;

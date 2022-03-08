@@ -31,14 +31,14 @@ public class DocumentManager implements IEventAggregator {
     }
 
     public Document createNewDocument(){
-        RawDocument rawDocument = new TestRawDocument(getDocumentName()); //TODO-> remove after debugging
-        Document document = new Document(rawDocument); //TODO -> document names management
+        RawDocument rawDocument = new TestRawDocument(getDocumentName());
+        Document document = new Document(rawDocument);
         addDocument(document);
         return document;
     }
 
     private String getDocumentName(){
-        String name = "Untitled";
+        String name = "Untitled"; //TODO manage according to the language
         if(documentNumber >0) name = name + " (" + documentNumber +")";
         documentNumber++;
         return name;

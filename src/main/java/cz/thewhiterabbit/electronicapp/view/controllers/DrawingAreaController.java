@@ -2,7 +2,6 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
-import cz.thewhiterabbit.electronicapp.model.components.Category;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
@@ -13,17 +12,19 @@ import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
-import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -32,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DrawingAreaController {
+    @FXML
+    AnchorPane canvas;
     @FXML
     DrawingCanvas drawingArea;
     @FXML
@@ -47,6 +50,8 @@ public class DrawingAreaController {
     private final List<CanvasObject> copyMemory = new ArrayList<>();
 
     private DocumentObject toPaint;
+
+    private final ContextMenu contextMenu = new ContextMenu();
 
     @FXML
     private void initialize() {
@@ -115,20 +120,48 @@ public class DrawingAreaController {
             drawingArea.clear();
             drawingArea.setModel(null);
         });
-
-
         eventAggregator.addEventHandler(EditControlEvent.UNDO, h -> {
             if (documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().undo();
             }
 
         });
-
         eventAggregator.addEventHandler(EditControlEvent.REDO, h -> {
             if (documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().redo();
             }
         });
+
+        drawingArea.addEventHandler(MouseEvent.MOUSE_PRESSED, h->{
+            if(drawingArea.getModel() != null){
+                if(h.isSecondaryButtonDown()){
+                    //showContextMenu(h, drawingArea.getModel().getSelected());
+                    //System.out.println("Show context menu");
+                }else if(h.isPrimaryButtonDown()){
+                    contextMenu.hide();
+                }
+            }
+        });
+
+        drawingArea.setOnContextMenuRequested(e->{
+            showContextMenu();
+            contextMenu.show(canvas.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+        });
+    }
+
+    private void showContextMenu() {
+        // create menuitems
+        if(contextMenu.getItems().size() == 0){
+            MenuItem menuItem1 = new MenuItem("menu item 1");
+            MenuItem menuItem2 = new MenuItem("menu item 2");
+            MenuItem menuItem3 = new MenuItem("menu item 3");
+
+            // add menu items to menu
+            contextMenu.getItems().add(menuItem1);
+            contextMenu.getItems().add(menuItem2);
+            contextMenu.getItems().add(menuItem3);
+        }
+        //contextMenu.show(drawingArea,);
     }
 
     private void onRotateRight() {
@@ -350,8 +383,8 @@ public class DrawingAreaController {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
                 if (db.hasString()) {
-                    if (drawingArea.getCanvasLayout() != null) {
-                        drawingArea.getCanvasLayout().getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, toPaint));
+                    if (drawingArea.getModel() != null) {
+                        drawingArea.getModel().getInnerEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, toPaint));
                     }
                     toPaint = null;
                 }
@@ -363,8 +396,8 @@ public class DrawingAreaController {
     }
 
     private void paintDraggedComponent(DragEvent dragEvent) {
-        if (drawingArea.getCanvasLayout() != null && drawingArea.getCanvasLayout() instanceof GridModel) {
-            GridModel gridModel = (GridModel) drawingArea.getCanvasLayout();
+        if (drawingArea.getModel() != null && drawingArea.getModel() instanceof GridModel) {
+            GridModel gridModel = (GridModel) drawingArea.getModel();
             int gridX = gridModel.getGridCoordinate(dragEvent.getX(), gridModel.getOriginX());
             int gridY = gridModel.getGridCoordinate(dragEvent.getY(), gridModel.getOriginY());
             toPaint.setGridX(gridX);
