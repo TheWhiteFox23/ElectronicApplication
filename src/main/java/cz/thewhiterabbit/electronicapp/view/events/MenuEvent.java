@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.events;
 
+import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import javafx.event.Event;
 import javafx.event.EventTarget;
@@ -14,8 +15,12 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> SAVE_FILE = new EventType<>(ANY, "SAVE_FILE");
     public static final EventType<MenuEvent> SAVE_FILE_AS = new EventType<>(ANY, "SAVE_FILE_AS");
     public static final EventType<MenuEvent> CLEAN_CANVAS = new EventType<>(ANY, "CLEAN_CANVAS");
+    public static final EventType<MenuEvent> SHOW_INFO_DIALOG = new EventType<>(ANY, "SHOW_INFO_DIALOG");
+    public static final EventType<MenuEvent> HIDE_INFO_DIALOG = new EventType<>(ANY, "HIDE_INFO_DIALOG");
+
 
     private Document document;
+    private Component component;
 
     public MenuEvent(EventType<? extends Event> eventType) {
         super(eventType);
@@ -33,6 +38,20 @@ public class MenuEvent extends Event {
     public MenuEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, Document document) {
         super(o, eventTarget, eventType);
         this.document = document;
+    }
+
+    public MenuEvent(EventType<? extends Event> eventType, Component component) {
+        super(eventType);
+        this.component = component;
+    }
+
+    public MenuEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, Component component) {
+        super(o, eventTarget, eventType);
+        this.component = component;
+    }
+
+    public Component getComponent() {
+        return component;
     }
 
     public Document getDocument() {

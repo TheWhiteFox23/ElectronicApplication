@@ -8,14 +8,20 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.skin.SplitPaneSkin.Content?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.WindowController">
-    <top>
-        <fx:include source="ControlPane.fxml" fx:id="controlPane"/>
-    </top>
-    <center>
-        <fx:include source="DrawingArea.fxml" fx:id="canvas"/>
-    </center>
-
-</BorderPane>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.WindowController"
+           fx:id="window">
+    <BorderPane>
+        <top>
+            <fx:include source="ControlPane.fxml" fx:id="controlPane"/>
+        </top>
+        <center>
+            <fx:include source="DrawingArea.fxml" fx:id="canvas"/>
+        </center>
+    </BorderPane>
+    <StackPane stylesheets="@../stylesheets/style.css" fx:id="black" styleClass="dark_panel" prefHeight="100" prefWidth="100">
+        <Button fx:id="closeButton" text="close"></Button>
+        <fx:include source="component_info_panel.fxml" fx:id="componentInfoPanel"/>
+    </StackPane>
+</StackPane>

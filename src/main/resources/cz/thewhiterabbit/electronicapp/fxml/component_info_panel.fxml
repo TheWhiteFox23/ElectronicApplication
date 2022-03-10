@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.web.WebView?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import cz.thewhiterabbit.electronicapp.view.components.ComponentTreeItem?>
+<BorderPane maxWidth="1000" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ComponentInfoPanel"
+            stylesheets="@../stylesheets/style.css"
+            styleClass="component_info">
+   <padding>
+      <Insets top="50" left="50" right="50" bottom="50"/>
+   </padding>
+   <top>
+      <VBox>
+         <Button fx:id="closeButton" text="close"/>
+      </VBox>
+   </top>
+   <center>
+      <WebView fx:id="componentInfoWebView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <TreeView fx:id="componentTreeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" showRoot="false">
+         <root>
+            <TreeItem fx:id="rootItem" value="Root" expanded="true">
+               <children>
+                  <TreeItem value="Probes, AC" expanded="false">
+                     <children>
+                        <ComponentTreeItem value="Voltmeter" htmlPath="html/voltmeter.html" />
+                        <ComponentTreeItem value="Amperemeter" htmlPath="html/amperemeter.html" />
+                        <ComponentTreeItem value="AC source" htmlPath="html/ac_source.html"/>
+                     </children>
+                  </TreeItem>
+                  <TreeItem value="R,C,L">
+                     <children>
+                        <ComponentTreeItem value="Resistor" htmlPath="html/resistor.html" component="RESISTOR"/>
+                        <ComponentTreeItem value="Capacitor" htmlPath="html/capacitor.html" component="CAPACITOR"/>
+                        <ComponentTreeItem value="Conductor" htmlPath="html/conductor.html" component="CONDUCTOR"/>
+                        <ComponentTreeItem value="Coupled Conductor" htmlPath="html/coupled_conductor.html" component="COUPLED_CONDUCTOR"/>
+                     </children>
+                  </TreeItem>
+                  <TreeItem value="Diodes" expanded="false">
+                     <children>
+                        <TreeItem value="Diode"/>
+                        <TreeItem value="Zener diode"/>
+                        <TreeItem value="Bidirectional zener diode"/>
+                        <TreeItem value="Bridge rectifier"/>
+                     </children>
+                  </TreeItem>
+                  <TreeItem value="Transistors" expanded="false">
+                     <children>
+                        <TreeItem value="NPN transistor"/>
+                        <TreeItem value="PNP transistor"/>
+                        <TreeItem value="N-FET"/>
+                        <TreeItem value="P-FET"/>
+                     </children>
+                  </TreeItem>
+                  <TreeItem value="Amplifiers" expanded="false">
+                     <children>
+                        <TreeItem value="Buffer amplifier"/>
+                        <TreeItem value="Comparator"/>
+                        <TreeItem value="Differential amplifier"/>
+                        <TreeItem value="Differential comparator"/>
+                        <TreeItem value="Summing amplifier"/>
+                     </children>
+                  </TreeItem>
+                  <TreeItem value="Sources" expanded="false">
+                     <children>
+                        <TreeItem value="Voltage source"/>
+                        <TreeItem value="Currant source"/>
+                     </children>
+                  </TreeItem>
+               </children>
+            </TreeItem>
+         </root>
+
+      </TreeView>
+   </left>
+</BorderPane>

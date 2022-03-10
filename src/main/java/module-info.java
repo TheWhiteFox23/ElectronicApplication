@@ -1,6 +1,7 @@
 module cz.thewhiterabbit.electronicapp {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.web;
     requires commons.math3;
     requires json.simple;
 

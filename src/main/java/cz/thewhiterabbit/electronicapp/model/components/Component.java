@@ -4,12 +4,14 @@ import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralCanvasObject;
 import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
+import javafx.fxml.FXML;
+
 
 public enum Component {
     RESISTOR("RESISTOR", Resistor.class, Category.R_C_L, true, "img/resistor_IEEE@0.5x.png"),
     CAPACITOR("CAPACITOR", Capacitor.class, Category.R_C_L, true, "img/capacitor@0.5x.png"),
-    INDUCTOR("INDUCTOR", Inductor.class, Category.R_C_L, true, "img/inductor@0.5x.png"),
-    COUPLED_INDUCTOR("COUPLED_INDUCTOR", CoupledInductor.class, Category.R_C_L, true, "img/coupled_inductor@0.5x.png"),
+    INDUCTOR("CONDUCTOR", Inductor.class, Category.R_C_L, true, "img/inductor@0.5x.png"),
+    COUPLED_INDUCTOR("COUPLED_CONDUCTOR", CoupledInductor.class, Category.R_C_L, true, "img/coupled_inductor@0.5x.png"),
     TEST_COMPONENT("TEST_OBJECT", GeneralCanvasObject.class, Category.MISC), //TODO temporally
     ACTIVE_POINT("ACTIVE_POINT", ActivePoint.class, Category.MISC),//TODO temporally
     LINE("LINE", TwoPointLineObject.class, Category.MISC);//TODO temporally
