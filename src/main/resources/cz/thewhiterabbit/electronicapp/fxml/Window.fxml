@@ -8,6 +8,7 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.skin.SplitPaneSkin.Content?>
+<?import javafx.geometry.Insets?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.WindowController"
@@ -21,7 +22,10 @@
         </center>
     </BorderPane>
     <StackPane stylesheets="@../stylesheets/style.css" fx:id="black" styleClass="dark_panel" prefHeight="100" prefWidth="100">
+        <padding>
+            <Insets top="50" left="50" right="50" bottom="50"/>
+        </padding>
         <Button fx:id="closeButton" text="close"></Button>
-        <fx:include source="component_info_panel.fxml" fx:id="componentInfoPanel"/>
+        <fx:include source="component_info_panel.fxml"/>
     </StackPane>
 </StackPane>

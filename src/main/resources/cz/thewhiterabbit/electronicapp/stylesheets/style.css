@@ -164,17 +164,29 @@ TabButton Button:hover{
 }
 
 .component_info TreeView{
-     -fx-base: -light-gray ;
-     -fx-focus-color: -light-gray;
+     -fx-base: #cccccc ;
+     -fx-focus-color: #cccccc;
      -fx-faint-focus-color: transparent;
 }
 
 .component_info TreeView .tree-cell{
-    -fx-background-color: -light-gray;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #333333;
 }
 .component_info TreeView .tree-cell:selected{
-    -fx-background-color: -dark-gray;
-    -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold ;
+    -fx-background-color:#cccccc;
+}
+.tree-cell:expanded, .tree-cell:sub-tree-item {
+    -fx-background-color: -dark-gray ;
+}
+
+.component_info Button{
+    -fx-background-color: #f4f4f4;
+    -fx-background-radius: 5 5 0 0;
+    -fx-text-fill: #333333;
+}
+
+.component_info Button:hover{
+    -fx-background-color: #cccccc;
 }

@@ -10,20 +10,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <?import cz.thewhiterabbit.electronicapp.view.components.ComponentTreeItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
 <BorderPane maxWidth="1000" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ComponentInfoPanel"
             stylesheets="@../stylesheets/style.css"
             styleClass="component_info">
-   <padding>
-      <Insets top="50" left="50" right="50" bottom="50"/>
-   </padding>
    <top>
       <VBox>
-         <Button fx:id="closeButton" text="close"/>
+         <Button fx:id="closeButton" text="X"/>
       </VBox>
    </top>
    <center>
-      <WebView fx:id="componentInfoWebView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <WebView  fx:id="componentInfoWebView" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <TreeView fx:id="componentTreeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" showRoot="false">

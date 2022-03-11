@@ -7,9 +7,13 @@ import cz.thewhiterabbit.electronicapp.view.components.ComponentTreeItem;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Window;
 
 public class WindowController {
@@ -21,6 +25,8 @@ public class WindowController {
     private ControlPaneController controlPaneController;
     @FXML
     private StackPane black;
+    @FXML
+    WebView componentInfoWebView;
 
     @FXML
     private void initialize(){
@@ -41,6 +47,14 @@ public class WindowController {
         });
         GUIEventAggregator.getInstance().addEventHandler(MenuEvent.HIDE_INFO_DIALOG, h->{
             black.setVisible(false);
+        });
+
+        black.addEventHandler(MouseEvent.MOUSE_CLICKED, h->{
+            if(h.getTarget() == black)GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
+        });
+
+        black.addEventHandler(KeyEvent.ANY, e->{
+            if(e.getCode()== KeyCode.ESCAPE)GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
         });
     }
 
