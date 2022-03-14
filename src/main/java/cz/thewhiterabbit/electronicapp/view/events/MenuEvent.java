@@ -17,6 +17,9 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> CLEAN_CANVAS = new EventType<>(ANY, "CLEAN_CANVAS");
     public static final EventType<MenuEvent> SHOW_INFO_DIALOG = new EventType<>(ANY, "SHOW_INFO_DIALOG");
     public static final EventType<MenuEvent> HIDE_INFO_DIALOG = new EventType<>(ANY, "HIDE_INFO_DIALOG");
+    public static final EventType<MenuEvent> SWITCH_MODE_SIMULATION = new EventType<>(ANY, "SWITCH_MODE_SIMULATION");
+    public static final EventType<MenuEvent> SWITCH_MODE_SCHEMATIC = new EventType<>(ANY, "SWITCH_MODE_SCHEMATIC");
+    public static final EventType<MenuEvent> MODE_CHANGED = new EventType<>(ANY, "MODE_CHANGED");
 
 
     private Document document;

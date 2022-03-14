@@ -22,6 +22,7 @@ public class Document {
     private Map<RawObject, DocumentObject> objectMap;
 
     private File file;
+    private DocumentMode mode = DocumentMode.SCHEMATIC;
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
@@ -106,4 +107,8 @@ public class Document {
     public void setFile(File file) {
         this.file = file;
     }
+
+    public DocumentMode getMode() {return mode;}
+
+    public void setMode(DocumentMode mode) {this.mode = mode;}
 }

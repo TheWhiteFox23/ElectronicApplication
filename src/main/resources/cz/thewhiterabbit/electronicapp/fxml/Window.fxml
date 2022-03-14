@@ -18,7 +18,10 @@
             <fx:include source="ControlPane.fxml" fx:id="controlPane"/>
         </top>
         <center>
-            <fx:include source="DrawingArea.fxml" fx:id="canvas"/>
+            <StackPane>
+                <fx:include source="DrawingArea.fxml" fx:id="canvas"/>
+                <fx:include source="SimulationPanel.fxml" fx:id="simulationPanel" visible="false"/>
+            </StackPane>
         </center>
     </BorderPane>
     <StackPane stylesheets="@../stylesheets/style.css" fx:id="black" styleClass="dark_panel" prefHeight="100" prefWidth="100">

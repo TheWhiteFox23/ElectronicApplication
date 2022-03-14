@@ -1,11 +1,14 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Category;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.view.components.CategoryButton;
 import cz.thewhiterabbit.electronicapp.view.components.ComponentButton;
 
+import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.List;
 public class ComponentMenuController {
     @FXML private HBox componentsBox;
     @FXML private HBox categoriesBox;
+    @FXML private Button simulationButton;
 
     private final HashMap<Category, CategoryButton> categoriesMap = new HashMap<>();
 
@@ -22,6 +26,9 @@ public class ComponentMenuController {
         initMap();
         fillMap();
         setActive(categoriesMap.get(Category.MISC));
+        simulationButton.setOnAction(e->{
+            GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.SWITCH_MODE_SIMULATION));
+        });
     }
 
     private void initMap(){

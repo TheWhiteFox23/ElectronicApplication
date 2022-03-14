@@ -20,13 +20,13 @@ public class WindowController {
     @FXML
     private StackPane window;
     @FXML
-    private DrawingAreaController drawingAreaController;
-    @FXML
-    private ControlPaneController controlPaneController;
+    private AnchorPane canvas;
     @FXML
     private StackPane black;
     @FXML
-    WebView componentInfoWebView;
+    private WebView componentInfoWebView;
+    @FXML
+    private AnchorPane simulationPanel;
 
     @FXML
     private void initialize(){
@@ -55,6 +55,20 @@ public class WindowController {
 
         black.addEventHandler(KeyEvent.ANY, e->{
             if(e.getCode()== KeyCode.ESCAPE)GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
+        });
+
+        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.MODE_CHANGED, e->{
+            switch (((MenuEvent)e).getDocument().getMode()){
+                case SCHEMATIC:{
+                    canvas.setVisible(true);
+                    simulationPanel.setVisible(false);
+                    break;
+                }case SIMULATION:{
+                    canvas.setVisible(false);
+                    simulationPanel.setVisible(true);
+                    break;
+                }
+            }
         });
     }
 

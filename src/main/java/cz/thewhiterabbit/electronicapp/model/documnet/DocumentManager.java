@@ -1,11 +1,13 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.EventAggregator;
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.IEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 
 import cz.thewhiterabbit.electronicapp.model.rawdocument.TestRawDocument;
 import cz.thewhiterabbit.electronicapp.view.dialogs.FileLoadError;
+import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventTarget;
@@ -128,6 +130,7 @@ public class DocumentManager implements IEventAggregator {
         if(documents.contains(document)){
             activeDocument = document;
             fireEvent(new DocumentManagerEvent(DocumentManagerEvent.ACTIVE_DOCUMENT_CHANGED, document));
+            GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.MODE_CHANGED, document));
         }
     }
 

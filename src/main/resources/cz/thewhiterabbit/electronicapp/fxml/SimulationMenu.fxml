@@ -6,15 +6,12 @@
 <?import cz.thewhiterabbit.electronicapp.view.components.CategoryButton?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ComponentMenuController"
+      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationMenuController"
       spacing="10"
       stylesheets="@../stylesheets/style.css"
-      styleClass="component_menu">
+      styleClass="simulation_menu"
+      fx:id="simulationMenu">
     <StackPane styleClass="simulation_button">
-        <Button  fx:id="simulationButton" text="Simulation"/>
+        <Button  fx:id="simulationButton" text="Schematic"/>
     </StackPane>
-    <VBox>
-        <HBox fx:id="categoriesBox"/>
-        <HBox styleClass="component_box" fx:id="componentsBox"/>
-    </VBox>
 </HBox>

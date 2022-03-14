@@ -3,10 +3,7 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
-import cz.thewhiterabbit.electronicapp.model.documnet.Document;
-import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
-import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
-import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObjectFactory;
+import cz.thewhiterabbit.electronicapp.model.documnet.*;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
@@ -144,6 +141,18 @@ public class DrawingAreaController {
         drawingArea.setOnContextMenuRequested(e->{
             showContextMenu();
             contextMenu.show(canvas.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+        });
+        eventAggregator.addEventHandler(MenuEvent.SWITCH_MODE_SIMULATION, e->{
+            if(documentManager.getActiveDocument() != null){
+                documentManager.getActiveDocument().setMode(DocumentMode.SIMULATION);
+                eventAggregator.fireEvent(new MenuEvent(MenuEvent.MODE_CHANGED, documentManager.getActiveDocument()));
+            }
+        });
+        eventAggregator.addEventHandler(MenuEvent.SWITCH_MODE_SCHEMATIC, e->{
+            if(documentManager.getActiveDocument() != null) {
+                documentManager.getActiveDocument().setMode(DocumentMode.SCHEMATIC);
+                eventAggregator.fireEvent(new MenuEvent(MenuEvent.MODE_CHANGED, documentManager.getActiveDocument()));
+            }
         });
     }
 

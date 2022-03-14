@@ -8,13 +8,13 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ControlPaneController">
-        <fx:include source="FileMenu.fxml" fx:id="fileMenu" />
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.ControlPaneController"
+            fx:id="controlPane">
+        <fx:include source="FileMenu.fxml" fx:id="fileMenu" VBox.vgrow="ALWAYS"/>
     <HBox>
         <fx:include source="QuickControlMenu.fxml"/>
         <fx:include source="TabPane.fxml" fx:id="tabPane" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
     </HBox>
-
         <fx:include source="ComponentMenu.fxml" fx:id="componentMenu"/>
-
+        <fx:include source="SimulationMenu.fxml" fx:id="simulationMenu"/>
 </VBox>

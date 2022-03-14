@@ -102,7 +102,12 @@
 MenuBar{
     -fx-background-color: transparent;
 }
-HBox{
+
+/*HBox{
+    -fx-background-color: -primary-color-light;
+}*/
+
+.general_light{
     -fx-background-color: -primary-color-light;
 }
 
@@ -272,4 +277,34 @@ TabButton Button:hover{
 
 .component_info Button:hover{
     -fx-background-color: #cccccc;
+}
+
+/****** COMPONENT MENU ******/
+.simulation_button Button{
+    -fx-pref-height: 70px;
+    -fx-pref-width: 90px;
+    -fx-background-color: -super-light-gray;
+    -fx-background-radius : 5;
+    -fx-border-radius:5;
+    -fx-border-width: 2;
+    -fx-border-color: -primary-color-light;
+    -fx-text-fill: -dark-gray;
+}
+
+.simulation_button{
+    -fx-padding : 0 0 0 10;
+}
+
+.component_menu {
+    -fx-pref-height: 100px;
+}
+
+.component_box{
+    -fx-pref-height: 70px;
+    -fx-padding: 0 0 0 10;
+}
+
+.simulation_menu{
+    -fx-pref-height: 100px;
+    -fx-background-color: -super-light-gray;
 }
