@@ -69,9 +69,11 @@ public class DocumentCommandInterpreter {
     };
 
     private void onObjectDeleted(DrawingAreaEvent event) {
-        DocumentObject o = (DocumentObject) event.getCanvasObject();
-        if(o!= null){
-            parentDocument.remove(o);
+        if(event.getCanvasObject() instanceof  DocumentObject){
+            DocumentObject o = (DocumentObject) event.getCanvasObject();
+            if(o!= null){
+                parentDocument.remove(o);
+            }
         }
     };
 
