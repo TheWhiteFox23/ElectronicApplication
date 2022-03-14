@@ -8,14 +8,97 @@
     -dark-gray:#333333;
     -super-light-gray:#F2F2F2;
     -tab-button-hover:#E0E0E0;
+    -fx-darkest-grey-color: #323232;
+
+            /**COMBO BOX**/
+    	-fx-primary-color: #007acc;
+    	-fx-secondary-color: #4B6EAF;
+    	-fx-grey-color: #b9b9b9;
+    	-fx-focus-color: -fx-secondary-color;
 }
 
-/***** General *****/
+/***** PROPERTIES PANE *****/
 .properties_pane{
     -fx-background-color: -primary-color-light;
     -fx-background-radius: 10;
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 10;
 }
 
+.properties_pane HBox Label{
+    -fx-padding: 5 5 5 5;
+}
+
+.properties_pane Label{
+    -fx-text-fill: -dark-gray;
+}
+
+.properties_pane TextField{
+    -fx-background-color: -super-light-gray;
+    -fx-background-radius: 5;
+}
+
+.properties_pane HBox{
+    -fx-spacing: 10;
+}
+
+.properties_pane .invalid{
+    -fx-background-color: #EEB6B6;
+}
+
+.properties_pane .changed{
+    -fx-background-color:  #C7EEB6;
+}
+
+/** PROPERTIES PANE CHECK BOX**/
+.properties_pane CheckBox .box {
+	-fx-background-color: -super-light-gray;
+	-fx-border-color: transparent;
+	-fx-border-radius: 5;
+	-fx-background-radius:5;
+}
+.properties_pane CheckBox .mark {
+ 	-fx-shape: "M1.73,12.91 8.1,19.28 22.79,4.59 22.79,1.59 8.1,16.28 1.73,9.91";
+}
+.properties_pane CheckBox:selected .mark {
+	-fx-background-color: -super-light-gray;
+}
+.properties_pane CheckBox:selected .box {
+	-fx-background-color: -light-gray;
+}
+
+/** PROPERTIES PANE _ COMBO BOX **/
+.combo-box-base {
+	-fx-background-color: -super-light-gray;
+	-fx-background-radius: 5;
+}
+.combo-box-base:hover {
+	-fx-background-color: -light-gray;
+}
+.combo-box-base:disabled {
+	-fx-background-color: -fx-grey-color;
+}
+.combo-box .list-cell {
+	-fx-text-fill: -dark-gray;
+}
+.combo-box-base .arrow-button .arrow {
+	-fx-background-color: -dark-gray;
+}
+/* WHILE OPEN */
+.combo-box-base:showing {
+	-fx-background-color: -light-gray;
+}
+.combo-box .combo-box-popup .list-view .list-cell {
+	-fx-background-color: -super-light-gray;
+}
+.combo-box .combo-box-popup .list-view .list-cell:hover,
+.combo-box .combo-box-popup .list-view .list-cell:selected {
+	-fx-background-color: -tab-button-hover;
+}
+
+
+
+/***** GENERAL ******/
 MenuBar{
     -fx-background-color: transparent;
 }

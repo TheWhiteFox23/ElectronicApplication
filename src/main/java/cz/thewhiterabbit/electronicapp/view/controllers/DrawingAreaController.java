@@ -40,8 +40,6 @@ public class DrawingAreaController {
     @FXML
     PropertiesPaneController propertiesPaneController;
     @FXML
-    ComponentInfoPaneController componentInfoPaneController;
-    @FXML
     DrawingAreaControlMenuController drawingAreaControlMenuController;
 
     private final DocumentManager documentManager = new DocumentManager();

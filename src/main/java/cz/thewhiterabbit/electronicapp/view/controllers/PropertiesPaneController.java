@@ -20,7 +20,11 @@ import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -32,13 +36,6 @@ public class PropertiesPaneController {
     private EventAggregator eventAggregator = GUIEventAggregator.getInstance();
     private DocumentObject activeObject;
 
-    private final Stack<TextArea> textAreasFree = new Stack<>();
-    private final Stack<TextField> textFieldsFree = new Stack<>();
-    private final Stack<Label> labelsFree = new Stack<>();
-    private final Stack<CheckBox> checkBoxesFree = new Stack<>();
-    private final Stack<ComboBox> comboBoxesFree = new Stack<>();
-
-    private final Map<Node, ListenersCrate> nodeMap = new HashMap<>();
 
     @FXML
     private void initialize() {
@@ -85,15 +82,16 @@ public class PropertiesPaneController {
 
     private List<? extends Node> getNodes(VisibleProperty property) {
         List<Node> nodes = new ArrayList<>();
-        Label nameLabel = getLabel();
+
+        Label nameLabel = new Label();
         nameLabel.setText(property.getName());
-        nodes.add(nameLabel);
-
-        nodes.add(getPropertyNode(property));
-
-        Label unitLabel = getLabel();
+       //nodes.add(nameLabel);
+        Label unitLabel = new Label();
         unitLabel.setText(property.getUnit());
-        nodes.add(unitLabel);
+
+        //nodes.add(getPropertyNode(property));
+
+        nodes.add(new VBox(nameLabel, new HBox(getPropertyNode(property), unitLabel)));
         return nodes;
     }
 
@@ -115,33 +113,31 @@ public class PropertiesPaneController {
     }
 
     private Node getTextArea(VisibleProperty property) {
-        TextArea textArea = getTextArea();
+        TextArea textArea = new TextArea();
         textArea.setWrapText(true);
         Property property1 = (Property) property.getLinkedProperty();
         textArea.setText(property1.getValue().toString());
-
-        InvalidationListener listener = new WeakInvalidationListener(l->firePropertyChange(property1,
-                property1.getValue().toString(), textArea.getText()));
-        textArea.focusedProperty().addListener(listener);
-
-        ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> textArea.setText(newVal.toString()));
-        property1.addListener(changeListener);
-
-        nodeMap.put(textArea, new ListenersCrate(changeListener, listener, property1));
-
+        textArea.focusedProperty().addListener(l ->{
+            firePropertyChange(property1, property1.getValue().toString(), textArea.getText());
+        });
+        property1.addListener(l->{
+            textArea.setText(String.valueOf(property1.getValue()));
+        });
         return textArea;
     }
 
     private void firePropertyChange(Property property1, String oldVal, String newVal) {
         if(!oldVal.equals(newVal)){
-            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, (CanvasObject) property1.getBean(),
+            System.out.println("property change");
+            eventAggregator.fireEvent(
+                    new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, (CanvasObject) property1.getBean(),
                     property1, oldVal, newVal));
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
         }
     }
 
     private Node getComboBoxNode(VisibleProperty<Property> visibleProperty) {
-        ComboBox comboBox = getComboBox();
+        ComboBox comboBox = new ComboBox();
         Property property = (Property)visibleProperty.getLinkedProperty();
         String[] values = visibleProperty.getValues();
 
@@ -150,174 +146,116 @@ public class PropertiesPaneController {
             if(s.equals(property.getValue())) comboBox.getSelectionModel().select(s);
         }
 
-        EventHandler eventHandler = new WeakEventHandler(h -> firePropertyChange(property, property.getValue().toString(),
-                    comboBox.getSelectionModel().getSelectedItem().toString()));
-        comboBox.setOnAction(eventHandler);
-
-        ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> {
-            comboBox.getSelectionModel().select(newVal);
+        comboBox.setOnAction(l ->{
+            firePropertyChange(property, property.getValue().toString(),
+                    comboBox.getSelectionModel().getSelectedItem().toString());
         });
-        property.addListener(changeListener);
 
-        nodeMap.put(comboBox, new ListenersCrate(changeListener, eventHandler, property));
+        property.addListener(l->{
+            for(String s: values){
+                if(s.equals(property.getValue())) comboBox.getSelectionModel().select(s);
+            }
+        });
 
         return comboBox;
     }
 
     private Node getCheckBoxNode(VisibleProperty property) {
-        CheckBox checkBox = getCheckBox();
+        CheckBox checkBox = new CheckBox();
         BooleanProperty booleanProperty = (BooleanProperty) property.getLinkedProperty();
         checkBox.setSelected(booleanProperty.getValue());
 
-        EventHandler eventHandler = new WeakEventHandler(h -> firePropertyChange(booleanProperty, booleanProperty.getValue().toString(),
-                String.valueOf(checkBox.isSelected())));
-        checkBox.setOnAction(eventHandler);
-
-        ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> {
-            checkBox.setSelected((Boolean) newVal);
+        checkBox.setOnAction(l ->{
+            firePropertyChange(booleanProperty, booleanProperty.getValue().toString(),
+                    String.valueOf(checkBox.isSelected()));
         });
-        booleanProperty.addListener(changeListener);
+        booleanProperty.addListener(l->{
+            checkBox.setSelected(booleanProperty.getValue());
+        });
 
-        nodeMap.put(checkBox, new ListenersCrate(changeListener, eventHandler, booleanProperty));
         return checkBox;
     }
 
     private Node getLabelNode(VisibleProperty visibleProperty) {
-        Label label = getLabel();
+        Label label = new Label();
         Property linkedProperty = (Property)visibleProperty.getLinkedProperty();
         label.setText(linkedProperty.getValue().toString());
-
-        ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> {
-            label.setText(newVal.toString());
+        linkedProperty.addListener(l->{
+            label.setText(linkedProperty.getValue().toString());
         });
-        linkedProperty.addListener(changeListener);
-        nodeMap.put(label, new ListenersCrate(changeListener, linkedProperty));
         return label;
     }
 
     private Node getTextField(VisibleProperty visibleProperty) {
-        TextField textField = getTextField();
+        TextField textField = new TextField();
         Property linkedProperty = (Property)visibleProperty.getLinkedProperty();
         textField.setText(linkedProperty.getValue().toString());
 
-        InvalidationListener textPropertyListener = new WeakInvalidationListener(l -> {
-            boolean validation = ValueValidator.validateProperty(linkedProperty, textField.textProperty().getValue());
-            if(!validation) System.out.println("InvalidValue");//TODO visually highlight
+        textField.textProperty().addListener((obs, oldVal, newVal)->{
+            manageValidation(textField, linkedProperty, newVal);
+            manageChange(textField, linkedProperty);
         });
-        textField.textProperty().addListener(textPropertyListener);
 
-        InvalidationListener invalidationListener = new WeakInvalidationListener(e ->firePropertyChange(linkedProperty, linkedProperty.getValue().toString(),
-                textField.getText()));
-        textField.focusedProperty().addListener(invalidationListener);
+        textField.focusedProperty().addListener(l->{
+            validateChangeAndApply(textField, linkedProperty);
+        });
 
-        ChangeListener changeListener = initChangeListener(textField, linkedProperty);
+        textField.addEventHandler(KeyEvent.KEY_PRESSED, e->{
+            if(e.getCode() == KeyCode.ENTER){
+                validateChangeAndApply(textField, linkedProperty);
+            }
+        });
 
-        nodeMap.put(textField, new ListenersCrate(changeListener, invalidationListener,textPropertyListener, linkedProperty));
+        linkedProperty.addListener(l->{
+            textField.setText(linkedProperty.getValue().toString());
+        });
         return textField;
     }
 
-    private ChangeListener initChangeListener(TextField textField, Property linkedProperty) {
-        ChangeListener changeListener = new WeakChangeListener((obs, oldVal, newVal) -> {
-            textField.setText(newVal.toString());
-        });
-        linkedProperty.addListener(changeListener);
-        return changeListener;
-    }
-
-    private TextField getTextField(){
-        if(!textFieldsFree.empty()) return textFieldsFree.pop();
-        return new TextField();
-    }
-
-    private Label getLabel(){
-        if(!labelsFree.empty()) return labelsFree.pop();
-        return new Label();
-    }
-
-    private TextArea getTextArea(){
-        if(!textAreasFree.empty()) return textAreasFree.pop();
-        return new TextArea();
-    }
-
-    private CheckBox getCheckBox(){
-        if(!checkBoxesFree.empty()) return checkBoxesFree.pop();
-        return new CheckBox();
-    }
-
-    private ComboBox getComboBox(){
-        if(!comboBoxesFree.empty()) return comboBoxesFree.pop();
-        return new ComboBox();
-    }
-
-    private void free(Node node){
-        //todo remove listeners from node
-        if(node instanceof Label){
-            labelsFree.push((Label) node);
-        }else if(node instanceof TextField){
-            textFieldsFree.push((TextField) node);
-            node.focusedProperty().removeListener(nodeMap.get(node).invalidationListener);
-            ((TextField) node).textProperty().removeListener(nodeMap.get(node).textPropertyListener);
-        }else if(node instanceof TextArea){
-            textAreasFree.push((TextArea) node);
-            node.focusedProperty().removeListener(nodeMap.get(node).invalidationListener);
-        }else if(node instanceof CheckBox){
-            checkBoxesFree.push((CheckBox) node);
-            ((CheckBox) node).setOnAction(actionEvent -> {});
-        }else if(node instanceof ComboBox){
-            comboBoxesFree.push((ComboBox) node);
-            ((ComboBox<?>) node).setOnAction(actionEvent -> {});
-            ((ComboBox<?>) node).getSelectionModel().clearSelection();
-            ((ComboBox<?>) node).getItems().clear();
+    private void manageChange(TextField textField, Property linkedProperty) {
+        if(!String.valueOf(linkedProperty.getValue()).equals(textField.getText()) && !textField.getStyleClass().contains("invalid")){
+            textField.getStyleClass().add("changed");
+        }else{
+            while (textField.getStyleClass().contains("changed")){
+                textField.getStyleClass().remove("changed");
+            }
         }
-        if(nodeMap.containsKey(node)){
-            nodeMap.get(node).property.removeListener(nodeMap.get(node).changeListener);
-        }
-        nodeMap.remove(node);
+    }
 
+    private void manageValidation(TextField textField, Property linkedProperty, String newVal) {
+        boolean validation = ValueValidator.validateProperty(linkedProperty, newVal);
+        if(!validation){
+            textField.getStyleClass().add("invalid");
+        }else{
+            while (textField.getStyleClass().contains("invalid")){
+                textField.getStyleClass().remove("invalid");
+            }
+        }
+    }
+
+    private void validateChangeAndApply(TextField textField, Property linkedProperty) {
+        if(!String.valueOf(linkedProperty.getValue()).equals(textField.getText())){
+            if(ValueValidator.validateProperty(linkedProperty, textField.getText())){
+                firePropertyChange(linkedProperty, linkedProperty.getValue().toString(),
+                        textField.getText());
+                textField.setText(String.valueOf(linkedProperty.getValue()));
+                textField.positionCaret(textField.getText().length());
+            }else{
+                textField.setText(String.valueOf(linkedProperty.getValue()));
+                textField.positionCaret(textField.getText().length());
+            }
+        }
+        manageChange(textField, linkedProperty);
     }
 
     private void freePropertyPane(){
-        propertiesPane.getChildren().forEach(c -> free(c));
         propertiesPane.getChildren().clear();
+        System.gc();
     }
-
 
     private boolean validateAO(DocumentObject activeObject) {
         return ComponentAnnotationProcessor.isComponent(activeObject);
     }
 
-
-    private class ListenersCrate{
-        ChangeListener changeListener;
-        InvalidationListener invalidationListener;
-        InvalidationListener textPropertyListener;
-        Property property;
-        EventHandler eventHandler;
-
-        public ListenersCrate(ChangeListener changeListener, InvalidationListener invalidationListener, Property property) {
-            this.changeListener = changeListener;
-            this.invalidationListener = invalidationListener;
-            this.property = property;
-        }
-
-        public ListenersCrate(ChangeListener changeListener, InvalidationListener invalidationListener,
-                              InvalidationListener textPropertyListener,Property property) {
-            this.changeListener = changeListener;
-            this.invalidationListener = invalidationListener;
-            this.textPropertyListener = textPropertyListener;
-            this.property = property;
-        }
-
-        public ListenersCrate(ChangeListener changeListener, EventHandler eventHandler, Property property) {
-            this.changeListener = changeListener;
-            this.eventHandler = eventHandler;
-            this.property = property;
-        }
-
-        public ListenersCrate(ChangeListener changeListener, Property property) {
-            this.changeListener = changeListener;
-            this.property = property;
-        }
-    }
 
 }
