@@ -1,13 +1,16 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
+import java.io.File;
 
 
 public class FileMenuController {
@@ -25,9 +28,12 @@ public class FileMenuController {
     @FXML private MenuItem deselectAll;
     @FXML private MenuItem undo;
     @FXML private MenuItem redo;
+    @FXML private Menu prefabMenu;
 
 
     @FXML private void initialize(){
+        loadPrefab();
+        
         newFile.setOnAction(e -> {
             MenuEvent menuClicked = new MenuEvent(MenuEvent.NEW_DOCUMENT);
             GUIEventAggregator.getInstance().fireEvent(menuClicked);
@@ -78,5 +84,18 @@ public class FileMenuController {
         });
 
 
+    }
+
+    private void loadPrefab() {
+        File resources = new File(App.class.getResource("prefab").getPath());
+        String contents[] = resources.list();
+        for (String s : contents){
+            File file = new File(App.class.getResource("prefab/" + s).getPath());
+            MenuItem menuItem = new MenuItem(s);
+            menuItem.setOnAction(e->{
+                GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.DO_OPEN_FILE,file));
+            });
+            prefabMenu.getItems().add(menuItem);
+        }
     }
 }

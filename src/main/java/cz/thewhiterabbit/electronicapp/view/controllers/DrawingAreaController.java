@@ -82,6 +82,9 @@ public class DrawingAreaController {
         eventAggregator.addEventHandler(MenuEvent.OPEN_FILE, e -> {
             onOpenFile();
         });
+        eventAggregator.addEventHandler(MenuEvent.DO_OPEN_FILE, e->{
+            documentManager.loadDocument(((MenuEvent)e).getFile());
+        });
         eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e -> {
             documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) e);
         });

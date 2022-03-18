@@ -16,6 +16,7 @@
                     <MenuItem mnemonicParsing="false" text="%menu.file.new_file" fx:id="newFile" />
                     <MenuItem mnemonicParsing="false" text="%menu.file.open" fx:id="openFile" />
                     <Menu mnemonicParsing="false" text="%menu.file.open_recent"  />
+                    <Menu fx:id="prefabMenu" mnemonicParsing="false" text="%menu.file.open_prefab"  />
                     <SeparatorMenuItem mnemonicParsing="false" />
                     <MenuItem mnemonicParsing="false" text="%menu.file.close" fx:id="closeFile" />
                     <MenuItem mnemonicParsing="false" text="%menu.file.save" fx:id="saveFile"/>
