@@ -9,8 +9,8 @@
       fx:id="quickControlMenu"
       stylesheets="@../stylesheets/style.css"
       styleClass="general_light">
-    <Button styleClass="save-button" prefHeight="20" prefWidth="25"/>
-    <Button styleClass="undo-button" prefHeight="20" prefWidth="25"/>
-    <Button styleClass="redo-button" prefHeight="20" prefWidth="25"/>
+    <Button fx:id="saveButton" styleClass="save-button" prefHeight="20" prefWidth="25"/>
+    <Button fx:id="undoButton" styleClass="undo-button" prefHeight="20" prefWidth="25"/>
+    <Button fx:id="redoButton" styleClass="redo-button" prefHeight="20" prefWidth="25"/>
 
 </HBox>

@@ -5,6 +5,7 @@ import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.documnet.*;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
@@ -333,8 +334,12 @@ public class DrawingAreaController {
 
     private void onPaste() {
         copyMemory.forEach(o -> {
-            o.setSelected(true);
-            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, o));
+            if(o instanceof DocumentObject){
+                RawObject rawObject = ((DocumentObject)o).getRawObject().copy();
+                DocumentObject object = DocumentObjectFactory.createDocumentObject(rawObject);
+                object.setSelected(true);
+                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, object));
+            }
         });
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
     }

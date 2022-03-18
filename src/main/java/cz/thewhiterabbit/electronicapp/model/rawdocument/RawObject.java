@@ -49,4 +49,16 @@ public class RawObject {
     public List<RawObject> getChildren() {
         return children;
     }
+
+    public RawObject copy(){
+        RawObject rawObject = new RawObject(getProperty(TYPE_PROPERTY).getValue());
+        for (Map.Entry<String, RawProperty> set :
+                propertyMap.entrySet()) {
+            rawObject.addProperty(new RawProperty(set.getKey(), set.getValue().getValue()));
+        }
+        children.forEach(ch->{
+            rawObject.children.add(ch.copy());
+        });
+        return rawObject;
+    }
 }

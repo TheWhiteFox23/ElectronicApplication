@@ -267,7 +267,9 @@ public abstract class CanvasObject {
     /******* PAINTING ******/
 
     protected void repaint() {//
-        eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT_OBJECT, this));
+        if(eventAggregator!= null){
+            eventAggregator.fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT_OBJECT, this));
+        }
     }
 
     protected void clear() {
