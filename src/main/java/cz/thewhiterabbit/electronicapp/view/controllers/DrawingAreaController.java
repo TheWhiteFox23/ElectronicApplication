@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 public class DrawingAreaController {
     @FXML
@@ -74,17 +75,19 @@ public class DrawingAreaController {
         });
         eventAggregator.addEventHandler(MenuEvent.CLOSE_DOCUMENT, e -> {
             Document document = ((MenuEvent) e).getDocument();
-            if(document.isChanged()){
-                ConfirmDialog confirmDialog = new ConfirmDialog("Save file", "Save file before closing?");
-                switch (confirmDialog.getResponse()){
-                    case YES -> {
-                        onSaveFile();
-                        documentManager.closeDocument(document);
-                    }
-                    case NO ->  documentManager.closeDocument(document);
-                }
-            }else{
-                documentManager.closeDocument(document);
+            doCloseDocument(document);
+        });
+        eventAggregator.addEventHandler(MenuEvent.CLOSE_ACTIVE_DOCUMENT, e -> {
+            if(documentManager.getActiveDocument() != null){
+                doCloseDocument(documentManager.getActiveDocument());
+            }
+        });
+        eventAggregator.addEventHandler(MenuEvent.CLOSE_ALL, e -> {
+            List<Document> documents = documentManager.getDocuments();
+            Stack<Document> documentStack = new Stack();
+            documentStack.addAll(documents);
+            while (!documentStack.empty()){
+                doCloseDocument(documentStack.pop());
             }
         });
         eventAggregator.addEventHandler(MenuEvent.CHANGE_ACTIVE_DOCUMENT, e -> {
@@ -189,6 +192,21 @@ public class DrawingAreaController {
                 drawingArea.repaint();
             }
         });
+    }
+
+    private void doCloseDocument(Document document) {
+        if(document.isChanged()){
+            ConfirmDialog confirmDialog = new ConfirmDialog("Save file", "Save file before closing?");
+            switch (confirmDialog.getResponse()){
+                case YES -> {
+                    onSaveFile();
+                    documentManager.closeDocument(document);
+                }
+                case NO ->  documentManager.closeDocument(document);
+            }
+        }else{
+            documentManager.closeDocument(document);
+        }
     }
 
     private void doRotateLeft(CanvasObject o) {
@@ -305,11 +323,12 @@ public class DrawingAreaController {
 
             Document document = documentManager.getActiveDocument();
             document.setFile(file);
-            document.getRawDocument().setName(file.getName().replace(".aeon", ""));//TODO notify listeners
-            if(documentManager.saveDocument(file)){
-                eventAggregator.fireEvent(new DocumentManager.DocumentManagerEvent(DocumentManager.DocumentManagerEvent.DOCUMENT_RENAMED, document));
+            if(file!=null){
+                document.getRawDocument().setName(file.getName().replace(".aeon", ""));//TODO notify listeners
+                if(documentManager.saveDocument(file)){
+                    eventAggregator.fireEvent(new DocumentManager.DocumentManagerEvent(DocumentManager.DocumentManagerEvent.DOCUMENT_RENAMED, document));
+                }
             }
-
         }
     }
 

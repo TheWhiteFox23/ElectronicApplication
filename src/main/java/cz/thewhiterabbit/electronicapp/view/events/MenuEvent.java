@@ -12,6 +12,8 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> ANY = new EventType<>(Event.ANY, "MENU_ANY");
     public static final EventType<MenuEvent> NEW_DOCUMENT = new EventType<>(ANY, "NEW_DOCUMENT");
     public static final EventType<MenuEvent> CLOSE_DOCUMENT = new EventType<>(ANY, "CLOSE_DOCUMENT");
+    public static final EventType<MenuEvent> CLOSE_ACTIVE_DOCUMENT = new EventType<>(ANY, "CLOSE_ACTIVE_DOCUMENT");
+    public static final EventType<MenuEvent> CLOSE_ALL = new EventType<>(ANY, "CLOSE_ALL");
     public static final EventType<MenuEvent> CHANGE_ACTIVE_DOCUMENT = new EventType<>(ANY, "CHANGE_ACTIVE_DOCUMENT");
     public static final EventType<MenuEvent> OPEN_FILE = new EventType<>(ANY, "OPEN_FILE");
     public static final EventType<MenuEvent> DO_OPEN_FILE = new EventType<>(ANY, "DO_OPEN_FILE");
