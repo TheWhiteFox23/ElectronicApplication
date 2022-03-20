@@ -308,3 +308,40 @@ TabButton Button:hover{
     -fx-pref-height: 100px;
     -fx-background-color: -super-light-gray;
 }
+
+
+.title_label{
+    -fx-font-size: 18px;
+    -fx-font-weight: 400;
+    -fx-text-fill: -dark-gray;
+}
+
+.text_label{
+    -fx-font-size: 14px;
+    -fx-font-weight: 300;
+    -fx-text-fill: -dark-gray;
+}
+
+.cancel_button{
+    -fx-text-fill: -dark-gray;
+    -fx-background-color: -super-light-gray;
+    -fx-border-color: -light-gray;
+    -fx-border-radius: 5;
+    -fx-pref-width:80;
+    -fx-background-radius:5;
+}
+
+.cancel_button:hover{
+    -fx-background-color: -light-gray;
+}
+
+.confirm_button{
+    -fx-text-fill: -super-light-gray;
+    -fx-background-color: -highlight-color;
+    -fx-pref-width:80;
+    -fx-background-radius:5;
+}
+
+.confirm_button:hover{
+    -fx-background-color: -light-gray;
+}

@@ -5,6 +5,8 @@ import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ public class Document {
 
     private File file;
     private DocumentMode mode = DocumentMode.SCHEMATIC;
+
+    private BooleanProperty changed = new SimpleBooleanProperty(false);
 
     public Document(RawDocument rawDocument){
         this.rawDocument = rawDocument;
@@ -86,10 +90,12 @@ public class Document {
 
     public void applyCommand(DrawingAreaEvent e){
         commandService.interpret(e);
+        changed.setValue(true);
     }
 
     public void undo(){
         commandService.undo();
+        if(undoEmpty())changed.setValue(false);
     }
 
     public void redo(){
@@ -118,5 +124,17 @@ public class Document {
 
     public boolean redoEmpty(){
         return commandService.redoEmpty();
+    }
+
+    public boolean isChanged() {
+        return changed.get();
+    }
+
+    public BooleanProperty changedProperty() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed.set(changed);
     }
 }

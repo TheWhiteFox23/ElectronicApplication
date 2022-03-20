@@ -21,7 +21,6 @@
                     <MenuItem mnemonicParsing="false" text="%menu.file.close" fx:id="closeFile" />
                     <MenuItem mnemonicParsing="false" text="%menu.file.save" fx:id="saveFile"/>
                     <MenuItem mnemonicParsing="false" text="%menu.file.save_as" fx:id="saveFileAs" />
-                    <MenuItem mnemonicParsing="false" text="%menu.file.revert" />
                     <SeparatorMenuItem mnemonicParsing="false" />
                     <MenuItem mnemonicParsing="false" text="%menu.file.preferences" />
                     <SeparatorMenuItem mnemonicParsing="false" />

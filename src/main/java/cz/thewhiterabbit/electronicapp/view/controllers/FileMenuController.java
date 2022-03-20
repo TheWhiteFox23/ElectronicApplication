@@ -82,6 +82,10 @@ public class FileMenuController {
             EditControlEvent event = new EditControlEvent(EditControlEvent.DELETE);
             GUIEventAggregator.getInstance().fireEvent(event);
         });
+        quit.setOnAction(e->{
+            //show save dialog
+            //show confirm dialog
+        });
 
 
     }

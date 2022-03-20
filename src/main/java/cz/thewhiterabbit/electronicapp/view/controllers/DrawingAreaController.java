@@ -14,6 +14,7 @@ import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.RelativeModel;
 import cz.thewhiterabbit.electronicapp.view.components.CanvasObjectContextMenu;
 import cz.thewhiterabbit.electronicapp.view.components.GeneralCanvasContextMenu;
+import cz.thewhiterabbit.electronicapp.view.dialogs.ConfirmDialog;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
@@ -21,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -29,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +74,18 @@ public class DrawingAreaController {
         });
         eventAggregator.addEventHandler(MenuEvent.CLOSE_DOCUMENT, e -> {
             Document document = ((MenuEvent) e).getDocument();
-            documentManager.closeDocument(document);
+            if(document.isChanged()){
+                ConfirmDialog confirmDialog = new ConfirmDialog("Save file", "Save file before closing?");
+                switch (confirmDialog.getResponse()){
+                    case YES -> {
+                        onSaveFile();
+                        documentManager.closeDocument(document);
+                    }
+                    case NO ->  documentManager.closeDocument(document);
+                }
+            }else{
+                documentManager.closeDocument(document);
+            }
         });
         eventAggregator.addEventHandler(MenuEvent.CHANGE_ACTIVE_DOCUMENT, e -> {
             Document document = ((MenuEvent) e).getDocument();

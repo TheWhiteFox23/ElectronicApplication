@@ -119,6 +119,7 @@ public class DocumentManager implements IEventAggregator {
     public boolean saveDocument(File file){
         try {
             fileService.save(activeDocument, file);
+            activeDocument.setChanged(false);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
