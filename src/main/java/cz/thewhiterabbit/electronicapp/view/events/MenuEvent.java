@@ -23,6 +23,7 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> SWITCH_MODE_SIMULATION = new EventType<>(ANY, "SWITCH_MODE_SIMULATION");
     public static final EventType<MenuEvent> SWITCH_MODE_SCHEMATIC = new EventType<>(ANY, "SWITCH_MODE_SCHEMATIC");
     public static final EventType<MenuEvent> MODE_CHANGED = new EventType<>(ANY, "MODE_CHANGED");
+    public static final EventType<MenuEvent> CLEAN_WORKPLACE = new EventType<>(ANY, "CLEAN_WORKPLACE");
 
 
     private Document document;

@@ -73,6 +73,7 @@ public class TabPaneController {
         }
         if(tabPane.getChildren().size()==1){
             eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLEAN_CANVAS));
+            eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLEAN_WORKPLACE));
         }
     }
 

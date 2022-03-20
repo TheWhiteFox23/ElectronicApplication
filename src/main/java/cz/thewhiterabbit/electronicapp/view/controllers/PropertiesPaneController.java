@@ -9,6 +9,7 @@ import cz.thewhiterabbit.electronicapp.utilities.ValueValidator;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
+import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.*;
@@ -51,6 +52,10 @@ public class PropertiesPaneController {
             DocumentManager.DocumentManagerEvent event = (DocumentManager.DocumentManagerEvent) h;
             DocumentObject o = (DocumentObject) event.getDocument().getGridModel().getActiveElement();
             setActiveObject(o);
+        });
+
+        eventAggregator.addEventHandler(MenuEvent.CLEAN_WORKPLACE, h->{
+            propertiesPane.setVisible(false);
         });
     }
 
