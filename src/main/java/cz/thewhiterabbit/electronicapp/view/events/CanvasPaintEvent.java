@@ -13,6 +13,7 @@ public class CanvasPaintEvent extends Event {
     public static final EventType<CanvasPaintEvent> PAINT_OBJECT = new EventType<>(ANY, "PAINT_OBJECT");
     public static final EventType<CanvasPaintEvent> CLEAN = new EventType<>(ANY, "CLEAN");
     public static final EventType<CanvasPaintEvent> CLEAN_OBJECT = new EventType<>(ANY, "CLEAN_OBJECT");
+    public static final EventType<CanvasPaintEvent> CENTER = new EventType<>(ANY, "CENTER");
 
     /**** INFORMATION ****/
     private CanvasObject canvasObject;

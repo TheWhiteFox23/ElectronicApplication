@@ -3,6 +3,7 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
+import cz.thewhiterabbit.electronicapp.model.components.Resistor;
 import cz.thewhiterabbit.electronicapp.model.documnet.*;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
@@ -10,6 +11,7 @@ import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.canvas.model.RelativeModel;
 import cz.thewhiterabbit.electronicapp.view.components.CanvasObjectContextMenu;
 import cz.thewhiterabbit.electronicapp.view.components.GeneralCanvasContextMenu;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
@@ -162,6 +164,14 @@ public class DrawingAreaController {
             if(documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().setMode(DocumentMode.SCHEMATIC);
                 eventAggregator.fireEvent(new MenuEvent(MenuEvent.MODE_CHANGED, documentManager.getActiveDocument()));
+            }
+        });
+
+        eventAggregator.addEventHandler(CanvasPaintEvent.CENTER, e->{
+            if(drawingArea.getModel() instanceof RelativeModel){
+                ((RelativeModel)drawingArea.getModel()).center();
+                drawingArea.clear();
+                drawingArea.paint();
             }
         });
     }

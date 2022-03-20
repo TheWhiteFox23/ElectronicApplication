@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.view.components;
 
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
+import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 
 import javafx.scene.control.ContextMenu;
@@ -87,8 +88,7 @@ public class GeneralCanvasContextMenu extends ContextMenu {
 
         MenuItem center = new MenuItem("Center Canvas");
         center.setOnAction(e->{
-            //TODO add center canvas option
-            System.out.println("Center Canvas");
+            GUIEventAggregator.getInstance().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.CENTER));
         });
         getItems().add(center);
 

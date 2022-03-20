@@ -112,4 +112,10 @@ public abstract class RelativeModel extends CanvasModel {
         });
     }
 
+    public void center(){
+        double deltaX = getCanvas().getWidth()/2-originX;
+        double deltaY = getCanvas().getHeight()/2 - originY;
+        moveOriginBy(deltaX, deltaY);
+    }
+
 }
