@@ -142,12 +142,14 @@ public class DrawingAreaController {
             if (documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().undo();
             }
+            drawingArea.repaint();
 
         });
         eventAggregator.addEventHandler(EditControlEvent.REDO, h -> {
             if (documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().redo();
             }
+            drawingArea.repaint();
         });
 
         drawingArea.setOnContextMenuRequested(e->{
@@ -170,8 +172,7 @@ public class DrawingAreaController {
         eventAggregator.addEventHandler(CanvasPaintEvent.CENTER, e->{
             if(drawingArea.getModel() instanceof RelativeModel){
                 ((RelativeModel)drawingArea.getModel()).center();
-                drawingArea.clear();
-                drawingArea.paint();
+                drawingArea.repaint();
             }
         });
     }
@@ -218,8 +219,7 @@ public class DrawingAreaController {
         //o.setRotation((o.getRotation() + 1) % 4);
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.rotationProperty(), o.getRotation(), i));
         manageChildMoves(o);
-        drawingArea.clear();
-        drawingArea.paint();
+        drawingArea.repaint();
     }
 
     private void manageChildMoves(CanvasObject o) {
@@ -318,8 +318,7 @@ public class DrawingAreaController {
                 model.getModelEventAggregator().addEventHandler(type, handler);
             }
         });
-        drawingArea.clear();
-        drawingArea.paint();
+        drawingArea.repaint();
     }
 
     private void prepareHandlers() {

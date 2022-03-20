@@ -79,6 +79,11 @@ public class DrawingCanvas extends Region {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
+    public void repaint(){
+        clear();
+        paint();
+    }
+
     public CanvasModel getModel() {
         return canvasModel;
     }
@@ -133,7 +138,10 @@ public class DrawingCanvas extends Region {
             CanvasObject o =canvasPaintEvent.getCanvasObject();
             if(o != null && getModel().containsObject(o)) {
                 o.clean(gc);
-                o.paint(gc);
+                //get all objects in bounds
+                List<CanvasObject> objects = getModel().getInBounds(o.getLocationX()-o.getWidth(),
+                        o.getLocationY()-o.getHeight(), o.getWidth()*3, o.getHeight()*3);
+                objects.forEach(ob-> ob.paint(gc));
             }
         }
     };
