@@ -29,7 +29,7 @@ public class CoupledInductor extends GeneralComponent {
         super();
         setComponent(Component.COUPLED_INDUCTOR);
         setPath(path);
-        setTranslateX(-1.5);
+        setTranslateX(-3);
     }
 
 }
