@@ -48,5 +48,13 @@ public class CommandService {
         //System.out.println(drawingAreaEvent.getEventType());
     }
 
+    public boolean undoEmpty(){
+        return undoList.size() == 0;
+    }
+
+    public boolean redoEmpty(){
+        return redoList.size() == 0;
+    }
+
 
 }

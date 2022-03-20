@@ -175,6 +175,14 @@ public abstract class CanvasModel {
         return selected;
     }
 
+    public CanvasObject getActive(){
+        for(int i = 0; i< getCanvasObjects().size(); i++){
+            CanvasObject o = getCanvasObjects().get(i);
+            if(o.isHovered())return o;
+        }
+        return null;
+    }
+
     public enum Priority {
         ALWAYS_ON_BOTTOM(0),
         LOW(25),

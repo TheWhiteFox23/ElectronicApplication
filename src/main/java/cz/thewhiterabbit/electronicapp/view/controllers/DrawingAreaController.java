@@ -10,6 +10,8 @@ import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.components.CanvasObjectContextMenu;
+import cz.thewhiterabbit.electronicapp.view.components.GeneralCanvasContextMenu;
 import cz.thewhiterabbit.electronicapp.view.events.CanvasPaintEvent;
 import cz.thewhiterabbit.electronicapp.view.events.EditControlEvent;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
@@ -20,7 +22,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -47,7 +48,7 @@ public class DrawingAreaController {
 
     private DocumentObject toPaint;
 
-    private final ContextMenu contextMenu = new ContextMenu();
+    private ContextMenu contextMenu = new ContextMenu();
 
     @FXML
     private void initialize() {
@@ -106,13 +107,29 @@ public class DrawingAreaController {
             onCut();
         });
         eventAggregator.addEventHandler(EditControlEvent.DELETE, h -> {
-            onDelete();
+            CanvasObject o = ((EditControlEvent)h).getEditedObject();
+            if(o != null){
+                doDelete(o);
+            }else {
+                onDelete();
+            }
         });
         eventAggregator.addEventHandler(EditControlEvent.ROTATE_CLOCKWISE, h -> {
-            onRotateRight();
+            CanvasObject o = ((EditControlEvent)h).getEditedObject();
+            if(o != null){
+                doRotateRight(o);
+            }else{
+                onRotateRight();
+            }
         });
         eventAggregator.addEventHandler(EditControlEvent.ROTATE_COUNTER_CLOCKWISE, h -> {
-            onRotateLeft();
+            CanvasObject o = ((EditControlEvent)h).getEditedObject();
+            if(o != null){
+                doRotateLeft(o);
+            }else{
+                onRotateLeft();
+            }
+
         });
 
         eventAggregator.addEventHandler(MenuEvent.CLEAN_CANVAS, h->{
@@ -128,17 +145,6 @@ public class DrawingAreaController {
         eventAggregator.addEventHandler(EditControlEvent.REDO, h -> {
             if (documentManager.getActiveDocument() != null) {
                 documentManager.getActiveDocument().redo();
-            }
-        });
-
-        drawingArea.addEventHandler(MouseEvent.MOUSE_PRESSED, h->{
-            if(drawingArea.getModel() != null){
-                if(h.isSecondaryButtonDown()){
-                    //showContextMenu(h, drawingArea.getModel().getSelected());
-                    //System.out.println("Show context menu");
-                }else if(h.isPrimaryButtonDown()){
-                    contextMenu.hide();
-                }
             }
         });
 
@@ -160,32 +166,50 @@ public class DrawingAreaController {
         });
     }
 
-    private void showContextMenu() {
-        // create menuitems
-        if(contextMenu.getItems().size() == 0){
-            MenuItem menuItem1 = new MenuItem("menu item 1");
-            MenuItem menuItem2 = new MenuItem("menu item 2");
-            MenuItem menuItem3 = new MenuItem("menu item 3");
-
-            // add menu items to menu
-            contextMenu.getItems().add(menuItem1);
-            contextMenu.getItems().add(menuItem2);
-            contextMenu.getItems().add(menuItem3);
+    private void doRotateLeft(CanvasObject o) {
+        int rotation = 0;
+        if(o.getRotation() == 0){
+            rotation = 3;
+        }else{
+            rotation = o.getRotation() - 1;
         }
-        //contextMenu.show(drawingArea,);
+        doRotate(o, rotation);
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    private void doRotateRight(CanvasObject o) {
+        doRotate(o, (o.getRotation() + 1) % 4);
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    private void showContextMenu() {
+        CanvasObject o = drawingArea.getModel().getActive();
+        List<CanvasObject> selection = drawingArea.getModel().getSelected();
+        if(o != null && selection.size() == 0){
+            contextMenu = new CanvasObjectContextMenu(o);
+        }else {
+            contextMenu = new GeneralCanvasContextMenu(selection.size() != 0,
+                    !documentManager.getActiveDocument().undoEmpty(),
+                    !documentManager.getActiveDocument().redoEmpty(),
+                    copyMemory.size() != 0);
+        }
     }
 
     private void onRotateRight() {
         GridModel parentModel = documentManager.getActiveDocument().getGridModel();
         List<CanvasObject> selected = parentModel.getSelected();
         selected.forEach(o -> {
-            //o.setRotation((o.getRotation() + 1) % 4);
-            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.rotationProperty(), o.getRotation(),(o.getRotation() + 1) % 4));
-            manageChildMoves(o);
-            drawingArea.clear();
-            drawingArea.paint();
+            doRotate(o, (o.getRotation() + 1) % 4);
         });
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
+    }
+
+    private void doRotate(CanvasObject o, int i) {
+        //o.setRotation((o.getRotation() + 1) % 4);
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.rotationProperty(), o.getRotation(), i));
+        manageChildMoves(o);
+        drawingArea.clear();
+        drawingArea.paint();
     }
 
     private void manageChildMoves(CanvasObject o) {
@@ -235,10 +259,7 @@ public class DrawingAreaController {
             }else{
                 rotation = o.getRotation() - 1;
             }
-            eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.rotationProperty(), o.getRotation(),rotation));
-            manageChildMoves(o);
-            drawingArea.clear();
-            drawingArea.paint();
+            doRotate(o, rotation);
         });
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
 
@@ -362,6 +383,11 @@ public class DrawingAreaController {
             });
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
         }
+    }
+
+    private void doDelete(CanvasObject o){
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_DELETED, o));
+        eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
     }
 
 

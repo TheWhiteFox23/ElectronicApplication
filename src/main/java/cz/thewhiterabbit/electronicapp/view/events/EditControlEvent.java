@@ -22,6 +22,7 @@ public class EditControlEvent extends Event {
 
     private CanvasObject oldObject;
     private CanvasObject newObject;
+    private CanvasObject editedObject;
 
     public EditControlEvent(EventType<? extends Event> eventType) {
         super(eventType);
@@ -41,6 +42,20 @@ public class EditControlEvent extends Event {
         super(o, eventTarget, eventType);
         this.oldObject = oldObject;
         this.newObject = newObject;
+    }
+
+    public EditControlEvent(EventType<? extends Event> eventType, CanvasObject editedObject) {
+        super(eventType);
+        this.editedObject = editedObject;
+    }
+
+    public EditControlEvent(Object o, EventTarget eventTarget, EventType<? extends Event> eventType, CanvasObject editedObject) {
+        super(o, eventTarget, eventType);
+        this.editedObject = editedObject;
+    }
+
+    public CanvasObject getEditedObject() {
+        return editedObject;
     }
 
     public CanvasObject getOldObject() {

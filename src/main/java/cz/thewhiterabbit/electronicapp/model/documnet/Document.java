@@ -111,4 +111,12 @@ public class Document {
     public DocumentMode getMode() {return mode;}
 
     public void setMode(DocumentMode mode) {this.mode = mode;}
+
+    public boolean undoEmpty(){
+        return commandService.undoEmpty();
+    }
+
+    public boolean redoEmpty(){
+        return commandService.redoEmpty();
+    }
 }
