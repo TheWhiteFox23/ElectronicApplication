@@ -1,6 +1,9 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
+import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.utilities.LineCrate;
 import cz.thewhiterabbit.electronicapp.utilities.LineUtilities;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
@@ -8,12 +11,14 @@ import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-
+@ComponentType
 public class TwoPointLineObject extends DocumentObject {
     private final LineUtilities lineUtilities = new LineUtilities();
 
@@ -23,14 +28,33 @@ public class TwoPointLineObject extends DocumentObject {
     private final String _Y2 = "Y2";
     private final String _TYPE = "LINE";
 
+    private int paintX1;
+    private int paintX2;
+    private int paintY1;
+    private int paintY2;
+
+
+
+
     @RawPropertyMapping
+    @PropertyDialogField(name = "x1", type = ComponentPropertyType.LABEL)
     private final IntegerProperty x1 = new SimpleIntegerProperty(this, _X1);
     @RawPropertyMapping
+    @PropertyDialogField(name = "x2", type = ComponentPropertyType.LABEL)
     private final IntegerProperty x2 = new SimpleIntegerProperty(this, _X2);
     @RawPropertyMapping
+    @PropertyDialogField(name = "y1", type = ComponentPropertyType.LABEL)
     private final IntegerProperty y1 = new SimpleIntegerProperty(this, _Y1);
     @RawPropertyMapping
+    @PropertyDialogField(name = "y1", type = ComponentPropertyType.LABEL)
     private final IntegerProperty y2 = new SimpleIntegerProperty(this, _Y2);
+
+
+    @PropertyDialogField(name = "locationX", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationX = locationXProperty();
+
+    @PropertyDialogField(name = "locationY", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationY = locationYProperty();
 
 
     public TwoPointLineObject(int x1, int y1, int x2, int y2) {
@@ -89,15 +113,19 @@ public class TwoPointLineObject extends DocumentObject {
     public void mapProperties() {
         getRawObject().getProperty(_X1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX1(Integer.parseInt(newVal));
+            //mapLineProperties();
         });
         getRawObject().getProperty(_Y1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY1(Integer.parseInt(newVal));
+            //mapLineProperties();
         });
         getRawObject().getProperty(_X2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX2(Integer.parseInt(newVal));
+            //mapLineProperties();
         });
         getRawObject().getProperty(_Y2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY2(Integer.parseInt(newVal));
+            //mapLineProperties();
         });
     }
 
@@ -125,6 +153,7 @@ public class TwoPointLineObject extends DocumentObject {
         getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, x2Property(), getX2() - deltaX, getX2()));
         getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y1Property(), getY1() - deltaY, getY1()));
         getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, this, y2Property(), getY2() - deltaY, getY2()));
+        //getEventAggregator().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));//TODO: debugging
         mapLineProperties();
     }
 
@@ -147,6 +176,7 @@ public class TwoPointLineObject extends DocumentObject {
             int deltaX = originalGridX - m.getGridCoordinate(getLocationX(), m.getOriginX());
             setX1(getX1() - deltaX);
             setX2(getX2() - deltaX);
+            //System.out.println(getX1() +" : " + getX2());
         }
     }
 
@@ -158,6 +188,7 @@ public class TwoPointLineObject extends DocumentObject {
             int deltaY = originalGridY - m.getGridCoordinate(getLocationY(), m.getOriginY());
             setY1(getY1() - deltaY);
             setY2(getY2() - deltaY);
+            //System.out.println(getY1() +" : " + getY2());
         }
     }
 

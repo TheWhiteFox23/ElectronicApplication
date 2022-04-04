@@ -19,6 +19,7 @@ public class Ground extends GeneralComponent {
         super();
         setComponent(Component.GROUND);
         setPath(path);
+        addActivePoint(2,1);
     }
 
 

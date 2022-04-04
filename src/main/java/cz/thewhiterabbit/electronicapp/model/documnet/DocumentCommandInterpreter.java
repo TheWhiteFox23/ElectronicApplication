@@ -28,6 +28,7 @@ public class DocumentCommandInterpreter {
         }else if(DrawingAreaEvent.OBJECT_ADDED.equals(drawingAreaEvent.getEventType())){
             onObjectAdded(drawingAreaEvent);
         }else if(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE.equals(drawingAreaEvent.getEventType())){
+            System.out.println("Name:" + drawingAreaEvent.getProperty().getName() + " oldValue: " + drawingAreaEvent.getOldValue() + " newValue: " + drawingAreaEvent.getNewValue());
             onPropertyChange(drawingAreaEvent);
         }else if(DrawingAreaEvent.SELECTION_CHANGED.equals(drawingAreaEvent.getEventType())){
             onSelectionChanged(drawingAreaEvent);
@@ -44,6 +45,7 @@ public class DocumentCommandInterpreter {
         }else if(DrawingAreaEvent.OBJECT_ADDED.equals(drawingAreaEvent.getEventType())){
             onObjectAddedReverse(drawingAreaEvent);
         }else if(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE.equals(drawingAreaEvent.getEventType())){
+            System.out.println("Reverse -> Name:" + drawingAreaEvent.getProperty().getName() + " oldValue: " + drawingAreaEvent.getOldValue() + " newValue: " + drawingAreaEvent.getNewValue());
             onPropertyChangeReverse(drawingAreaEvent);
         }else if(DrawingAreaEvent.SELECTION_CHANGED.equals(drawingAreaEvent.getEventType())){
             onSelectionChangedReverse(drawingAreaEvent);
@@ -59,6 +61,7 @@ public class DocumentCommandInterpreter {
 
     private void setRawPropertyIfValid(RawProperty rawProperty, Property linkedProperty, Object value){
         if(rawProperty != null && ValueValidator.validateProperty(linkedProperty, value)){
+            System.out.println("setting property: " + rawProperty.getName() + " Value: " + value);
             rawProperty.setValue(value.toString());
             //todo update object
         }

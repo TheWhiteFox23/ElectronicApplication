@@ -32,6 +32,8 @@ public class VoltageSource extends GeneralComponent {
         super();
         setComponent(Component.VOLTAGE_SOURCE);
         setPath(path);
+        addActivePoint(0,1);
+        addActivePoint(2,1);
     }
 
 
