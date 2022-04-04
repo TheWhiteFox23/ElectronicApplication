@@ -12,6 +12,8 @@ public enum Component {
     CAPACITOR("CAPACITOR", Capacitor.class, Category.R_C_L, true, "img/capacitor@0.5x.png"),
     INDUCTOR("CONDUCTOR", Inductor.class, Category.R_C_L, true, "img/inductor@0.5x.png"),
     COUPLED_INDUCTOR("COUPLED_CONDUCTOR", CoupledInductor.class, Category.R_C_L, true, "img/coupled_inductor@0.5x.png"),
+    GROUND("GROUND", Ground.class, Category.R_C_L, true, "img/ground@0.5x.png"),
+    VOLTAGE_SOURCE("VOLTAGE_SOURCE", VoltageSource.class, Category.R_C_L, true, "img/voltage_source@0.5x.png"),
     TEST_COMPONENT("TEST_OBJECT", GeneralCanvasObject.class, Category.MISC), //TODO temporally
     ACTIVE_POINT("ACTIVE_POINT", ActivePoint.class, Category.MISC),//TODO temporally
     LINE("LINE", TwoPointLineObject.class, Category.MISC);//TODO temporally

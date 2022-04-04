@@ -22,13 +22,6 @@ public class EventAggregator implements IEventAggregator {
     }
 
     public <T extends Event> void fireEvent(EventType eventType, T event) {
-        /*if(event instanceof MouseEvent){
-
-        }else{
-            System.out.println(event.getEventType());
-        }*/
-
-
         if(handlerMap.containsKey(eventType)){
             handlerMap.get(eventType).size();
             for(int i = 0; i< handlerMap.get(eventType).size(); i++){
