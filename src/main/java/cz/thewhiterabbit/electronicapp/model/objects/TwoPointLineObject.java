@@ -35,8 +35,7 @@ public class TwoPointLineObject extends DocumentObject {
     private int paintY1;
     private int paintY2;
 
-    private InvalidationListener gridXChangeListener;
-    private InvalidationListener gridYChangeListener;
+    private boolean blockUpdate = false;
 
 
 
@@ -77,14 +76,12 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     private void initListeners() {
-        gridXChangeListener = new WeakInvalidationListener(e->{
-            onGridXChanged();
+        this.locationXProperty().addListener(l->{
+            if(!blockUpdate) onGridXChanged();
         });
-        gridYChangeListener = new WeakInvalidationListener(e->{
-            onGridYChanged();
+        this.locationYProperty().addListener(l->{
+            if(!blockUpdate) onGridYChanged();
         });
-        this.locationXProperty().addListener(gridXChangeListener);
-        this.locationYProperty().addListener(gridYChangeListener);
     }
 
     @Override
@@ -181,11 +178,9 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     private void forceChangeLineProperties(){
-        this.locationXProperty().removeListener(gridXChangeListener);
-        this.locationYProperty().removeListener(gridYChangeListener);
+        blockUpdate=true;
         mapLineProperties();
-        this.locationXProperty().addListener(gridXChangeListener);
-        this.locationYProperty().addListener(gridYChangeListener);
+        blockUpdate=false;
     }
 
     //TODO -> better way to manage this
