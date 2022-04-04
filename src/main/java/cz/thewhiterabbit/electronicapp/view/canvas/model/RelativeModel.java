@@ -9,7 +9,8 @@ public abstract class RelativeModel extends CanvasModel {
     private double originX;
     private double originY;
     private double zoomAspect;
-    private final double[] zoomAspects = new double[]{0.1,0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 7.0,8.0,9.0,10.0};
+    private final double[] zoomAspects = new double[]{0.1,0.2, 0.3, 0.5, 0.8, 1.0, 1.5, 2.0, 3.0, 5.0, 7.0,8.0,9.0,10.0};
+    //TODO while zoom Aspect is set to 0.7 weird behavior while moving items
 
     public RelativeModel() {
         super();
@@ -28,6 +29,7 @@ public abstract class RelativeModel extends CanvasModel {
 
     private void setZoomAspect(double zoomAspect){
         this.zoomAspect = zoomAspect;
+        System.out.println(zoomAspect);
         getAll().forEach(o -> updatePaintProperties(o));
     }
 
