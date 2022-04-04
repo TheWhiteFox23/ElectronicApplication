@@ -11,6 +11,8 @@ import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawProperty;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import javafx.beans.InvalidationListener;
+import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -32,6 +34,9 @@ public class TwoPointLineObject extends DocumentObject {
     private int paintX2;
     private int paintY1;
     private int paintY2;
+
+    private InvalidationListener gridXChangeListener;
+    private InvalidationListener gridYChangeListener;
 
 
 
@@ -72,8 +77,14 @@ public class TwoPointLineObject extends DocumentObject {
     }
 
     private void initListeners() {
-        this.locationXProperty().addListener(l -> onGridXChanged());
-        this.locationYProperty().addListener(l -> onGridYChanged());
+        gridXChangeListener = new WeakInvalidationListener(e->{
+            onGridXChanged();
+        });
+        gridYChangeListener = new WeakInvalidationListener(e->{
+            onGridYChanged();
+        });
+        this.locationXProperty().addListener(gridXChangeListener);
+        this.locationYProperty().addListener(gridYChangeListener);
     }
 
     @Override
@@ -113,19 +124,20 @@ public class TwoPointLineObject extends DocumentObject {
     public void mapProperties() {
         getRawObject().getProperty(_X1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX1(Integer.parseInt(newVal));
-            //mapLineProperties();
+            //System.out.println("X1 changed");
+            forceChangeLineProperties();
         });
         getRawObject().getProperty(_Y1).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY1(Integer.parseInt(newVal));
-            //mapLineProperties();
+            forceChangeLineProperties();
         });
         getRawObject().getProperty(_X2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setX2(Integer.parseInt(newVal));
-            //mapLineProperties();
+            forceChangeLineProperties();
         });
         getRawObject().getProperty(_Y2).valueProperty().addListener((obs, oldVal, newVal) -> {
             setY2(Integer.parseInt(newVal));
-            //mapLineProperties();
+            forceChangeLineProperties();
         });
     }
 
@@ -166,6 +178,14 @@ public class TwoPointLineObject extends DocumentObject {
         if (getParentModel() != null) {
             this.getParentModel().updatePaintProperties(this);
         }
+    }
+
+    private void forceChangeLineProperties(){
+        this.locationXProperty().removeListener(gridXChangeListener);
+        this.locationYProperty().removeListener(gridYChangeListener);
+        mapLineProperties();
+        this.locationXProperty().addListener(gridXChangeListener);
+        this.locationYProperty().addListener(gridYChangeListener);
     }
 
     //TODO -> better way to manage this
