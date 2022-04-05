@@ -28,5 +28,10 @@ public class Capacitor extends GeneralComponent {
         setPath(path);
     }
 
+    @Override
+    public String getSimulationComponent() {
+        return null;
+    }
+
 
 }

@@ -90,7 +90,6 @@ public class LineDrawingUtilities {
             edited = false;
             eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
         }
-        //todo: fire editing completed event
     }
 
     private void adjustCurrantLine(CanvasObject o, TwoPointLineObject line, CanvasMouseEvent event, GridModel m) {

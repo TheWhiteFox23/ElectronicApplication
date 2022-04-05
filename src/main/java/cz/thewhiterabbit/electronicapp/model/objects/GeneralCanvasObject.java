@@ -94,6 +94,11 @@ public class GeneralCanvasObject extends GeneralComponent {
     }
 
     @Override
+    public String getSimulationComponent() {
+        return null;
+    }
+
+    @Override
     public Component getComponent() {
         return component;
     }

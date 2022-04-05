@@ -4,6 +4,8 @@ import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
+import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
+import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import cz.thewhiterabbit.electronicapp.utilities.LineCrate;
 import cz.thewhiterabbit.electronicapp.utilities.LineUtilities;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
@@ -21,7 +23,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 @ComponentType
-public class TwoPointLineObject extends DocumentObject {
+public class TwoPointLineObject extends DocumentObject implements SimulationComponent {
     private final LineUtilities lineUtilities = new LineUtilities();
 
     private final String _X1 = "X1";
@@ -30,12 +32,12 @@ public class TwoPointLineObject extends DocumentObject {
     private final String _Y2 = "Y2";
     private final String _TYPE = "LINE";
 
-    private int paintX1;
-    private int paintX2;
-    private int paintY1;
-    private int paintY2;
-
     private boolean blockUpdate = false;
+
+    private NetlistNode in;
+    private NetlistNode out;
+    private ActivePoint activePointIn;
+    private ActivePoint activePointOut;
 
 
 
@@ -342,7 +344,37 @@ public class TwoPointLineObject extends DocumentObject {
         super.clean(gc);
     }
 
+    @Override
+    public void setNode(ActivePoint activePoint, NetlistNode node) {
+        if(activePoint == activePointIn)in = node;
+        if(activePoint == activePointOut)out = node;
+    }
 
-    //TODO -> move bound calculation to separate utility class
+    @Override
+    public NetlistNode getNode(ActivePoint activePoint) {
+        if(activePoint == activePointIn)return in;
+        if(activePoint == activePointOut)return out;
+        return null;
+    }
 
+    @Override
+    public String getSimulationComponent() {
+        return "R " + in.getName() + " " + out.getName() + "0";
+    }
+
+    public ActivePoint getActivePointIn() {
+        return activePointIn;
+    }
+
+    public void setActivePointIn(ActivePoint activePointIn) {
+        this.activePointIn = activePointIn;
+    }
+
+    public ActivePoint getActivePointOut() {
+        return activePointOut;
+    }
+
+    public void setActivePointOut(ActivePoint activePointOut) {
+        this.activePointOut = activePointOut;
+    }
 }

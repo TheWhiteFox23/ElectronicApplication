@@ -1,39 +1,75 @@
 package cz.thewhiterabbit.electronicapp.model.objects;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
+import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.utilities.LineDrawingUtilities;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
 import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-
+@ComponentType
 public class ActivePoint extends GeneralMappingComponent {
-    private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities();
+    private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities(); //TODO to many instances, make static utility class
     private final Component component = Component.ACTIVE_POINT;
 
     private int relativeLocationX = 0;
     private int relativeLocationY = 0;
 
+    private String name;
+
+    @PropertyDialogField(name = "locationX", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationX = locationXProperty();
+
+    @PropertyDialogField(name = "locationY", type = ComponentPropertyType.LABEL)
+    private final DoubleProperty _locationY = locationYProperty();
+
+    @PropertyDialogField(name = "_gridX", type = ComponentPropertyType.LABEL)
+    private final IntegerProperty _gridX = gridXProperty();
+
+    @PropertyDialogField(name = "_gridY", type = ComponentPropertyType.LABEL)
+    private final IntegerProperty _gridY = gridYProperty();
+
 
     public ActivePoint() {
-        setGridHeight(1);
-        setGridWidth(1);
-        setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
-        setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
+        initPoint();
     }
+
+    public ActivePoint(String name) {
+        this.name = name;
+        initPoint();
+    }
+
 
     public ActivePoint(int relativeLocationX, int relativeLocationY) {
         this.relativeLocationX = relativeLocationX;
         this.relativeLocationY = relativeLocationY;
+        initPoint();
+        //testing
+       /* gridXProperty().addListener(l->{
+            if(getParentModel() != null){
+                getParentModel().updatePaintProperties(this);
+            }
+        });
+        gridYProperty().addListener(l->{
+            if(getParentModel() != null){
+                getParentModel().updatePaintProperties(this);
+            }
+        });*/
+    }
+
+    private void initPoint() {
         setGridHeight(1);
         setGridWidth(1);
         setPriority(CanvasModel.Priority.ALWAYS_ON_TOP);
         setRotationStrategy(RotationStrategy.MOVE_WITH_PARENT_ROTATION);
-        //testing
         gridXProperty().addListener(l->{
             if(getParentModel() != null){
                 getParentModel().updatePaintProperties(this);
@@ -111,5 +147,13 @@ public class ActivePoint extends GeneralMappingComponent {
     @Override
     public Component getComponent() {
         return component;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

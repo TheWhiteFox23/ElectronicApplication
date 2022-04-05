@@ -28,7 +28,6 @@ public class DocumentCommandInterpreter {
         }else if(DrawingAreaEvent.OBJECT_ADDED.equals(drawingAreaEvent.getEventType())){
             onObjectAdded(drawingAreaEvent);
         }else if(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE.equals(drawingAreaEvent.getEventType())){
-            System.out.println("Name:" + drawingAreaEvent.getProperty().getName() + " oldValue: " + drawingAreaEvent.getOldValue() + " newValue: " + drawingAreaEvent.getNewValue());
             onPropertyChange(drawingAreaEvent);
         }else if(DrawingAreaEvent.SELECTION_CHANGED.equals(drawingAreaEvent.getEventType())){
             onSelectionChanged(drawingAreaEvent);

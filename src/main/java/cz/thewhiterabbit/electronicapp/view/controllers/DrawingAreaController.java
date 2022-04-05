@@ -248,47 +248,8 @@ public class DrawingAreaController {
     }
 
     private void doRotate(CanvasObject o, int i) {
-        //o.setRotation((o.getRotation() + 1) % 4);
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, o, o.rotationProperty(), o.getRotation(), i));
-        manageChildMoves(o);
         drawingArea.repaint();
-    }
-
-    private void manageChildMoves(CanvasObject o) {
-        int locationX = o.getGridX();
-        int locationY = o.getGridY();
-        int rotation = o.getRotation();
-
-        o.getChildrenList().forEach(ch -> {
-            if(ch instanceof ActivePoint){
-                ActivePoint activePoint = (ActivePoint) ch;
-
-                int x = locationX + activePoint.getRelativeLocationX();
-                int y = locationY + activePoint.getRelativeLocationY();
-
-                switch (rotation){
-                    case 1:{
-                        x = locationX + (o.getGridHeight() - activePoint.getRelativeLocationY());
-                        y = locationY + activePoint.getRelativeLocationX();
-                        break;
-                    }
-                    case 2:{
-                        x = locationX + (o.getGridWidth() - activePoint.getRelativeLocationX());
-                        y = locationY + (o.getGridHeight() - activePoint.getRelativeLocationY());
-                        break;
-                    }
-                    case 3:{
-                        x = locationX + activePoint.getRelativeLocationY();
-                        y = locationY + (o.getGridWidth() - activePoint.getRelativeLocationX());
-                        break;
-                    }
-                }
-                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridXProperty(), activePoint.getGridX(), x));
-                eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridYProperty(), activePoint.getGridY(), y));
-            }
-
-        });
-
     }
 
     private void onRotateLeft() {

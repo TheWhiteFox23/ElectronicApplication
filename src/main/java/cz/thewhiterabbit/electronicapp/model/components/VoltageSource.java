@@ -1,9 +1,12 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
+import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
+import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -11,6 +14,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 @ComponentType
 public class VoltageSource extends GeneralComponent {
     private final String VOLTAGE = "1";
+
+    private ActivePoint activePointIn;
+    private ActivePoint activePointOut;
+
 
     @RawPropertyMapping
     @PropertyDialogField(name = "Voltage", type = ComponentPropertyType.TEXT_FIELD)
@@ -32,9 +39,16 @@ public class VoltageSource extends GeneralComponent {
         super();
         setComponent(Component.VOLTAGE_SOURCE);
         setPath(path);
-        addActivePoint(0,1);
-        addActivePoint(2,1);
+
+        activePointIn = new ActivePoint();
+        activePointOut = new ActivePoint();
+        addActivePoint(activePointIn, 0,1);
+        addActivePoint(activePointOut,2,1);
     }
 
-
+    @Override
+    public String getSimulationComponent() {
+        //TODO implement
+        return null;
+    }
 }

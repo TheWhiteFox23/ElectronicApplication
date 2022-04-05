@@ -382,9 +382,11 @@ public class LineOptimizer {
         ActivePoint activePoint = new ActivePoint();
         activePoint.set(line.getX1(), line.getY1(), 1, 1);
         line.addChildren(activePoint);
+        line.setActivePointIn(activePoint);
         activePoint = new ActivePoint();
         activePoint.set(line.getX2(), line.getY2(), 1, 1);
         line.addChildren(activePoint);
+        line.setActivePointOut(activePoint);
     }
 
 

@@ -32,4 +32,9 @@ public class CoupledInductor extends GeneralComponent {
         setTranslateX(-3);
     }
 
+    @Override
+    public String getSimulationComponent() {
+        return null;
+    }
+
 }

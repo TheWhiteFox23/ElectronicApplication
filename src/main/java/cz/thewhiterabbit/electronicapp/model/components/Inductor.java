@@ -28,5 +28,10 @@ public class Inductor extends GeneralComponent {
         setPath(path);
     }
 
+    @Override
+    public String getSimulationComponent() {
+        return null;
+    }
+
 
 }

@@ -26,6 +26,11 @@ public class Resistor extends GeneralComponent {
         addActivePoint(2,1);
     }
 
+    @Override
+    public String getSimulationComponent() {
+        return null;
+    }
+
 
 }
 

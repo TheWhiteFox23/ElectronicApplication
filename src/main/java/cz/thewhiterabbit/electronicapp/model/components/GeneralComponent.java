@@ -1,16 +1,21 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
+import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
+import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
+import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class GeneralComponent extends GeneralMappingComponent {
+public abstract class GeneralComponent extends GeneralMappingComponent implements SimulationComponent {
     private String path = "";
     private Component component = Component.RESISTOR;
 
@@ -21,9 +26,12 @@ public class GeneralComponent extends GeneralMappingComponent {
     private Color selectedColor = Color.GREENYELLOW;
     private Color highlightColor = Color.BLUEVIOLET;
 
+    private HashMap<ActivePoint, NetlistNode> nodeMap;
+
     public GeneralComponent(){
         setGridWidth(2);
         setGridHeight(2);
+        nodeMap=new HashMap<>();
     }
 
     @Override
@@ -59,7 +67,12 @@ public class GeneralComponent extends GeneralMappingComponent {
     }
 
     public void addActivePoint(int relativeX, int relativeY){
-        ActivePoint activePoint = new ActivePoint(relativeX, relativeY);
+        addActivePoint(new ActivePoint(), relativeX, relativeY);
+    }
+
+    public void addActivePoint(ActivePoint activePoint, int relativeX, int relativeY){
+        activePoint.setRelativeLocationX(relativeX);
+        activePoint.setRelativeLocationY(relativeY);
         activePoint.setGridY(getGridY() + relativeY);
         activePoint.setGridX(getGridX() + relativeX);
         addChildren(activePoint);
@@ -80,6 +93,9 @@ public class GeneralComponent extends GeneralMappingComponent {
                 int delta = (int) newVal - (int) oldVal;
                 children.setGridY(children.getGridY() + delta);
             }
+        });
+        rotationProperty().addListener(e->{
+            manageChildMoves(this);
         });
     }
 
@@ -144,4 +160,58 @@ public class GeneralComponent extends GeneralMappingComponent {
     }
 
 
+    @Override
+    public void setNode(ActivePoint activePoint, NetlistNode node) {
+        if(getChildrenList().contains(activePoint)){
+            nodeMap.put(activePoint, node);
+        }
+    }
+
+    @Override
+    public NetlistNode getNode(ActivePoint activePoint) {
+        if(nodeMap.containsKey(activePoint)){
+            return nodeMap.get(activePoint);
+        }
+        return null;
+    }
+
+    @Override
+    public abstract String getSimulationComponent();
+
+    private void manageChildMoves(CanvasObject o) {
+        int locationX = o.getGridX();
+        int locationY = o.getGridY();
+        int rotation = o.getRotation();
+
+        o.getChildrenList().forEach(ch -> {
+            if(ch instanceof ActivePoint){
+                ActivePoint activePoint = (ActivePoint) ch;
+
+                int x = locationX + activePoint.getRelativeLocationX();
+                int y = locationY + activePoint.getRelativeLocationY();
+
+                switch (rotation){
+                    case 1:{
+                        x = locationX + (o.getGridHeight() - activePoint.getRelativeLocationY());
+                        y = locationY + activePoint.getRelativeLocationX();
+                        break;
+                    }
+                    case 2:{
+                        x = locationX + (o.getGridWidth() - activePoint.getRelativeLocationX());
+                        y = locationY + (o.getGridHeight() - activePoint.getRelativeLocationY());
+                        break;
+                    }
+                    case 3:{
+                        x = locationX + activePoint.getRelativeLocationY();
+                        y = locationY + (o.getGridWidth() - activePoint.getRelativeLocationX());
+                        break;
+                    }
+                }
+                GUIEventAggregator.getInstance().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridXProperty(), activePoint.getGridX(), x));
+                GUIEventAggregator.getInstance().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridYProperty(), activePoint.getGridY(), y));
+            }
+
+        });
+
+    }
 }

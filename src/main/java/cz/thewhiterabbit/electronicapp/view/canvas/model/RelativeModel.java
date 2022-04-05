@@ -29,7 +29,6 @@ public abstract class RelativeModel extends CanvasModel {
 
     private void setZoomAspect(double zoomAspect){
         this.zoomAspect = zoomAspect;
-        System.out.println(zoomAspect);
         getAll().forEach(o -> updatePaintProperties(o));
     }
 

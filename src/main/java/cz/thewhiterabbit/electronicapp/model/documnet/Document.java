@@ -9,7 +9,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +30,7 @@ public class Document {
 
     private BooleanProperty changed = new SimpleBooleanProperty(false);
 
-    public Document(RawDocument rawDocument){
+    public Document(RawDocument rawDocument) {
         this.rawDocument = rawDocument;
         this.rawDocument.addListener(new RawDocument.RawDocumentListener() {
             @Override
@@ -41,7 +43,7 @@ public class Document {
 
             @Override
             public void onRawObjectAdded(RawObject ro) {
-                if(!objectMap.containsKey(ro)){
+                if (!objectMap.containsKey(ro)) {
                     DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
                     objectMap.put(ro, o);
                     gridModel.add(o);
@@ -60,8 +62,8 @@ public class Document {
         loadDocument(rawDocument);
     }
 
-    private void loadDocument(RawDocument rawDocument){
-        for(RawObject ro: rawDocument.getObjects()){
+    private void loadDocument(RawDocument rawDocument) {
+        for (RawObject ro : rawDocument.getObjects()) {
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro, o);
             gridModel.add(o);
@@ -76,33 +78,34 @@ public class Document {
         return rawDocument;
     }
 
-    public void add(DocumentObject documentObject){
+    public void add(DocumentObject documentObject) {
+        System.out.println("objectAdded:" + documentObject.getType());//TODO remove afterDebugging
         objectMap.put(documentObject.getRawObject(), documentObject);
         gridModel.add(documentObject);
         rawDocument.addObject(documentObject.getRawObject());
     }
 
-    public void remove(DocumentObject documentObject){
+    public void remove(DocumentObject documentObject) {
         objectMap.remove(documentObject);
         gridModel.remove(documentObject);
         rawDocument.removeObject(documentObject.getRawObject());
     }
 
-    public void applyCommand(DrawingAreaEvent e){
+    public void applyCommand(DrawingAreaEvent e) {
         commandService.interpret(e);
         changed.setValue(true);
     }
 
-    public void undo(){
+    public void undo() {
         commandService.undo();
-        if(undoEmpty())changed.setValue(false);
+        if (undoEmpty()) changed.setValue(false);
     }
 
-    public void redo(){
+    public void redo() {
         commandService.redo();
     }
 
-    public String getName(){
+    public String getName() {
         return rawDocument.getName();
     }
 
@@ -114,15 +117,19 @@ public class Document {
         this.file = file;
     }
 
-    public DocumentMode getMode() {return mode;}
+    public DocumentMode getMode() {
+        return mode;
+    }
 
-    public void setMode(DocumentMode mode) {this.mode = mode;}
+    public void setMode(DocumentMode mode) {
+        this.mode = mode;
+    }
 
-    public boolean undoEmpty(){
+    public boolean undoEmpty() {
         return commandService.undoEmpty();
     }
 
-    public boolean redoEmpty(){
+    public boolean redoEmpty() {
         return commandService.redoEmpty();
     }
 
@@ -136,5 +143,13 @@ public class Document {
 
     public void setChanged(boolean changed) {
         this.changed.set(changed);
+    }
+
+    public List<DocumentObject> getDocumentObjects() {
+        List<DocumentObject> documentObjectList = new ArrayList<>();
+        objectMap.values().forEach(o ->{
+            documentObjectList.add(o);
+        });
+        return documentObjectList;
     }
 }
