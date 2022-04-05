@@ -1,8 +1,10 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import javafx.beans.property.BooleanProperty;
@@ -67,6 +69,7 @@ public class Document {
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro, o);
             gridModel.add(o);
+            manageChildMoves(o);
         }
     }
 
@@ -79,7 +82,6 @@ public class Document {
     }
 
     public void add(DocumentObject documentObject) {
-        System.out.println("objectAdded:" + documentObject.getType());//TODO remove afterDebugging
         objectMap.put(documentObject.getRawObject(), documentObject);
         gridModel.add(documentObject);
         rawDocument.addObject(documentObject.getRawObject());
@@ -151,5 +153,44 @@ public class Document {
             documentObjectList.add(o);
         });
         return documentObjectList;
+    }
+
+    private void manageChildMoves(CanvasObject o) {
+        System.out.println("managing child");
+        int locationX = o.getGridX();
+        int locationY = o.getGridY();
+        int rotation = o.getRotation();
+
+        o.getChildrenList().forEach(ch -> {
+            if(ch instanceof ActivePoint){
+                ActivePoint activePoint = (ActivePoint) ch;
+
+                int x = locationX + activePoint.getRelativeLocationX();
+                int y = locationY + activePoint.getRelativeLocationY();
+
+                switch (rotation){
+                    case 1:{
+                        x = locationX + (o.getGridHeight() - activePoint.getRelativeLocationY());
+                        y = locationY + activePoint.getRelativeLocationX();
+                        break;
+                    }
+                    case 2:{
+                        x = locationX + (o.getGridWidth() - activePoint.getRelativeLocationX());
+                        y = locationY + (o.getGridHeight() - activePoint.getRelativeLocationY());
+                        break;
+                    }
+                    case 3:{
+                        x = locationX + activePoint.getRelativeLocationY();
+                        y = locationY + (o.getGridWidth() - activePoint.getRelativeLocationX());
+                        break;
+                    }
+                }
+                activePoint.gridXProperty().setValue(x);
+                activePoint.gridYProperty().setValue(y);
+                System.out.println("addjusting active points" + activePoint.getGridX() + " : " +activePoint.getGridY());
+            }
+
+        });
+
     }
 }

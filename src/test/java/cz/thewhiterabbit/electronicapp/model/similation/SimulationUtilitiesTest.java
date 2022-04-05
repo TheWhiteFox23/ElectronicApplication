@@ -4,7 +4,9 @@ import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.documnet.FileService;
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.scene.layout.StackPane;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.AfterEach;
@@ -13,22 +15,23 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationUtilitiesTest {
-    Document document;
+    private Document document;
 
     @BeforeEach
     void setUp() {
         FileService service = new FileService();
         try {
-           document = service.load(new File(App.class.getResource("prefab/test_change_5.aeon").getFile()));
+           document = service.load(new File(App.class.getResource("prefab/mapping_test_3.aeon").getFile()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @AfterEach
@@ -49,17 +52,13 @@ class SimulationUtilitiesTest {
             });
             System.out.println(o.getType());
         }
-        System.out.println("**************RAW DOCUMENT***********");
-        Stack<RawObject> rawObjects = new Stack<>();
-        rawObjects.addAll(document.getRawDocument().getObjects());
-        while (!rawObjects.empty()){
-            RawObject o = rawObjects.pop();
-            o.getChildren().forEach(ch -> rawObjects.add(ch));
-            System.out.println(o.getType());
-        }
     }
 
     @Test
     void getActivePointMap() {
+        Map<String, List<ActivePoint>> activePointMap = new SimulationUtilities().getActivePointMap(document.getDocumentObjects());
+        activePointMap.forEach((s, activePoints) -> {
+            System.out.println(s + " : " +activePoints.size());
+        });
     }
 }

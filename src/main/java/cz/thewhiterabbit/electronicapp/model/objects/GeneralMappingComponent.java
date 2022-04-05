@@ -38,7 +38,6 @@ public abstract class GeneralMappingComponent extends DocumentObject {
             } else if (p instanceof StringProperty) {
                 p.setValue(getProperty(p.getName()).getValue());
             }
-            if(p.getName() == "rotation") System.out.println(p + "changed: " + p.getValue() );
         });
     }
 

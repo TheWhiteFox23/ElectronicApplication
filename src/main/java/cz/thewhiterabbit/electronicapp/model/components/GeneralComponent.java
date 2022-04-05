@@ -34,6 +34,7 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
         nodeMap=new HashMap<>();
     }
 
+
     @Override
     public Component getComponent() {
         if(component != null)return component;
@@ -93,9 +94,6 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
                 int delta = (int) newVal - (int) oldVal;
                 children.setGridY(children.getGridY() + delta);
             }
-        });
-        rotationProperty().addListener(e->{
-            manageChildMoves(this);
         });
     }
 
@@ -178,40 +176,4 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     @Override
     public abstract String getSimulationComponent();
 
-    private void manageChildMoves(CanvasObject o) {
-        int locationX = o.getGridX();
-        int locationY = o.getGridY();
-        int rotation = o.getRotation();
-
-        o.getChildrenList().forEach(ch -> {
-            if(ch instanceof ActivePoint){
-                ActivePoint activePoint = (ActivePoint) ch;
-
-                int x = locationX + activePoint.getRelativeLocationX();
-                int y = locationY + activePoint.getRelativeLocationY();
-
-                switch (rotation){
-                    case 1:{
-                        x = locationX + (o.getGridHeight() - activePoint.getRelativeLocationY());
-                        y = locationY + activePoint.getRelativeLocationX();
-                        break;
-                    }
-                    case 2:{
-                        x = locationX + (o.getGridWidth() - activePoint.getRelativeLocationX());
-                        y = locationY + (o.getGridHeight() - activePoint.getRelativeLocationY());
-                        break;
-                    }
-                    case 3:{
-                        x = locationX + activePoint.getRelativeLocationY();
-                        y = locationY + (o.getGridWidth() - activePoint.getRelativeLocationX());
-                        break;
-                    }
-                }
-                GUIEventAggregator.getInstance().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridXProperty(), activePoint.getGridX(), x));
-                GUIEventAggregator.getInstance().fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, activePoint, activePoint.gridYProperty(), activePoint.getGridY(), y));
-            }
-
-        });
-
-    }
 }

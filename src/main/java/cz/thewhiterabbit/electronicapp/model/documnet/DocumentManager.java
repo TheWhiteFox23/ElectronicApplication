@@ -25,7 +25,7 @@ public class DocumentManager implements IEventAggregator {
     private final FileService fileService = new FileService();
     private final List<Document> documents = new ArrayList<>();
     private final EventAggregator eventAggregator = new EventAggregator();
-    private Document activeDocument;
+    private Document activeDocument = new Document(new RawDocument("MT"));
 
     private int documentNumber = 0;
     public DocumentManager(){
