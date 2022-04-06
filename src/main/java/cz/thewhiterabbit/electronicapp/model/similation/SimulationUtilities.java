@@ -21,7 +21,6 @@ public class SimulationUtilities {
     }
 
     protected HashMap<String, List<ActivePoint>> getActivePointMap(List<DocumentObject> documentObjects){
-        int activePointCount = 0;
         HashMap<String, List<ActivePoint>> activePointMap = new HashMap<>();
         Stack<DocumentObject> stack = new Stack();
         stack.addAll(documentObjects);
@@ -31,14 +30,12 @@ public class SimulationUtilities {
                 stack.add((DocumentObject) ch);
             });
             if(documentObject instanceof ActivePoint){
-                activePointCount++;
                 ActivePoint activePoint = (ActivePoint)documentObject;
                 String key = activePoint.getGridX()+"_"+ activePoint.getGridY();
                 if(!activePointMap.containsKey(key))activePointMap.put(key, new ArrayList<>());
                 activePointMap.get(key).add(activePoint);
             }
         }
-        System.out.println(activePointCount);
         return activePointMap;
     }
 }
