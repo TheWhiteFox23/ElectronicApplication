@@ -1,6 +1,7 @@
 package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
@@ -69,7 +70,7 @@ public class Document {
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro, o);
             gridModel.add(o);
-            manageChildMoves(o);
+            if(o instanceof GeneralMappingComponent)manageChildMoves(o);
         }
     }
 
@@ -156,7 +157,6 @@ public class Document {
     }
 
     private void manageChildMoves(CanvasObject o) {
-        System.out.println("managing child");
         int locationX = o.getGridX();
         int locationY = o.getGridY();
         int rotation = o.getRotation();
@@ -187,7 +187,6 @@ public class Document {
                 }
                 activePoint.gridXProperty().setValue(x);
                 activePoint.gridYProperty().setValue(y);
-                System.out.println("addjusting active points" + activePoint.getGridX() + " : " +activePoint.getGridY());
             }
 
         });
