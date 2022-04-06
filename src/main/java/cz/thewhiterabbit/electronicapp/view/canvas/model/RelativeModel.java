@@ -21,7 +21,9 @@ public abstract class RelativeModel extends CanvasModel {
     }
 
     /********* GETTERS AND SETTERS ***********/
-    public double getOriginX() {return originX;}
+    public double getOriginX() {
+        return originX;
+    }
     public void setOriginX(double originX) {this.originX = originX;}
     public double getOriginY() {return originY;}
     public void setOriginY(double originY) {this.originY = originY;}
@@ -63,7 +65,6 @@ public abstract class RelativeModel extends CanvasModel {
         CanvasMouseEvent event = e;
         double deltaX = event.getX() - event.getLastX();
         double deltaY = event.getY() - event.getLastY();
-        System.out.println("deltax:" + deltaX);
         moveOriginBy(deltaX, deltaY);
         getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
     }
@@ -106,11 +107,11 @@ public abstract class RelativeModel extends CanvasModel {
 
 
     private void moveOriginBy(double deltaX, double deltaY){
-        originX += deltaX;
-        originY += deltaY;
+        originX += Math.round(deltaX);
+        originY += Math.round(deltaY);
         getAll().forEach(o ->{
-            o.setLocationX(o.getLocationX() + deltaX);
-            o.setLocationY(o.getLocationY() + deltaY);
+            o.setLocationX(o.getLocationX() + Math.round(deltaX));
+            o.setLocationY(o.getLocationY() + Math.round(deltaY));
         });
     }
 
