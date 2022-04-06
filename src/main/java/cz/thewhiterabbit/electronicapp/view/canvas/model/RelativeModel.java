@@ -63,6 +63,7 @@ public abstract class RelativeModel extends CanvasModel {
         CanvasMouseEvent event = e;
         double deltaX = event.getX() - event.getLastX();
         double deltaY = event.getY() - event.getLastY();
+        System.out.println("deltax:" + deltaX);
         moveOriginBy(deltaX, deltaY);
         getInnerEventAggregator().fireEvent(new CanvasPaintEvent(CanvasPaintEvent.REPAINT));
     }

@@ -49,13 +49,14 @@ class SimulationUtilitiesTest {
 
     @Test
     void createNetlist() {
+        Netlist netlist = SimulationUtilities.createNetlist(test_circuit);
     }
 
     @Nested
     class ActivePointMappingTest {
         @Test
         void getActivePointMap() {
-            Map<String, List<ActivePoint>> activePointMap = new SimulationUtilities().getActivePointMap(test_circuit.getDocumentObjects());
+            Map<String, List<ActivePoint>> activePointMap = SimulationUtilities.getActivePointMap(test_circuit.getDocumentObjects());
             Map<String, Integer> stringCountCompare = new HashMap<>() {{
                 put("-1_-5", 2);
                 put("2_-10", 2);

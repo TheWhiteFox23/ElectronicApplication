@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.documnet;
 
 import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -50,6 +51,9 @@ public class DocumentObjectFactory {
     private static DocumentObject init(DocumentObject documentObject) {
         documentObject.getRawObject().getChildren().forEach(o -> {
             documentObject.getChildrenList().add(createDocumentObject(o));
+        });
+        documentObject.getChildrenList().forEach(ch->{
+            ch.setParent(documentObject);
         });
         documentObject.init();
         return documentObject;

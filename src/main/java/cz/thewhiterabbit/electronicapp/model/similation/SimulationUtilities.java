@@ -16,11 +16,22 @@ public class SimulationUtilities {
         Netlist netlist = new Netlist();
         List<DocumentObject> documentObjectList = document.getDocumentObjects();
         //get all active point and create node map
+        HashMap<NetlistNode, List<ActivePoint>> activePointsMap= new HashMap<>();
+        getActivePointMap(documentObjectList).forEach((key, acl)->{
+            activePointsMap.put(new NetlistNode(key), acl);
+            acl.forEach(ac->{
+                System.out.println(ac.getParent());
+            });
+        });
+
+
 
         return netlist;
     }
 
-    protected HashMap<String, List<ActivePoint>> getActivePointMap(List<DocumentObject> documentObjects){
+
+
+    protected static HashMap<String, List<ActivePoint>> getActivePointMap(List<DocumentObject> documentObjects){
         HashMap<String, List<ActivePoint>> activePointMap = new HashMap<>();
         Stack<DocumentObject> stack = new Stack();
         stack.addAll(documentObjects);
