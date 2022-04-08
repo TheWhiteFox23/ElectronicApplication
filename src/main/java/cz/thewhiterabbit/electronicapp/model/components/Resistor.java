@@ -1,19 +1,33 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 
 @ComponentType
 public class Resistor extends GeneralComponent {
-    private final String RESISTANCE = "1";
+    private final String RESISTANCE = "resistance";
+
+    private ActivePoint activePointIn;
+    private ActivePoint activePointOut;
+
+    private final String CURRANT_PROBE = "currant_probe";
+    private final String PROBE_NAME = "currant_probe_name";
 
     @RawPropertyMapping
     @PropertyDialogField(name = "Resistance", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty resistance = new SimpleDoubleProperty(this, RESISTANCE, 1);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Set currant probe", type = ComponentPropertyType.CHECK_BOX, unit = "Check to activate probe")
+    private final BooleanProperty checkBoxProperty = new SimpleBooleanProperty(this, CURRANT_PROBE, false);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Currant probe name", type = ComponentPropertyType.TEXT_FIELD)
+    private final StringProperty probeName = new SimpleStringProperty(this, PROBE_NAME, "p");
 
     private final String path ="M66.67,65.57l-11.11-24-11.12,24-11.11-24-11.11,24L15.71,51.5H0v-3H17.63l4.59,9.93," +
             "11.11-24,11.11,24,11.12-24,11.11,24,11.11-24L84.29,48.5H100v3H82.37l-4.59-9.93Z";
@@ -22,13 +36,15 @@ public class Resistor extends GeneralComponent {
         super();
         setComponent(Component.RESISTOR);
         setPath(path);
-        addActivePoint(0,1);
-        addActivePoint(2,1);
+        activePointIn = new ActivePoint();
+        activePointOut = new ActivePoint();
+        addActivePoint(activePointIn, 0,1);
+        addActivePoint(activePointOut,2,1);
     }
 
     @Override
     public String getSimulationComponent() {
-        return null;
+        return "R"+getName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() + " " +resistance.get();
     }
 
 

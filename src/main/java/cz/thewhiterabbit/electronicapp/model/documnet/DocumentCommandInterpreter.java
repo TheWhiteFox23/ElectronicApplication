@@ -53,6 +53,7 @@ public class DocumentCommandInterpreter {
 
 
     private void onPropertyChange(DrawingAreaEvent event) {
+        System.out.println("onPropertyChange");
         DocumentObject o = (DocumentObject) event.getCanvasObject();
         RawProperty p = o.getProperty(event.getProperty().getName());
         setRawPropertyIfValid(p, event.getProperty(), event.getNewValue());
@@ -60,9 +61,7 @@ public class DocumentCommandInterpreter {
 
     private void setRawPropertyIfValid(RawProperty rawProperty, Property linkedProperty, Object value){
         if(rawProperty != null && ValueValidator.validateProperty(linkedProperty, value)){
-            System.out.println("setting property: " + rawProperty.getName() + " Value: " + value);
             rawProperty.setValue(value.toString());
-            //todo update object
         }
     }
 

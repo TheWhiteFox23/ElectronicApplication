@@ -22,6 +22,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ComponentType
 public class TwoPointLineObject extends DocumentObject implements SimulationComponent {
     private final LineUtilities lineUtilities = new LineUtilities();
@@ -38,6 +41,8 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
     private NetlistNode out;
     private ActivePoint activePointIn;
     private ActivePoint activePointOut;
+
+    private String name;
 
 
 
@@ -346,8 +351,16 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
 
     @Override
     public void setNode(ActivePoint activePoint, NetlistNode node) {
-        if(activePoint == activePointIn)in = node;
-        if(activePoint == activePointOut)out = node;
+        if(activePointIn == null && getChildrenList().contains(activePoint)){
+            activePointIn = activePoint;
+        }else if(activePointOut == null && getChildrenList().contains(activePoint)){
+            activePointOut = activePoint;
+        }
+        if(activePoint == activePointIn){
+            in = node;
+        }else if(activePoint == activePointOut){
+            out = node;
+        }
     }
 
     @Override
@@ -359,7 +372,40 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
 
     @Override
     public String getSimulationComponent() {
-        return "R " + in.getName() + " " + out.getName() + "0";
+        return "Line " + in.getName() + " " + out.getName() + " 0";
+    }
+
+    @Override
+    public List<NetlistNode> getNodes() {
+        return new ArrayList<>(){{add(in);add(out);}};
+    }
+
+    @Override
+    public void setNode(NetlistNode oldNode, NetlistNode newNode) {
+        if(oldNode == in){
+            in=newNode;
+        }else if(oldNode == out){
+            out = newNode;
+        }
+    }
+
+    @Override
+    public void removeNode(NetlistNode oldNode) {
+        if(oldNode == in){
+            in=null;
+        }else if(oldNode == out){
+            out = null;
+        }
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     public ActivePoint getActivePointIn() {
@@ -376,5 +422,21 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
 
     public void setActivePointOut(ActivePoint activePointOut) {
         this.activePointOut = activePointOut;
+    }
+
+    public NetlistNode getIn() {
+        return in;
+    }
+
+    public void setIn(NetlistNode in) {
+        this.in = in;
+    }
+
+    public NetlistNode getOut() {
+        return out;
+    }
+
+    public void setOut(NetlistNode out) {
+        this.out = out;
     }
 }

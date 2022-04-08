@@ -1,9 +1,6 @@
 package cz.thewhiterabbit.electronicapp.utilities;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
+import javafx.beans.property.*;
 
 public class ValueValidator {
     //TODO temporal method
@@ -25,6 +22,13 @@ public class ValueValidator {
         }else if(property instanceof FloatProperty){
             try {
                 Float.parseFloat(value.toString());
+                return true;
+            }catch (Exception e){
+                return false;
+            }
+        }else if(property instanceof BooleanProperty){
+            try {
+                Boolean.parseBoolean(value.toString());
                 return true;
             }catch (Exception e){
                 return false;

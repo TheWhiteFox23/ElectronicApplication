@@ -68,6 +68,9 @@ public class GeneralCanvasObject extends GeneralComponent {
         setGridWidth(2);
         addActivePoint(1,0);
         //addActivePoint(1,2);
+        checkBoxProperty.addListener(e->{
+            System.out.println("Check box property change: " + checkBoxProperty.getValue());
+        });
 
     }
 

@@ -70,12 +70,7 @@ public class Document {
             DocumentObject o = DocumentObjectFactory.createDocumentObject(ro);
             objectMap.put(ro, o);
             gridModel.add(o);
-            if(o instanceof GeneralMappingComponent){
-                manageChildMoves(o);
-            }else{
-                System.out.println(o.getType());
-                o.getChildrenList().forEach(System.out::println);
-            }
+            if(o instanceof GeneralMappingComponent)manageChildMoves(o);
         }
     }
 

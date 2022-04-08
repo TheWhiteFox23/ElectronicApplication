@@ -132,8 +132,8 @@ public class PropertiesPaneController {
     }
 
     private void firePropertyChange(Property property1, String oldVal, String newVal) {
+
         if(!oldVal.equals(newVal)){
-            System.out.println("property change");
             eventAggregator.fireEvent(
                     new DrawingAreaEvent(DrawingAreaEvent.OBJECT_PROPERTY_CHANGE, (CanvasObject) property1.getBean(),
                     property1, oldVal, newVal));
@@ -171,8 +171,12 @@ public class PropertiesPaneController {
         checkBox.setSelected(booleanProperty.getValue());
 
         checkBox.setOnAction(l ->{
-            firePropertyChange(booleanProperty, booleanProperty.getValue().toString(),
-                    String.valueOf(checkBox.isSelected()));
+            if(checkBox.isSelected()){
+                firePropertyChange(booleanProperty, "false", "true");
+            }else{
+                firePropertyChange(booleanProperty,"true", "false");
+            }
+
         });
         booleanProperty.addListener(l->{
             checkBox.setSelected(booleanProperty.getValue());

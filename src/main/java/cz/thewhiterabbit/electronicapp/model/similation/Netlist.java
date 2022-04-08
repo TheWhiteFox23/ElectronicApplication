@@ -12,6 +12,7 @@ public class Netlist {
         componentList = new ArrayList<>();
     }
 
+
     public List<NetlistNode> getNodeList() {
         return nodeList;
     }

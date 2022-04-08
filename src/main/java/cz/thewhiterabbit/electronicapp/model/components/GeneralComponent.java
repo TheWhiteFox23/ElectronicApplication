@@ -1,12 +1,17 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
-import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
+import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
+import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
-import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -14,8 +19,12 @@ import javafx.scene.paint.Paint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class GeneralComponent extends GeneralMappingComponent implements SimulationComponent {
+
+
+
     private String path = "";
     private Component component = Component.RESISTOR;
 
@@ -27,6 +36,8 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     private Color highlightColor = Color.BLUEVIOLET;
 
     private HashMap<ActivePoint, NetlistNode> nodeMap;
+
+    private String name = "";
 
     public GeneralComponent(){
         setGridWidth(2);
@@ -176,4 +187,40 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     @Override
     public abstract String getSimulationComponent();
 
+    @Override
+    public List<NetlistNode> getNodes(){
+        List<NetlistNode> nodeList = new ArrayList<>();
+        nodeMap.values().forEach(n->{
+            nodeList.add(n);
+        });
+        return nodeList;
+    }
+
+    @Override
+    public void setNode(NetlistNode oldNode, NetlistNode newNode) {
+        nodeMap.forEach((ac, node)->{
+            if(node == oldNode)nodeMap.replace(ac,newNode);
+        });
+    }
+
+    @Override
+    public void removeNode(NetlistNode oldNode) {
+        AtomicReference<ActivePoint> toRemove = null;
+        nodeMap.forEach((ac, node)->{
+            if(node == oldNode) toRemove.set(ac);
+        });
+        if(toRemove != null){
+            nodeMap.remove(toRemove);
+        }
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
 }

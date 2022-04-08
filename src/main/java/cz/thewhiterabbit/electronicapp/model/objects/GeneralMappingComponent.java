@@ -37,6 +37,8 @@ public abstract class GeneralMappingComponent extends DocumentObject {
                 p.setValue(Float.parseFloat(getProperty(p.getName()).getValue()));
             } else if (p instanceof StringProperty) {
                 p.setValue(getProperty(p.getName()).getValue());
+            }else if (p instanceof BooleanProperty){
+                p.setValue(Boolean.parseBoolean(getProperty(p.getName()).getValue()));
             }
         });
     }
@@ -60,6 +62,10 @@ public abstract class GeneralMappingComponent extends DocumentObject {
             } else if (p instanceof StringProperty) {
                 getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
                     p.setValue(newVal);
+                });
+            }else if (p instanceof  BooleanProperty) {
+                getRawObject().getProperty(p.getName()).valueProperty().addListener((obs, oldVal, newVal) -> {
+                    p.setValue(Boolean.parseBoolean(newVal));
                 });
             }
         });
