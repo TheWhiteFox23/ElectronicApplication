@@ -27,7 +27,12 @@ public class Ground extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return "R"+getName()+" " + getNode(activePointIn).getName() + " 0 0";
+        return getComponentName()+ " " + getNode(activePointIn).getName() + " 0 0";
+    }
+
+    @Override
+    public String getComponentName() {
+        return "R"+getName();
     }
 
 

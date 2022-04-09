@@ -2,16 +2,11 @@ package cz.thewhiterabbit.electronicapp.model.components;
 
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
-import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
-import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
-import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -22,7 +17,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class GeneralComponent extends GeneralMappingComponent implements SimulationComponent {
+    private final String CURRANT_PROBE = "currant_probe";
+    private final String PROBE_NAME = "currant_probe_name";
 
+    @RawPropertyMapping
+    private final BooleanProperty _probeActive = new SimpleBooleanProperty(this, CURRANT_PROBE, false);
+
+    @RawPropertyMapping
+    private final StringProperty _probeName = new SimpleStringProperty(this, PROBE_NAME, "probe");
 
 
     private String path = "";
@@ -222,5 +224,39 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public abstract String getComponentName();
+
+    public boolean get_probeActive() {
+        return _probeActive.get();
+    }
+
+    public BooleanProperty _probeActiveProperty() {
+        return _probeActive;
+    }
+
+    public String get_probeName() {
+        return _probeName.get();
+    }
+
+    public StringProperty _probeNameProperty() {
+        return _probeName;
+    }
+
+    @Override
+    public Boolean isProbeActive() {
+        return _probeActive.getValue();
+    }
+
+    @Override
+    public String getProbeName() {
+        return _probeName.getValue();
+    }
+
+    @Override
+    public void setProbeName(String name) {
+        this._probeName.set(name);
     }
 }

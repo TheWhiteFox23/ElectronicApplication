@@ -77,9 +77,6 @@ public abstract class GeneralMappingComponent extends DocumentObject {
         properties.forEach(p -> {
             rawObject.addProperty(new RawProperty(p.getName(), String.valueOf(p.getValue())));
         });
-        /*getChildrenList().forEach(l -> {
-            rawObject.getChildren().add(((DocumentObject) l).toRawObject());
-        });*/
         return rawObject;
     }
 

@@ -37,4 +37,9 @@ public class CoupledInductor extends GeneralComponent {
         return null;
     }
 
+    @Override
+    public String getComponentName() {
+        return null;
+    }
+
 }

@@ -49,9 +49,35 @@ class SimulationUtilitiesTest {
     void tearDown() {
     }
 
+    @Test
+    void createSimulationFile(){
+        Netlist netlist = SimulationUtilities.createNetlist(test_circuit);
+        SimulationUtilities.optimizeNetlist(netlist);
+        SimulationFile simulationFile = new SimulationFile(netlist);
+        try {
+            simulationFile.createSimulationFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Nested
     class  CreateNetlist{
+        @Test
+        void createNetlist() {
+            Netlist netlist = SimulationUtilities.createNetlist(test_circuit);
+            SimulationUtilities.optimizeNetlist(netlist);
+            netlist.getComponentList().forEach(c->{
+                System.out.println(c.getSimulationComponent());
+            });
+            netlist.getNodeList().forEach(n->{
+                if(n.isProbe()) System.out.println(n.getProbeName());
+            });
+            netlist.getComponentList().forEach(n->{
+                if(n.isProbeActive()) System.out.println(n.getProbeName());
+            });
+        }
         @Test
         void createNetlist_containsAllElements() {
             Netlist netlist = SimulationUtilities.createNetlist(test_circuit_2);

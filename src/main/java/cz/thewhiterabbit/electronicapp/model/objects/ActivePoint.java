@@ -4,13 +4,13 @@ import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
+import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import cz.thewhiterabbit.electronicapp.utilities.LineDrawingUtilities;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.CanvasModel;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 
 import cz.thewhiterabbit.electronicapp.view.events.CanvasMouseEvent;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -25,6 +25,9 @@ public class ActivePoint extends GeneralMappingComponent {
 
     private String name;
 
+    private final String VOLTAGE_PROBE = "voltage_probe";
+    private final String VOLTAGE_PROBE_NAME = "voltage_probe_name";
+
     @PropertyDialogField(name = "locationX", type = ComponentPropertyType.LABEL)
     private final DoubleProperty _locationX = locationXProperty();
 
@@ -36,6 +39,14 @@ public class ActivePoint extends GeneralMappingComponent {
 
     @PropertyDialogField(name = "_gridY", type = ComponentPropertyType.LABEL)
     private final IntegerProperty _gridY = gridYProperty();
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Set voltage probe", type = ComponentPropertyType.CHECK_BOX, unit = "Check to activate probe")
+    private final BooleanProperty _probeActive = new SimpleBooleanProperty(this, VOLTAGE_PROBE, false);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Voltage probe name", type = ComponentPropertyType.TEXT_FIELD)
+    private final StringProperty _probeName = new SimpleStringProperty(this, VOLTAGE_PROBE_NAME, "probe");
 
 
     public ActivePoint() {
@@ -155,5 +166,21 @@ public class ActivePoint extends GeneralMappingComponent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean get_probeActive() {
+        return _probeActive.get();
+    }
+
+    public BooleanProperty _probeActiveProperty() {
+        return _probeActive;
+    }
+
+    public String get_probeName() {
+        return _probeName.get();
+    }
+
+    public StringProperty _probeNameProperty() {
+        return _probeName;
     }
 }

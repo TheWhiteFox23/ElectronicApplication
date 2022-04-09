@@ -13,4 +13,8 @@ public interface SimulationComponent {
     public void removeNode(NetlistNode oldNode);
     public void setName(String name);
     public String getName();
+    public Boolean isProbeActive();
+    public String getProbeName();
+    public void setProbeName(String name);
+    public String getComponentName();
 }

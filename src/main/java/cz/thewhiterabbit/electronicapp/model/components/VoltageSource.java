@@ -5,15 +5,15 @@ import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
-import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
-import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.StringProperty;
 
 
 @ComponentType
 public class VoltageSource extends GeneralComponent {
-    private final String VOLTAGE = "1";
+    private final String VOLTAGE = "voltage";
 
     private ActivePoint activePointIn;
     private ActivePoint activePointOut;
@@ -21,7 +21,13 @@ public class VoltageSource extends GeneralComponent {
 
     @RawPropertyMapping
     @PropertyDialogField(name = "Voltage", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty voltage = new SimpleDoubleProperty(this, "voltage", 1);
+    private final DoubleProperty voltage = new SimpleDoubleProperty(this, VOLTAGE, 1);
+
+    @PropertyDialogField(name = "Set currant probe", type = ComponentPropertyType.CHECK_BOX, unit = "Check to activate probe")
+    private final BooleanProperty checkBoxProperty = _probeActiveProperty();
+
+    @PropertyDialogField(name = "Currant probe name", type = ComponentPropertyType.TEXT_FIELD)
+    private final StringProperty probeName = _probeNameProperty();
 
     private final String path ="M84,48.5V47.44l-.82-5.28-1.63-5.1-2.42-4.77L76,28l-3.77-3.8L67.92,21l-4.76-2.45-5.09-" +
             "1.67L52.79,16l-5.35,0-5.29.82-5.09,1.63-4.77,2.42L28,24l-3.8,3.77L21,32.08l-2.45,4.76-1.67,5.09L16,47.21V48" +
@@ -48,6 +54,11 @@ public class VoltageSource extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return "V"+getName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() +" "+ voltage.get();
+        return getComponentName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() +" "+ voltage.get();
+    }
+
+    @Override
+    public String getComponentName() {
+        return "V"+getName();
     }
 }

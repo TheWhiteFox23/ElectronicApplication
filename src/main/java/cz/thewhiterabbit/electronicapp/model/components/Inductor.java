@@ -33,5 +33,10 @@ public class Inductor extends GeneralComponent {
         return null;
     }
 
+    @Override
+    public String getComponentName() {
+        return null;
+    }
+
 
 }

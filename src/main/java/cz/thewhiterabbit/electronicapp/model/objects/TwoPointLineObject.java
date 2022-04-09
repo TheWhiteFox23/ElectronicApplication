@@ -408,6 +408,26 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
         return this.name;
     }
 
+    @Override
+    public Boolean isProbeActive() {
+        return false;
+    }
+
+    @Override
+    public String getProbeName() {
+        return null;
+    }
+
+    @Override
+    public void setProbeName(String name) {
+
+    }
+
+    @Override
+    public String getComponentName() {
+        return null;
+    }
+
     public ActivePoint getActivePointIn() {
         return activePointIn;
     }

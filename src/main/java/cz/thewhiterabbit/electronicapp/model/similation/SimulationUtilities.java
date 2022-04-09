@@ -24,6 +24,10 @@ public class SimulationUtilities {
             NetlistNode node = new NetlistNode(key);
             activePointsMap.put(node, acl);
             acl.forEach(ac->{
+                if(ac.get_probeActive()){
+                    node.setProbe(true);
+                    node.setProbeName(ac.get_probeName());
+                }
                 CanvasObject co = ac.getParent();
                 if(co instanceof SimulationComponent){
                     SimulationComponent sc = (SimulationComponent) co;
@@ -36,6 +40,7 @@ public class SimulationUtilities {
         });
         numberComponents(netlist);
         numberNodes(netlist);
+        validateProbesNames(netlist);
         return netlist;
     }
 
@@ -67,8 +72,52 @@ public class SimulationUtilities {
 
     public static void exchangeNodes(NetlistNode toRemove, NetlistNode newNode){
         toRemove.getSimulationComponentList().forEach(c->{
+            if(toRemove.isProbe()){
+                newNode.setProbe(true);
+                newNode.setProbeName(toRemove.getProbeName());
+            }
             c.setNode(toRemove, newNode);
             newNode.getSimulationComponentList().add(c);
+        });
+    }
+
+    public static void validateProbesNames(Netlist netlist){
+        List<String> individualProbeNames = new ArrayList<>();
+        AtomicInteger count = new AtomicInteger();
+        validateNodeProbes(netlist, individualProbeNames, count);
+        validateComponentProbes(netlist, individualProbeNames, count);
+    }
+
+    private static void validateNodeProbes(Netlist netlist, List<String> individualProbeNames, AtomicInteger count) {
+        netlist.getNodeList().forEach(n->{
+            if(n.isProbe()){
+                String name = n.getProbeName();
+                if(!individualProbeNames.contains(name)){
+                    individualProbeNames.add(name);
+                }else{
+                    while (individualProbeNames.contains(name+count)){
+                        count.getAndIncrement();
+                    }
+                    n.setProbeName(name+count);
+                    individualProbeNames.add(name+count);
+                }
+            }
+        });
+    }
+    private static void validateComponentProbes(Netlist netlist, List<String> individualProbeNames, AtomicInteger count) {
+        netlist.getComponentList().forEach(n->{
+            if(n.isProbeActive()){
+                String name = n.getProbeName();
+                if(!individualProbeNames.contains(name)){
+                    individualProbeNames.add(name);
+                }else{
+                    while (individualProbeNames.contains(name+count)){
+                        count.getAndIncrement();
+                    }
+                    n.setProbeName(name+count);
+                    individualProbeNames.add(name+count);
+                }
+            }
         });
     }
 
@@ -105,5 +154,10 @@ public class SimulationUtilities {
             }
         }
         return activePointMap;
+    }
+
+    public SimulationFile createSimulationFile(Document document){
+
+        return new SimulationFile();
     }
 }
