@@ -4,6 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <?import cz.thewhiterabbit.electronicapp.view.components.CategoryButton?>
+<?import javafx.geometry.Insets?>
+<?import cz.thewhiterabbit.electronicapp.view.controllers.ACDCMenu?>
+<?import cz.thewhiterabbit.electronicapp.view.controllers.TransientMenu?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationMenuController"
@@ -13,5 +16,31 @@
       fx:id="simulationMenu">
     <StackPane styleClass="simulation_button">
         <Button  fx:id="simulationButton" text="Schematic"/>
+    </StackPane>
+
+    <VBox fx:id="menuVBox">
+        <HBox fx:id="categoriesBox">
+            <CategoryButton text="Transient" fx:id="transientButton"/>
+            <CategoryButton text="AC Sweep" fx:id="acSweepButton"/>
+            <CategoryButton text="DC analysis" fx:id="dcAnalysisButton"/>
+        </HBox>
+        <HBox fx:id="acSweepMenu" visible="false">
+            <ACDCMenu fx:id="acSweepPanel" startValueText="Start frequency" stopValueText="Stop frequency"/>
+        </HBox>
+        <HBox fx:id="transientMenu" visible="false">
+            <TransientMenu fx:id="transientPanel"/>
+        </HBox>
+        <HBox fx:id="dcAnalysisMenu" visible="false">
+            <ACDCMenu fx:id="dcAnalysisPanel" startValueText="Start value" stopValueText="Stop value"/>
+        </HBox>
+    </VBox>
+    <StackPane>
+        <VBox>
+            <padding><Insets top="20"/></padding>
+            <CheckBox  fx:id="optimizeCB" text="Optimize circuit"/>
+            <CheckBox  fx:id="onlySelectedCB" text="Analyze only selected"/>
+            <Button  fx:id="simulateButton" text="Simulate"/>
+        </VBox>
+
     </StackPane>
 </HBox>

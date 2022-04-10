@@ -6,12 +6,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationPanelController"
-            prefHeight="400.0" prefWidth="600.0">
-    <StackPane>
-        <Label text="SIMULATION PANEL"/>
-    </StackPane>
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationPanelController">
+    <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <VBox prefWidth="300">
+            <DrawingCanvas fx:id="drawingArea" />
+            <ListView fx:id="listView" />
+        </VBox>
+        <AnchorPane  fx:id="lineChartHolder" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+
 
 </AnchorPane>

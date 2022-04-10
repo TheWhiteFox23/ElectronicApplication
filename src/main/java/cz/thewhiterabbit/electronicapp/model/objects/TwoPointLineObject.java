@@ -372,7 +372,7 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
 
     @Override
     public String getSimulationComponent() {
-        return "Line " + in.getName() + " " + out.getName() + " 0";
+        return "R"+getName() +" "+ in.getName() + " " + out.getName() + " 0";
     }
 
     @Override

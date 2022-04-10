@@ -179,4 +179,5 @@ public class DrawingCanvas extends Region {
         aggregator.removeEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);
     }
 
+
 }

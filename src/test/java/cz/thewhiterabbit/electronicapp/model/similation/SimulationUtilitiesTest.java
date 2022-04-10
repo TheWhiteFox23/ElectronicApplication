@@ -1,17 +1,13 @@
 package cz.thewhiterabbit.electronicapp.model.similation;
 
-import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.model.components.GeneralComponent;
 import cz.thewhiterabbit.electronicapp.model.components.Resistor;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
-import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
 import cz.thewhiterabbit.electronicapp.model.documnet.FileService;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
-import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.scene.layout.StackPane;
-import org.json.simple.parser.ParseException;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +41,37 @@ class SimulationUtilitiesTest {
         }
     }
 
+    @Test
+    void getSimulationProcess(){
+        Netlist netlist = SimulationUtilities.createNetlist(test_circuit);
+        SimulationUtilities.optimizeNetlist(netlist);
+        SimulationFile simulationFile = new SimulationFile(netlist);
+        simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
+        simulationFile.setStepIncrement(1);
+        simulationFile.setStepIncrementUnit(SimulationFile.Unit.MILLI);
+        simulationFile.setStopTime(5);
+        simulationFile.setUseStartTime(false);
+        simulationFile.setStartTime(3);
+        simulationFile.setUseInternalStep(false);
+        simulationFile.setMaxStepSize(1);
+        final SimulationResult[] simulationResult = new SimulationResult[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                simulationResult[0] = SimulationUtilities.simulate(simulationFile);
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+            System.out.println(simulationResult);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @AfterEach
     void tearDown() {
     }
@@ -54,11 +81,7 @@ class SimulationUtilitiesTest {
         Netlist netlist = SimulationUtilities.createNetlist(test_circuit);
         SimulationUtilities.optimizeNetlist(netlist);
         SimulationFile simulationFile = new SimulationFile(netlist);
-        try {
-            simulationFile.createSimulationFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        simulationFile.createSimulationList();
     }
 
 

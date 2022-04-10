@@ -1,0 +1,17 @@
+* Title: Test circuit
+
+* Netlist
+R3 n7 n6 50.0
+V4 n7 n3 100.0
+R8 n6 n3 50.0
+R11 n3 0 0
+
+.control
+op
+tran 10 200 0
+echo output test > result.txt $ start new file
+set appendwrite
+set wr_vecnames
+set wr_singlescale
+wrdata data.txt all
+.endc
