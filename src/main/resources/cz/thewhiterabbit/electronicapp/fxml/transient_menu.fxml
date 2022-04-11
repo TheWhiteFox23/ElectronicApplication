@@ -14,10 +14,10 @@
     <GridPane vgap="2" hgap="2" styleClass="simulation_menu_panel" prefHeight="142" minHeight="142" maxHeight="142">
         <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
         <Label text="Simulation" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="stopTimeTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="stepIncrementTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="maxStepSizeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="startTimeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField styleClass="general_textfield" fx:id="stopTimeTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField styleClass="general_textfield" fx:id="stepIncrementTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField styleClass="general_textfield" fx:id="maxStepSizeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField styleClass="general_textfield" fx:id="startTimeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
         <Label text="Stop time" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Label text="Step increment" GridPane.columnIndex="1" GridPane.rowIndex="2"/>

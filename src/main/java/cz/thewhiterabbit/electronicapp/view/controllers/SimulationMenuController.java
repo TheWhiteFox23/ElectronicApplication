@@ -3,10 +3,13 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
+import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationFile;
 import cz.thewhiterabbit.electronicapp.view.components.CategoryButton;
 import cz.thewhiterabbit.electronicapp.view.events.MenuEvent;
 import cz.thewhiterabbit.electronicapp.view.events.SimulationEvents;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -17,6 +20,8 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class SimulationMenuController {
+    private Document document = new Document(new RawDocument("MT"));
+
     @FXML
     private Button simulationButton;
     @FXML
@@ -54,6 +59,9 @@ public class SimulationMenuController {
 
     @FXML
     private void initialize() {
+        GUIEventAggregator.getInstance().addEventHandler(DocumentManager.DocumentManagerEvent.ACTIVE_DOCUMENT_CHANGED, e->{
+            setDocument(((DocumentManager.DocumentManagerEvent)e).getDocument());
+        });
         simulationButton.setOnAction(e -> {
             GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.SWITCH_MODE_SCHEMATIC));
         });
@@ -67,6 +75,66 @@ public class SimulationMenuController {
         simulateButton.setOnAction(e->{
             onSimulate();
         });
+    }
+
+    private void setDocument(Document document) {
+        unbindDocument(document);
+        this.document = document;
+        loadProperties(document);
+        bindDocument(document);
+    }
+
+    private void bindDocument(Document document) {
+        //TRANSIENT
+        document.getSimulationFile().stopTimeProperty().unbind();
+        document.getSimulationFile().stepIncrementProperty().unbind();
+        document.getSimulationFile().useStartTimeProperty().unbind();
+        document.getSimulationFile().startTimeProperty().unbind();
+        document.getSimulationFile().useInternalStepProperty().unbind();
+        document.getSimulationFile().maxStepSizeProperty().unbind();
+        //AC SWEEP
+        document.getSimulationFile().startValueACProperty().unbind();
+        document.getSimulationFile().stopValueACProperty().unbind();
+        document.getSimulationFile().numberOfPointsACProperty().unbind();
+        document.getSimulationFile().scaleTopACProperty().unbind();
+        document.getSimulationFile().scaleBottomACProperty().unbind();
+        //DC SWEEP
+        document.getSimulationFile().startValueDCProperty().unbind();
+        document.getSimulationFile().stopValueDCProperty().unbind();
+        document.getSimulationFile().numberOfPointsDCProperty().unbind();
+        document.getSimulationFile().scaleTopDCProperty().unbind();
+        document.getSimulationFile().scaleBottomDCProperty().unbind();
+        //GENERAL
+        document.getSimulationFile().optimizeProperty().unbind();
+        document.getSimulationFile().onlyAnalyzeNodesProperty().unbind();
+    }
+
+    private void loadProperties(Document document) {
+    }
+
+    private void unbindDocument(Document document) {
+        //TRANSIENT
+        document.getSimulationFile().stopTimeProperty().unbind();
+        document.getSimulationFile().stepIncrementProperty().unbind();
+        document.getSimulationFile().useStartTimeProperty().unbind();
+        document.getSimulationFile().startTimeProperty().unbind();
+        document.getSimulationFile().useInternalStepProperty().unbind();
+        document.getSimulationFile().maxStepSizeProperty().unbind();
+        //AC SWEEP
+        document.getSimulationFile().startValueACProperty().unbind();
+        document.getSimulationFile().stopValueACProperty().unbind();
+        document.getSimulationFile().numberOfPointsACProperty().unbind();
+        document.getSimulationFile().scaleTopACProperty().unbind();
+        document.getSimulationFile().scaleBottomACProperty().unbind();
+        //DC SWEEP
+        document.getSimulationFile().startValueDCProperty().unbind();
+        document.getSimulationFile().stopValueDCProperty().unbind();
+        document.getSimulationFile().numberOfPointsDCProperty().unbind();
+        document.getSimulationFile().scaleTopDCProperty().unbind();
+        document.getSimulationFile().scaleBottomDCProperty().unbind();
+        //GENERAL
+        document.getSimulationFile().optimizeProperty().unbind();
+        document.getSimulationFile().onlyAnalyzeNodesProperty().unbind();
     }
 
     private void onSimulate() {
@@ -89,8 +157,8 @@ public class SimulationMenuController {
         simulationFile.setMode(mode);
         simulationFile.setStartTime(acdcMenu.getStartValue());
         simulationFile.setStopTime(acdcMenu.getStopValue());
-        simulationFile.setNumberOfPoints(acdcMenu.getNumberOfPoints());
-        simulationFile.setScale(acdcMenu.getSelectedScale());
+        simulationFile.setNumberOfPointsAC(acdcMenu.getNumberOfPoints());
+        //simulationFile.setScaleTopAC(acdcMenu.getSelectedScale());
         return simulationFile;
     }
 

@@ -32,7 +32,6 @@ public class SimulationPanelController {
     final NumberAxis yAxis = new NumberAxis();
     private final LineChart<Double,Double> lineChart = new LineChart(xAxis,yAxis);
 
-    private SimulationResult simulationResult;
 
     @FXML private void initialize(){
         GUIEventAggregator.getInstance().addEventHandler(DocumentManager.DocumentManagerEvent.ACTIVE_DOCUMENT_CHANGED, e->{
@@ -55,7 +54,7 @@ public class SimulationPanelController {
 
     private void initListViewListener() {
         listView.getSelectionModel().selectedItemProperty().addListener(e->{
-            System.out.println(listView.getSelectionModel().getSelectedItems());
+            SimulationResult simulationResult = document.getSimulationResult();
             SimulationResultSet time = null;
             for(int i = 0; i< simulationResult.getResultSetList().size(); i++){
                 if(simulationResult.getResultSetList().get(i).getName().equals("time")){
@@ -77,6 +76,7 @@ public class SimulationPanelController {
         Document documentCopy = new Document(document.getRawDocument());
         drawingArea.setModel(documentCopy.getGridModel());
         documentCopy.getGridModel().center();
+        setResult(document.getSimulationResult());
         drawingArea.repaint();
     }
 
@@ -102,7 +102,7 @@ public class SimulationPanelController {
     }
 
     private void setResult(SimulationResult result){
-        simulationResult = result;
+        document.setSimulationResult(result);
         listView.getItems().clear();
         result.getResultSetList().forEach(i->{
             listView.getItems().add(i.getName());
@@ -112,6 +112,7 @@ public class SimulationPanelController {
     }
 
     private void setGraphContent(SimulationResultSet time,SimulationResultSet set){
+        if(time == null || set ==null)return;
         lineChart.getData().clear();
 
         //lineChart.getXAxis().setAutoRanging(true);

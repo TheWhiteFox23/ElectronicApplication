@@ -360,3 +360,16 @@ TabButton Button:hover{
     -fx-border-color: #FFA9A9;
     -fx-text-fill: #FFA9A9;
 }
+
+.general_textfield{
+    -fx-background-color: -primary-color-light;
+    -fx-background-radius: 5;
+}
+
+.invalid{
+    -fx-background-color: #EEB6B6;
+}
+
+.changed{
+    -fx-background-color:  #C7EEB6;
+}

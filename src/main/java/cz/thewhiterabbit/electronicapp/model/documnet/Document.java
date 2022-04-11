@@ -5,6 +5,8 @@ import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.objects.RelativePointBackground;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
+import cz.thewhiterabbit.electronicapp.model.similation.SimulationFile;
+import cz.thewhiterabbit.electronicapp.model.similation.SimulationResult;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
@@ -30,6 +32,8 @@ public class Document {
 
     private File file;
     private DocumentMode mode = DocumentMode.SCHEMATIC;
+    private SimulationFile simulationFile;
+    private SimulationResult simulationResult;
 
     private BooleanProperty changed = new SimpleBooleanProperty(false);
 
@@ -63,6 +67,8 @@ public class Document {
 
         this.objectMap = new HashMap<>();
         loadDocument(rawDocument);
+        this.simulationFile = new SimulationFile();
+        this.simulationResult = new SimulationResult();
     }
 
     private void loadDocument(RawDocument rawDocument) {
@@ -146,6 +152,22 @@ public class Document {
 
     public void setChanged(boolean changed) {
         this.changed.set(changed);
+    }
+
+    public SimulationFile getSimulationFile() {
+        return simulationFile;
+    }
+
+    public void setSimulationFile(SimulationFile simulationFile) {
+        this.simulationFile = simulationFile;
+    }
+
+    public SimulationResult getSimulationResult() {
+        return simulationResult;
+    }
+
+    public void setSimulationResult(SimulationResult simulationResult) {
+        this.simulationResult = simulationResult;
     }
 
     public List<DocumentObject> getDocumentObjects() {

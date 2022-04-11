@@ -1,9 +1,6 @@
 package cz.thewhiterabbit.electronicapp.model.similation;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,23 +15,26 @@ public class SimulationFile {
 
     private SimulationMode mode = SimulationMode.TRANSIENT;
     //TRANSIENT VARIABLES
-    private DoubleProperty stopTime = new SimpleDoubleProperty(0);
-    private DoubleProperty stepIncrement = new SimpleDoubleProperty(0);
-
+    private DoubleProperty stopTime = new SimpleDoubleProperty(5);
+    private DoubleProperty stepIncrement = new SimpleDoubleProperty(1e-3);
     private BooleanProperty useStartTime=new SimpleBooleanProperty(false);
     private DoubleProperty startTime = new SimpleDoubleProperty(0);
-
     private BooleanProperty useInternalStep = new SimpleBooleanProperty(false);
-    private DoubleProperty maxStepSize = new SimpleDoubleProperty(0);
+    private DoubleProperty maxStepSize = new SimpleDoubleProperty(5e-2);
 
-    //AC SWEEP / DC ANALYSIS
-    private DoubleProperty startValue = new SimpleDoubleProperty(0);
+    //AC SWEEP
+    private DoubleProperty startValueAC = new SimpleDoubleProperty(1e-3);
+    private DoubleProperty stopValueAC = new SimpleDoubleProperty(1e+3);
+    private IntegerProperty numberOfPointsAC = new SimpleIntegerProperty(500);
+    private IntegerProperty scaleTopAC = new SimpleIntegerProperty(-180);
+    private IntegerProperty scaleBottomAC = new SimpleIntegerProperty(180);
 
-    private DoubleProperty stopValue = new SimpleDoubleProperty(0);
-
-    private DoubleProperty numberOfPoints= new SimpleDoubleProperty(0);
-
-    private Scale scale = Scale.DECIMAL;
+    //AC SWEEP
+    private DoubleProperty startValueDC = new SimpleDoubleProperty(1e-3);
+    private DoubleProperty stopValueDC = new SimpleDoubleProperty(1e+3);
+    private IntegerProperty numberOfPointsDC = new SimpleIntegerProperty(500);
+    private IntegerProperty scaleTopDC = new SimpleIntegerProperty(-180);
+    private IntegerProperty scaleBottomDC = new SimpleIntegerProperty(180);
     //GENERAl
     private BooleanProperty optimize = new SimpleBooleanProperty(true);
     private BooleanProperty onlyAnalyzeNodes =new SimpleBooleanProperty(false);
@@ -172,49 +172,42 @@ public class SimulationFile {
         this.maxStepSize.set(maxStepSize);
     }
 
-    public double getStartValue() {
-        return startValue.get();
+    public double getStartValueAC() {
+        return startValueAC.get();
     }
 
-    public DoubleProperty startValueProperty() {
-        return startValue;
+    public DoubleProperty startValueACProperty() {
+        return startValueAC;
     }
 
-    public void setStartValue(double startValue) {
-        this.startValue.set(startValue);
+    public void setStartValueAC(double startValueAC) {
+        this.startValueAC.set(startValueAC);
     }
 
-    public double getStopValue() {
-        return stopValue.get();
+    public double getStopValueAC() {
+        return stopValueAC.get();
     }
 
-    public DoubleProperty stopValueProperty() {
-        return stopValue;
+    public DoubleProperty stopValueACProperty() {
+        return stopValueAC;
     }
 
-    public void setStopValue(double stopValue) {
-        this.stopValue.set(stopValue);
+    public void setStopValueAC(double stopValueAC) {
+        this.stopValueAC.set(stopValueAC);
     }
 
-    public double getNumberOfPoints() {
-        return numberOfPoints.get();
+    public double getNumberOfPointsAC() {
+        return numberOfPointsAC.get();
     }
 
-    public DoubleProperty numberOfPointsProperty() {
-        return numberOfPoints;
+    public IntegerProperty numberOfPointsACProperty() {
+        return numberOfPointsAC;
     }
 
-    public void setNumberOfPoints(double numberOfPoints) {
-        this.numberOfPoints.set(numberOfPoints);
+    public void setNumberOfPointsAC(int numberOfPointsAC) {
+        this.numberOfPointsAC.set(numberOfPointsAC);
     }
 
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
-    }
 
     public boolean isOptimize() {
         return optimize.get();
@@ -254,6 +247,90 @@ public class SimulationFile {
 
     public void setOutDataPath(String outDataPath) {
         this.outDataPath = outDataPath;
+    }
+
+    public double getStartValueDC() {
+        return startValueDC.get();
+    }
+
+    public DoubleProperty startValueDCProperty() {
+        return startValueDC;
+    }
+
+    public void setStartValueDC(double startValueDC) {
+        this.startValueDC.set(startValueDC);
+    }
+
+    public double getStopValueDC() {
+        return stopValueDC.get();
+    }
+
+    public DoubleProperty stopValueDCProperty() {
+        return stopValueDC;
+    }
+
+    public void setStopValueDC(double stopValueDC) {
+        this.stopValueDC.set(stopValueDC);
+    }
+
+    public int getNumberOfPointsDC() {
+        return numberOfPointsDC.get();
+    }
+
+    public IntegerProperty numberOfPointsDCProperty() {
+        return numberOfPointsDC;
+    }
+
+    public void setNumberOfPointsDC(int numberOfPointsDC) {
+        this.numberOfPointsDC.set(numberOfPointsDC);
+    }
+
+    public int getScaleTopAC() {
+        return scaleTopAC.get();
+    }
+
+    public IntegerProperty scaleTopACProperty() {
+        return scaleTopAC;
+    }
+
+    public void setScaleTopAC(int scaleTopAC) {
+        this.scaleTopAC.set(scaleTopAC);
+    }
+
+    public int getScaleBottomAC() {
+        return scaleBottomAC.get();
+    }
+
+    public IntegerProperty scaleBottomACProperty() {
+        return scaleBottomAC;
+    }
+
+    public void setScaleBottomAC(int scaleBottomAC) {
+        this.scaleBottomAC.set(scaleBottomAC);
+    }
+
+    public int getScaleTopDC() {
+        return scaleTopDC.get();
+    }
+
+    public IntegerProperty scaleTopDCProperty() {
+        return scaleTopDC;
+    }
+
+    public void setScaleTopDC(int scaleTopDC) {
+        this.scaleTopDC.set(scaleTopDC);
+    }
+
+    public int getScaleBottomDC() {
+        return scaleBottomDC.get();
+    }
+
+    public IntegerProperty scaleBottomDCProperty() {
+        return scaleBottomDC;
+    }
+
+    public void setScaleBottomDC(int scaleBottomDC) {
+        this.scaleBottomDC.set(scaleBottomDC);
     }
 
     public enum SimulationMode{
