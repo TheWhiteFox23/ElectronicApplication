@@ -345,3 +345,8 @@ TabButton Button:hover{
 .confirm_button:hover{
     -fx-background-color: -light-gray;
 }
+
+.simulation_menu_panel{
+    -fx-border-color: -primary-color-light;
+    -fx-border-radius: 5;
+}

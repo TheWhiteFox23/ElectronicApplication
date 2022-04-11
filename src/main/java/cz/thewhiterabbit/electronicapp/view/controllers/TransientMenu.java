@@ -7,32 +7,25 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class TransientMenu extends GridPane {
+public class TransientMenu extends AnchorPane {
 
     @FXML
     private TextField stopTimeTF;
     @FXML
     private TextField stepIncrementTF;
     @FXML
-    private ComboBox stopTimeCoB;
-    @FXML
-    private ComboBox stepIncrementCoB;
-    @FXML
     private CheckBox useStartTimeCB;
     @FXML
     private TextField startTimeTF;
     @FXML
-    private ComboBox startTimeCoB;
-    @FXML
     private CheckBox useInternalStepCB;
     @FXML
     private TextField maxStepSizeTF;
-    @FXML
-    private ComboBox maxStepSizeCoB;
 
     public TransientMenu() {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/transient_menu.fxml"));
@@ -43,24 +36,9 @@ public class TransientMenu extends GridPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initializeComponents();
-
 
     }
 
-    private void initializeComponents() {
-        initializeComboBoxContent(startTimeCoB);
-        initializeComboBoxContent(stopTimeCoB);
-        initializeComboBoxContent(stepIncrementCoB);
-        initializeComboBoxContent(maxStepSizeCoB);
-    }
-
-    private void initializeComboBoxContent(ComboBox comboBox) {
-        for (int i = 0; i < SimulationFile.Unit.values().length; i++) {
-            comboBox.getItems().add(SimulationFile.Unit.values()[i].getText());
-        }
-        comboBox.getSelectionModel().select(5);
-    }
 
     private SimulationFile.Unit getUnit(ComboBox comboBox) {
         String value = comboBox.getValue().toString();
@@ -91,16 +69,12 @@ public class TransientMenu extends GridPane {
         return useInternalStepCB.isSelected();
     }
 
-    public SimulationFile.Unit getStopTimeUnit(){
-        return getUnit(stopTimeCoB);
-    }
+    public SimulationFile.Unit getStopTimeUnit(){return SimulationFile.Unit.NONE;}
     public SimulationFile.Unit getStartTimeUnit(){
-        return getUnit(startTimeCoB);
+        return SimulationFile.Unit.NONE;
     }
-    public SimulationFile.Unit getStepIncrementUnit(){
-        return getUnit(stepIncrementCoB);
-    }
+    public SimulationFile.Unit getStepIncrementUnit(){return SimulationFile.Unit.NONE;}
     public SimulationFile.Unit getMaxStepSizeUnit(){
-        return getUnit(maxStepSizeCoB);
+        return SimulationFile.Unit.NONE;
     }
 }

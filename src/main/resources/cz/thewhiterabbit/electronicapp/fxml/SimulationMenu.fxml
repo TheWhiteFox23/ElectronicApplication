@@ -18,7 +18,7 @@
         <Button  fx:id="simulationButton" text="Schematic"/>
     </StackPane>
 
-    <VBox fx:id="menuVBox">
+    <VBox fx:id="menuVBox" spacing="5">
         <HBox fx:id="categoriesBox">
             <CategoryButton text="Transient" fx:id="transientButton"/>
             <CategoryButton text="AC Sweep" fx:id="acSweepButton"/>
