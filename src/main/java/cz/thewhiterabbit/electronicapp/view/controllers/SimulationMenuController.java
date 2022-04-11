@@ -90,8 +90,6 @@ public class SimulationMenuController {
         simulationFile.setStartTime(acdcMenu.getStartValue());
         simulationFile.setStopTime(acdcMenu.getStopValue());
         simulationFile.setNumberOfPoints(acdcMenu.getNumberOfPoints());
-        simulationFile.setStartTimeUnit(acdcMenu.getStartValueUnit());
-        simulationFile.setStopTimeUnit(acdcMenu.getStopValueUnit());
         simulationFile.setScale(acdcMenu.getSelectedScale());
         return simulationFile;
     }
@@ -100,17 +98,13 @@ public class SimulationMenuController {
         SimulationFile simulationFile = new SimulationFile();
         simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
         simulationFile.setStopTime(transientMenu.getStopTime());
-        simulationFile.setStopTimeUnit(transientMenu.getStopTimeUnit());
         simulationFile.setStepIncrement(transientMenu.getStepIncrement());
-        simulationFile.setStepIncrementUnit(transientMenu.getStepIncrementUnit());
 
         simulationFile.setUseStartTime(transientMenu.isStartTime());
         simulationFile.setStartTime(transientMenu.getStartTime());
-        simulationFile.setStartTimeUnit(transientMenu.getStartTimeUnit());
 
         simulationFile.setUseInternalStep(transientMenu.isInternalStep());
         simulationFile.setMaxStepSize(transientMenu.getMaxStepSize());
-        simulationFile.setMaxStepUnit(transientMenu.getMaxStepSizeUnit());
         return simulationFile;
     }
 

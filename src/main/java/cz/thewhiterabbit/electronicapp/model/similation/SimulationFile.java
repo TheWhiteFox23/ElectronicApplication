@@ -1,7 +1,10 @@
 package cz.thewhiterabbit.electronicapp.model.similation;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,30 +18,26 @@ public class SimulationFile {
 
     private SimulationMode mode = SimulationMode.TRANSIENT;
     //TRANSIENT VARIABLES
-    private int stopTime = 0;
-    private Unit stopTimeUnit = Unit.NONE;
-    private int stepIncrement = 0;
-    private Unit stepIncrementUnit = Unit.NONE;
+    private DoubleProperty stopTime = new SimpleDoubleProperty(0);
+    private DoubleProperty stepIncrement = new SimpleDoubleProperty(0);
 
-    private boolean useStartTime=false;
-    private int startTime = 0;
-    private Unit startTimeUnit = Unit.NONE;
+    private BooleanProperty useStartTime=new SimpleBooleanProperty(false);
+    private DoubleProperty startTime = new SimpleDoubleProperty(0);
 
-    private boolean useInternalStep = false;
-    private int maxStepSize = 0;
-    private Unit maxStepUnit = Unit.NONE;
+    private BooleanProperty useInternalStep = new SimpleBooleanProperty(false);
+    private DoubleProperty maxStepSize = new SimpleDoubleProperty(0);
 
     //AC SWEEP / DC ANALYSIS
-    private int startValue = 0;
-    private Unit startValueUnit =Unit.NONE;
-    private int stopValue = 0;
-    private Unit stopValueUnit= Unit.NONE;
-    private int numberOfPoints= 0;
+    private DoubleProperty startValue = new SimpleDoubleProperty(0);
+
+    private DoubleProperty stopValue = new SimpleDoubleProperty(0);
+
+    private DoubleProperty numberOfPoints= new SimpleDoubleProperty(0);
 
     private Scale scale = Scale.DECIMAL;
     //GENERAl
-    private boolean optimize = true;
-    private boolean onlyAnalyzeNodes = false;
+    private BooleanProperty optimize = new SimpleBooleanProperty(true);
+    private BooleanProperty onlyAnalyzeNodes =new SimpleBooleanProperty(false);
 
     public SimulationFile(Netlist netlist){
         this.netlist = netlist;
@@ -68,25 +67,16 @@ public class SimulationFile {
         toWrite.add("");
         toWrite.add(".control");
         toWrite.add("op");
-        /*netlist.getComponentList().forEach(c->{
-            if(c.isProbeActive()){
-                toWrite.add("print I(" +c.getComponentName() +")");
-            }
-        });*/
-        /*netlist.getNodeList().forEach(c->{
-            if(c.isProbe()){
-                toWrite.add("print V(" +c.getName() +")");
-            }
-        });*/
+
         switch (mode){
             case TRANSIENT -> {
-                String command = "tran "+stepIncrement + stepIncrementUnit.suffix + " " + stopTime + stopTimeUnit.getSuffix();
-                if(useStartTime){
-                    command += " " + startTime + startTimeUnit.getSuffix();
+                String command = "tran "+getStepIncrement()  + " " + getStopTime();
+                if(isUseStartTime()){
+                    command += " " + getStartTime();
                 }else{
                     command += " 0";
                 }
-                if(useInternalStep) command += " " + maxStepSize + maxStepUnit.getSuffix();
+                if(isUseInternalStep()) command += " " + getMaxStepSize();
                 toWrite.add(command);
             }
         }
@@ -100,6 +90,7 @@ public class SimulationFile {
         return  toWrite;
     }
 
+
     public SimulationMode getMode() {
         return mode;
     }
@@ -108,124 +99,113 @@ public class SimulationFile {
         this.mode = mode;
     }
 
-    public int getStopTime() {
+    public double getStopTime() {
+        return stopTime.get();
+    }
+
+    public DoubleProperty stopTimeProperty() {
         return stopTime;
     }
 
-    public void setStopTime(int stopTime) {
-        this.stopTime = stopTime;
+    public void setStopTime(double stopTime) {
+        this.stopTime.set(stopTime);
     }
 
-    public Unit getStopTimeUnit() {
-        return stopTimeUnit;
+    public double getStepIncrement() {
+        return stepIncrement.get();
     }
 
-    public void setStopTimeUnit(Unit stopTimeUnit) {
-        this.stopTimeUnit = stopTimeUnit;
-    }
-
-    public int getStepIncrement() {
+    public DoubleProperty stepIncrementProperty() {
         return stepIncrement;
     }
 
-    public void setStepIncrement(int stepIncrement) {
-        this.stepIncrement = stepIncrement;
+    public void setStepIncrement(double stepIncrement) {
+        this.stepIncrement.set(stepIncrement);
     }
 
-    public Unit getStepIncrementUnit() {
-        return stepIncrementUnit;
+
+    public double getStartTime() {
+        return startTime.get();
     }
 
-    public void setStepIncrementUnit(Unit stepIncrementUnit) {
-        this.stepIncrementUnit = stepIncrementUnit;
+    public DoubleProperty startTimeProperty() {
+        return startTime;
+    }
+
+    public void setStartTime(double startTime) {
+        this.startTime.set(startTime);
     }
 
     public boolean isUseStartTime() {
+        return useStartTime.get();
+    }
+
+    public BooleanProperty useStartTimeProperty() {
         return useStartTime;
     }
 
     public void setUseStartTime(boolean useStartTime) {
-        this.useStartTime = useStartTime;
-    }
-
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    public Unit getStartTimeUnit() {
-        return startTimeUnit;
-    }
-
-    public void setStartTimeUnit(Unit startTimeUnit) {
-        this.startTimeUnit = startTimeUnit;
+        this.useStartTime.set(useStartTime);
     }
 
     public boolean isUseInternalStep() {
+        return useInternalStep.get();
+    }
+
+    public BooleanProperty useInternalStepProperty() {
         return useInternalStep;
     }
 
     public void setUseInternalStep(boolean useInternalStep) {
-        this.useInternalStep = useInternalStep;
+        this.useInternalStep.set(useInternalStep);
     }
 
-    public int getMaxStepSize() {
+    public double getMaxStepSize() {
+        return maxStepSize.get();
+    }
+
+    public DoubleProperty maxStepSizeProperty() {
         return maxStepSize;
     }
 
-    public void setMaxStepSize(int maxStepSize) {
-        this.maxStepSize = maxStepSize;
+    public void setMaxStepSize(double maxStepSize) {
+        this.maxStepSize.set(maxStepSize);
     }
 
-    public Unit getMaxStepUnit() {
-        return maxStepUnit;
+    public double getStartValue() {
+        return startValue.get();
     }
 
-    public void setMaxStepUnit(Unit maxStepUnit) {
-        this.maxStepUnit = maxStepUnit;
-    }
-
-    public int getStartValue() {
+    public DoubleProperty startValueProperty() {
         return startValue;
     }
 
-    public void setStartValue(int startValue) {
-        this.startValue = startValue;
+    public void setStartValue(double startValue) {
+        this.startValue.set(startValue);
     }
 
-    public Unit getStartValueUnit() {
-        return startValueUnit;
+    public double getStopValue() {
+        return stopValue.get();
     }
 
-    public void setStartValueUnit(Unit startValueUnit) {
-        this.startValueUnit = startValueUnit;
-    }
-
-    public int getStopValue() {
+    public DoubleProperty stopValueProperty() {
         return stopValue;
     }
 
-    public void setStopValue(int stopValue) {
-        this.stopValue = stopValue;
+    public void setStopValue(double stopValue) {
+        this.stopValue.set(stopValue);
     }
 
-    public Unit getStopValueUnit() {
-        return stopValueUnit;
+    public double getNumberOfPoints() {
+        return numberOfPoints.get();
     }
 
-    public void setStopValueUnit(Unit stopValueUnit) {
-        this.stopValueUnit = stopValueUnit;
-    }
-
-    public int getNumberOfPoints() {
+    public DoubleProperty numberOfPointsProperty() {
         return numberOfPoints;
     }
 
-    public void setNumberOfPoints(int numberOfPoints) {
-        this.numberOfPoints = numberOfPoints;
+    public void setNumberOfPoints(double numberOfPoints) {
+        this.numberOfPoints.set(numberOfPoints);
     }
 
     public Scale getScale() {
@@ -237,19 +217,27 @@ public class SimulationFile {
     }
 
     public boolean isOptimize() {
+        return optimize.get();
+    }
+
+    public BooleanProperty optimizeProperty() {
         return optimize;
     }
 
     public void setOptimize(boolean optimize) {
-        this.optimize = optimize;
+        this.optimize.set(optimize);
     }
 
     public boolean isOnlyAnalyzeNodes() {
+        return onlyAnalyzeNodes.get();
+    }
+
+    public BooleanProperty onlyAnalyzeNodesProperty() {
         return onlyAnalyzeNodes;
     }
 
     public void setOnlyAnalyzeNodes(boolean onlyAnalyzeNodes) {
-        this.onlyAnalyzeNodes = onlyAnalyzeNodes;
+        this.onlyAnalyzeNodes.set(onlyAnalyzeNodes);
     }
 
     public String getOutResultPath() {

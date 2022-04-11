@@ -48,7 +48,6 @@ class SimulationUtilitiesTest {
         SimulationFile simulationFile = new SimulationFile(netlist);
         simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
         simulationFile.setStepIncrement(1);
-        simulationFile.setStepIncrementUnit(SimulationFile.Unit.MILLI);
         simulationFile.setStopTime(5);
         simulationFile.setUseStartTime(false);
         simulationFile.setStartTime(3);
