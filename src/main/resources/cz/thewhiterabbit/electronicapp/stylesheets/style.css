@@ -350,3 +350,13 @@ TabButton Button:hover{
     -fx-border-color: -primary-color-light;
     -fx-border-radius: 5;
 }
+.simulate_button{
+    -fx-pref-height: 35px;
+    -fx-pref-width: 90px;
+    -fx-background-color: -super-light-gray;
+    -fx-background-radius : 5;
+    -fx-border-radius:5;
+    -fx-border-width: 2;
+    -fx-border-color: #FFA9A9;
+    -fx-text-fill: #FFA9A9;
+}

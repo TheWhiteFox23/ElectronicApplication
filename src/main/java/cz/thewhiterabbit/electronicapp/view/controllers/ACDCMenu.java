@@ -7,11 +7,12 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class ACDCMenu extends GridPane {
+public class ACDCMenu extends AnchorPane {
     private final StringProperty startValueText = new SimpleStringProperty();
     private final StringProperty stopValueText = new SimpleStringProperty();
 
@@ -20,8 +21,6 @@ public class ACDCMenu extends GridPane {
     @FXML private TextField stopValueTF;
     @FXML private Label stopValueLabel;
     @FXML private TextField numberOfPointsTF;
-    @FXML private ComboBox starValueCB;
-    @FXML private ComboBox stopValueCB;
 
     @FXML private RadioButton linRB;
     @FXML private RadioButton decRB;
@@ -49,8 +48,6 @@ public class ACDCMenu extends GridPane {
         scaleToggleGroup = new ToggleGroup();
         scaleToggleGroup.getToggles().addAll(linRB, decRB, octRB);
         decRB.setSelected(true);
-        initializeComboBoxContent(starValueCB);
-        initializeComboBoxContent(stopValueCB);
         startValueText.addListener(e->{
             startValueLabel.setText(startValueText.getValue());
         });
@@ -79,11 +76,11 @@ public class ACDCMenu extends GridPane {
     }
 
     public SimulationFile.Unit getStartValueUnit(){
-        return getUnit(starValueCB);
+        return SimulationFile.Unit.NONE;
     }
 
     public SimulationFile.Unit getStopValueUnit(){
-        return getUnit(stopValueCB);
+        return SimulationFile.Unit.NONE;
     }
 
     public SimulationFile.Scale getSelectedScale(){

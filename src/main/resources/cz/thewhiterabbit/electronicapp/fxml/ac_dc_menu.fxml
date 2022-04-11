@@ -6,21 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="javafx.scene.layout.GridPane" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-        <Label fx:id="startValueLabel" text="Start frequency" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label fx:id="stopValueLabel" text="Stop frequency" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <Label text="Number of points" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-        <TextField fx:id="startValueTF" text="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <TextField fx:id="stopValueTF" text="20" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <TextField fx:id="numberOfPointsTF" text="10" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-        <ComboBox  fx:id="starValueCB" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-        <ComboBox  fx:id="stopValueCB" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+<?import javafx.geometry.Insets?>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         stylesheets="@../stylesheets/style.css">
+    <padding><Insets top="5"/></padding>
+    <GridPane vgap="2" hgap="2" styleClass="simulation_menu_panel" prefHeight="142" minHeight="142" maxHeight="142">
+        <padding> <Insets top="5" left="5" right="5" bottom="5"/> </padding>
+        <Label text="Simulation"  GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="startValueTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="stopValueTF" text="20" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="numberOfPointsTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+        <Label fx:id="startValueLabel" text="Start frequency" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label fx:id="stopValueLabel" text="Stop frequency" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Number of points" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <!-- spacer -->
-        <Label text="Step Scale" GridPane.columnIndex="5" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+        <Label text="Step Scale" GridPane.columnIndex="2" GridPane.rowIndex="0" />
         <!-- spacer -->
-        <RadioButton fx:id="linRB" text="Lin" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
-        <RadioButton fx:id="decRB" text="Dec" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
-        <RadioButton fx:id="octRB" text="Oct" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
+        <RadioButton fx:id="linRB" text="Lin" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <RadioButton fx:id="decRB" text="Dec" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <RadioButton fx:id="octRB" text="Oct" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+    </GridPane>
 </fx:root>
+

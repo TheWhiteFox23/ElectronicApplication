@@ -11,7 +11,7 @@
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="@../stylesheets/style.css">
     <padding><Insets top="5"/></padding>
-    <GridPane vgap="2" hgap="2" styleClass="simulation_menu_panel">
+    <GridPane vgap="2" hgap="2" styleClass="simulation_menu_panel" prefHeight="142" minHeight="142" maxHeight="142">
         <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
         <Label text="Simulation" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="stopTimeTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>

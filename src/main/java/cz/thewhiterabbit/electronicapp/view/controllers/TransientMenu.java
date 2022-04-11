@@ -36,19 +36,8 @@ public class TransientMenu extends AnchorPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-
-    private SimulationFile.Unit getUnit(ComboBox comboBox) {
-        String value = comboBox.getValue().toString();
-        for (int i = 0; i < SimulationFile.Unit.values().length; i++) {
-            if (value.equals(SimulationFile.Unit.values()[i])) {
-                return SimulationFile.Unit.values()[i];
-            }
-        }
-        return SimulationFile.Unit.NONE;
-    }
 
     public int getStopTime(){
         return Integer.parseInt(stopTimeTF.getText());
