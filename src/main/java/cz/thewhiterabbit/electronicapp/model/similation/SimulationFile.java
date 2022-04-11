@@ -44,7 +44,9 @@ public class SimulationFile {
     }
 
     public SimulationFile(){
-
+        stopTime.addListener(l->{
+            System.out.println("stopTime changed: " + stopTime.get() + this);
+        });
     }
 
     public Netlist getNetlist() {

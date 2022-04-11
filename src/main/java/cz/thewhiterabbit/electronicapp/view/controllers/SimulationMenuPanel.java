@@ -24,12 +24,12 @@ public abstract class SimulationMenuPanel extends AnchorPane {
         doubleProperty.addListener(e->{
             double d = Double.parseDouble(textField.getText());
             if(doubleProperty.get() != d){
-                textField.setText(String.valueOf(d));
+                textField.setText(String.valueOf(doubleProperty.get()));
+                removeStyleClass(textField,"invalid");
+                removeStyleClass(textField,"changed");
             }
         });
-        doubleProperty.addListener(e->{
-            System.out.println(doubleProperty.get());
-        });
+
     }
 
     protected void bindIntegerTF(TextField textField, IntegerProperty integerProperty) {
@@ -47,11 +47,10 @@ public abstract class SimulationMenuPanel extends AnchorPane {
         integerProperty.addListener(e->{
             int i = Integer.parseInt(textField.getText());
             if(integerProperty.get() != i){
-                textField.setText(String.valueOf(i));
+                textField.setText(String.valueOf(integerProperty.get()));
+                removeStyleClass(textField,"invalid");
+                removeStyleClass(textField,"changed");
             }
-        });
-        integerProperty.addListener(e->{
-            System.out.println(integerProperty.get());
         });
     }
 
