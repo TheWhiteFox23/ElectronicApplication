@@ -2,8 +2,7 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationFile;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -12,7 +11,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class ACDCMenu extends AnchorPane {
+public class ACDCMenu extends SimulationMenuPanel {
     private final StringProperty startValueText = new SimpleStringProperty();
     private final StringProperty stopValueText = new SimpleStringProperty();
 
@@ -21,12 +20,14 @@ public class ACDCMenu extends AnchorPane {
     @FXML private TextField stopValueTF;
     @FXML private Label stopValueLabel;
     @FXML private TextField numberOfPointsTF;
+    @FXML private TextField scaleTopTF;
+    @FXML private TextField scaleBottomTF;
 
-    @FXML private RadioButton linRB;
-    @FXML private RadioButton decRB;
-    @FXML private RadioButton octRB;
-
-    private ToggleGroup scaleToggleGroup;
+    private DoubleProperty startValue = new SimpleDoubleProperty(1e-3);
+    private DoubleProperty stopValue = new SimpleDoubleProperty(1e+3);
+    private IntegerProperty numberOfPoints = new SimpleIntegerProperty(500);
+    private IntegerProperty scaleTop = new SimpleIntegerProperty(-180);
+    private IntegerProperty scaleBottom = new SimpleIntegerProperty(180);
 
 
 
@@ -40,14 +41,10 @@ public class ACDCMenu extends AnchorPane {
             e.printStackTrace();
         }
         initializeComponents();
-
-
+        bindTextFieldsProperty();
     }
 
     private void initializeComponents() {
-        scaleToggleGroup = new ToggleGroup();
-        scaleToggleGroup.getToggles().addAll(linRB, decRB, octRB);
-        decRB.setSelected(true);
         startValueText.addListener(e->{
             startValueLabel.setText(startValueText.getValue());
         });
@@ -56,54 +53,14 @@ public class ACDCMenu extends AnchorPane {
         });
     }
 
-    private void initializeComboBoxContent(ComboBox comboBox){
-        for(int i = 0; i<SimulationFile.Unit.values().length; i++){
-            comboBox.getItems().add(SimulationFile.Unit.values()[i].getText());
-        }
-        comboBox.getSelectionModel().select(5);
+    private void bindTextFieldsProperty() {
+        bindDoubleTF(startValueTF, startValue);
+        bindDoubleTF(stopValueTF, stopValue);
+        bindIntegerTF(numberOfPointsTF, numberOfPoints);
+        bindIntegerTF(scaleTopTF, scaleTop);
+        bindIntegerTF(scaleBottomTF, scaleBottom);
     }
 
-    public int getStartValue(){
-        return Integer.parseInt(startValueTF.getText());
-    }
-
-    public int getStopValue(){
-        return Integer.parseInt(stopValueTF.getText());
-    }
-
-    public int getNumberOfPoints(){
-        return Integer.parseInt(numberOfPointsTF.getText());
-    }
-
-    public SimulationFile.Unit getStartValueUnit(){
-        return SimulationFile.Unit.NONE;
-    }
-
-    public SimulationFile.Unit getStopValueUnit(){
-        return SimulationFile.Unit.NONE;
-    }
-
-    public SimulationFile.Scale getSelectedScale(){
-        Toggle selectedToggle = scaleToggleGroup.getSelectedToggle();
-        if (linRB.equals(selectedToggle)) {
-            return SimulationFile.Scale.LINEAR;
-        } else if (decRB.equals(selectedToggle)) {
-            return SimulationFile.Scale.DECIMAL;
-        } else if (octRB.equals(selectedToggle)) {
-            return SimulationFile.Scale.OCTAVE;
-        }
-        return SimulationFile.Scale.DECIMAL;
-    }
-
-    private SimulationFile.Unit getUnit(ComboBox comboBox) {
-        String value = comboBox.getValue().toString();
-        for(int i = 0; i<SimulationFile.Unit.values().length; i++){
-            if(value.equals(SimulationFile.Unit.values()[i])){
-                return SimulationFile.Unit.values()[i];
-            }
-        }
-        return SimulationFile.Unit.NONE;
-    }
 
     public String getStartValueText() {
         return startValueText.get();
@@ -127,5 +84,65 @@ public class ACDCMenu extends AnchorPane {
 
     public void setStopValueText(String stopValueText) {
         this.stopValueText.set(stopValueText);
+    }
+
+    public int getStartValue(){
+        return Integer.parseInt(startValueTF.getText());
+    }
+
+    public int getStopValue(){
+        return Integer.parseInt(stopValueTF.getText());
+    }
+
+    public int getNumberOfPoints(){
+        return Integer.parseInt(numberOfPointsTF.getText());
+    }
+
+    public DoubleProperty startValueProperty() {
+        return startValue;
+    }
+
+    public void setStartValue(double startValue) {
+        this.startValue.set(startValue);
+    }
+
+    public DoubleProperty stopValueProperty() {
+        return stopValue;
+    }
+
+    public void setStopValue(double stopValue) {
+        this.stopValue.set(stopValue);
+    }
+
+    public IntegerProperty numberOfPointsProperty() {
+        return numberOfPoints;
+    }
+
+    public void setNumberOfPoints(int numberOfPoints) {
+        this.numberOfPoints.set(numberOfPoints);
+    }
+
+    public int getScaleTop() {
+        return scaleTop.get();
+    }
+
+    public IntegerProperty scaleTopProperty() {
+        return scaleTop;
+    }
+
+    public void setScaleTop(int scaleTop) {
+        this.scaleTop.set(scaleTop);
+    }
+
+    public int getScaleBottom() {
+        return scaleBottom.get();
+    }
+
+    public IntegerProperty scaleBottomProperty() {
+        return scaleBottom;
+    }
+
+    public void setScaleBottom(int scaleBottom) {
+        this.scaleBottom.set(scaleBottom);
     }
 }

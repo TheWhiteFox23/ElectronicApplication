@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class TransientMenu extends AnchorPane {
+public class TransientMenu extends SimulationMenuPanel {
 
     @FXML private TextField stopTimeTF;
     @FXML private TextField stepIncrementTF;
@@ -48,57 +48,6 @@ public class TransientMenu extends AnchorPane {
         bindDoubleTF(stepIncrementTF, stepIncrement);
         useInternalStepCB.selectedProperty().bindBidirectional(useInternalStepProperty());
         useStartTimeCB.selectedProperty().bindBidirectional(useStartTimeProperty());
-    }
-
-    private void bindDoubleTF(TextField textField, DoubleProperty doubleProperty) {
-        textField.textProperty().addListener((obs, oldVal, newVal)->{
-            manageValidationDouble(textField);
-        });
-        textField.focusedProperty().addListener(l->{
-            validateDoubleChangeAndApply(textField, doubleProperty);
-        });
-        textField.addEventHandler(KeyEvent.KEY_PRESSED, e->{
-            if(e.getCode() == KeyCode.ENTER){
-                validateDoubleChangeAndApply(textField, doubleProperty);
-            }
-        });
-        doubleProperty.addListener(e->{
-            double d = Double.parseDouble(textField.getText());
-            if(doubleProperty.get() != d){
-                textField.setText(String.valueOf(d));
-            }
-        });
-    }
-
-    private void manageValidationDouble(TextField stopTimeTF) {
-        try{
-            Double d = Double.parseDouble(stopTimeTF.getText());
-            removeStyleClass(stopTimeTF,"invalid");
-            setStyleClass(stopTimeTF, "changed");
-        }catch (Exception e){
-            removeStyleClass(stopTimeTF,"changed");
-            setStyleClass(stopTimeTF, "invalid");
-        }
-    }
-
-    private void validateDoubleChangeAndApply(TextField stopTimeTF, DoubleProperty doubleProperty) {
-        double d = 0d;
-        try{
-            d = Double.parseDouble(stopTimeTF.getText());
-        }catch (Exception e){}
-        stopTimeTF.setText(String.valueOf(d));
-        removeStyleClass(stopTimeTF, "changed");
-        removeStyleClass(stopTimeTF,"invalid");
-        if(doubleProperty.get() != d)doubleProperty.set(d);
-    }
-
-    private void setStyleClass(TextField textField, String style){
-        textField.getStyleClass().add(style);
-    }
-    private void removeStyleClass(TextField textField, String style){
-        while (textField.getStyleClass().contains(style)){
-            textField.getStyleClass().remove(style);
-        }
     }
 
 
