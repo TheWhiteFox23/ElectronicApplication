@@ -44,9 +44,6 @@ public class SimulationFile {
     }
 
     public SimulationFile(){
-        stopTime.addListener(l->{
-            System.out.println("stopTime changed: " + stopTime.get() + this);
-        });
     }
 
     public Netlist getNetlist() {
@@ -75,6 +72,7 @@ public class SimulationFile {
                 String command = "tran "+getStepIncrement()  + " " + getStopTime();
                 if(isUseStartTime()){
                     command += " " + getStartTime();
+                    System.out.println("start time: " + getStartTime());
                 }else{
                     command += " 0";
                 }

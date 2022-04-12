@@ -6,50 +6,85 @@ import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.model.similation.*;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
-import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.components.NodeListItem;
+import cz.thewhiterabbit.electronicapp.view.components.NodeListView;
 import cz.thewhiterabbit.electronicapp.view.dialogs.SimulationProgressDialog;
+import cz.thewhiterabbit.electronicapp.view.events.NodeListEvent;
 import cz.thewhiterabbit.electronicapp.view.events.SimulationEvents;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
 public class SimulationPanelController {
+    //LOGIC
     private Document document = new Document(new RawDocument("MT"));
-
-    @FXML
-    private DrawingCanvas drawingArea;
-    @FXML
-    private ListView listView;
-    @FXML
-    private AnchorPane lineChartHolder;
-
+    //FXML component
+    @FXML private DrawingCanvas drawingArea;
+    @FXML private ListView listView;//todo remove after implementing node list view
+    @FXML private AnchorPane lineChartHolder;
+    @FXML private NodeListView nodeListView;
+    //CHART
     final NumberAxis xAxis = new NumberAxis();
     final NumberAxis yAxis = new NumberAxis();
     private final LineChart<Double,Double> lineChart = new LineChart(xAxis,yAxis);
+    //VARIABLES
+    private final double previewWidth = 300;
+    private final double previewHeight = 200;
 
 
     @FXML private void initialize(){
+        initListeners();
+        initListViewListener();
+        initComponents();
+        initializeNodeListListeners();
+        nodeListView.getItems().add(new NodeListItem("NODE"));//TODO remove after debugging
+    }
+
+    private void initListeners() {
         GUIEventAggregator.getInstance().addEventHandler(DocumentManager.DocumentManagerEvent.ACTIVE_DOCUMENT_CHANGED, e->{
             setDocument(((DocumentManager.DocumentManagerEvent)e).getDocument());
         });
         GUIEventAggregator.getInstance().addEventHandler(SimulationEvents.SIMULATE_CLICKED,e->{
            startSimulation(((SimulationEvents)e).getSimulationFile());
         });
-        initListViewListener();
-        drawingArea.setPrefSize(300,300);
-        drawingArea.setMinSize(300,300);
-        drawingArea.setMaxSize(300,300);
+    }
+
+    private void initComponents() {
+        drawingArea.setPrefSize(previewWidth,previewHeight);
+        drawingArea.setMinSize(previewWidth,previewHeight);
+        drawingArea.setMaxSize(previewWidth,previewHeight);
 
         AnchorPane.setLeftAnchor(lineChart,0d);
         AnchorPane.setRightAnchor(lineChart,0d);
         AnchorPane.setTopAnchor(lineChart,0d);
         AnchorPane.setBottomAnchor(lineChart,0d);
         lineChartHolder.getChildren().add(lineChart);
+    }
+
+    private void initializeNodeListListeners() {
+        nodeListView.addEventHandler(NodeListEvent.NODE_CHECK_CHANGE, e->{
+            NodeListItem item = e.getNodeListItem();
+            onNodeCheckChange(item);
+
+        });
+        nodeListView.addEventHandler(NodeListEvent.SHOW_NODE, e->{
+            NodeListItem item = e.getNodeListItem();
+            onShowNode(item);
+
+        });
+    }
+
+    private void onShowNode(NodeListItem item) {
+        System.out.println("Show node: " + item);
+    }
+
+    private void onNodeCheckChange(NodeListItem item) {
+        System.out.println("item check change: " + item.getText() + " " + item.checkedPropertyProperty().get());
     }
 
     private void initListViewListener() {

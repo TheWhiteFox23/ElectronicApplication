@@ -11,13 +11,22 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import cz.thewhiterabbit.electronicapp.view.components.NodeListView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationPanelController">
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationPanelController"
+            stylesheets="@../stylesheets/style.css">
     <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
-        <VBox prefWidth="300">
+        <VBox prefWidth="300" spacing="5" styleClass="simulation_node_panel">
+            <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
             <DrawingCanvas fx:id="drawingArea" />
-            <ListView fx:id="listView" />
+            <NodeListView fx:id="nodeListView"/>
+            <ListView fx:id="listView"/>
+            <HBox>
+                <Button fx:id="addItem" text="addItem"/>
+                <Button fx:id="removeAll" text="removeAll"/>
+            </HBox>
         </VBox>
         <AnchorPane  fx:id="lineChartHolder" HBox.hgrow="ALWAYS"/>
     </HBox>

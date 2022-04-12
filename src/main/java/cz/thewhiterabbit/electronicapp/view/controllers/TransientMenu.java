@@ -1,6 +1,8 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
 import cz.thewhiterabbit.electronicapp.App;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -39,6 +41,17 @@ public class TransientMenu extends SimulationMenuPanel {
             e.printStackTrace();
         }
         bindTextFieldsProperty();
+        useStartTimeCB.selectedProperty().addListener(e->{
+            startTimeTF.setDisable(!useStartTimeCB.isSelected());
+        });
+
+        useInternalStepCB.selectedProperty().addListener(e->{
+            maxStepSizeTF
+
+
+
+                    .setDisable(!useInternalStepCB.isSelected());
+        });
     }
 
     private void bindTextFieldsProperty() {

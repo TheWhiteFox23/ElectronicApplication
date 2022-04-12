@@ -373,3 +373,13 @@ TabButton Button:hover{
 .changed{
     -fx-background-color:  #C7EEB6;
 }
+
+.simulation_node_panel{
+    -fx-background-color: -primary-color-light;
+    -fx-border-color: -super-light-gray;
+}
+
+.node_list_item Label{
+    -fx-text-fill: RED;
+    -fx-background-color: RED;
+}

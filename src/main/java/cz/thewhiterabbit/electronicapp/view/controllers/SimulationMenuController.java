@@ -86,7 +86,6 @@ public class SimulationMenuController {
     }
 
     private void setDocument(Document document) {
-        System.out.println("setting document");
         unbindDocument(this.document);
         this.document = document;
         loadProperties(document);
@@ -198,41 +197,18 @@ public class SimulationMenuController {
         SimulationFile simulationFile;
         HBox selected = getSelectedPanel();
         if (acSweepMenu.equals(selected)) {
-            simulationFile = getACDCSimulationFile(acSweepPanel, SimulationFile.SimulationMode.AC_SWEEP);
+            simulationFile = document.getSimulationFile();
+            simulationFile.setMode(SimulationFile.SimulationMode.AC_SWEEP);
         } else if (dcAnalysisMenu.equals(selected)) {
-            simulationFile = getACDCSimulationFile(dcAnalysisPanel, SimulationFile.SimulationMode.DC_ANALYSIS);
+            simulationFile = document.getSimulationFile();
+            simulationFile.setMode(SimulationFile.SimulationMode.DC_ANALYSIS);
         } else {
-            simulationFile = getTransientSimulationFile(transientPanel);
+            simulationFile = document.getSimulationFile();
+            simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
         }
-        simulationFile.setOptimize(optimizeCB.isSelected());
-        simulationFile.setOnlyAnalyzeNodes(onlySelectedCB.isSelected());
-
         GUIEventAggregator.getInstance().fireEvent(new SimulationEvents(SimulationEvents.SIMULATE_CLICKED, simulationFile));
     }
 
-    private SimulationFile getACDCSimulationFile(ACDCMenu acdcMenu, SimulationFile.SimulationMode mode) {
-        SimulationFile simulationFile = new SimulationFile();
-        simulationFile.setMode(mode);
-        simulationFile.setStartTime(acdcMenu.getStartValue());
-        simulationFile.setStopTime(acdcMenu.getStopValue());
-        simulationFile.setNumberOfPointsAC(acdcMenu.getNumberOfPoints());
-        //simulationFile.setScaleTopAC(acdcMenu.getSelectedScale());
-        return simulationFile;
-    }
-
-    private SimulationFile getTransientSimulationFile(TransientMenu transientMenu) {
-        SimulationFile simulationFile = new SimulationFile();
-        simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
-        simulationFile.setStopTime(transientMenu.getStopTime());
-        simulationFile.setStepIncrement(transientMenu.getStepIncrement());
-
-        simulationFile.setUseStartTime(transientMenu.isStartTime());
-        simulationFile.setStartTime(transientMenu.getStartTime());
-
-        simulationFile.setUseInternalStep(transientMenu.isInternalStep());
-        simulationFile.setMaxStepSize(transientMenu.getMaxStepSize());
-        return simulationFile;
-    }
 
     private void initializeButtons() {
         panelMap.forEach((button, panel) -> {

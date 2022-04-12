@@ -16,8 +16,8 @@
         <Label text="Simulation" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField styleClass="general_textfield" fx:id="stopTimeTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <TextField styleClass="general_textfield" fx:id="stepIncrementTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField styleClass="general_textfield" fx:id="maxStepSizeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField styleClass="general_textfield" fx:id="startTimeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField styleClass="general_textfield" fx:id="startTimeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField styleClass="general_textfield" fx:id="maxStepSizeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
         <Label text="Stop time" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Label text="Step increment" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
