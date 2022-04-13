@@ -16,7 +16,7 @@ public class SimulationFile {
     private SimulationMode mode = SimulationMode.TRANSIENT;
     //TRANSIENT VARIABLES
     private DoubleProperty stopTime = new SimpleDoubleProperty(5);
-    private DoubleProperty stepIncrement = new SimpleDoubleProperty(1e-3);
+    private DoubleProperty stepIncrement = new SimpleDoubleProperty(1e-1);
     private BooleanProperty useStartTime=new SimpleBooleanProperty(false);
     private DoubleProperty startTime = new SimpleDoubleProperty(0);
     private BooleanProperty useInternalStep = new SimpleBooleanProperty(false);

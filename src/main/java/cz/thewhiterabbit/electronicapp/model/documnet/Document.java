@@ -10,6 +10,7 @@ import cz.thewhiterabbit.electronicapp.model.similation.SimulationResult;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
+import cz.thewhiterabbit.electronicapp.view.components.NodeListItem;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -34,6 +35,7 @@ public class Document {
     private DocumentMode mode = DocumentMode.SCHEMATIC;
     private SimulationFile simulationFile;
     private SimulationResult simulationResult;
+    private List<NodeListItem> nodeListItems;
 
     private BooleanProperty changed = new SimpleBooleanProperty(false);
 
@@ -69,6 +71,7 @@ public class Document {
         loadDocument(rawDocument);
         this.simulationFile = new SimulationFile();
         this.simulationResult = new SimulationResult();
+        this.nodeListItems = new ArrayList<>();
     }
 
     private void loadDocument(RawDocument rawDocument) {
@@ -213,5 +216,9 @@ public class Document {
 
         });
 
+    }
+
+    public List<NodeListItem> getNodeListItems() {
+        return nodeListItems;
     }
 }

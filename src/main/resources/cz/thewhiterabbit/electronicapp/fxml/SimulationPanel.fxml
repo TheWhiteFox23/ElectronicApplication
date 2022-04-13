@@ -21,14 +21,14 @@
         <VBox prefWidth="300" spacing="5" styleClass="simulation_node_panel">
             <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
             <DrawingCanvas fx:id="drawingArea" />
-            <NodeListView fx:id="nodeListView"/>
-            <ListView fx:id="listView"/>
+            <Label text="Simulation result"/>
+            <NodeListView fx:id="nodeListView" VBox.Vgrow="ALWAYS"/>
             <HBox>
-                <Button fx:id="addItem" text="addItem"/>
-                <Button fx:id="removeAll" text="removeAll"/>
+                <Button fx:id="selectAll" text="Select all"/>
+                <Button fx:id="cleanSelection" text="CleanSelection"/>
             </HBox>
         </VBox>
-        <AnchorPane  fx:id="lineChartHolder" HBox.hgrow="ALWAYS"/>
+        <AnchorPane  styleClass="line_chart_holder" fx:id="lineChartHolder"  HBox.hgrow="SOMETIMES"/>
     </HBox>
 
 

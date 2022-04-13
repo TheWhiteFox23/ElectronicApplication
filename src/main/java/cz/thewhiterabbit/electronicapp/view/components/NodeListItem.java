@@ -19,8 +19,8 @@ public class NodeListItem extends HBox {
     private final Button showButton = new Button();
     private final CheckBox checkBox = new CheckBox();
 
-    private NetlistNode netlistNode;
-    private SimulationComponent simulationComponent;
+    private NetlistNode netlistNode; //TODO is not usable considering currant work with the document in simulationPanel
+    private SimulationComponent simulationComponent; //TODO is not usable considering currant work with the document in simulationPanel
     private SimulationResultSet simulationResultSet;
     XYChart.Series series;
 
@@ -40,13 +40,14 @@ public class NodeListItem extends HBox {
         String css = App.class.getResource("stylesheets/style.css").toExternalForm();
         getStylesheets().add(css);
         getStyleClass().add("node_list_item");
+        showButton.getStyleClass().add("show_node_button");
     }
 
     private void initializeComponent() {
         getChildren().add(textLabel);
         HBox hBox = new HBox();
         HBox.setHgrow(hBox, Priority.ALWAYS);
-        hBox.setAlignment(Pos.BASELINE_RIGHT);
+        hBox.setAlignment(Pos.BOTTOM_RIGHT);
         hBox.getChildren().add(showButton);
         hBox.getChildren().add(checkBox);
         getChildren().add(hBox);

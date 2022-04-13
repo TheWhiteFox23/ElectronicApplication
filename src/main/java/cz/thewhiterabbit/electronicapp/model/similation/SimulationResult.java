@@ -2,6 +2,7 @@ package cz.thewhiterabbit.electronicapp.model.similation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SimulationResult {
     private List<SimulationResultSet> resultSetList;
@@ -37,6 +38,14 @@ public class SimulationResult {
     public enum Result{
         OK,
         ERROR;
+    }
+
+    public SimulationResultSet getByName(String name){
+        AtomicReference<SimulationResultSet> set = new AtomicReference<>();
+        resultSetList.forEach(r->{
+            if(r.getName().equals(name)) set.set(r);
+        });
+        return set.get();
     }
 
 }

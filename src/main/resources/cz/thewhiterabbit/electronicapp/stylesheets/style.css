@@ -379,7 +379,119 @@ TabButton Button:hover{
     -fx-border-color: -super-light-gray;
 }
 
+.node_list_item{
+    -fx-padding: 5;
+    -fx-pref-height:25;
+}
+
+.node_list_item HBox{
+    -fx-spacing: 10;
+}
+
+
 .node_list_item Label{
-    -fx-text-fill: RED;
-    -fx-background-color: RED;
+    -fx-text-fill: -dark-gray;
+}
+
+.show_node_button{
+    -fx-shape:"M150,0C67.29,0,0,67.29,0,150s67.29,150,150,150s150-67.29,150-150S232.71,0,150,0z M184.31,160.52h80.13
+               		c-5.02,55-48.92,98.91-103.92,103.92v-80.13c0-5.81-4.71-10.52-10.52-10.52c-5.81,0-10.52,4.71-10.52,10.52v80.13
+               		c-55-5.02-98.91-48.92-103.92-103.92h80.13c5.81,0,10.52-4.71,10.52-10.52c0-5.81-4.71-10.52-10.52-10.52H35.56
+               		c5.02-55,48.92-98.91,103.92-103.92v80.13c0,5.81,4.71,10.52,10.52,10.52c5.81,0,10.52-4.71,10.52-10.52V35.56
+               		c55,5.02,98.91,48.92,103.92,103.92h-80.13c-5.81,0-10.52,4.71-10.52,10.52C173.79,155.81,178.5,160.52,184.31,160.52z";
+    -fx-background-color: -dark-gray;
+    -fx-pref-width: 15;
+    -fx-min-width: 15;
+    -fx-max-width: 15;
+    -fx-max-height: 16;
+    -fx-min-height: 16;
+    -fx-pref-height: 16;
+    -fx-background-insets: 0 0 1 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0 0 0 0;
+}
+
+.show_node_button:hover{
+    -fx-background-color: #FFA9A9;
+}
+
+/** CHECK BOX**/
+.node_list_item CheckBox .box {
+	-fx-background-color: -super-light-gray;
+	-fx-border-color: -dark-gray;
+	-fx-border-radius: 5;
+	-fx-background-radius:5;
+	-fx-pref-width: 15;
+    -fx-min-width: 15;
+    -fx-max-width: 15;
+    -fx-max-height: 15;
+    -fx-min-height: 15;
+    -fx-pref-height: 15;
+}
+.node_list_item CheckBox .mark {
+ 	-fx-shape: "M1.73,12.91 8.1,19.28 22.79,4.59 22.79,1.59 8.1,16.28 1.73,9.91";
+}
+.node_list_item CheckBox:selected .mark {
+	-fx-background-color: -super-light-gray;
+}
+.node_list_item CheckBox:selected .box {
+	-fx-background-color: -dark-gray;
+}
+
+/*LineChart .chart-series-line {
+-fx-stroke: #2c2e4e;
+}*/
+
+LineChart .chart-line-symbol {
+    -fx-background-color: transparent;
+}
+
+LineChart .legend ..chart-line-symbol{
+    -fx-background-color: transparent;
+    -fx-stroke-width:0;
+}
+
+LineChart .chart-vertical-zero-line {
+    -fx-stroke: white;
+}
+LineChart .chart-horizontal-zero-line {
+    -fx-stroke: white;
+}
+
+LineChart .chart-plot-background {
+    -fx-background-color: #575758;
+    -fx-foreground-color: white;
+    -fx-stroke: white;
+}
+
+LineChart .chart-vertical-grid-lines {
+    -fx-stroke: #898887;
+}
+LineChart .chart-horizontal-grid-lines {
+    -fx-stroke: #898887;
+}
+LineChart .chart-alternative-row-fill {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+LineChart .axis {
+-fx-stroke: white;
+-fx-fill: white;
+    -fx-font-size: 1.4em;
+    -fx-tick-label-fill: white;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 0;
+    -fx-minor-tick-length: 0;
+}
+
+LineChart .background {
+    -fx-background-color: #674A44;
+    -fx-foreground-color: #353434;
+}
+
+.line_chart_holder{
+    -fx-background-color: #353434;
+    -fx-foreground-color: #353434;
 }
