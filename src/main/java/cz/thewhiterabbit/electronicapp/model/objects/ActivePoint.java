@@ -14,6 +14,7 @@ import javafx.beans.property.*;
 import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 @ComponentType
 public class ActivePoint extends GeneralMappingComponent {
@@ -48,6 +49,8 @@ public class ActivePoint extends GeneralMappingComponent {
     @PropertyDialogField(name = "Voltage probe name", type = ComponentPropertyType.TEXT_FIELD)
     private final StringProperty _probeName = new SimpleStringProperty(this, VOLTAGE_PROBE_NAME, "probe");
 
+
+    private String nameTag = "";
 
     public ActivePoint() {
         initPoint();
@@ -91,12 +94,17 @@ public class ActivePoint extends GeneralMappingComponent {
 
         if (isHovered()) {
             gc.setFill(Color.GREENYELLOW);
-        } else {
+        } else{
             gc.setFill(Color.BLACK);
         }
 
         gc.fillOval(locationX, locationY, height, height);
+        double scale = getWidth()/100;
+        gc.scale(scale, scale);
+        gc.setFont(new Font(50));
+        gc.fillText(String.valueOf(nameTag), -40,-10);
     }
+
 
     @Override
     public boolean isInBounds(double x, double y) {
@@ -179,4 +187,13 @@ public class ActivePoint extends GeneralMappingComponent {
         return _probeName;
     }
 
+    @Override
+    public String getNameTag() {
+        return nameTag;
+    }
+
+    @Override
+    public void setNameTag(String nameTag) {
+        this.nameTag = nameTag;
+    }
 }

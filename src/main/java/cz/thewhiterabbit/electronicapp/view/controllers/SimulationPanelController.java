@@ -15,7 +15,6 @@ import cz.thewhiterabbit.electronicapp.view.components.NodeListView;
 import cz.thewhiterabbit.electronicapp.view.dialogs.SimulationProgressDialog;
 import cz.thewhiterabbit.electronicapp.view.events.NodeListEvent;
 import cz.thewhiterabbit.electronicapp.view.events.SimulationEvents;
-import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -24,16 +23,15 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,7 +105,7 @@ public class SimulationPanelController {
     private void initLineChart() {
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.setAnimated(false);
-        lineChart.setLegendVisible(false);
+        lineChart.setLegendVisible(true);
         lineChartHolder.getChildren().add(lineChart);
         lineChart.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
             if (e.getPickResult().getIntersectedNode() instanceof StackPane) {
@@ -150,11 +148,9 @@ public class SimulationPanelController {
     }
 
     private void onShowNode(NodeListItem item) {
-        String finalItemName = getComponentName(item);
-        findAndSowComponent(finalItemName);
-        findAndShowNode(finalItemName);
-
-
+        CanvasObject ca = item.getCanvasObject();
+        ((GridModel)drawingArea.getModel()).centerOnObject(ca);
+        drawingArea.repaint();
     }
 
     private String getComponentName(NodeListItem item) {
@@ -168,50 +164,6 @@ public class SimulationPanelController {
         return finalItemName;
     }
 
-    private void findAndSowComponent(String finalItemName) {
-        document.getDocumentObjects().forEach(d->{
-            if (finalItemName.equals(((SimulationComponent)d).getName())){
-                showComponent(d);
-                return;
-            }
-        });
-    }
-
-    private void findAndShowNode(String finalItemName) {
-        document.getSimulationFile().getNetlist().getNodeList().forEach(n->{
-            if(n.getName().equals("n"+ finalItemName)){
-                Stack<SimulationComponent> stack = new Stack<>();
-                stack.addAll( document.getSimulationFile().getNetlist().getComponentList());
-                while (!stack.empty()){
-                    ActivePoint ac = stack.pop().getActivePoint(n);
-                    if(ac != null){
-                        showComponent(ac);
-                        return;
-                    }
-                }
-            }
-        });
-    }
-
-    private void showComponent(DocumentObject d) {
-        Stack<CanvasObject> stack = new Stack<>();
-        stack.addAll(drawingArea.getModel().getCanvasObjects());
-        CanvasObject toHighlight = null;
-        while (!stack.empty()){
-            CanvasObject c = stack.pop();
-            stack.addAll(c.getChildrenList());
-            c.setHighlight(false);
-            if(c.getGridX() == d.getGridX() && c.getGridY() == d.getGridY() && c.getClass() == d.getClass()){
-                toHighlight = c;
-            }
-        }
-        if(toHighlight != null){
-            toHighlight.setHighlight(true);
-            ((GridModel)drawingArea.getModel()).centerOnObject(toHighlight);
-        }
-        drawingArea.repaint();
-    }
-
     private void onNodeCheckChange(NodeListItem item) {
         if (item.checkedPropertyProperty().get()) {
             if (!lineChart.getData().contains(item.getSeries())) lineChart.getData().add(item.getSeries());
@@ -222,9 +174,7 @@ public class SimulationPanelController {
 
     private void setDocument(Document document) {
         this.document = document;
-        Document documentCopy = new Document(document.getRawDocument());
-        drawingArea.setModel(documentCopy.getGridModel());
-        documentCopy.getGridModel().center();
+        drawingArea.setModel(document.getSimulationModel());
         this.nodeListView.getItems().clear();
         this.nodeListView.getItems().addAll(document.getNodeListItems());
         lineChart.getData().clear();
@@ -259,6 +209,10 @@ public class SimulationPanelController {
 
     private void setResult(SimulationResult result) {
         document.setSimulationResult(result);
+        document.setSimulationModel(new Document(document.getRawDocument()).getGridModel());
+        //TODO probably will be necessary do make copy of the raw document
+        drawingArea.setModel(document.getSimulationModel());
+        document.getSimulationModel().center();
         //get non time nodes
         List<NodeListItem> nodeListItems = getNodesTransient(result);
         nodeListView.getItems().clear();
@@ -268,7 +222,72 @@ public class SimulationPanelController {
             document.getNodeListItems().addAll(nodeListItems);
             nodeListView.getItems().addAll(nodeListItems);
         }
+        prepareSimulationModel(document.getSimulationModel(), document);
+        drawingArea.repaint();
+    }
 
+    private void prepareSimulationModel(GridModel simulationModel, Document document) {
+        document.getNodeListItems().forEach(nli->{
+            CanvasObject canvasObject = findCanvasObject(nli, document, simulationModel);
+            if(canvasObject != null){
+                nli.setCanvasObject(canvasObject);
+                if(canvasObject instanceof ActivePoint){
+                    canvasObject.setNameTag(nli.getText());
+                    canvasObject.setPaintNameTag(true);
+                }else if (canvasObject instanceof SimulationComponent){
+                    ((SimulationComponent) canvasObject).setName(getComponentName(nli));
+                }
+            }
+        });
+    }
+
+    private CanvasObject findCanvasObject(NodeListItem nodeListItem, Document document, GridModel simulationModel){
+        CanvasObject canvasObject = null;
+        if(nodeListItem.getText().startsWith("n")){
+            canvasObject = findActivePoint_new(getComponentName(nodeListItem), document);
+        }else{
+            canvasObject =  findComponent(getComponentName(nodeListItem), document);
+        }
+        if(canvasObject == null)return null;
+        return findCorrespondingCanvasObject(canvasObject, simulationModel);
+    }
+
+    private CanvasObject findCorrespondingCanvasObject(CanvasObject co, GridModel simulationModel) {
+        if(co == null)return null;
+        AtomicReference<CanvasObject> toReturn = new AtomicReference<>();
+        simulationModel.getCanvasObjects().forEach(o->{
+            if(o.getGridY() == co.getGridY() && o.getGridX()==co.getGridX() && o.getClass()==co.getClass()){
+                toReturn.set(o);
+                return;
+            }
+        });
+        return toReturn.get();
+    }
+
+    private CanvasObject findComponent(String componentName, Document document) {
+        AtomicReference<CanvasObject> canvasObject = new AtomicReference<>();
+        document.getSimulationFile().getNetlist().getComponentList().forEach(c->{
+            if(c.getName().equals(componentName)){
+                canvasObject.set( (CanvasObject) c);
+                return;
+            }
+        });
+        return canvasObject.get();
+    }
+
+    private CanvasObject findActivePoint_new(String componentName, Document document) {
+        AtomicReference<ActivePoint> activePoint = new AtomicReference<>();
+        document.getSimulationFile().getNetlist().getNodeList().forEach(e->{
+            if(e.getName().equals(("n"+componentName))){
+                e.getSimulationComponentList().forEach(o->{
+                    if(o.getActivePoint(e) != null);
+                    activePoint.set(o.getActivePoint(e));
+                    return;
+                });
+                if(activePoint.get()!= null)return;
+            }
+        });
+        return activePoint.get();
     }
 
     private List<NodeListItem> getNodesTransient(SimulationResult simulationResult) {

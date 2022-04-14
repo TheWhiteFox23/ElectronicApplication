@@ -4,6 +4,7 @@ import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.model.similation.NetlistNode;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationComponent;
 import cz.thewhiterabbit.electronicapp.model.similation.SimulationResultSet;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
@@ -19,6 +20,7 @@ public class NodeListItem extends HBox {
     private final Button showButton = new Button();
     private final CheckBox checkBox = new CheckBox();
 
+    private CanvasObject canvasObject;
     private NetlistNode netlistNode; //TODO is not usable considering currant work with the document in simulationPanel
     private SimulationComponent simulationComponent; //TODO is not usable considering currant work with the document in simulationPanel
     private SimulationResultSet simulationResultSet;
@@ -107,5 +109,13 @@ public class NodeListItem extends HBox {
 
     public String getText(){
         return  textLabel.getText();
+    }
+
+    public CanvasObject getCanvasObject() {
+        return canvasObject;
+    }
+
+    public void setCanvasObject(CanvasObject canvasObject) {
+        this.canvasObject = canvasObject;
     }
 }

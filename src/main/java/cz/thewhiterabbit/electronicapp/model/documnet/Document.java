@@ -27,6 +27,7 @@ public class Document {
     private final CommandService commandService = new CommandService(this);
 
     private final GridModel gridModel;
+    private GridModel simulationModel;
     private final RawDocument rawDocument;
 
     private Map<RawObject, DocumentObject> objectMap;
@@ -61,6 +62,7 @@ public class Document {
         });
         //TODO init raw document listeners -> property listening is managed by objects its self, manage only object added/deleted
         this.gridModel = new GridModel();
+        this.simulationModel = new GridModel();
 
         gridModel.setGridSize(10);
         gridModel.setOriginX(600);
@@ -220,5 +222,13 @@ public class Document {
 
     public List<NodeListItem> getNodeListItems() {
         return nodeListItems;
+    }
+
+    public GridModel getSimulationModel() {
+        return simulationModel;
+    }
+
+    public void setSimulationModel(GridModel simulationModel) {
+        this.simulationModel = simulationModel;
     }
 }

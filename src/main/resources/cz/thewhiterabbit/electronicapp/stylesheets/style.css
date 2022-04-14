@@ -444,9 +444,9 @@ TabButton Button:hover{
 -fx-stroke: #2c2e4e;
 }*/
 
-LineChart .chart-line-symbol {
+/*LineChart .chart-line-symbol {
     -fx-background-color: transparent;
-}
+}*/
 
 LineChart .legend ..chart-line-symbol{
     -fx-background-color: transparent;

@@ -65,9 +65,7 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
 
         gc.appendSVGPath(path);
         gc.fill();
-
-        gc.restore();
-
+        //gc.restore()
     }
 
     private Paint getColor() {

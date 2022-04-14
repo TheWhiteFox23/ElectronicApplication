@@ -56,6 +56,8 @@ public abstract class CanvasObject {
 
     /******HIGHLIGHT PAINT *********/
     private Boolean highlight = false;
+    private String nameTag = "";
+    private Boolean paintNameTag = false;
 
     /************CONSTRUCTORS*******************/
     public CanvasObject() {
@@ -151,9 +153,15 @@ public abstract class CanvasObject {
         doPaint(gc);
         postPaint(gc);
         if(highlight)paintHighlight(gc);
+        //if(paintNameTag)paintNameTag(gc);
     }
 
     protected void paintHighlight(GraphicsContext gc) {
+        gc.setStroke(Color.GREENYELLOW);
+        gc.strokeOval(getLocationX(), getLocationY(), getWidth(), getHeight());
+    }
+
+    protected void paintNameTag(GraphicsContext gc){
         gc.setStroke(Color.GREENYELLOW);
         gc.strokeOval(getLocationX(), getLocationY(), getWidth(), getHeight());
     }
@@ -506,5 +514,21 @@ public abstract class CanvasObject {
 
     public void setHighlight(Boolean highlight) {
         this.highlight = highlight;
+    }
+
+    public String getNameTag() {
+        return nameTag;
+    }
+
+    public void setNameTag(String nameTag) {
+        this.nameTag = nameTag;
+    }
+
+    public Boolean getPaintNameTag() {
+        return paintNameTag;
+    }
+
+    public void setPaintNameTag(Boolean paintNameTag) {
+        this.paintNameTag = paintNameTag;
     }
 }

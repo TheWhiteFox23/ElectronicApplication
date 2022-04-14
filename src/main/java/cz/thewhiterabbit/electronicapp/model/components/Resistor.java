@@ -6,6 +6,8 @@ import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import javafx.beans.property.*;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
 
 @ComponentType
 public class Resistor extends GeneralComponent {
@@ -38,6 +40,13 @@ public class Resistor extends GeneralComponent {
         activePointOut = new ActivePoint();
         addActivePoint(activePointIn, 0,1);
         addActivePoint(activePointOut,2,1);
+    }
+
+    @Override
+    protected void doPaint(GraphicsContext gc){
+        super.doPaint(gc);
+        gc.setFont(new Font(25));
+        gc.fillText(String.valueOf(getComponentName() + " " +resistance.get()) + "Ω", 0,0);
     }
 
     @Override

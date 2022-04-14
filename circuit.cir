@@ -1,8 +1,8 @@
 * Title: Test circuit
 
 * Netlist
-R3 n18 n17 50.0
-V4 n18 n14 100.0
+R2 n19 n17 50.0
+V4 n19 n14 100.0
 R8 n17 n14 50.0
 R11 n14 0 0
 
