@@ -428,6 +428,17 @@ public class TwoPointLineObject extends DocumentObject implements SimulationComp
         return null;
     }
 
+    @Override
+    public ActivePoint getActivePoint(NetlistNode node) {
+        if(node == in){
+            return activePointIn;
+        }else if( node == out){
+            return activePointOut;
+        }else {
+            return null;
+        }
+    }
+
     public ActivePoint getActivePointIn() {
         return activePointIn;
     }

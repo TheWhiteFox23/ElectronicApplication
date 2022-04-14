@@ -63,17 +63,6 @@ public class ActivePoint extends GeneralMappingComponent {
         this.relativeLocationX = relativeLocationX;
         this.relativeLocationY = relativeLocationY;
         initPoint();
-        //testing
-       /* gridXProperty().addListener(l->{
-            if(getParentModel() != null){
-                getParentModel().updatePaintProperties(this);
-            }
-        });
-        gridYProperty().addListener(l->{
-            if(getParentModel() != null){
-                getParentModel().updatePaintProperties(this);
-            }
-        });*/
     }
 
     private void initPoint() {
@@ -160,6 +149,12 @@ public class ActivePoint extends GeneralMappingComponent {
         return component;
     }
 
+    @Override
+    protected void paintHighlight(GraphicsContext gc) {
+        gc.setStroke(Color.GREENYELLOW);
+        gc.strokeOval(getLocationX()-getWidth()/2, getLocationY()-getHeight()/2, getWidth(), getHeight());
+    }
+
     public String getName() {
         return name;
     }
@@ -183,4 +178,5 @@ public class ActivePoint extends GeneralMappingComponent {
     public StringProperty _probeNameProperty() {
         return _probeName;
     }
+
 }

@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.components;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.view.events.NodeListEvent;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -25,6 +26,10 @@ public class NodeListView extends ScrollPane {
         setHbarPolicy(ScrollBarPolicy.NEVER);
         setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setFitToWidth(true);
+        setFitToHeight(true);
+        String css = App.class.getResource("stylesheets/style.css").toExternalForm();
+        getStylesheets().add(css);
+        getStyleClass().add("node_list_view");
     }
 
     private void initListListener() {

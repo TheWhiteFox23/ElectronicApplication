@@ -106,7 +106,7 @@ public abstract class RelativeModel extends CanvasModel {
     }
 
 
-    private void moveOriginBy(double deltaX, double deltaY){
+    protected void moveOriginBy(double deltaX, double deltaY){
         originX += Math.round(deltaX);
         originY += Math.round(deltaY);
         getAll().forEach(o ->{

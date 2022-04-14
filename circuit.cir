@@ -1,10 +1,10 @@
 * Title: Test circuit
 
 * Netlist
-R2 n7 n6 50.0
-V4 n7 n3 100.0
-R8 n6 n3 50.0
-R11 n3 0 0
+R3 n18 n17 50.0
+V4 n18 n14 100.0
+R8 n17 n14 50.0
+R11 n14 0 0
 
 .control
 op

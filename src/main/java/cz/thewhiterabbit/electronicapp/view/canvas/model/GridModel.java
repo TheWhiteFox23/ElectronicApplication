@@ -136,4 +136,12 @@ public class GridModel extends RelativeModel {
     public void setActiveElement(CanvasObject activeElement) {
         this.activeElement = activeElement;
     }
+
+    public void centerOnObject(CanvasObject object){
+        double deltaX = getCanvas().getWidth()/2-(object.getLocationX()+object.getWidth()/2);
+        double deltaY = getCanvas().getHeight()/2 - (object.getLocationY()+object.getHeight()/2);
+        moveOriginBy(deltaX, deltaY);
+    }
+
+
 }

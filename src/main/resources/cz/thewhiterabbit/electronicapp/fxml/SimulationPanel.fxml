@@ -16,16 +16,17 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.SimulationPanelController"
-            stylesheets="@../stylesheets/style.css">
+            stylesheets="@../stylesheets/style.css"
+            styleClass="simulation_pane">
     <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
         <VBox prefWidth="300" spacing="5" styleClass="simulation_node_panel">
             <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
             <DrawingCanvas fx:id="drawingArea" />
             <Label text="Simulation result"/>
             <NodeListView fx:id="nodeListView" VBox.Vgrow="ALWAYS"/>
-            <HBox>
-                <Button fx:id="selectAll" text="Select all"/>
-                <Button fx:id="cleanSelection" text="CleanSelection"/>
+            <HBox spacing="5" styleClass="scroll_pane_control">
+                <Button  fx:id="selectAll" text="Select all"/>
+                <Button  fx:id="cleanSelection" text="CleanSelection"/>
             </HBox>
         </VBox>
         <AnchorPane  styleClass="line_chart_holder" fx:id="lineChartHolder"  HBox.hgrow="SOMETIMES"/>

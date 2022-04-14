@@ -259,4 +259,13 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     public void setProbeName(String name) {
         this._probeName.set(name);
     }
+
+    @Override
+    public ActivePoint getActivePoint(NetlistNode node) {
+        AtomicReference<ActivePoint> activePoint = new AtomicReference<>();
+        nodeMap.forEach((ac, n)->{
+            if(n == node) activePoint.set(ac);
+        });
+        return activePoint.get();
+    }
 }

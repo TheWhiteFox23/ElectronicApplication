@@ -53,7 +53,8 @@
             <CheckBox fx:id="onlySelectedCB" text="Analyze only selected"/>
         </VBox>
     </StackPane>
-    <StackPane>
+    <!-- Chart control ON HOLDE-->
+    <!--<StackPane>
         <padding>
             <Insets top="24" left="5" right="5" bottom="6"/>
         </padding>
@@ -70,7 +71,7 @@
             <Button text="ZHI" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
             <Button text="ZHO" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
         </GridPane>
-    </StackPane>
+    </StackPane> -->
 
 
 

@@ -374,6 +374,8 @@ TabButton Button:hover{
     -fx-background-color:  #C7EEB6;
 }
 
+/* SIMULATION PANE **/
+
 .simulation_node_panel{
     -fx-background-color: -primary-color-light;
     -fx-border-color: -super-light-gray;
@@ -495,3 +497,40 @@ LineChart .background {
     -fx-background-color: #353434;
     -fx-foreground-color: #353434;
 }
+
+.scroll_pane_control Button{
+    -fx-background-color: transparent;
+    -fx-border-color: -dark-gray;
+    -fx-text-fill: -dark-gray;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-pref-width: 100;
+}
+
+.scroll_pane_control Button:hover{
+    -fx-background-color: -light-gray;
+}
+
+.scroll_pane_control Button:pressed{
+    -fx-background-color: -dark-gray;
+    -fx-text-fill: -light-gray;
+    -fx-border-color: -light-gray;
+}
+
+.node_list_view{
+    -fx-background-color:transparent;
+    -fx-border-color:-light-gray;
+    -fx-border-radius:5;
+}
+
+.node_list_view VBox{
+    -fx-background-color:-super-light-gray;
+}
+
+.simulation_pane DrawingCanvas{
+    -fx-background-radius: 5;
+    -fx-border-color:-light-gray;
+    -fx-border-radius:5;
+}
+
+

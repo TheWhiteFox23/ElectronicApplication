@@ -3,9 +3,13 @@ package cz.thewhiterabbit.electronicapp.view.controllers;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
+import cz.thewhiterabbit.electronicapp.model.documnet.DocumentObject;
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawDocument;
 import cz.thewhiterabbit.electronicapp.model.similation.*;
+import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
+import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.view.components.NodeListItem;
 import cz.thewhiterabbit.electronicapp.view.components.NodeListView;
 import cz.thewhiterabbit.electronicapp.view.dialogs.SimulationProgressDialog;
@@ -19,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +34,8 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SimulationPanelController {
     //LOGIC
@@ -40,6 +47,10 @@ public class SimulationPanelController {
     private AnchorPane lineChartHolder;
     @FXML
     private NodeListView nodeListView;
+    @FXML
+    private Button selectAll;
+    @FXML
+    private Button cleanSelection;
     Tooltip mousePositionToolTip = new Tooltip("at stack tool");
     //CHART
     final NumberAxis xAxis = new NumberAxis();
@@ -55,7 +66,20 @@ public class SimulationPanelController {
         initListeners();
         initComponents();
         initializeNodeListListeners();
-        nodeListView.getItems().add(new NodeListItem("NODE"));//TODO remove after debugging
+        initButtons();
+    }
+
+    private void initButtons() {
+        selectAll.setOnAction(e->{
+            nodeListView.getItems().forEach(i->{
+                i.checkedPropertyProperty().set(true);
+            });
+        });
+        cleanSelection.setOnAction(e->{
+            nodeListView.getItems().forEach(i->{
+                i.checkedPropertyProperty().set(false);
+            });
+        });
     }
 
     private void initListeners() {
@@ -99,21 +123,6 @@ public class SimulationPanelController {
                 hidePointValue();
             }
         });
-        lineChart.getData().addListener(new ListChangeListener<XYChart.Series<Double, Double>>() {
-            @Override
-            public void onChanged(Change<? extends XYChart.Series<Double, Double>> change) {
-                change.next();
-                change.getAddedSubList().forEach(SimulationPanelController.this::onSeriesAdded);
-                change.getRemoved().forEach(SimulationPanelController.this::onSeriesRemoved);
-            }
-        });
-    }
-
-    private void onSeriesAdded(XYChart.Series<Double, Double> series) {
-    }
-
-    private void onSeriesRemoved(XYChart.Series<Double, Double> series) {
-
     }
 
     private void hidePointValue() {
@@ -141,7 +150,66 @@ public class SimulationPanelController {
     }
 
     private void onShowNode(NodeListItem item) {
-        System.out.println("Show node: " + item);
+        String finalItemName = getComponentName(item);
+        findAndSowComponent(finalItemName);
+        findAndShowNode(finalItemName);
+
+
+    }
+
+    private String getComponentName(NodeListItem item) {
+        String itemName = "";
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(item.getText());
+        if(m.find()) {
+            itemName = m.group();
+        }
+        String finalItemName = itemName;
+        return finalItemName;
+    }
+
+    private void findAndSowComponent(String finalItemName) {
+        document.getDocumentObjects().forEach(d->{
+            if (finalItemName.equals(((SimulationComponent)d).getName())){
+                showComponent(d);
+                return;
+            }
+        });
+    }
+
+    private void findAndShowNode(String finalItemName) {
+        document.getSimulationFile().getNetlist().getNodeList().forEach(n->{
+            if(n.getName().equals("n"+ finalItemName)){
+                Stack<SimulationComponent> stack = new Stack<>();
+                stack.addAll( document.getSimulationFile().getNetlist().getComponentList());
+                while (!stack.empty()){
+                    ActivePoint ac = stack.pop().getActivePoint(n);
+                    if(ac != null){
+                        showComponent(ac);
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    private void showComponent(DocumentObject d) {
+        Stack<CanvasObject> stack = new Stack<>();
+        stack.addAll(drawingArea.getModel().getCanvasObjects());
+        CanvasObject toHighlight = null;
+        while (!stack.empty()){
+            CanvasObject c = stack.pop();
+            stack.addAll(c.getChildrenList());
+            c.setHighlight(false);
+            if(c.getGridX() == d.getGridX() && c.getGridY() == d.getGridY() && c.getClass() == d.getClass()){
+                toHighlight = c;
+            }
+        }
+        if(toHighlight != null){
+            toHighlight.setHighlight(true);
+            ((GridModel)drawingArea.getModel()).centerOnObject(toHighlight);
+        }
+        drawingArea.repaint();
     }
 
     private void onNodeCheckChange(NodeListItem item) {

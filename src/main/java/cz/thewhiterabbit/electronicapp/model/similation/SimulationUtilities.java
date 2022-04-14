@@ -48,8 +48,8 @@ public class SimulationUtilities {
                 }
             });
         });
-        numberComponents(netlist);
-        numberNodes(netlist);
+        numberComponentsAndNodes(netlist);
+        //numberNodes(netlist);
         validateProbesNames(netlist);
         return netlist;
     }
@@ -76,6 +76,18 @@ public class SimulationUtilities {
         AtomicInteger number = new AtomicInteger();
         netlist.getComponentList().forEach(component -> {
             component.setName(String.valueOf(number.get()));
+            number.getAndIncrement();
+        });
+    }
+
+    public static void numberComponentsAndNodes(Netlist netlist) {
+        AtomicInteger number = new AtomicInteger();
+        netlist.getComponentList().forEach(component -> {
+            component.setName(String.valueOf(number.get()));
+            number.getAndIncrement();
+        });
+        netlist.getNodeList().forEach(node -> {
+            node.setName("n" + number.get());
             number.getAndIncrement();
         });
     }

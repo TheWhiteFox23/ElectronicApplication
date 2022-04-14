@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +53,9 @@ public abstract class CanvasObject {
 
     /******EVENT HANDLING******/
     private EventAggregator eventAggregator;
+
+    /******HIGHLIGHT PAINT *********/
+    private Boolean highlight = false;
 
     /************CONSTRUCTORS*******************/
     public CanvasObject() {
@@ -146,6 +150,12 @@ public abstract class CanvasObject {
         prePaint(gc);
         doPaint(gc);
         postPaint(gc);
+        if(highlight)paintHighlight(gc);
+    }
+
+    protected void paintHighlight(GraphicsContext gc) {
+        gc.setStroke(Color.GREENYELLOW);
+        gc.strokeOval(getLocationX(), getLocationY(), getWidth(), getHeight());
     }
 
     private void prePaint(GraphicsContext gc) {
@@ -488,5 +498,13 @@ public abstract class CanvasObject {
     public void removeChildren(CanvasObject children) {
         childrenList.remove(children);
         children.setParent(null);
+    }
+
+    public Boolean getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(Boolean highlight) {
+        this.highlight = highlight;
     }
 }

@@ -17,4 +17,5 @@ public interface SimulationComponent {
     public String getProbeName();
     public void setProbeName(String name);
     public String getComponentName();
+    public ActivePoint getActivePoint(NetlistNode node);
 }
