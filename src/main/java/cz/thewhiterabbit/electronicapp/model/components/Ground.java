@@ -19,7 +19,7 @@ public class Ground extends GeneralComponent {
     public Ground(){
         super();
         setComponent(Component.GROUND);
-        setPath(path);
+        getPathList().add(path);
         activePointIn = new ActivePoint();
         addActivePoint(activePointIn, 2,1);
 

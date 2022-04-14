@@ -25,7 +25,7 @@ public class Capacitor extends GeneralComponent {
     public Capacitor(){
         super();
         setComponent(Component.CAPACITOR);
-        setPath(path);
+        getPathList().add(path);
     }
 
     @Override

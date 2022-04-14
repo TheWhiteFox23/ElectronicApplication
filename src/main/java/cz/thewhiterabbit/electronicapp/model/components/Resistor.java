@@ -35,7 +35,7 @@ public class Resistor extends GeneralComponent {
     public Resistor(){
         super();
         setComponent(Component.RESISTOR);
-        setPath(path);
+        getPathList().add(path);
         activePointIn = new ActivePoint();
         activePointOut = new ActivePoint();
         addActivePoint(activePointIn, 0,1);

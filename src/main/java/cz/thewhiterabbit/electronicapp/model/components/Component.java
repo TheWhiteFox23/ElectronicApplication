@@ -12,11 +12,16 @@ public enum Component {
     CAPACITOR("CAPACITOR", Capacitor.class, Category.R_C_L, true, "img/capacitor@0.5x.png"),
     INDUCTOR("CONDUCTOR", Inductor.class, Category.R_C_L, true, "img/inductor@0.5x.png"),
     COUPLED_INDUCTOR("COUPLED_CONDUCTOR", CoupledInductor.class, Category.R_C_L, true, "img/coupled_inductor@0.5x.png"),
-    GROUND("GROUND", Ground.class, Category.R_C_L, true, "img/ground@0.5x.png"),
-    VOLTAGE_SOURCE("VOLTAGE_SOURCE", VoltageSource.class, Category.R_C_L, true, "img/voltage_source@0.5x.png"),
+    GROUND("GROUND", Ground.class, Category.SOURCES, true, "img/ground@0.5x.png"),
+    VOLTAGE_SOURCE("VOLTAGE_SOURCE", VoltageSource.class, Category.SOURCES, true, "img/voltage_source@0.5x.png"),
+    CURRANT_SOURCE("CURRANT_SOURCE", CurrantSource.class, Category.SOURCES, true, "img/current_source@0.5x.png"),
+    DIODE("DIODE", Diode.class, Category.DIODES, true, "img/diode@0.5x.png"),
+    TRANSISTOR_NPN("TRANSISTOR_NPN", TransistorNPN.class, Category.TRANSISTORS, true, "img/npn_transistor@0.5x.png"),
+    TRANSISTOR_PNP("TRANSISTOR_PNP", TransistorPNP.class, Category.TRANSISTORS, true, "img/pnp_transistor@0.5x.png"),
     TEST_COMPONENT("TEST_OBJECT", GeneralCanvasObject.class, Category.MISC), //TODO temporally
     ACTIVE_POINT("ACTIVE_POINT", ActivePoint.class, Category.MISC),//TODO temporally
-    LINE("LINE", TwoPointLineObject.class, Category.MISC);//TODO temporally
+    LINE("LINE", TwoPointLineObject.class, Category.MISC)
+    ;//TODO temporally
 
     private final String type;
     private final Class clazz;

@@ -27,7 +27,8 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
     private final StringProperty _probeName = new SimpleStringProperty(this, PROBE_NAME, "probe");
 
 
-    private String path = "";
+    //private String path = "";
+    private List<String> pathList = new ArrayList<>();
     private Component component = Component.RESISTOR;
 
     private double scaleMultiplier = 100;
@@ -61,10 +62,15 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
 
         double scale = getWidth()/scaleMultiplier;
         gc.scale(scale, scale);
-        gc.beginPath();
 
-        gc.appendSVGPath(path);
-        gc.fill();
+        pathList.forEach(p->{
+            gc.beginPath();
+            gc.appendSVGPath(p);
+            gc.closePath();
+            gc.fill();
+
+        });
+
         //gc.restore()
     }
 
@@ -108,13 +114,13 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
         });
     }
 
-    public String getPath() {
+    /*public String getPath() {
         return path;
     }
 
     public void setPath(String path) {
         this.path = path;
-    }
+    }*/
 
     public void setComponent(Component component) {
         this.component = component;
@@ -265,5 +271,9 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
             if(n == node) activePoint.set(ac);
         });
         return activePoint.get();
+    }
+
+    public List<String> getPathList() {
+        return pathList;
     }
 }

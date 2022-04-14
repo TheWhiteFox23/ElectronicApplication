@@ -25,7 +25,7 @@ public class Inductor extends GeneralComponent {
     public Inductor(){
         super();
         setComponent(Component.INDUCTOR);
-        setPath(path);
+        getPathList().add(path);
     }
 
     @Override
