@@ -55,10 +55,10 @@ public class SimulationMenuController {
     @FXML
     private TransientMenu transientPanel;
 
-    @FXML
+    /*@FXML
     private CheckBox optimizeCB;
     @FXML
-    private CheckBox onlySelectedCB;
+    private CheckBox onlySelectedCB;*/
 
 
     private HashMap<CategoryButton, HBox> panelMap;
@@ -113,8 +113,8 @@ public class SimulationMenuController {
         document.getSimulationFile().scaleTopDCProperty().bind(dcAnalysisPanel.scaleTopProperty());
         document.getSimulationFile().scaleBottomDCProperty().bind(dcAnalysisPanel.scaleBottomProperty());
         //GENERAL
-        document.getSimulationFile().optimizeProperty().bind(optimizeCB.selectedProperty());
-        document.getSimulationFile().onlyAnalyzeNodesProperty().bind(onlySelectedCB.selectedProperty());
+        //document.getSimulationFile().optimizeProperty().bind(optimizeCB.selectedProperty());
+        //document.getSimulationFile().onlyAnalyzeNodesProperty().bind(onlySelectedCB.selectedProperty());
     }
 
     private void loadProperties(Document document) {
@@ -138,8 +138,8 @@ public class SimulationMenuController {
         dcAnalysisPanel.scaleTopProperty().set(document.getSimulationFile().scaleTopDCProperty().get());
         dcAnalysisPanel.scaleBottomProperty().set(document.getSimulationFile().scaleBottomDCProperty().get());
         //GENERAL
-        optimizeCB.selectedProperty().set(document.getSimulationFile().optimizeProperty().get());
-        onlySelectedCB.selectedProperty().set(document.getSimulationFile().onlyAnalyzeNodesProperty().get());
+        //optimizeCB.selectedProperty().set(document.getSimulationFile().optimizeProperty().get());
+        //onlySelectedCB.selectedProperty().set(document.getSimulationFile().onlyAnalyzeNodesProperty().get());
     }
 
     private void initProperties() {
@@ -163,8 +163,8 @@ public class SimulationMenuController {
         dcAnalysisPanel.scaleTopProperty().set(0);
         dcAnalysisPanel.scaleBottomProperty().set(0);
         //GENERAL
-        optimizeCB.selectedProperty().set(true);
-        onlySelectedCB.selectedProperty().set(false);
+        //optimizeCB.selectedProperty().set(true);
+        //onlySelectedCB.selectedProperty().set(false);
     }
 
 

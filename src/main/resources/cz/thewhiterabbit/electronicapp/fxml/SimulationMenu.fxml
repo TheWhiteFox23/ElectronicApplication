@@ -40,7 +40,7 @@
             <ACDCMenu fx:id="dcAnalysisPanel" startValueText="Start value" stopValueText="Stop value" HBox.hgrow="ALWAYS"/>
         </HBox>
     </VBox>
-    <StackPane>
+    <!--<StackPane>
         <padding>
             <Insets top="24" left="5" right="5" bottom="6"/>
         </padding>
@@ -52,7 +52,7 @@
             <CheckBox fx:id="optimizeCB" text="Optimize circuit"/>
             <CheckBox fx:id="onlySelectedCB" text="Analyze only selected"/>
         </VBox>
-    </StackPane>
+    </StackPane>-->
     <!-- Chart control ON HOLDE-->
     <!--<StackPane>
         <padding>

@@ -195,7 +195,6 @@ public class SimulationPanelController {
         Thread thread = new Thread(task);
         SimulationProgressDialog progressDialog = new SimulationProgressDialog(task);
         progressDialog.showDialog();
-        while (!progressDialog.showingProperty().get())
         thread.start();
         try {
             thread.join();

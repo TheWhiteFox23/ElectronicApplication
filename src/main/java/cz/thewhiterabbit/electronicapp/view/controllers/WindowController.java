@@ -70,6 +70,9 @@ public class WindowController {
                 }
             }
         });
+
+        MenuEvent menuEvent = new MenuEvent(MenuEvent.NEW_DOCUMENT);
+        GUIEventAggregator.getInstance().fireEvent(menuEvent);
     }
 
 

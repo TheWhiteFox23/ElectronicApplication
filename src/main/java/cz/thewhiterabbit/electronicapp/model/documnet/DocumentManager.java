@@ -29,7 +29,6 @@ public class DocumentManager implements IEventAggregator {
 
     private int documentNumber = 0;
     public DocumentManager(){
-
     }
 
     public Document createNewDocument(){
@@ -115,6 +114,7 @@ public class DocumentManager implements IEventAggregator {
             documents.remove(document);
         }
         fireEvent(new DocumentManagerEvent(DocumentManagerEvent.DOCUMENT_CLOSED, document));
+        if(documents.size() <= 1)createNewDocument();
     }
     public boolean saveDocument(File file){
         try {
