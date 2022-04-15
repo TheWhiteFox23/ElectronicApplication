@@ -5,29 +5,105 @@ import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 
 @ComponentType
 public class VoltageSource extends GeneralComponent {
-    private final String VOLTAGE = "voltage";
 
     private ActivePoint activePointIn;
     private ActivePoint activePointOut;
 
-
+    private final String TYPE = "source_type";
     @RawPropertyMapping
-    @PropertyDialogField(name = "Voltage", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty voltage = new SimpleDoubleProperty(this, VOLTAGE, 1);
+    @PropertyDialogField(name = "Type", type = ComponentPropertyType.COMBO_BOX, values = {"Linear", "Pulse", "Sinusoidal"})
+    private final StringProperty type = new SimpleStringProperty(this, TYPE, "Linear");
 
-    @PropertyDialogField(name = "Set currant probe", type = ComponentPropertyType.CHECK_BOX, unit = "Check to activate probe")
-    private final BooleanProperty checkBoxProperty = _probeActiveProperty();
+    //LINEAR
+    @PropertyDialogField(name = "Linear", type = ComponentPropertyType.LABEL)
+    private final StringProperty linear_text = new SimpleStringProperty(this, "linear", "");
 
-    @PropertyDialogField(name = "Currant probe name", type = ComponentPropertyType.TEXT_FIELD)
-    private final StringProperty probeName = _probeNameProperty();
+    private final String VALUE = "initial_value";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Value", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 5);
+
+    //PULSE
+    @PropertyDialogField(name = "Pulse", type = ComponentPropertyType.LABEL)
+    private final StringProperty pulse_text = new SimpleStringProperty(this, "pulse", "");
+
+    private final String INITIAL_VALUE = "initial_value";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Initial value", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty initial_value = new SimpleDoubleProperty(this, INITIAL_VALUE, 0);
+
+    private final String PULSE_VALUE = "pulse_value";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Pulse value", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 5);
+
+    private final String DELAY_TIME = "delay_time";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Delay time", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty delay_time = new SimpleDoubleProperty(this, DELAY_TIME, 0);
+
+    private final String RISE_TIME = "rise_time";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Rise time", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty rise_time = new SimpleDoubleProperty(this, RISE_TIME, 0);
+
+    private final String FALL_TIME = "fall_time";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Fall time", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty fall_time = new SimpleDoubleProperty(this, FALL_TIME, 0);
+
+    private final String PULSE_WIDTH = "pulse_width";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Pulse width", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty pulse_width = new SimpleDoubleProperty(this, PULSE_WIDTH, 5);
+
+    private final String PERIOD = "period";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Period", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty period = new SimpleDoubleProperty(this, PERIOD, 5);
+
+    private final String PHASE_PULSE = "phase_pulse";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Phase", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty phase = new SimpleDoubleProperty(this, PHASE_PULSE, 5);
+    //SINUSOIDAL
+    @PropertyDialogField(name = "Sinusoidal", type = ComponentPropertyType.LABEL)
+    private final StringProperty sinusoidal_text = new SimpleStringProperty(this, "sinusoidal", "");
+
+    private final String OFFSET = "offset";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Offset", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty offset = new SimpleDoubleProperty(this, OFFSET, 0);
+
+    private final String AMPLITUDE = "amplitude";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Amplitude", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 5);
+
+    private final String FREQUENCY = "frequency";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Frequency", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 60);
+
+    private final String DELAY = "delay";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Delay", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty delay = new SimpleDoubleProperty(this, DELAY, 0);
+
+    private final String DUMPING_FACTOR = "dumping_factor";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Dumping factor", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 1);
+
+    private final String PHASE_SINUSOIDAL = "phase_sinusoidal";
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Phase sinusoidal", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty phase_sinusoidal = new SimpleDoubleProperty(this, PHASE_SINUSOIDAL, 1);
 
     private final String path ="M84,48.5V47.44l-.82-5.28-1.63-5.1-2.42-4.77L76,28l-3.77-3.8L67.92,21l-4.76-2.45-5.09-" +
             "1.67L52.79,16l-5.35,0-5.29.82-5.09,1.63-4.77,2.42L28,24l-3.8,3.77L21,32.08l-2.45,4.76-1.67,5.09L16,47.21V48" +
@@ -64,7 +140,7 @@ public class VoltageSource extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return getComponentName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() +" "+ voltage.get();
+        return getComponentName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() +" "+ value.get();
     }
 
     @Override

@@ -2,11 +2,16 @@
 
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController"
-      prefHeight="100.0" prefWidth="200.0"
-      stylesheets="@../stylesheets/style.css"
-      styleClass="properties_pane"
-      fx:id="propertiesPane">
-</VBox>
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cz.thewhiterabbit.electronicapp.view.controllers.PropertiesPaneController"
+            maxHeight="600.0" minViewportHeight="0.0" minHeight="0.0"
+            stylesheets="@../stylesheets/style.css"
+            vbarPolicy="AS_NEEDED"
+            hbarPolicy="never"
+            fx:id="propertiesPane"
+            fitToWidth="true"
+            styleClass="properties_pane_bar">
+        <VBox fx:id="propertiesHolder" styleClass="properties_pane"/>
+</ScrollPane>

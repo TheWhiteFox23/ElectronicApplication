@@ -20,9 +20,13 @@
 /***** PROPERTIES PANE *****/
 .properties_pane{
     -fx-background-color: -primary-color-light;
-    -fx-background-radius: 10;
     -fx-padding: 10 10 10 10;
     -fx-spacing: 10;
+}
+
+.properties_pane_bar{
+    -fx-background-color: -transparent
+    -fx-background-radius: 10;
 }
 
 .properties_pane HBox Label{

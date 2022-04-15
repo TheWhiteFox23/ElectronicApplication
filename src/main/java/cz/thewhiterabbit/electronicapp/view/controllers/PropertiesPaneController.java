@@ -32,7 +32,10 @@ import java.util.*;
 public class PropertiesPaneController {
 
     @FXML
-    VBox propertiesPane;
+    ScrollPane propertiesPane;
+    @FXML
+    VBox propertiesHolder;
+
 
     private EventAggregator eventAggregator = GUIEventAggregator.getInstance();
     private DocumentObject activeObject;
@@ -81,7 +84,7 @@ public class PropertiesPaneController {
     private void getPropertiesContent() throws IllegalAccessException {
         List<VisibleProperty> properties = ComponentAnnotationProcessor.getProperties(activeObject);
         for (VisibleProperty property : properties) {
-            propertiesPane.getChildren().addAll(getNodes(property));
+            propertiesHolder.getChildren().addAll(getNodes(property));
         }
     }
 
@@ -258,7 +261,7 @@ public class PropertiesPaneController {
     }
 
     private void freePropertyPane(){
-        propertiesPane.getChildren().clear();
+        propertiesHolder.getChildren().clear();
         System.gc();
     }
 
