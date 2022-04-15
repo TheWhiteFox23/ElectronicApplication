@@ -57,10 +57,11 @@ public abstract class GeneralComponent extends GeneralMappingComponent implement
 
     @Override
     protected void doPaint(GraphicsContext gc) {
-        gc.translate(translateX, translateY);
+
         gc.setFill(getColor());
 
         double scale = getWidth()/scaleMultiplier;
+        gc.translate(translateX*scale, translateY*scale);
         gc.scale(scale, scale);
 
         pathList.forEach(p->{

@@ -1,13 +1,56 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
+import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
+import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 @ComponentType
 public class CoupledInductor extends GeneralComponent {
     private final Component component = Component.COUPLED_INDUCTOR;
+
+    private ActivePoint l1activePointIn;
+    private ActivePoint l1activePointOut;
+
+    private ActivePoint l2activePointIn;
+    private ActivePoint l2activePointOut;
+
+    private final String INDUCTANCE_L1 = "inductance_l1";
+    private final String INITIAL_CONDITION_L1 = "initial_condition_l1";
+
+    private final String INDUCTANCE_L2 = "inductance_l2";
+    private final String INITIAL_CONDITION_L2 = "initial_condition_l2";
+
+    private final String COUPLING_COEFFICIENT = "coupling_coefficient";
+
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Inductance L1", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty inductance_l1 = new SimpleDoubleProperty(this, INDUCTANCE_L1, 1);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Initial condition L1", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty initial_condition_l1 = new SimpleDoubleProperty(this, INITIAL_CONDITION_L1, 0);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Inductance L2", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty inductance_l2 = new SimpleDoubleProperty(this, INDUCTANCE_L2, 1);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Initial condition L2", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty initial_condition_l2 = new SimpleDoubleProperty(this, INITIAL_CONDITION_L2, 0);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Coupling coefficient (0< K >=1)", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty coupling_coefficient = new SimpleDoubleProperty(this, COUPLING_COEFFICIENT, 1);
+
+
 
     private final String path = "M16.5,25.63c0-5.31-4-9.63-9-9.63H3V0H0V19H7.5c3.31,0,6,3,6,6.63s-2.69,6.62-6," +
             "6.62H0v3H7.5c3.31,0,6,3,6,6.63s-2.69,6.62-6,6.62H0v3H7.5c3.31,0,6,3,6,6.63s-2.69,6.62-6,6.62H0v3H7.5c3.31," +
@@ -29,17 +72,37 @@ public class CoupledInductor extends GeneralComponent {
         super();
         setComponent(Component.COUPLED_INDUCTOR);
         getPathList().add(path);
-        setTranslateX(-3);
+        setTranslateX(-1.5);
+        l1activePointIn = new ActivePoint();
+        l1activePointOut = new ActivePoint();
+        l2activePointIn = new ActivePoint();
+        l2activePointOut = new ActivePoint();
+        addActivePoint(l1activePointIn, 0,0);
+        addActivePoint(l1activePointOut,0,2);
+        addActivePoint(l2activePointIn, 2,0);
+        addActivePoint(l2activePointOut,2,2);
     }
 
     @Override
     public String getSimulationComponent() {
-        return null;
+        String command = "";
+        // L1
+        command += "LA" + getName()+" " + getNode(l1activePointIn).getName() + " "
+                + getNode(l1activePointOut).getName() + " " +inductance_l1.get() + " ic=" +
+                initial_condition_l1.get() + "\n";
+        //L2
+        command += "LB" + getName()+" " + getNode(l2activePointIn).getName() + " "
+                + getNode(l2activePointOut).getName() + " " +inductance_l2.get() + " ic=" +
+                initial_condition_l2.get() + "\n";
+        //Coupled
+        command += getComponentName() + " LA" + getName() + " LB" + getName() +" " +coupling_coefficient.get();
+
+        return command;
     }
 
     @Override
     public String getComponentName() {
-        return null;
+        return "K" + getName();
     }
 
 }
