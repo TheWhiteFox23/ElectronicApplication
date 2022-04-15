@@ -88,7 +88,7 @@ public class VoltageSource extends GeneralComponent {
     private final String FREQUENCY = "frequency";
     @RawPropertyMapping
     @PropertyDialogField(name = "Frequency", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 100e+3);
+    private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 0);
 
     private final String DELAY = "delay";
     @RawPropertyMapping
@@ -98,7 +98,7 @@ public class VoltageSource extends GeneralComponent {
     private final String DUMPING_FACTOR = "dumping_factor";
     @RawPropertyMapping
     @PropertyDialogField(name = "Dumping factor", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 1e10);
+    private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 0);
 
     private final String PHASE_SINUSOIDAL = "phase_sinusoidal";
     @RawPropertyMapping
@@ -153,7 +153,7 @@ public class VoltageSource extends GeneralComponent {
     private String getSinusoidal() {
         String command = "";
         command += getComponentName() + " " + getNode(activePointIn).getName() + " " +
-                getNode(activePointOut).getName() + " 0.001 AC 1 SIN(" +
+                getNode(activePointOut).getName() + " SIN(" +
                 offset.getValue() + " " +
                 amplitude.getValue() + " " +
                 frequency.getValue() + " " +
