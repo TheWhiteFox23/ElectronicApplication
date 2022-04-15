@@ -70,7 +70,7 @@ public class VoltageSource extends GeneralComponent {
     private final String PHASE_PULSE = "phase_pulse";
     @RawPropertyMapping
     @PropertyDialogField(name = "Phase", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty phase = new SimpleDoubleProperty(this, PHASE_PULSE, 5);
+    private final DoubleProperty phase_pulse = new SimpleDoubleProperty(this, PHASE_PULSE, 5);
     //SINUSOIDAL
     @PropertyDialogField(name = "Sinusoidal", type = ComponentPropertyType.LABEL)
     private final StringProperty sinusoidal_text = new SimpleStringProperty(this, "sinusoidal", "");
@@ -164,7 +164,18 @@ public class VoltageSource extends GeneralComponent {
     }
 
     private String getPulse() {
-        return getLinear();
+        String command = "";
+        command += getComponentName() + " " + getNode(activePointIn).getName() + " " +
+                getNode(activePointOut).getName() + " PULSE(" +
+                initial_value.getValue() + " " +
+                pulse_value.getValue() + " " +
+                delay_time.getValue() + " " +
+                rise_time.getValue() + " " +
+                fall_time.getValue() + " " +
+                pulse_width.getValue() + " " +
+                period.getValue() + " " +
+                phase_pulse.getValue() + ")";
+        return command;
     }
 
     private String getLinear() {

@@ -1,14 +1,14 @@
 * Title: Test circuit
 
 * Netlist
-R3 n18 n17 50.0
-V4 n18 n14 0.001 AC 1 SIN(0.0 1.0 0.5 0.001 0.0 0.0)
-R8 n17 n14 50.0
+R3 n17 n18 50.0
+V4 n17 n14 PULSE(0.0 5.0 0.0 0.0 0.0 1.0 2.0 0.0)
+R8 n18 n14 50.0
 R11 n14 0 0
 
 .control
 op
-tran 0.1 5.0 0 0.05 uic
+tran 0.1 5.0 0 uic
 echo output test > result.txt $ start new file
 set appendwrite
 set wr_vecnames
