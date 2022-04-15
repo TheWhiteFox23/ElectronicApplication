@@ -1,14 +1,15 @@
 * Title: Test circuit
 
 * Netlist
-R2 n19 n17 50.0
-V4 n19 n14 100.0
-R8 n17 n14 50.0
-R11 n14 0 0
+R0 n31 n30 50.0
+R2 n30 n21 50.0
+R9 n21 0 0
+C10 n30 n21 200.0 ic=10.0
+V15 n31 n21 100.0
 
 .control
 op
-tran 0.1 5.0 0
+tran 0.1 5.0 0 uic
 echo output test > result.txt $ start new file
 set appendwrite
 set wr_vecnames

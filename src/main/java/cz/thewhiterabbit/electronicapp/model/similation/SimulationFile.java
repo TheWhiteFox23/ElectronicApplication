@@ -72,11 +72,11 @@ public class SimulationFile {
                 String command = "tran "+getStepIncrement()  + " " + getStopTime();
                 if(isUseStartTime()){
                     command += " " + getStartTime();
-                    System.out.println("start time: " + getStartTime());
                 }else{
                     command += " 0";
                 }
                 if(isUseInternalStep()) command += " " + getMaxStepSize();
+                command += " uic";
                 toWrite.add(command);
             }
         }
