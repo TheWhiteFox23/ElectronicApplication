@@ -32,12 +32,15 @@ public class TransistorPNP extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return getComponentName()+" " + getNode(activePointBase).getName() + " " + getNode(activePointCollector).getName();
+        return getComponentName()+" " + getNode(activePointCollector).getName() + " "
+                + getNode(activePointBase).getName() + " " +
+                getNode(activePointEmitter).getName() + " QMOD" +
+                "\n.model QMOD PNP level=4";
     }
 
     @Override
     public String getComponentName() {
-        return "R" + getName();
+        return "Q" + getName();
     }
 
 
