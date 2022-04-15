@@ -18,6 +18,7 @@ public enum Component {
     DIODE("DIODE", Diode.class, Category.DIODES, true, "img/diode@0.5x.png"),
     TRANSISTOR_NPN("TRANSISTOR_NPN", TransistorNPN.class, Category.TRANSISTORS, true, "img/npn_transistor@0.5x.png"),
     TRANSISTOR_PNP("TRANSISTOR_PNP", TransistorPNP.class, Category.TRANSISTORS, true, "img/pnp_transistor@0.5x.png"),
+    TIMER555("TIMER555", Timer555.class, Category.MISC, true, "img/timer555@0.5x.png"),
     TEST_COMPONENT("TEST_OBJECT", GeneralCanvasObject.class, Category.MISC), //TODO temporally
     ACTIVE_POINT("ACTIVE_POINT", ActivePoint.class, Category.MISC),//TODO temporally
     LINE("LINE", TwoPointLineObject.class, Category.MISC)
