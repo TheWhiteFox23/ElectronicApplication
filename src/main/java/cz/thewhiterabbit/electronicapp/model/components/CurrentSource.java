@@ -5,11 +5,14 @@ import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
-import javafx.beans.property.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 @ComponentType
-public class VoltageSource extends GeneralComponent {
+public class CurrentSource extends GeneralComponent {
 
     private ActivePoint activePointIn;
     private ActivePoint activePointOut;
@@ -26,7 +29,7 @@ public class VoltageSource extends GeneralComponent {
     private final String VALUE = "value";
     @RawPropertyMapping
     @PropertyDialogField(name = "Value", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 5);
+    private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 0.1);
 
     //PULSE
     @PropertyDialogField(name = "Pulse", type = ComponentPropertyType.LABEL)
@@ -40,7 +43,7 @@ public class VoltageSource extends GeneralComponent {
     private final String PULSE_VALUE = "pulse_value";
     @RawPropertyMapping
     @PropertyDialogField(name = "Pulse value", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 5);
+    private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 0.1);
 
     private final String DELAY_TIME = "delay_time";
     @RawPropertyMapping
@@ -116,26 +119,17 @@ public class VoltageSource extends GeneralComponent {
             "73.65l-3.45-3.46-2.86-3.94L21.27,61.9l-1.51-4.64L19,52.44V50.17l2.14," +
             "1.33L44.92,66.27l1.58-2.54L26.82,51.5H81Z";
 
-    private final String path1 = "M83.3,43l-2.2-6.8L77.6,30l-4.7-5.3l-5.7-4.2l-6.5-2.9L53.7,16h-7.1l-7,1.5l-6.5,2.9l-5.7,4.2l-4.8,5.3L19,36" +
-            "l-2.2,6.8l-0.6,5.8H0v3h16.1l0.6,5.5l2.2,6.8l3.5,6.2l4.7,5.3l5.7,4.2l6.5,2.9l7,1.5h7.3l6.8-1.4l6.5-2.9l5.8-4.2l4.8-5.3L81,64" +
-            "l2.2-6.8l0.6-5.8H100v-3H83.8L83.3,43z M80.3,56.5l-2,6.2L75,68.3l-4.3,4.8L65.5,77l-5.9,2.7L53.2,81h-6.5l-6.3-1.3L34.5,77" +
-            "l-5.2-3.8l-4.3-4.8l-3.2-5.6l-2-6.2L19,50l0.7-6.5l2-6.2l3.2-5.6l4.3-4.9l5.2-3.8l5.9-2.6l6.3-1.4h6.5l6.3,1.4l5.9,2.6l5.2,3.8" +
-            "l4.3,4.9l3.2,5.6l2,6.2L81,50L80.3,56.5z";
-    private final String path2 = "M54.3,48.5H75v3H54.3V48.5z";
-    private final String path3 = "M36.8,39h-3v9.5H25v3h8.8v8.2h3v-8.2h8.8v-3h-8.8V39z";
 
-
-    public VoltageSource(){
+    public CurrentSource(){
         super();
-        setComponent(Component.VOLTAGE_SOURCE);
-        getPathList().add(path1);
-        getPathList().add(path2);
-        getPathList().add(path3);
+        setComponent(Component.CURRANT_SOURCE);
+        getPathList().add(path);
+
 
         activePointIn = new ActivePoint();
         activePointOut = new ActivePoint();
-        addActivePoint(activePointIn, 0,1);
-        addActivePoint(activePointOut,2,1);
+        addActivePoint(activePointIn, 2,1);
+        addActivePoint(activePointOut,0,1);
     }
 
     @Override
@@ -185,6 +179,6 @@ public class VoltageSource extends GeneralComponent {
 
     @Override
     public String getComponentName() {
-        return "V"+getName();
+        return "I"+getName();
     }
 }

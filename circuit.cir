@@ -1,9 +1,9 @@
 * Title: Test circuit
 
 * Netlist
-R3 n17 n18 50.0
-V4 n17 n14 PULSE(0.0 5.0 0.0 0.0 0.0 1.0 2.0 0.0)
-R8 n18 n14 50.0
+R2 n19 n17 50.0
+I4 n14 n19 PULSE(0.0 0.1 0.0 0.0 0.0 1.0 2.0 0.0)
+R8 n17 n14 50.0
 R11 n14 0 0
 
 .control

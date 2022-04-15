@@ -14,7 +14,7 @@ public enum Component {
     COUPLED_INDUCTOR("COUPLED_CONDUCTOR", CoupledInductor.class, Category.R_C_L, true, "img/coupled_inductor@0.5x.png"),
     GROUND("GROUND", Ground.class, Category.SOURCES, true, "img/ground@0.5x.png"),
     VOLTAGE_SOURCE("VOLTAGE_SOURCE", VoltageSource.class, Category.SOURCES, true, "img/voltage_source@0.5x.png"),
-    CURRANT_SOURCE("CURRANT_SOURCE", CurrantSource.class, Category.SOURCES, true, "img/current_source@0.5x.png"),
+    CURRANT_SOURCE("CURRANT_SOURCE", CurrentSource.class, Category.SOURCES, true, "img/current_source@0.5x.png"),
     DIODE("DIODE", Diode.class, Category.DIODES, true, "img/diode@0.5x.png"),
     TRANSISTOR_NPN("TRANSISTOR_NPN", TransistorNPN.class, Category.TRANSISTORS, true, "img/npn_transistor@0.5x.png"),
     TRANSISTOR_PNP("TRANSISTOR_PNP", TransistorPNP.class, Category.TRANSISTORS, true, "img/pnp_transistor@0.5x.png"),
