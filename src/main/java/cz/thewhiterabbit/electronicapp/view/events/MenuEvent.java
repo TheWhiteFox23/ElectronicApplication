@@ -17,6 +17,7 @@ public class MenuEvent extends Event {
     public static final EventType<MenuEvent> CHANGE_ACTIVE_DOCUMENT = new EventType<>(ANY, "CHANGE_ACTIVE_DOCUMENT");
     public static final EventType<MenuEvent> OPEN_FILE = new EventType<>(ANY, "OPEN_FILE");
     public static final EventType<MenuEvent> DO_OPEN_FILE = new EventType<>(ANY, "DO_OPEN_FILE");
+    public static final EventType<MenuEvent> DO_OPEN_PREFAB = new EventType<>(ANY, "DO_OPEN_PREFAB");
     public static final EventType<MenuEvent> SAVE_FILE = new EventType<>(ANY, "SAVE_FILE");
     public static final EventType<MenuEvent> SAVE_FILE_AS = new EventType<>(ANY, "SAVE_FILE_AS");
     public static final EventType<MenuEvent> CLEAN_CANVAS = new EventType<>(ANY, "CLEAN_CANVAS");

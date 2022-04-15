@@ -74,6 +74,8 @@ public class TabPaneController {
         if(tabPane.getChildren().size()==1){
             eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLEAN_CANVAS));
             eventAggregator.fireEvent(new MenuEvent(MenuEvent.CLEAN_WORKPLACE));
+            MenuEvent menuEvent = new MenuEvent(MenuEvent.NEW_DOCUMENT);
+            GUIEventAggregator.getInstance().fireEvent(menuEvent);
         }
     }
 

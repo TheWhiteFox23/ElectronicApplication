@@ -139,7 +139,7 @@ public class FileMenuController {
             File file = new File(App.class.getResource("prefab/" + s).getPath());
             MenuItem menuItem = new MenuItem(s);
             menuItem.setOnAction(e->{
-                GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.DO_OPEN_FILE,file));
+                GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.DO_OPEN_PREFAB,file));
             });
             prefabMenu.getItems().add(menuItem);
         }

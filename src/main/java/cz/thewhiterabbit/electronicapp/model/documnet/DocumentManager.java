@@ -52,9 +52,10 @@ public class DocumentManager implements IEventAggregator {
         setActiveDocument(document);
     }
 
-    public void loadDocument(File file){
+    public void loadDocument(File file, boolean setFile){
         Document document = tryLoadDocument(file);
         if(document != null){
+            if(setFile)document.setFile(file);
             tryManageDocumentLoading(document);
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid file",  ButtonType.OK);
@@ -114,7 +115,6 @@ public class DocumentManager implements IEventAggregator {
             documents.remove(document);
         }
         fireEvent(new DocumentManagerEvent(DocumentManagerEvent.DOCUMENT_CLOSED, document));
-        if(documents.size() <= 1)createNewDocument();
     }
     public boolean saveDocument(File file){
         try {

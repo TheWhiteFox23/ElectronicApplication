@@ -105,7 +105,10 @@ public class DrawingAreaController {
             onOpenFile();
         });
         eventAggregator.addEventHandler(MenuEvent.DO_OPEN_FILE, e->{
-            documentManager.loadDocument(((MenuEvent)e).getFile());
+            documentManager.loadDocument(((MenuEvent)e).getFile(), true);
+        });
+        eventAggregator.addEventHandler(MenuEvent.DO_OPEN_PREFAB, e->{
+            documentManager.loadDocument(((MenuEvent)e).getFile(), false);
         });
         eventAggregator.addEventHandler(DrawingAreaEvent.ANY, e -> {
             documentManager.getActiveDocument().applyCommand((DrawingAreaEvent) e);
@@ -312,16 +315,18 @@ public class DrawingAreaController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open");
         File file = fileChooser.showOpenDialog(drawingArea.getScene().getWindow());
-        documentManager.loadDocument(file);
+        documentManager.loadDocument(file, true);
     }
 
     private void onSaveFileAs() {
         if (documentManager.getActiveDocument() != null) {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName(documentManager.getActiveDocument().getName());
             fileChooser.setTitle("Save as..."); //TODO move to string properties
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AEON", "*.aeon", "*.AEON"));//TODO replace with final file type
             File file = fileChooser.showSaveDialog(drawingArea.getScene().getWindow());
 
+            if(file == null)return;
             Document document = documentManager.getActiveDocument();
             document.setFile(file);
             if(file!=null){
