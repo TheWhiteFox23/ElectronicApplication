@@ -1,7 +1,9 @@
 package cz.thewhiterabbit.electronicapp.model.components;
 
+import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentPropertyType;
+import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import javafx.beans.property.DoubleProperty;
@@ -9,13 +11,23 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+@ComponentType
 public class Inductor extends GeneralComponent {
 
-    private final String INDUCTANCE = "1";
+    private final String INDUCTANCE = "inductance";
+    private final String INITIAL_CONDITION = "initial_condition";
+
+
+    private ActivePoint activePointIn;
+    private ActivePoint activePointOut;
 
     @RawPropertyMapping
     @PropertyDialogField(name = "Inductance", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty inductance = new SimpleDoubleProperty(this, INDUCTANCE, 1);
+
+    @RawPropertyMapping
+    @PropertyDialogField(name = "Initial condition", type = ComponentPropertyType.TEXT_FIELD)
+    private final DoubleProperty initial_condition = new SimpleDoubleProperty(this, INITIAL_CONDITION, 0);
 
     private final String path ="M100,48.5v3H81V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63," +
             "2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6S19,40.69,19," +
@@ -26,16 +38,22 @@ public class Inductor extends GeneralComponent {
         super();
         setComponent(Component.INDUCTOR);
         getPathList().add(path);
+        activePointIn = new ActivePoint();
+        activePointOut = new ActivePoint();
+        addActivePoint(activePointIn, 0,1);
+        addActivePoint(activePointOut,2,1);
     }
 
     @Override
     public String getSimulationComponent() {
-        return null;
+        return getComponentName()+" " + getNode(activePointIn).getName() + " "
+                + getNode(activePointOut).getName() + " " +inductance.get() + " ic=" +
+                initial_condition.get();
     }
 
     @Override
     public String getComponentName() {
-        return null;
+        return "L" + getName();
     }
 
 
