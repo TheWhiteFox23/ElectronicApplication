@@ -23,7 +23,7 @@ public class VoltageSource extends GeneralComponent {
     @PropertyDialogField(name = "Linear", type = ComponentPropertyType.LABEL)
     private final StringProperty linear_text = new SimpleStringProperty(this, "linear", "");
 
-    private final String VALUE = "initial_value";
+    private final String VALUE = "value";
     @RawPropertyMapping
     @PropertyDialogField(name = "Value", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 5);
@@ -83,27 +83,27 @@ public class VoltageSource extends GeneralComponent {
     private final String AMPLITUDE = "amplitude";
     @RawPropertyMapping
     @PropertyDialogField(name = "Amplitude", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 5);
+    private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 1);
 
     private final String FREQUENCY = "frequency";
     @RawPropertyMapping
     @PropertyDialogField(name = "Frequency", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 60);
+    private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 100e+3);
 
     private final String DELAY = "delay";
     @RawPropertyMapping
     @PropertyDialogField(name = "Delay", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty delay = new SimpleDoubleProperty(this, DELAY, 0);
+    private final DoubleProperty delay = new SimpleDoubleProperty(this, DELAY, 1e-3);
 
     private final String DUMPING_FACTOR = "dumping_factor";
     @RawPropertyMapping
     @PropertyDialogField(name = "Dumping factor", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 1);
+    private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 1e10);
 
     private final String PHASE_SINUSOIDAL = "phase_sinusoidal";
     @RawPropertyMapping
     @PropertyDialogField(name = "Phase sinusoidal", type = ComponentPropertyType.TEXT_FIELD)
-    private final DoubleProperty phase_sinusoidal = new SimpleDoubleProperty(this, PHASE_SINUSOIDAL, 1);
+    private final DoubleProperty phase_sinusoidal = new SimpleDoubleProperty(this, PHASE_SINUSOIDAL, 0);
 
     private final String path ="M84,48.5V47.44l-.82-5.28-1.63-5.1-2.42-4.77L76,28l-3.77-3.8L67.92,21l-4.76-2.45-5.09-" +
             "1.67L52.79,16l-5.35,0-5.29.82-5.09,1.63-4.77,2.42L28,24l-3.8,3.77L21,32.08l-2.45,4.76-1.67,5.09L16,47.21V48" +
@@ -140,7 +140,36 @@ public class VoltageSource extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return getComponentName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName() +" "+ value.get();
+        if(type.getValue().equals("Sinusoidal")){
+            return getSinusoidal();
+        }else if (type.getValue().equals("Pulse")){
+            return getPulse();
+        }else{
+            return getLinear();
+        }
+
+    }
+
+    private String getSinusoidal() {
+        String command = "";
+        command += getComponentName() + " " + getNode(activePointIn).getName() + " " +
+                getNode(activePointOut).getName() + " 0.001 AC 1 SIN(" +
+                offset.getValue() + " " +
+                amplitude.getValue() + " " +
+                frequency.getValue() + " " +
+                delay.getValue() + " " +
+                dumping_factor.getValue() + " " +
+                phase_sinusoidal.getValue() + ")";
+        return command;
+    }
+
+    private String getPulse() {
+        return getLinear();
+    }
+
+    private String getLinear() {
+        return getComponentName() + " " + getNode(activePointIn).getName() + " " +
+                getNode(activePointOut).getName() + " " + value.get();
     }
 
     @Override
