@@ -1,14 +1,17 @@
 * Title: Test circuit
 
 * Netlist
-V1 n25 n19 5.0
-Q2 n22 n21 n26 QMOD
-.model QMOD PNP level=4
-R5 n22 0 0
-R7 n18 0 0
-V8 n21 n18 SIN(0.0 1.0 0.0 0.001 0.0 0.0)
-R9 n19 0 0
-R13 n25 n26 10.0
+V0 n32 n26 5.0
+D3 n25 n19 DMOD
+.model DMOD D
+Q4 n33 n19 n29 QMOD
+.model QMOD NPN level=4
+R7 n29 0 0
+R10 n24 0 0
+V11 n19 n24 SIN(0.0 1.0 0.0 0.001 0.0 0.0)
+R12 n25 0 0
+R13 n26 0 0
+R17 n32 n33 10.0
 
 .control
 op

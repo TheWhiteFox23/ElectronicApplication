@@ -25,8 +25,8 @@ public class Diode extends GeneralComponent {
         getPathList().add(path);
         activePointIn = new ActivePoint();
         activePointOut = new ActivePoint();
-        addActivePoint(activePointIn, 0,1);
-        addActivePoint(activePointOut,2,1);
+        addActivePoint(activePointIn, 2,1);
+        addActivePoint(activePointOut,0,1);
     }
 
     @Override
@@ -36,12 +36,14 @@ public class Diode extends GeneralComponent {
 
     @Override
     public String getSimulationComponent() {
-        return getComponentName()+" " + getNode(activePointIn).getName() + " " + getNode(activePointOut).getName();
+        return getComponentName()+" " + getNode(activePointIn).getName() + " "
+                + getNode(activePointOut).getName() + " DMOD" +
+                "\n.model DMOD D";
     }
 
     @Override
     public String getComponentName() {
-        return "R" + getName();
+        return "D" + getName();
     }
 
 
