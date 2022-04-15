@@ -6,6 +6,7 @@ import cz.thewhiterabbit.electronicapp.model.components.Component;
 import cz.thewhiterabbit.electronicapp.model.components.Resistor;
 import cz.thewhiterabbit.electronicapp.model.documnet.*;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
+import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
@@ -401,11 +402,16 @@ public class DrawingAreaController {
                 RawObject rawObject = ((DocumentObject)o).getRawObject().copy();
                 DocumentObject object = DocumentObjectFactory.createDocumentObject(rawObject);
                 object.setSelected(true);
+                if(object instanceof GeneralMappingComponent)manageChildMoves(object);
+                //set position to center of the screen
+                object.setGridX(object.getGridX()+3);
+                object.setGridY(object.getGridY()+3);
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, object));
             }
         });
         eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.EDITING_FINISHED));
     }
+
 
     private void onCopy() {
         Document document = documentManager.getActiveDocument();

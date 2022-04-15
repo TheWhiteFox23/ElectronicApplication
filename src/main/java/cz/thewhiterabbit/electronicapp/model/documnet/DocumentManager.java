@@ -33,7 +33,7 @@ public class DocumentManager implements IEventAggregator {
     }
 
     public Document createNewDocument(){
-        RawDocument rawDocument = new TestRawDocument(getDocumentName());
+        RawDocument rawDocument = new RawDocument(getDocumentName());
         Document document = new Document(rawDocument);
         addDocument(document);
         return document;
