@@ -25,7 +25,7 @@ public class ComponentMenuController {
     @FXML private void initialize(){
         initMap();
         fillMap();
-        setActive(categoriesMap.get(Category.MISC));
+        setActive(categoriesMap.get(Category.R_C_L));
         simulationButton.setOnAction(e->{
             GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.SWITCH_MODE_SIMULATION));
         });
@@ -33,8 +33,10 @@ public class ComponentMenuController {
 
     private void initMap(){
         for(Category c : Category.values()){
-            CategoryButton button = new CategoryButton(c.getText());
-            addCategory(c, button);
+            if(c != Category.NON_VISIBLE){
+                CategoryButton button = new CategoryButton(c.getText());
+                addCategory(c, button);
+            }
         }
     }
 
@@ -59,7 +61,9 @@ public class ComponentMenuController {
 
     private void fillMap(){
         for(Component c : Component.values()){
-            categoriesMap.get(c.getCategory()).getComponents().add(new ComponentButton(c.getType(), c));
+            if(c.getCategory() != Category.NON_VISIBLE){
+                categoriesMap.get(c.getCategory()).getComponents().add(new ComponentButton(c.getType(), c));
+            }
         }
     }
 
