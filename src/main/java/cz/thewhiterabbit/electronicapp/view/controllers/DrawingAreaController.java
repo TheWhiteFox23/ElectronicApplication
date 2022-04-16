@@ -412,9 +412,12 @@ public class DrawingAreaController {
                 DocumentObject object = DocumentObjectFactory.createDocumentObject(rawObject);
                 object.setSelected(true);
                 if(object instanceof GeneralMappingComponent)manageChildMoves(object);
-                //set position to center of the screen
-                object.setGridX(object.getGridX()+3);
-                object.setGridY(object.getGridY()+3);
+
+                //set offset
+                object.getRawObject().getProperty("gridX").setValue(String.valueOf(object.getGridX()+3));
+                object.getRawObject().getProperty("gridY").setValue(String.valueOf(object.getGridY()+3));
+                if(object instanceof GeneralMappingComponent)manageChildMoves(object);
+
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, object));
             }
         });

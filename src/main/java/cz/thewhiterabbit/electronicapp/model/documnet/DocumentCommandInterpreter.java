@@ -53,7 +53,6 @@ public class DocumentCommandInterpreter {
 
 
     private void onPropertyChange(DrawingAreaEvent event) {
-        System.out.println("onPropertyChange");
         DocumentObject o = (DocumentObject) event.getCanvasObject();
         RawProperty p = o.getProperty(event.getProperty().getName());
         setRawPropertyIfValid(p, event.getProperty(), event.getNewValue());
