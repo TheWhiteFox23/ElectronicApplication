@@ -25,43 +25,18 @@ public class SimulationMenuController {
     @FXML
     private Button simulationButton;
     @FXML
-    private HBox simulationMenu;
-    @FXML
-    private HBox categoriesBox;
-    /*@FXML
-    private CategoryButton acSweepButton;*/
-    @FXML
     private CategoryButton transientButton;
-    /*@FXML
-    private CategoryButton dcAnalysisButton;*/
-    /*@FXML
-    private HBox acSweepMenu;*/
     @FXML
     private HBox transientMenu;
-    /*@FXML
-    private HBox dcAnalysisMenu;*/
     @FXML
     private VBox menuVBox;
     @FXML
     private Button simulateButton;
-
-    /**
-     * PANELS
-     **/
-    /*@FXML
-    private ACDCMenu acSweepPanel;
-    @FXML
-    private ACDCMenu dcAnalysisPanel;*/
     @FXML
     private TransientMenu transientPanel;
 
-    /*@FXML
-    private CheckBox optimizeCB;
-    @FXML
-    private CheckBox onlySelectedCB;*/
 
-
-    private HashMap<CategoryButton, HBox> panelMap;
+    private HashMap<CategoryButton, HBox> panelMap; //TODO can be refactored out(only one panel)
 
 
     @FXML
@@ -73,9 +48,7 @@ public class SimulationMenuController {
             GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.SWITCH_MODE_SCHEMATIC));
         });
         panelMap = new HashMap<>() {{
-            //put(acSweepButton, acSweepMenu);
             put(transientButton, transientMenu);
-            //put(dcAnalysisButton, dcAnalysisMenu);
         }};
         setActive(transientButton);
         initializeButtons();
@@ -100,21 +73,6 @@ public class SimulationMenuController {
         document.getSimulationFile().startTimeProperty().bind(transientPanel.startTimeProperty());
         document.getSimulationFile().useInternalStepProperty().bind(transientPanel.useInternalStepProperty());
         document.getSimulationFile().maxStepSizeProperty().bind(transientPanel.maxStepSizeProperty());
-        //AC SWEEP
-        /*document.getSimulationFile().startValueACProperty().bind(acSweepPanel.startValueProperty());
-        document.getSimulationFile().stopValueACProperty().bind(acSweepPanel.stopValueProperty());
-        document.getSimulationFile().numberOfPointsACProperty().bind(acSweepPanel.numberOfPointsProperty());
-        document.getSimulationFile().scaleTopACProperty().bind(acSweepPanel.scaleTopProperty());
-        document.getSimulationFile().scaleBottomACProperty().bind(acSweepPanel.scaleBottomProperty());
-        //DC SWEEP
-        document.getSimulationFile().startValueDCProperty().bind(dcAnalysisPanel.startValueProperty());
-        document.getSimulationFile().stopValueDCProperty().bind(dcAnalysisPanel.stopValueProperty());
-        document.getSimulationFile().numberOfPointsDCProperty().bind(dcAnalysisPanel.numberOfPointsProperty());
-        document.getSimulationFile().scaleTopDCProperty().bind(dcAnalysisPanel.scaleTopProperty());
-        document.getSimulationFile().scaleBottomDCProperty().bind(dcAnalysisPanel.scaleBottomProperty());
-        //GENERAL
-        //document.getSimulationFile().optimizeProperty().bind(optimizeCB.selectedProperty());
-        //document.getSimulationFile().onlyAnalyzeNodesProperty().bind(onlySelectedCB.selectedProperty());*/
     }
 
     private void loadProperties(Document document) {
@@ -125,21 +83,6 @@ public class SimulationMenuController {
         transientPanel.startTimeProperty().set(document.getSimulationFile().startTimeProperty().get());
         transientPanel.useInternalStepProperty().set(document.getSimulationFile().useInternalStepProperty().get());
         transientPanel.maxStepSizeProperty().set(document.getSimulationFile().maxStepSizeProperty().get());
-        /*//AC SWEEP
-        acSweepPanel.startValueProperty().set(document.getSimulationFile().startValueACProperty().get());
-        acSweepPanel.stopValueProperty().set(document.getSimulationFile().stopValueACProperty().get());
-        acSweepPanel.numberOfPointsProperty().set(document.getSimulationFile().numberOfPointsACProperty().get());
-        acSweepPanel.scaleTopProperty().set(document.getSimulationFile().scaleTopACProperty().get());
-        acSweepPanel.scaleBottomProperty().set(document.getSimulationFile().scaleBottomACProperty().get());
-        //DC SWEEP
-        dcAnalysisPanel.startValueProperty().set(document.getSimulationFile().startValueDCProperty().get());
-        dcAnalysisPanel.stopValueProperty().set(document.getSimulationFile().stopValueDCProperty().get());
-        dcAnalysisPanel.numberOfPointsProperty().set(document.getSimulationFile().numberOfPointsDCProperty().get());
-        dcAnalysisPanel.scaleTopProperty().set(document.getSimulationFile().scaleTopDCProperty().get());
-        dcAnalysisPanel.scaleBottomProperty().set(document.getSimulationFile().scaleBottomDCProperty().get());
-        //GENERAL
-        //optimizeCB.selectedProperty().set(document.getSimulationFile().optimizeProperty().get());
-        //onlySelectedCB.selectedProperty().set(document.getSimulationFile().onlyAnalyzeNodesProperty().get());*/
     }
 
     private void initProperties() {
@@ -150,21 +93,6 @@ public class SimulationMenuController {
         transientPanel.startTimeProperty().set(0);
         transientPanel.useInternalStepProperty().set(true);
         transientPanel.maxStepSizeProperty().set(0);
-        //AC SWEEP
-        /*acSweepPanel.startValueProperty().set(0);
-        acSweepPanel.stopValueProperty().set(0);
-        acSweepPanel.numberOfPointsProperty().set(0);
-        acSweepPanel.scaleTopProperty().set(0);
-        acSweepPanel.scaleBottomProperty().set(0);
-        //DC SWEEP
-        dcAnalysisPanel.startValueProperty().set(0);
-        dcAnalysisPanel.stopValueProperty().set(0);
-        dcAnalysisPanel.numberOfPointsProperty().set(0);
-        dcAnalysisPanel.scaleTopProperty().set(0);
-        dcAnalysisPanel.scaleBottomProperty().set(0);*/
-        //GENERAL
-        //optimizeCB.selectedProperty().set(true);
-        //onlySelectedCB.selectedProperty().set(false);
     }
 
 
@@ -176,36 +104,12 @@ public class SimulationMenuController {
         document.getSimulationFile().startTimeProperty().unbind();
         document.getSimulationFile().useInternalStepProperty().unbind();
         document.getSimulationFile().maxStepSizeProperty().unbind();
-        //AC SWEEP
-        document.getSimulationFile().startValueACProperty().unbind();
-        document.getSimulationFile().stopValueACProperty().unbind();
-        document.getSimulationFile().numberOfPointsACProperty().unbind();
-        document.getSimulationFile().scaleTopACProperty().unbind();
-        document.getSimulationFile().scaleBottomACProperty().unbind();
-        //DC SWEEP
-        document.getSimulationFile().startValueDCProperty().unbind();
-        document.getSimulationFile().stopValueDCProperty().unbind();
-        document.getSimulationFile().numberOfPointsDCProperty().unbind();
-        document.getSimulationFile().scaleTopDCProperty().unbind();
-        document.getSimulationFile().scaleBottomDCProperty().unbind();
-        //GENERAL
-        document.getSimulationFile().optimizeProperty().unbind();
-        document.getSimulationFile().onlyAnalyzeNodesProperty().unbind();
     }
 
     private void onSimulate() {
         SimulationFile simulationFile;
-        /*HBox selected = getSelectedPanel();
-        if (acSweepMenu.equals(selected)) {
-            simulationFile = document.getSimulationFile();
-            simulationFile.setMode(SimulationFile.SimulationMode.AC_SWEEP);
-        } else if (dcAnalysisMenu.equals(selected)) {
-            simulationFile = document.getSimulationFile();
-            simulationFile.setMode(SimulationFile.SimulationMode.DC_ANALYSIS);
-        } else {*/
-            simulationFile = document.getSimulationFile();
-            simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
-        /*}*/
+        simulationFile = document.getSimulationFile();
+        simulationFile.setMode(SimulationFile.SimulationMode.TRANSIENT);
         GUIEventAggregator.getInstance().fireEvent(new SimulationEvents(SimulationEvents.SIMULATE_CLICKED, simulationFile));
     }
 
@@ -226,13 +130,4 @@ public class SimulationMenuController {
         panelMap.get(categoryButton).setVisible(true);
         menuVBox.getChildren().add(panelMap.get(categoryButton));
     }
-
-    private HBox getSelectedPanel() {
-        AtomicReference<HBox> toReturn = new AtomicReference<>();
-        panelMap.forEach((b, p) -> {
-            if (p.isVisible()) toReturn.set(p);
-        });
-        return toReturn.get();
-    }
-
 }
