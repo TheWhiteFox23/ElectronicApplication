@@ -27,7 +27,7 @@ buildNumber.properties
 ##############################
 ## Gradle
 ##############################
-src/main/resources/cz/thewhiterabbit/electronicapp/ngspice/ng_bin/
+bin/
 build/
 .gradle
 .gradletasknamecache
@@ -48,7 +48,7 @@ out/
 ## Eclipse
 ##############################
 .settings/
-src/main/resources/cz/thewhiterabbit/electronicapp/ngspice/ng_bin/
+bin/
 tmp/
 .metadata
 .classpath
