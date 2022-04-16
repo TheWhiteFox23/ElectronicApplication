@@ -143,5 +143,11 @@ public class GridModel extends RelativeModel {
         moveOriginBy(deltaX, deltaY);
     }
 
+    public void centerOnLocation(double locationX, double locationY){
+        double deltaX = getCanvas().getWidth()/2-(locationX);
+        double deltaY = getCanvas().getHeight()/2 - (locationY);
+        moveOriginBy(deltaX, deltaY);
+    }
+
 
 }

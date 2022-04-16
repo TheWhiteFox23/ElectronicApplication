@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -37,8 +38,9 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Window.fxml"));
         loader.setResources(localization);
         Scene scene = new Scene(loader.load(), 1200, 800);
-        stage.setTitle("Electronic app");
+        stage.setTitle("Design Circuit");
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("img/logo.png")));
         stage.show();
     }
 
