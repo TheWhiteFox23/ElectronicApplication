@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
@@ -92,7 +93,9 @@ public class PropertiesPaneController {
         List<Node> nodes = new ArrayList<>();
 
         Label nameLabel = new Label();
-        nameLabel.setText(property.getName());
+        String text = property.getName();
+        if(App.localization.containsKey(text))text=App.localization.getString(text);
+        nameLabel.setText(text);
        //nodes.add(nameLabel);
         Label unitLabel = new Label();
         unitLabel.setText(property.getUnit());

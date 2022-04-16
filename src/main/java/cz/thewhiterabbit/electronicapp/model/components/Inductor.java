@@ -22,11 +22,11 @@ public class Inductor extends GeneralComponent {
     private ActivePoint activePointOut;
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Inductance", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "inductor.inductance", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty inductance = new SimpleDoubleProperty(this, INDUCTANCE, 1);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Initial condition", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "inductor.initial_condition", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty initial_condition = new SimpleDoubleProperty(this, INITIAL_CONDITION, 0);
 
     private final String path ="M100,48.5v3H81V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63," +

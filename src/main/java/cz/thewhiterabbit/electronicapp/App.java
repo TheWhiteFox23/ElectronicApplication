@@ -18,10 +18,11 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class App extends Application {
+    public static final ResourceBundle localization  = ResourceBundle.getBundle("strings", new Locale("en", "US"));
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Window.fxml"));
-        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
+        loader.setResources(localization);
         Scene scene = new Scene(loader.load(), 1200, 800);
         stage.setTitle("Electronic app");
         stage.setScene(scene);

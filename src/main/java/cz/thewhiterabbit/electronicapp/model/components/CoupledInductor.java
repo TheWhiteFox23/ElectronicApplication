@@ -31,23 +31,23 @@ public class CoupledInductor extends GeneralComponent {
 
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Inductance L1", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "coupled_inductor.inductance_l1", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty inductance_l1 = new SimpleDoubleProperty(this, INDUCTANCE_L1, 1);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Initial condition L1", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "coupled_inductor.initial_condition_l1", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty initial_condition_l1 = new SimpleDoubleProperty(this, INITIAL_CONDITION_L1, 0);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Inductance L2", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "coupled_inductor.inductance_l2", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty inductance_l2 = new SimpleDoubleProperty(this, INDUCTANCE_L2, 1);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Initial condition L2", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "coupled_inductor.initial_condition_l2", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty initial_condition_l2 = new SimpleDoubleProperty(this, INITIAL_CONDITION_L2, 0);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "Coupling coefficient (0< K >=1)", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "coupled_inductor.coupling_coefficient", type = ComponentPropertyType.TEXT_FIELD)
     private final DoubleProperty coupling_coefficient = new SimpleDoubleProperty(this, COUPLING_COEFFICIENT, 1);
 
 
