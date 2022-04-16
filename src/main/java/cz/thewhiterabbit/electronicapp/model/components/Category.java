@@ -2,15 +2,15 @@ package cz.thewhiterabbit.electronicapp.model.components;
 
 public enum Category {
     //PROBES_AE("Probes/AE"),
-    R_C_L("R,C,L"),
-    DIODES("Diodes"),
+    R_C_L("category.r_c_l"),
+    DIODES("category.diodes"),
     //TRANSFORMERS("Transformers"),
     //AMPLIFIERS("Amplifiers"),
-    SOURCES("Sources"),
+    SOURCES("category.sources"),
     //SWITCHES("Switches"),
-    TRANSISTORS("Transistors"),
+    TRANSISTORS("category.transistors"),
     //LOGIC("Logic"),
-    MISC("Misc"),
+    MISC("category.misc"),
     NON_VISIBLE("Non Visible");
 
     private final String text;

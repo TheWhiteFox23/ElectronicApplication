@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.EventAggregator;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
@@ -200,7 +201,7 @@ public class DrawingAreaController {
 
     private void doCloseDocument(Document document) {
         if(document.isChanged()){
-            ConfirmDialog confirmDialog = new ConfirmDialog("Save file", "Save file before closing?");
+            ConfirmDialog confirmDialog = new ConfirmDialog(App.localization.getString("save_file.title"),App.localization.getString("save_file.message"));
             switch (confirmDialog.getResponse()){
                 case YES -> {
                     onSaveFile();

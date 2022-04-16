@@ -31,7 +31,7 @@ public class FileLoadError extends Stage {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(fileLoadController);
         loader.setLocation(App.class.getResource("fxml/FileLoadDialog.fxml"));
-        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
+        loader.setResources(App.localization);
         view = loader.load();
         setScene(new Scene(view));
 
@@ -47,7 +47,7 @@ public class FileLoadError extends Stage {
         fileLoadController.getCancelButton().setOnAction(l -> {
             onCancel();
         });
-        fileLoadController.getTitleLabel().setText("Error occurred while loading the file: " + fileName + ". Following objects was corrupted:");
+        fileLoadController.getTitleLabel().setText(App.localization.getString("file_load.message_1") + fileName + App.localization.getString("file_load.message_2"));
         fileLoadController.getListView().getItems().addAll(corruptedObjects);
     }
 

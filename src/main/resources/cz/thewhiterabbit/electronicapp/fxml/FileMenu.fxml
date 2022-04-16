@@ -38,9 +38,14 @@
                     <MenuItem mnemonicParsing="false" text="%menu.edit.unselect_all" fx:id="deselectAll" disable="true"/>
                 </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="%menu.help">
+            <Menu mnemonicParsing="false" text="%menu.file.preferences">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="%menu.help.about" />
+                    <Menu fx:id="languageMenu" mnemonicParsing="false" text="%menu.file.language"  >
+                        <items>
+                            <MenuItem fx:id="csButton" mnemonicParsing="false" text="%menu.file.cs_CZ"  />
+                            <MenuItem fx:id="enButton" mnemonicParsing="false" text="%menu.file.en_US"  />
+                        </items>
+                    </Menu>
                 </items>
             </Menu>
         </menus>

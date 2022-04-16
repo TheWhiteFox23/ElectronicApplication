@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.components.Category;
 import cz.thewhiterabbit.electronicapp.model.components.Component;
@@ -34,7 +35,9 @@ public class ComponentMenuController {
     private void initMap(){
         for(Category c : Category.values()){
             if(c != Category.NON_VISIBLE){
-                CategoryButton button = new CategoryButton(c.getText());
+                String text = c.getText();
+                if(App.localization.containsKey(text))text = App.localization.getString(text);
+                CategoryButton button = new CategoryButton(text);
                 addCategory(c, button);
             }
         }

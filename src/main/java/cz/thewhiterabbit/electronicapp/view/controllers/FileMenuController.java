@@ -12,7 +12,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
-import java.io.File;
+import java.io.*;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 
 public class FileMenuController {
@@ -32,6 +35,8 @@ public class FileMenuController {
     @FXML private MenuItem redo;
     @FXML private Menu prefabMenu;
     @FXML private MenuItem closeFile;
+    @FXML private MenuItem csButton;
+    @FXML private MenuItem enButton;
 
 
     @FXML private void initialize(){
@@ -87,7 +92,7 @@ public class FileMenuController {
             GUIEventAggregator.getInstance().fireEvent(event);
         });
         quit.setOnAction(e->{
-            ConfirmDialog confirmDialog = new ConfirmDialog("Close Application", "Do you really wish to close the application");
+            ConfirmDialog confirmDialog = new ConfirmDialog(App.localization.getString("close_file.title"),App.localization.getString("close_file.message"));
             if(confirmDialog.getResponse() == ConfirmDialog.Response.YES){
                 GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.CLOSE_ALL));
                 System.exit(0);
@@ -98,7 +103,29 @@ public class FileMenuController {
         closeFile.setOnAction(e->{
             GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.CLOSE_ACTIVE_DOCUMENT));
         });
+        csButton.setOnAction(e->{
+            setLocaleProperty("cs_CZ");
+        });
+        enButton.setOnAction(e->{
+            setLocaleProperty("en_US");
+        });
 
+
+
+    }
+
+    private void setLocaleProperty(String localization) {
+        ConfirmDialog confirmDialog = new ConfirmDialog(App.localization.getString("language_change.title"),
+                App.localization.getString("language_change.message_1") + " " + localization + "\n"
+                        + App.localization.getString("language_change.message_2"));
+        if(confirmDialog.getResponse() != ConfirmDialog.Response.YES)return;
+
+        if(App.config.containsKey("locale"))App.config.replace("locale",localization);
+        try (OutputStream output = new FileOutputStream("config.properties")) {
+            App.config.store(output, null);
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
 
 
     }

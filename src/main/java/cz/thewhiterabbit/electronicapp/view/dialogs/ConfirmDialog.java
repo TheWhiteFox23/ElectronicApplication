@@ -24,7 +24,7 @@ public class ConfirmDialog extends Stage {
 
     public ConfirmDialog(String title, String text){
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/confirm_dialog.fxml"));
-        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
+        loader.setResources(App.localization);
         loader.setController(confirmDialogController);
         Scene scene = null;
         try {

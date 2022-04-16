@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,9 +19,21 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class App extends Application {
-    public static final ResourceBundle localization  = ResourceBundle.getBundle("strings", new Locale("en", "US"));
+    public static ResourceBundle localization  = ResourceBundle.getBundle("strings", new Locale("en", "US" ));
+    public static Properties config = new Properties();
     @Override
     public void start(Stage stage) throws IOException {
+        //load properties
+        try (InputStream input = new FileInputStream("config.properties")) {
+            config.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        if(config.getProperty("locale").equals("cs_CZ")) {
+            localization  = ResourceBundle.getBundle("strings", new Locale("cs", "CZ" ));
+        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Window.fxml"));
         loader.setResources(localization);
         Scene scene = new Scene(loader.load(), 1200, 800);

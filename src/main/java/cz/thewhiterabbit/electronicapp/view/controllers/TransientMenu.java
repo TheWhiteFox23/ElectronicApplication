@@ -35,7 +35,7 @@ public class TransientMenu extends SimulationMenuPanel {
 
     public TransientMenu() {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/transient_menu.fxml"));
-        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
+        loader.setResources(App.localization);
         loader.setRoot(this);
         loader.setController(this);
         try {

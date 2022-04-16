@@ -20,7 +20,7 @@ public class SimulationProgressDialog extends Stage {
     public SimulationProgressDialog(Task task){
         this.task = task;
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/simulation_progress_dialog.fxml"));
-        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
+        loader.setResources(App.localization);
         loader.setController(controller);
         Scene scene = null;
         try {
@@ -28,7 +28,7 @@ public class SimulationProgressDialog extends Stage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setTitle("Simulation progress");
+        setTitle(App.localization.getString("simdialog.title"));
         initComponents();
 
         setScene(scene);
