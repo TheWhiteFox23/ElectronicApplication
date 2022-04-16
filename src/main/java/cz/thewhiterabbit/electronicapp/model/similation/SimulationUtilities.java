@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationUtilities {
     //private HashMap<String, List<ActivePoint>> activePointMap;
-    private static final String spiceResource = App.class.getResource("ngspice/bin/ngspice_con.exe").toExternalForm();
+    private static final String spiceResource = App.class.getResource("ngspice/ng_bin/ngspice_con.exe").toExternalForm();
     private static final String inputFile = "circuit.cir";
     private static final String outputFile = "result.txt";
     private static String[] argumString = new String[]{"cmd.exe", "/c", "start", spiceResource, "-b", inputFile, "-o", outputFile};
