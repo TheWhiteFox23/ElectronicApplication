@@ -18,16 +18,16 @@
         <TextField styleClass="general_textfield" fx:id="stopValueTF" text="20" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
         <TextField styleClass="general_textfield" fx:id="numberOfPointsTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
-        <Label fx:id="startValueLabel" text="Start frequency" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label fx:id="stopValueLabel" text="Stop frequency" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Number of points" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label fx:id="startValueLabel" text="%acdc.start_frequency" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label fx:id="stopValueLabel" text="%acdc.stop_frequency" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="%acdc.nuber_of_points" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
         <TextField styleClass="general_textfield" fx:id="scaleTopTF" text="-180" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
         <TextField styleClass="general_textfield" fx:id="scaleBottomTF" text="180" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
 
-        <Label  text="Scale top" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-        <Label  text="Scale bottom" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+        <Label  text="%acdc.scale_top" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <Label  text="%acdc.scale_bottom" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
 
 
 

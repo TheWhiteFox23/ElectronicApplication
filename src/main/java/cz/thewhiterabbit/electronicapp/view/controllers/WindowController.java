@@ -29,41 +29,37 @@ public class WindowController {
     private AnchorPane simulationPanel;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         black.setVisible(false);
         initializeListeners();
     }
 
     private void initializeListeners() {
-        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.SHOW_INFO_DIALOG, h->{
-            if(((MenuEvent)h).getComponent() != null){
-                //componentInfoPanel.setActiveComponent(((MenuEvent) h).getComponent());
-                black.setVisible(true);
-            }else{
-                System.out.println("Show component info dialog on default component");
-                //window.getChildren().remove(componentInfoPanel);
-                black.setVisible(true);
-            }
+        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.SHOW_INFO_DIALOG, h -> {
+            black.setVisible(true);
         });
-        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.HIDE_INFO_DIALOG, h->{
+        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.HIDE_INFO_DIALOG, h -> {
             black.setVisible(false);
         });
 
-        black.addEventHandler(MouseEvent.MOUSE_CLICKED, h->{
-            if(h.getTarget() == black)GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
+        black.addEventHandler(MouseEvent.MOUSE_CLICKED, h -> {
+            if (h.getTarget() == black)
+                GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
         });
 
-        black.addEventHandler(KeyEvent.ANY, e->{
-            if(e.getCode()== KeyCode.ESCAPE)GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
+        black.addEventHandler(KeyEvent.ANY, e -> {
+            if (e.getCode() == KeyCode.ESCAPE)
+                GUIEventAggregator.getInstance().fireEvent(new MenuEvent(MenuEvent.HIDE_INFO_DIALOG));
         });
 
-        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.MODE_CHANGED, e->{
-            switch (((MenuEvent)e).getDocument().getMode()){
-                case SCHEMATIC:{
+        GUIEventAggregator.getInstance().addEventHandler(MenuEvent.MODE_CHANGED, e -> {
+            switch (((MenuEvent) e).getDocument().getMode()) {
+                case SCHEMATIC: {
                     canvas.setVisible(true);
                     simulationPanel.setVisible(false);
                     break;
-                }case SIMULATION:{
+                }
+                case SIMULATION: {
                     canvas.setVisible(false);
                     simulationPanel.setVisible(true);
                     break;

@@ -56,7 +56,7 @@ public class ComponentInfoPanel extends BorderPane {
             TreeItem item = stack.pop();
             if (item instanceof ComponentTreeItem &&
                     ((ComponentTreeItem) item).getComponent() != null &&
-                    ((ComponentTreeItem) item).getComponent().equals(component.getType())) {
+                    ((ComponentTreeItem) item).getComponent() == component) {
                 return item;
             } else {
                 stack.addAll(item.getChildren());

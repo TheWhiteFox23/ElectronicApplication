@@ -13,21 +13,21 @@
     <padding><Insets top="5"/></padding>
     <GridPane vgap="2" hgap="2" styleClass="simulation_menu_panel" prefHeight="142" minHeight="142" maxHeight="142">
         <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
-        <Label text="Simulation" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label text="%transient.simulation" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField styleClass="general_textfield" fx:id="stopTimeTF" text="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <TextField styleClass="general_textfield" fx:id="stepIncrementTF" text="10" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
         <TextField styleClass="general_textfield" fx:id="startTimeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
         <TextField styleClass="general_textfield" fx:id="maxStepSizeTF" text="0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
-        <Label text="Stop time" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Step increment" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Start time" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <Label text="Max step size" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="%transient.stop_time" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="%transient.step_increment" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="%transient.start_time" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="%transient.max_step_size" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-        <CheckBox fx:id="useStartTimeCB" GridPane.columnIndex="2" GridPane.rowIndex="3" text="Use start time"
+        <CheckBox fx:id="useStartTimeCB" GridPane.columnIndex="2" GridPane.rowIndex="3" text="%transient.use_start_time"
                   GridPane.columnSpan="3"/>
 
-        <CheckBox fx:id="useInternalStepCB" GridPane.columnIndex="2" GridPane.rowIndex="4" text="Use internal step time"
+        <CheckBox fx:id="useInternalStepCB" GridPane.columnIndex="2" GridPane.rowIndex="4" text="%transient.use_internal_step"
                   GridPane.columnSpan="3"/>
     </GridPane>
 </fx:root>

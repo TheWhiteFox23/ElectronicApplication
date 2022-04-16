@@ -29,50 +29,41 @@
          <root>
             <TreeItem fx:id="rootItem" value="Root" expanded="true">
                <children>
-                  <TreeItem value="Probes, AC" expanded="false">
+                  <TreeItem value="%compinf.probes" expanded="false">
                      <children>
-                        <ComponentTreeItem value="Voltmeter" htmlPath="html/voltmeter.html" />
-                        <ComponentTreeItem value="Amperemeter" htmlPath="html/amperemeter.html" />
-                        <ComponentTreeItem value="AC source" htmlPath="html/ac_source.html"/>
+                        <ComponentTreeItem value="%compinf.voltmeter" htmlPath="html/voltmeter.html" />
+                        <ComponentTreeItem value="%compinf.ammeter" htmlPath="html/amperemeter.html" />
+                        <ComponentTreeItem value="%compinf.ac_source" htmlPath="html/ac_source.html"/>
                      </children>
                   </TreeItem>
-                  <TreeItem value="R,C,L">
+                  <TreeItem value="%compinf.r_c_l">
                      <children>
-                        <ComponentTreeItem value="Resistor" htmlPath="html/resistor.html" component="RESISTOR"/>
-                        <ComponentTreeItem value="Capacitor" htmlPath="html/capacitor.html" component="CAPACITOR"/>
-                        <ComponentTreeItem value="Conductor" htmlPath="html/conductor.html" component="CONDUCTOR"/>
-                        <ComponentTreeItem value="Coupled Conductor" htmlPath="html/coupled_conductor.html" component="COUPLED_CONDUCTOR"/>
+                        <ComponentTreeItem value="%compinf.resistor" htmlPath="html/resistor.html" component="RESISTOR"/>
+                        <ComponentTreeItem value="%compinf.capacitor" htmlPath="html/capacitor.html" component="CAPACITOR"/>
+                        <ComponentTreeItem value="%compinf.conductor" htmlPath="html/conductor.html" component="INDUCTOR"/>
+                        <ComponentTreeItem value="%compinf.coupled_conductor" htmlPath="html/coupled_conductor.html" component="COUPLED_INDUCTOR"/>
                      </children>
                   </TreeItem>
-                  <TreeItem value="Diodes" expanded="false">
+                  <TreeItem value="%compinf.diodes" expanded="false">
                      <children>
-                        <TreeItem value="Diode"/>
-                        <TreeItem value="Zener diode"/>
-                        <TreeItem value="Bidirectional zener diode"/>
-                        <TreeItem value="Bridge rectifier"/>
+                        <TreeItem value="%compinf.diode"/>
+                        <TreeItem value="%compinf.zener_diode"/>
+                        <TreeItem value="%compinf.bidirectional_zener"/>
+                        <TreeItem value="%compinf.bridge_rectifier"/>
                      </children>
                   </TreeItem>
-                  <TreeItem value="Transistors" expanded="false">
+                  <TreeItem value="%compinf.transistors" expanded="false">
                      <children>
-                        <TreeItem value="NPN transistor"/>
-                        <TreeItem value="PNP transistor"/>
-                        <TreeItem value="N-FET"/>
-                        <TreeItem value="P-FET"/>
+                        <TreeItem value="%compinf.npn_transistor"/>
+                        <TreeItem value="%compinf.pnp_transistor"/>
+                        <TreeItem value="%compinf.n_fet"/>
+                        <TreeItem value="%compinf.p_fet"/>
                      </children>
                   </TreeItem>
-                  <TreeItem value="Amplifiers" expanded="false">
+                  <TreeItem value="%compinf.sources" expanded="false">
                      <children>
-                        <TreeItem value="Buffer amplifier"/>
-                        <TreeItem value="Comparator"/>
-                        <TreeItem value="Differential amplifier"/>
-                        <TreeItem value="Differential comparator"/>
-                        <TreeItem value="Summing amplifier"/>
-                     </children>
-                  </TreeItem>
-                  <TreeItem value="Sources" expanded="false">
-                     <children>
-                        <TreeItem value="Voltage source"/>
-                        <TreeItem value="Currant source"/>
+                        <TreeItem value="%compinf.voltage_source"/>
+                        <TreeItem value="%compinf.currant_source"/>
                      </children>
                   </TreeItem>
                </children>

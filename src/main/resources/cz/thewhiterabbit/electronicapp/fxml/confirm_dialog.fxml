@@ -14,15 +14,15 @@
 
     <HBox alignment="CENTER">
         <padding><Insets top="25" right="0" bottom="0" left="0"/></padding>
-        <Label fx:id="titleLabel" text="Confirm dialog" styleClass="title_label"/>
+        <Label fx:id="titleLabel" text="%confirm.dialog.title" styleClass="title_label"/>
     </HBox>
     <HBox alignment="CENTER" VBox.vgrow="ALWAYS" >
-        <Label fx:id="messageLabel" text="Message of the confirm dialog" VBox.vgrow="ALWAYS" textAlignment="CENTER" styleClass="text_label"/>
+        <Label fx:id="messageLabel" text="%confirm.dialog.message" VBox.vgrow="ALWAYS" textAlignment="CENTER" styleClass="text_label"/>
     </HBox>
     <HBox spacing="150" alignment="CENTER">
         <padding><Insets top="0" right="0" bottom="25" left="0"/></padding>
-        <Button text="No" fx:id="cancelButton" styleClass="cancel_button"/>
-        <Button text="Yes" fx:id="confirmButton" styleClass="confirm_button"/>
+        <Button text="%confirm.dialog.no" fx:id="cancelButton" styleClass="cancel_button"/>
+        <Button text="%confirm.dialog.yes" fx:id="confirmButton" styleClass="confirm_button"/>
     </HBox>
 
 </VBox>

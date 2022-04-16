@@ -11,7 +11,7 @@
       stylesheets="@../stylesheets/style.css"
       styleClass="component_menu">
     <StackPane styleClass="simulation_button">
-        <Button  fx:id="simulationButton" text="Simulation"/>
+        <Button  fx:id="simulationButton" text="%compmenu.simulation"/>
     </StackPane>
     <VBox>
         <HBox fx:id="categoriesBox"/>

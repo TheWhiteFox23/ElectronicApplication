@@ -19,13 +19,13 @@
             <Insets top="24" left="5" right="5" bottom="6"/>
         </padding>
         <VBox spacing="10" alignment="CENTER">
-            <Button fx:id="simulationButton" text="Schematic"/>
-            <Button fx:id="simulateButton" text="Simulate" styleClass="simulate_button"/>
+            <Button fx:id="simulationButton" text="%simmenu.schematic"/>
+            <Button fx:id="simulateButton" text="%simmenu.simulate" styleClass="simulate_button"/>
         </VBox>
     </StackPane>
     <VBox fx:id="menuVBox" spacing="5">
         <HBox fx:id="categoriesBox">
-            <CategoryButton text="Transient" fx:id="transientButton"/>
+            <CategoryButton text="%simmenu.transient" fx:id="transientButton"/>
             <!--<CategoryButton text="AC Sweep" fx:id="acSweepButton"/>-->
             <!--<CategoryButton text="DC analysis" fx:id="dcAnalysisButton"/>-->
         </HBox>

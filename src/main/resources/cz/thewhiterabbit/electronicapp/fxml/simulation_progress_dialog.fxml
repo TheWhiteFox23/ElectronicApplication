@@ -9,7 +9,7 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="200" prefWidth="300.0">
-    <Label text="Simulation in progress dialog"/>
+    <Label text="%simdialog.in_progress"/>
     <ProgressBar fx:id="progressBar"/>
     <Label fx:id="messageLabel"/>
 </VBox>

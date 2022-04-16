@@ -22,11 +22,11 @@
         <VBox prefWidth="300" spacing="5" styleClass="simulation_node_panel">
             <padding><Insets top="5" left="5" right="5" bottom="5"/></padding>
             <DrawingCanvas fx:id="drawingArea" />
-            <Label text="Simulation result"/>
+            <Label text="%simpanel.simulation_result"/>
             <NodeListView fx:id="nodeListView" VBox.Vgrow="ALWAYS"/>
             <HBox spacing="5" styleClass="scroll_pane_control">
-                <Button  fx:id="selectAll" text="Select all"/>
-                <Button  fx:id="cleanSelection" text="CleanSelection"/>
+                <Button  fx:id="selectAll" text="%simpanel.select_all"/>
+                <Button  fx:id="cleanSelection" text="%simpanel.clean_selection"/>
             </HBox>
         </VBox>
         <AnchorPane  styleClass="line_chart_holder" fx:id="lineChartHolder"  HBox.hgrow="SOMETIMES"/>

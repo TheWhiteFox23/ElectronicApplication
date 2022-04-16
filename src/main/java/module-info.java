@@ -20,4 +20,6 @@ module cz.thewhiterabbit.electronicapp {
     opens cz.thewhiterabbit.electronicapp.model.objects to javafx.fxml;
     exports cz.thewhiterabbit.electronicapp.utilities;
     opens cz.thewhiterabbit.electronicapp.utilities to javafx.fxml;
+    exports  cz.thewhiterabbit.electronicapp.model.components;
+    opens cz.thewhiterabbit.electronicapp.model.components to javafx.fxml;
 }

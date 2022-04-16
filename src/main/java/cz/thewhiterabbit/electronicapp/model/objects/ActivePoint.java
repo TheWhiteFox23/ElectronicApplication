@@ -16,7 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-@ComponentType
+
 public class ActivePoint extends GeneralMappingComponent {
     private final LineDrawingUtilities lineDrawingUtilities = new LineDrawingUtilities(); //TODO to many instances, make static utility class
     private final Component component = Component.ACTIVE_POINT;
