@@ -26,19 +26,19 @@
     <VBox fx:id="menuVBox" spacing="5">
         <HBox fx:id="categoriesBox">
             <CategoryButton text="Transient" fx:id="transientButton"/>
-            <CategoryButton text="AC Sweep" fx:id="acSweepButton"/>
-            <CategoryButton text="DC analysis" fx:id="dcAnalysisButton"/>
+            <!--<CategoryButton text="AC Sweep" fx:id="acSweepButton"/>-->
+            <!--<CategoryButton text="DC analysis" fx:id="dcAnalysisButton"/>-->
         </HBox>
 
-        <HBox fx:id="acSweepMenu" visible="false">
+        <!--<HBox fx:id="acSweepMenu" visible="false">
             <ACDCMenu fx:id="acSweepPanel" startValueText="Start frequency" stopValueText="Stop frequency" HBox.hgrow="ALWAYS"/>
-        </HBox>
+        </HBox>-->
         <HBox fx:id="transientMenu" visible="false">
             <TransientMenu fx:id="transientPanel" HBox.hgrow="ALWAYS"/>
         </HBox>
-        <HBox fx:id="dcAnalysisMenu" visible="false">
+        <!--<HBox fx:id="dcAnalysisMenu" visible="false">
             <ACDCMenu fx:id="dcAnalysisPanel" startValueText="Start value" stopValueText="Stop value" HBox.hgrow="ALWAYS"/>
-        </HBox>
+        </HBox>-->
     </VBox>
     <!--<StackPane>
         <padding>
