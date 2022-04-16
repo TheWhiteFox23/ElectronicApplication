@@ -10,6 +10,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class SimulationProgressDialog extends Stage {
     private final SimulationProgressDialogController controller = new SimulationProgressDialogController();
@@ -18,6 +20,7 @@ public class SimulationProgressDialog extends Stage {
     public SimulationProgressDialog(Task task){
         this.task = task;
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/simulation_progress_dialog.fxml"));
+        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
         loader.setController(controller);
         Scene scene = null;
         try {

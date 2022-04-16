@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 public class FileLoadError extends Stage {
@@ -29,6 +31,7 @@ public class FileLoadError extends Stage {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(fileLoadController);
         loader.setLocation(App.class.getResource("fxml/FileLoadDialog.fxml"));
+        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
         view = loader.load();
         setScene(new Scene(view));
 

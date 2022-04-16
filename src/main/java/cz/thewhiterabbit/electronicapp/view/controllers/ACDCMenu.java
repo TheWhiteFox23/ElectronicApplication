@@ -10,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ACDCMenu extends SimulationMenuPanel {
     private final StringProperty startValueText = new SimpleStringProperty();
@@ -33,6 +35,7 @@ public class ACDCMenu extends SimulationMenuPanel {
 
     public ACDCMenu(){
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/ac_dc_menu.fxml"));
+        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
         loader.setRoot(this);
         loader.setController(this);
         try {

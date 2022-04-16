@@ -13,6 +13,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class TransientMenu extends SimulationMenuPanel {
 
@@ -33,6 +35,7 @@ public class TransientMenu extends SimulationMenuPanel {
 
     public TransientMenu() {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("fxml/transient_menu.fxml"));
+        loader.setResources(ResourceBundle.getBundle("strings", new Locale("en", "US")));
         loader.setRoot(this);
         loader.setController(this);
         try {
