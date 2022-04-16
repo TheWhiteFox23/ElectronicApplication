@@ -197,6 +197,9 @@ public class DrawingAreaController {
                 drawingArea.repaint();
             }
         });
+        eventAggregator.addEventHandler(DrawingAreaEvent.EDITING_FINISHED, e->{
+            drawingArea.repaint();
+        });
     }
 
     private void doCloseDocument(Document document) {

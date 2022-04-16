@@ -162,21 +162,23 @@ public class DrawingCanvas extends Region {
     };
 
     private void addModelHandlers(EventAggregator aggregator){
-        aggregator.addEventHandler(CanvasPaintEvent.PAINT, paintHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.ANY, repaintHandler);
+        /*aggregator.addEventHandler(CanvasPaintEvent.PAINT, paintHandler);
         aggregator.addEventHandler(CanvasPaintEvent.PAINT_OBJECT, paintObjectHandler);
         aggregator.addEventHandler(CanvasPaintEvent.REPAINT, repaintHandler);
         aggregator.addEventHandler(CanvasPaintEvent.REPAINT_OBJECT, repaintObjectHandler);
         aggregator.addEventHandler(CanvasPaintEvent.CLEAN, clearHandler);
-        aggregator.addEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);
+        aggregator.addEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);*/
     }
 
     private void removeEventHandlers(EventAggregator aggregator){
-        aggregator.removeEventHandler(CanvasPaintEvent.PAINT, paintHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.ANY, repaintHandler);
+        /*aggregator.removeEventHandler(CanvasPaintEvent.PAINT, paintHandler);
         aggregator.removeEventHandler(CanvasPaintEvent.PAINT_OBJECT, paintObjectHandler);
         aggregator.removeEventHandler(CanvasPaintEvent.REPAINT, repaintHandler);
         aggregator.removeEventHandler(CanvasPaintEvent.REPAINT_OBJECT, repaintObjectHandler);
         aggregator.removeEventHandler(CanvasPaintEvent.CLEAN, clearHandler);
-        aggregator.removeEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);
+        aggregator.removeEventHandler(CanvasPaintEvent.CLEAN_OBJECT, clearObjectHandler);*/
     }
 
 
