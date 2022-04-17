@@ -20,7 +20,7 @@ public class Resistor extends GeneralComponent {
     private final String PROBE_NAME = "currant_probe_name";
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "resistor.resistance", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "resistor.resistance", type = ComponentPropertyType.TEXT_FIELD,unit = "Ω")
     private final DoubleProperty resistance = new SimpleDoubleProperty(this, RESISTANCE, 1);
 
     private final String path ="M66.67,65.57l-11.11-24-11.12,24-11.11-24-11.11,24L15.71,51.5H0v-3H17.63l4.59,9.93," +

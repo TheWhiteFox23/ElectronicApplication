@@ -6,6 +6,8 @@ import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import cz.thewhiterabbit.electronicapp.model.property.PropertyDialogField;
 import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 import javafx.beans.property.*;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
 
 
 @ComponentType
@@ -25,7 +27,7 @@ public class VoltageSource extends GeneralComponent {
 
     private final String VALUE = "value";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.value", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.value", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
     private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 0.1);
 
     //PULSE
@@ -34,42 +36,42 @@ public class VoltageSource extends GeneralComponent {
 
     private final String INITIAL_VALUE = "initial_value";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.initial_value", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.initial_value", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
     private final DoubleProperty initial_value = new SimpleDoubleProperty(this, INITIAL_VALUE, 0);
 
     private final String PULSE_VALUE = "pulse_value";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.pulse_value", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.pulse_value", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
     private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 0.1);
 
     private final String DELAY_TIME = "delay_time";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.delay_time", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.delay_time", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty delay_time = new SimpleDoubleProperty(this, DELAY_TIME, 0);
 
     private final String RISE_TIME = "rise_time";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.rise_time", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.rise_time", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty rise_time = new SimpleDoubleProperty(this, RISE_TIME, 0);
 
     private final String FALL_TIME = "fall_time";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.fall_time", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.fall_time", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty fall_time = new SimpleDoubleProperty(this, FALL_TIME, 0);
 
     private final String PULSE_WIDTH = "pulse_width";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.pulse_width", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.pulse_width", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty pulse_width = new SimpleDoubleProperty(this, PULSE_WIDTH, 1);
 
     private final String PERIOD = "period";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.period", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.period", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty period = new SimpleDoubleProperty(this, PERIOD, 2);
 
     private final String PHASE_PULSE = "phase_pulse";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.phase", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.phase", type = ComponentPropertyType.TEXT_FIELD, unit = "deg")
     private final DoubleProperty phase_pulse = new SimpleDoubleProperty(this, PHASE_PULSE, 0);
     //SINUSOIDAL
     @PropertyDialogField(name = "source.sinusoidal", type = ComponentPropertyType.LABEL)
@@ -77,32 +79,32 @@ public class VoltageSource extends GeneralComponent {
 
     private final String OFFSET = "offset";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.offset", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.offset", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
     private final DoubleProperty offset = new SimpleDoubleProperty(this, OFFSET, 0);
 
     private final String AMPLITUDE = "amplitude";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.amplitude", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.amplitude", type = ComponentPropertyType.TEXT_FIELD , unit = "V")
     private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 1);
 
     private final String FREQUENCY = "frequency";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.frequency", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.frequency", type = ComponentPropertyType.TEXT_FIELD, unit = "Hz")
     private final DoubleProperty frequency = new SimpleDoubleProperty(this, FREQUENCY, 0);
 
     private final String DELAY = "delay";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.delay", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.delay", type = ComponentPropertyType.TEXT_FIELD, unit = "s")
     private final DoubleProperty delay = new SimpleDoubleProperty(this, DELAY, 1e-3);
 
     private final String DUMPING_FACTOR = "dumping_factor";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.dumping_factor", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.dumping_factor", type = ComponentPropertyType.TEXT_FIELD, unit = "1/sec")
     private final DoubleProperty dumping_factor = new SimpleDoubleProperty(this, DUMPING_FACTOR, 0);
 
     private final String PHASE_SINUSOIDAL = "phase_sinusoidal";
     @RawPropertyMapping
-    @PropertyDialogField(name = "source.phase_sinusoidal", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "source.phase_sinusoidal", type = ComponentPropertyType.TEXT_FIELD, unit = "deg")
     private final DoubleProperty phase_sinusoidal = new SimpleDoubleProperty(this, PHASE_SINUSOIDAL, 0);
 
     private final String path ="M84,48.5V47.44l-.82-5.28-1.63-5.1-2.42-4.77L76,28l-3.77-3.8L67.92,21l-4.76-2.45-5.09-" +
@@ -139,6 +141,13 @@ public class VoltageSource extends GeneralComponent {
     }
 
     @Override
+    protected void doPaint(GraphicsContext gc){
+        super.doPaint(gc);
+        gc.setFont(new Font(25));
+        gc.fillText(String.valueOf(getComponentName() + " " +value.get()) + "V", 0,0);
+    }
+
+    @Override
     public String getSimulationComponent() {
         if(type.getValue().equals("Sinusoidal")){
             return getSinusoidal();
@@ -149,6 +158,8 @@ public class VoltageSource extends GeneralComponent {
         }
 
     }
+
+
 
     private String getSinusoidal() {
         String command = "";

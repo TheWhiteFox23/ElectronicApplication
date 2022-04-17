@@ -1,18 +1,20 @@
 * Title: Test circuit
 
 * Netlist
-V0 n25 n20 5.0
-Q3 n26 n21 n22 QMOD
-.model QMOD NPN level=4
-R5 n22 0 0
-R7 n18 0 0
-V8 n21 n18 SIN(0.0 1.0 0.0 0.001 0.0 0.0)
-R10 n20 0 0
-R12 n25 n26 10.0
+R1 n18 0 0
+R3 n20 n21 470000.0
+D4 n18 n21 DMOD
+.model DMOD D
+D7 n21 n18 DMOD
+.model DMOD D
+C10 n20 n26 0.22 ic=0.0
+R13 n26 n20 160.0
+V14 n26 n28 SIN(0.0 230.0 50.0 0.001 0.0 0.0)
+R15 n28 0 0
 
 .control
 op
-tran 0.1 5.0 0 uic
+tran 1.0 0.4 0 uic
 echo output test > result.txt $ start new file
 set appendwrite
 set wr_vecnames

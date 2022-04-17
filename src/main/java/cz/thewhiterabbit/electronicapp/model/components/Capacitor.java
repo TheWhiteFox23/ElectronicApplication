@@ -9,6 +9,8 @@ import cz.thewhiterabbit.electronicapp.model.property.RawPropertyMapping;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -24,11 +26,11 @@ public class Capacitor extends GeneralComponent {
     private ActivePoint activePointOut;
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "capacitor.capacitance", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "capacitor.capacitance", type = ComponentPropertyType.TEXT_FIELD, unit = "F")
     private final DoubleProperty capacitance = new SimpleDoubleProperty(this, CAPACITANCE, 1);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "capacitor.initial_condition", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "capacitor.initial_condition", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
     private final DoubleProperty initial_condition = new SimpleDoubleProperty(this, INITIAL_CONDITION, 0);
 
     private final String path ="M46.5,35V65h-3V51.5H0v-3H43.5V35Zm10,13.5V35h-3V65h3V51.5H100v-3ZM61.44,38a1.5,1.5,0,1," +
@@ -43,6 +45,13 @@ public class Capacitor extends GeneralComponent {
         activePointOut = new ActivePoint();
         addActivePoint(activePointIn, 0,1);
         addActivePoint(activePointOut,2,1);
+    }
+
+    @Override
+    protected void doPaint(GraphicsContext gc){
+        super.doPaint(gc);
+        gc.setFont(new Font(25));
+        gc.fillText(String.valueOf(getComponentName() + " " +capacitance.get()) + "F", 0,0);
     }
 
     @Override

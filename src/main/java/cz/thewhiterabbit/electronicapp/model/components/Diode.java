@@ -12,7 +12,6 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
-@ComponentType
 public class Diode extends GeneralComponent {
     private ActivePoint activePointIn;
     private ActivePoint activePointOut;

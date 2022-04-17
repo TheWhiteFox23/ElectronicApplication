@@ -10,6 +10,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 @ComponentType
 public class Inductor extends GeneralComponent {
@@ -22,11 +23,11 @@ public class Inductor extends GeneralComponent {
     private ActivePoint activePointOut;
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "inductor.inductance", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "inductor.inductance", type = ComponentPropertyType.TEXT_FIELD, unit = "H")
     private final DoubleProperty inductance = new SimpleDoubleProperty(this, INDUCTANCE, 1);
 
     @RawPropertyMapping
-    @PropertyDialogField(name = "inductor.initial_condition", type = ComponentPropertyType.TEXT_FIELD)
+    @PropertyDialogField(name = "inductor.initial_condition", type = ComponentPropertyType.TEXT_FIELD, unit = "A")
     private final DoubleProperty initial_condition = new SimpleDoubleProperty(this, INITIAL_CONDITION, 0);
 
     private final String path ="M100,48.5v3H81V44c0-3.31-3-6-6.62-6s-6.63,2.69-6.63,6v7.5h-3V44c0-3.31-3-6-6.62-6s-6.63," +
@@ -42,6 +43,13 @@ public class Inductor extends GeneralComponent {
         activePointOut = new ActivePoint();
         addActivePoint(activePointIn, 0,1);
         addActivePoint(activePointOut,2,1);
+    }
+
+    @Override
+    protected void doPaint(GraphicsContext gc){
+        super.doPaint(gc);
+        gc.setFont(new Font(25));
+        gc.fillText(String.valueOf(getComponentName() + " " +inductance.get()) + "H", 0,0);
     }
 
     @Override

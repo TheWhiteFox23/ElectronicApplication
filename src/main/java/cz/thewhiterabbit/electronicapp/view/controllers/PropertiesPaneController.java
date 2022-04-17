@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -97,12 +98,24 @@ public class PropertiesPaneController {
         if(App.localization.containsKey(text))text=App.localization.getString(text);
         nameLabel.setText(text);
        //nodes.add(nameLabel);
-        Label unitLabel = new Label();
-        unitLabel.setText(property.getUnit());
+        //Label unitLabel = new Label();
+        //unitLabe.set
+        //unitLabel.setText(property.getUnit());
 
         //nodes.add(getPropertyNode(property));
-
-        nodes.add(new VBox(nameLabel, new HBox(getPropertyNode(property), unitLabel)));
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(property.getUnit());
+        tooltip.setStyle("-fx-text-fill: white;");
+        Node node = getPropertyNode(property);
+        node.addEventHandler(MouseEvent.MOUSE_MOVED, event->{
+            if(tooltip.getText().length() == 0) return;
+            Node n = (Node) event.getSource();
+            tooltip.show(n, event.getScreenX() + 10, event.getScreenY() + 10);
+        });
+        node.addEventHandler(MouseEvent.MOUSE_EXITED, event->{
+            tooltip.hide();
+        });
+        nodes.add(new VBox(nameLabel, new HBox(node)));
         return nodes;
     }
 

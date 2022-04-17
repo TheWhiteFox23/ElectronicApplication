@@ -4,7 +4,7 @@ import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.property.ComponentType;
 import javafx.scene.canvas.GraphicsContext;
 
-@ComponentType
+
 public class TransistorPNP extends GeneralComponent {
     private ActivePoint activePointBase;
     private ActivePoint activePointCollector;

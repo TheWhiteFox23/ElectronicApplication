@@ -31,7 +31,7 @@ class SimulationUtilitiesTest {
     void setUp() {
         FileService service = new FileService();
         try {
-            test_circuit = service.load(new File("src/test/resources/test_circuit.aeon"));
+            test_circuit = service.load(new File("src/test/resources/basic_circuit.aeon"));
             test_circuit_2 = service.load(new File("src/test/resources/test_circuit_2.aeon"));
             mapping_test_3 = service.load(new File("src/test/resources/mapping_test_3.aeon"));
             mapping_test_2 = service.load(new File("src/test/resources/mapping_test_2.aeon"));
