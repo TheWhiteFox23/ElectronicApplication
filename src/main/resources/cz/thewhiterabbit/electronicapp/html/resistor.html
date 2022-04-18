@@ -16,6 +16,39 @@ h2{
     color: #333333;
     font-family: Tahoma;
 }
+h3{
+    color: #333333;
+    font-family: Tahoma;
+}
+li{
+    color: #333333;
+    font-family: Tahoma;
+}
+
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 0px 10px 0px 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #c3c2c2;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-container-padded {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px 15px 0px;
+}
 
 
 </STYLE>
@@ -25,49 +58,105 @@ h2{
     <title>Resistor</title>
 </head>
 <body>
-<h2>Resistor</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Commodo odio aenean sed adipiscing diam donec. Nullam vehicula ipsum a arcu. Ipsum faucibus vitae aliquet
-    nec. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Pretium vulputate sapien nec sagittis aliquam
-    malesuada bibendum arcu. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Ipsum nunc
-    aliquet bibendum enim facilisis. Sed libero enim sed faucibus turpis in. Ullamcorper eget nulla facilisi etiam
-    dignissim diam quis.</p>
+    <H2>Rezistor</H2>
+    <H3>Obecné informace o rezistoru</H3>
+    <p>Rezistor je elektronická součástka, která v obvodu realizuje funkci odporu (R). Z Ohmova zákona vyplívá, že rezistory převádějí proud na napětí a naopak. Pokud bychom tuto vlastnost měli popsat konkrétně, tak při průchodu daného proudu I rezistorem vzniká úbytek napětí U přímo úměrný hodnotě odporu rezistoru. Pokud bychom na rezistor přivedli napětí U, protek by jím proud I tím menší, čím je vyšší jeho hodnota odporu.</p>
+    <H3>Parametry rezistorů</H3>
+    <p>U rezistorů, stejně jako u ostatních komponent elektrických obvodů, sledujeme dva typy vlastností, mezní a charakteristické. Mezní hodnoty jsou takové, při jejichž překročení dojde k poškození součástky. Charakteristické jsou ty, které charakterizují užitné vlastnosti. U rezistoru sledujeme především dva parametry, jmenovitou hodnotu odporu (charakteristická vlastnost) a jmenovitou zatížitelnost (mezní hodnota).    </p>
+    <h3>Řady jmenovitých hodnot</h3>
+    <p>V praxi se běžně vyskytují rezistory v rozsahu řádově 1Ω až 106 Ω, ale můžeme se setkat i s rezistory v rozsahu 0.1 Ω až 1 Ω nebo 106 Ω až 1012 Ω. V takto širokém rozsahu není možné vyrábět každou myslitelnou hodnotu, proto se vyrábí pouze některé jmenovité hodnoty. Tyto hodnoty se navíc v každé dekádě opakují. Tyto řady jsou celosvětovým standardem a různí výrobci tedy používají stejné řady.
+    </p>
+    <h3>Jmenovitá zatížitelnost</h3>
+    <p>Jmenovitá zatížitelnost vychází ze elektrického výkonu, který se při průchodu proudu I vodičem R ztratí z pravidla proměnou na tepelnou energii. </p>
+    <div class="flex-container"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="222.07955121994019" height="48.78409194946289" style="width:222.07955121994019px;height:48.78409194946289px;font-family:Asana-Math, Asana;background:transparent;"><g><g><g><g transform="matrix(1,0,0,1,2,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M105 664L160 662C184 661 195 653 195 635L112 125C95 34 94 31 54 28L13 25L9 -3L51 -2C92 -1 123 0 141 0C158 0 187 -1 227 -2L280 -3L283 25L218 28C192 29 182 37 182 58C182 67 183 74 186 93L284 648C320 654 336 656 355 656C457 656 506 612 506 519C506 411 434 323 346 323C324 323 304 328 267 342L269 311C306 293 326 288 355 288C484 288 594 405 594 541C594 642 531 695 412 692L108 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,17.46588134765625,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,33.92047119140625,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M1044 664L1047 692L1031 692L940 689C925 689 904 689 860 690L797 692L794 664L842 662C866 661 877 653 877 634C877 629 877 626 876 622L805 177C757 119 727 93 676 68C638 48 601 39 563 39C478 39 424 84 424 154C424 171 426 187 431 215L519 692L488 691C461 690 441 689 430 689C420 689 400 690 372 691L340 692L337 664L389 662C415 661 423 656 423 639C423 630 420 602 416 581L352 206C348 185 346 160 346 144C346 43 413 -19 525 -19C569 -19 610 -9 658 15C717 44 749 69 801 129C793 83 787 57 774 2L779 -3L801 -3L863 0C867 0 889 -1 921 -2L953 -3L958 25L898 29C875 31 866 37 866 50C866 65 867 70 872 106L957 613C963 651 970 657 1008 661Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,54.7613525390625,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,62.397705078125,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,77.3636474609375,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,93.81817626953125,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M603 664L659 662C683 661 694 653 694 635C694 621 690 589 685 559L610 125C594 34 592 32 552 28L511 25L507 -3L549 -2C596 0 615 0 639 0L736 -3L762 -3L765 25L716 28C689 30 680 38 680 58C680 67 681 76 684 93L785 648C814 654 834 656 861 656C948 656 994 617 994 543C994 448 916 378 812 378L768 378L765 367C899 172 930 124 1005 -3C1005 -3 1090 0 1090 0C1091 0 1105 -1 1124 -3L1137 -3L1137 24C1097 29 1086 37 1057 79L873 354C928 364 957 376 993 402C1051 444 1082 499 1082 560C1082 646 1018 693 907 691L606 691Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,117,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,124.6363525390625,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,131.25,26.297735595703124)"><path transform="matrix(0.0119,0,0,-0.0119,0,0)" d="M16 23L16 -3C203 -3 203 0 239 0C275 0 275 -3 468 -3L468 82C353 77 307 81 122 77L304 270C401 373 431 428 431 503C431 618 353 689 226 689C154 689 105 669 56 619L39 483L68 483L81 529C97 587 133 612 200 612C286 612 341 558 341 473C341 398 299 324 186 204Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g></g><g><g transform="matrix(1,0,0,1,138.20452880859375,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,147.53411865234375,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,165.68182373046875,20.590911865234375)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M795 664L798 692L782 692L691 689C676 689 655 689 611 690L548 692L545 664L593 662C617 661 628 653 628 634C628 629 628 626 627 622L556 177C508 119 478 93 427 68C389 48 352 39 314 39C229 39 175 84 175 154C175 171 177 187 182 215L270 692L239 691C212 690 192 689 181 689C171 689 151 690 123 691L91 692L88 664L140 662C166 661 174 656 174 639C174 630 171 602 167 581L103 206C99 185 97 160 97 144C97 43 164 -19 276 -19C320 -19 361 -9 409 15C468 44 500 69 552 129C544 83 538 57 525 2L530 -3L552 -3L614 0C618 0 640 -1 672 -2L704 -3L709 25L649 29C626 31 617 37 617 50C617 65 618 70 623 106L708 613C714 651 721 657 759 661Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,179.8636474609375,13.9)"><path transform="matrix(0.0119,0,0,-0.0119,0,0)" d="M16 23L16 -3C203 -3 203 0 239 0C275 0 275 -3 468 -3L468 82C353 77 307 81 122 77L304 270C401 373 431 428 431 503C431 618 353 689 226 689C154 689 105 669 56 619L39 483L68 483L81 529C97 587 133 612 200 612C286 612 341 558 341 473C341 398 299 324 186 204Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,170.57952880859375,46.38636779785156)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M105 664L161 662C185 661 196 653 196 635C196 621 192 589 187 559L112 125C96 34 94 32 54 28L13 25L9 -3L51 -2C98 0 117 0 141 0L238 -3L264 -3L267 25L218 28C191 30 182 38 182 58C182 67 183 76 186 93L287 648C316 654 336 656 363 656C450 656 496 617 496 543C496 448 418 378 314 378L270 378L267 367C401 172 432 124 507 -3C507 -3 592 0 592 0C593 0 607 -1 626 -3L639 -3L639 24C599 29 588 37 559 79L375 354C430 364 459 376 495 402C553 444 584 499 584 560C584 646 520 693 409 691L108 691Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="165.68182373046875" y1="28.465911865234375" x2="186.81818771362305" y2="28.465911865234375"></line></g><g><g transform="matrix(1,0,0,1,188.5113525390625,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,192.75,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M88 -184C88 -184 182 -183 182 -183C182 -183 282 -184 282 -184L288 -178L288 -152L284 -147L246 -147C219 -147 197 -141 185 -131C176 -122 173 -108 173 -75L173 616C173 649 176 664 185 673C197 683 219 689 246 689L284 689L288 694L288 720L282 726L188 723L88 726C84 717 83 706 83 691C83 665 87 628 87 578L87 -44C87 -112 85 -140 79 -171Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,198.397705078125,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M303 692L264 691C226 689 202 689 182 689C170 689 148 690 110 691L71 692L71 664L89 662C130 656 138 645 142 588L174 158C179 92 181 44 182 -8L232 -8C246 27 264 66 282 102L506 546L618 154C633 102 644 53 657 -8L708 -8L715 18C725 58 733 85 746 124L917 631C923 648 938 660 960 662L980 664L980 692L948 691C919 690 897 689 883 689C870 689 848 690 818 691L785 692L780 664L819 662C848 661 860 653 860 639C860 626 857 608 851 590L704 128L546 700L528 700C516 673 494 624 476 588L252 132L221 616C221 646 234 660 266 662L303 664Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,214.43182373046875,32.98863220214844)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M245 -184L254 -171C248 -140 246 -112 246 -44L246 578C246 628 250 665 250 691C250 706 249 717 245 726L51 726L45 720L45 694L49 689L87 689C114 689 136 683 148 673C157 664 160 649 160 616L160 -75C160 -108 157 -122 148 -131C136 -141 114 -147 87 -147L49 -147L45 -152L45 -178L51 -184Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g></svg></div>
+    <P>Tento ohřev by mohl rezistor úplně zničit nebo jen změnit jeho vlastnosti na jiné než požadované. Maximální povolený ztrátový výkon je taková hodnota, při které kritická hodnota ještě není překročena. Jeho hodnoty obvykle tvoří řadu 0.125, 0.25, 0.5, 1, 2, 5 W… U většiny rezistorů tato hodnota hrozí až při napětí přesahující 250 V.
+    </P>
+    <h3>Značení rezistorů</h3>
+    <p>Podle velikosti a typu komponenty výrobci z pravidly volí jeden ze tří způsobů značení rezistorů:</p>
+    <ul>
+        <li>Číselné značení s příponou</li>
+        <li>Barevný kód</li>
+        <li>Číselný kód</li>
+    </ul>
+    <h3>Číselné značení s příponou</h3>
+    <p>Základní jednotkou je 1Ω, ostatní řady jsou pak označeny obvyklými násobiteli, případně i hodnotou tolerance. (násobitel R a J může být vynechán)</p>
+    <div class="flex-container">
+        <div>
+            <table>
+            <tr>
+                <th>Násobitel</th>
+                <th>Přípona</th>
+                <tr>
+                    <th>10<sup>0</sup> </th>
+                    <th>R,J</th>
+                </tr>
+                <tr>
+                    <th>10<sup>3</sup> </th>
+                    <th>K</th>
+                </tr>
+                <tr>
+                    <th>10<sup>6</sup> </th>
+                    <th>M</th>
+                </tr>
+                <tr>
+                    <th>10<sup>9</sup> </th>
+                    <th>G</th>
+                </tr>
+                <tr>
+                    <th>10<sup>12</sup> </th>
+                    <th>T</th>
+                </tr>
+            </tr>
+        </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Tolerance</th>
+                    <th>Kód tolerance</th>
+                </tr>
+                <tr>
+                    <th>±20%</th>
+                    <th>M</th>
+                </tr>
+                <tr>
+                    <th>±10%</th>
+                    <th>K</th>
+                </tr>
+                <tr>
+                    <th>±5%</th>
+                    <th>J</th>
+                </tr>
+                <tr>
+                    <th>±2%</th>
+                    <th>G</th>
+                </tr>
+                <tr>
+                    <th>±1%</th>
+                    <th>F</th>
+                </tr>
+                <tr>
+                    <th>±0,5%</th>
+                    <th>D</th>
+                </tr>
+                <tr>
+                    <th>±0,25%</th>
+                    <th>C</th>
+                </tr>
+                <tr>
+                    <th>±0,1%</th>
+                    <th>B</th>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-<p>Suscipit adipiscing bibendum est ultricies integer. Montes nascetur ridiculus mus mauris vitae ultricies leo integer
-    malesuada. Gravida rutrum quisque non tellus orci ac auctor augue mauris. Dictum varius duis at consectetur lorem.
-    Urna condimentum mattis pellentesque id nibh. Dui id ornare arcu odio ut sem nulla pharetra. Aenean vel elit
-    scelerisque mauris. Vitae tempus quam pellentesque nec nam aliquam sem et. Sit amet tellus cras adipiscing. Nascetur
-    ridiculus mus mauris vitae ultricies. Vulputate mi sit amet mauris. Amet commodo nulla facilisi nullam vehicula.
-    Suspendisse sed nisi lacus sed viverra tellus. Ultricies tristique nulla aliquet enim tortor at auctor urna nunc. Eu
-    tincidunt tortor aliquam nulla.</p>
-
-<p>Ultrices sagittis orci a scelerisque. Vitae nunc sed velit dignissim sodales ut. Massa id neque aliquam vestibulum
-    morbi blandit cursus. Volutpat commodo sed egestas egestas fringilla phasellus. Gravida cum sociis natoque penatibus
-    et magnis dis. Pretium viverra suspendisse potenti nullam ac tortor vitae purus. Libero volutpat sed cras ornare
-    arcu dui vivamus. Mollis aliquam ut porttitor leo a diam. Tincidunt lobortis feugiat vivamus at augue eget arcu. In
-    nisl nisi scelerisque eu ultrices vitae auctor. Vitae tortor condimentum lacinia quis vel eros donec ac. Vulputate
-    eu scelerisque felis imperdiet proin fermentum. Morbi enim nunc faucibus a pellentesque sit amet porttitor. Duis at
-    consectetur lorem donec. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare. A arcu cursus vitae
-    congue mauris rhoncus aenean vel elit. Cras fermentum odio eu feugiat. Eget aliquet nibh praesent tristique magna
-    sit amet purus gravida. Arcu ac tortor dignissim convallis aenean. Venenatis a condimentum vitae sapien
-    pellentesque.</p>
-
-<p>Quis risus sed vulputate odio ut enim. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit. Porttitor
-    eget dolor morbi non arcu risus. Amet aliquam id diam maecenas ultricies. Ullamcorper malesuada proin libero nunc
-    consequat interdum varius. Lectus quam id leo in vitae. Mattis ullamcorper velit sed ullamcorper morbi tincidunt
-    ornare massa eget. Mauris augue neque gravida in fermentum. Laoreet sit amet cursus sit amet. Suscipit tellus mauris
-    a diam maecenas sed enim ut. Malesuada proin libero nunc consequat. Ullamcorper eget nulla facilisi etiam dignissim
-    diam. Purus in massa tempor nec feugiat. Diam maecenas ultricies mi eget mauris pharetra et ultrices neque. Arcu
-    felis bibendum ut tristique et egestas quis ipsum suspendisse. Dignissim sodales ut eu sem integer vitae justo.</p>
-
-<p>Ipsum nunc aliquet bibendum enim facilisis gravida neque convallis. Odio facilisis mauris sit amet massa vitae
-    tortor. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant. Amet purus gravida quis blandit
-    turpis. Cursus eget nunc scelerisque viverra mauris. Mauris sit amet massa vitae tortor condimentum. Pretium nibh
-    ipsum consequat nisl vel. Arcu risus quis varius quam quisque id. Lacus laoreet non curabitur gravida. Maecenas
-    ultricies mi eget mauris pharetra et ultrices neque. Arcu non sodales neque sodales ut etiam sit amet. Lectus sit
-    amet est placerat in. Eget egestas purus viverra accumsan in nisl. Lacinia quis vel eros donec ac odio tempor orci
-    dapibus. Enim nunc faucibus a pellentesque sit amet. Est velit egestas dui id ornare arcu odio. Facilisi nullam
-    vehicula ipsum a arcu cursus vitae congue.</p>
-<img src="../img/resistor_IEC@0.5x.png">
+    <H3>Barevný kód rezistorů</H3>
+    <p>Barevné označení se zpravidla vyskytuje o rezistorů, které jsou příliš malé na to, aby jejich opor mohl být vyjádřen číselnou hodnotou. Barevné značení má tu výhodu, že je dobře čitelné ze všech směrů a poloh umístění rezistoru, protože je barevný proužek umístěn po celém jeho obvodu. K určení hodnoty rezistoru používáme kódové tabulky. Označení se skládá ze tří až šesti proužků. První proužek je z pravidla umístěn blíže k jednomu z okrajů. Poslední proužek je až dvakrát větší než ostatní proužky. Označení obsahuje dvě až tři platné číslice, násobitel, toleranci a případně také teplotní koeficient.</p>
+    <div class="flex-container-padded">
+        <img src="../img/resistor_image@4x.png" alt="Barevné značení rezistorů" width="500">
+    </div>
+    <h3>Číselné značení</h3>
+    <p>Toto značení se používá pro popis rezistorů SMD pro povrchovou montáž. Skládá se ze tří nebo čtyř číslic, kde první dvě až tři číslice označují hodnotu odporu a zbylé značí násobitel. Jedná se tedy o obdobu čárového kódu. </p>
 </body>
 </html>
