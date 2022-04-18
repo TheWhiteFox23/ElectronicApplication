@@ -29,41 +29,21 @@
          <root>
             <TreeItem fx:id="rootItem" value="Root" expanded="true">
                <children>
-                  <TreeItem value="%compinf.probes" expanded="false">
-                     <children>
-                        <ComponentTreeItem value="%compinf.voltmeter" htmlPath="html/voltmeter.html" />
-                        <ComponentTreeItem value="%compinf.ammeter" htmlPath="html/amperemeter.html" />
-                        <ComponentTreeItem value="%compinf.ac_source" htmlPath="html/ac_source.html"/>
-                     </children>
-                  </TreeItem>
                   <TreeItem value="%compinf.r_c_l">
                      <children>
                         <ComponentTreeItem value="%compinf.resistor" htmlPath="html/resistor.html" component="RESISTOR"/>
                         <ComponentTreeItem value="%compinf.capacitor" htmlPath="html/capacitor.html" component="CAPACITOR"/>
-                        <ComponentTreeItem value="%compinf.conductor" htmlPath="html/conductor.html" component="INDUCTOR"/>
-                        <ComponentTreeItem value="%compinf.coupled_conductor" htmlPath="html/coupled_conductor.html" component="COUPLED_INDUCTOR"/>
+                        <ComponentTreeItem value="%compinf.conductor" htmlPath="html/inductor.html" component="INDUCTOR"/>
                      </children>
                   </TreeItem>
                   <TreeItem value="%compinf.diodes" expanded="false">
                      <children>
-                        <TreeItem value="%compinf.diode"/>
-                        <TreeItem value="%compinf.zener_diode"/>
-                        <TreeItem value="%compinf.bidirectional_zener"/>
-                        <TreeItem value="%compinf.bridge_rectifier"/>
+                        <ComponentTreeItem value="%compinf.diode" htmlPath="html/diode.html" component="DIODE"/>
                      </children>
                   </TreeItem>
                   <TreeItem value="%compinf.transistors" expanded="false">
                      <children>
-                        <TreeItem value="%compinf.npn_transistor"/>
-                        <TreeItem value="%compinf.pnp_transistor"/>
-                        <TreeItem value="%compinf.n_fet"/>
-                        <TreeItem value="%compinf.p_fet"/>
-                     </children>
-                  </TreeItem>
-                  <TreeItem value="%compinf.sources" expanded="false">
-                     <children>
-                        <TreeItem value="%compinf.voltage_source"/>
-                        <TreeItem value="%compinf.currant_source"/>
+                        <ComponentTreeItem value="%compinf.transistors" htmlPath="html/transistor.html" component="TRANSISTOR_NPN"/>
                      </children>
                   </TreeItem>
                </children>
