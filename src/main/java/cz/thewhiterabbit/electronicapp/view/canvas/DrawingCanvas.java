@@ -80,6 +80,9 @@ public class DrawingCanvas extends Region {
     }
 
     public void repaint(){
+        getModel().getCanvasObjects().forEach(o->{
+            getModel().updatePaintProperties(o);
+        });
         clear();
         paint();
     }

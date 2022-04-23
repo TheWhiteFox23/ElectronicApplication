@@ -28,7 +28,7 @@ public class VoltageSource extends GeneralComponent {
     private final String VALUE = "value";
     @RawPropertyMapping
     @PropertyDialogField(name = "source.value", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
-    private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 0.1);
+    private final DoubleProperty value = new SimpleDoubleProperty(this, VALUE, 5);
 
     //PULSE
     @PropertyDialogField(name = "source.pulse", type = ComponentPropertyType.LABEL)
@@ -42,7 +42,7 @@ public class VoltageSource extends GeneralComponent {
     private final String PULSE_VALUE = "pulse_value";
     @RawPropertyMapping
     @PropertyDialogField(name = "source.pulse_value", type = ComponentPropertyType.TEXT_FIELD, unit = "V")
-    private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 0.1);
+    private final DoubleProperty pulse_value = new SimpleDoubleProperty(this, PULSE_VALUE, 5);
 
     private final String DELAY_TIME = "delay_time";
     @RawPropertyMapping
@@ -85,7 +85,7 @@ public class VoltageSource extends GeneralComponent {
     private final String AMPLITUDE = "amplitude";
     @RawPropertyMapping
     @PropertyDialogField(name = "source.amplitude", type = ComponentPropertyType.TEXT_FIELD , unit = "V")
-    private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 1);
+    private final DoubleProperty amplitude = new SimpleDoubleProperty(this, AMPLITUDE, 5);
 
     private final String FREQUENCY = "frequency";
     @RawPropertyMapping

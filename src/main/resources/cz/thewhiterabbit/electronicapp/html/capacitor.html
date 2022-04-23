@@ -32,6 +32,8 @@
         
         table {
           border-collapse: collapse;
+          color: #333333;
+            font-family: Tahoma;
         }
         
         th, td {
@@ -89,7 +91,55 @@
     <p>Mívají velmi malé rozměry, kterých je dosaženo použitím dielektrika s vysokou permitivitou. Jsou dostupné až do kapacity několik jednotek µF a do hodnot jmenovitého napětí 30kV. Kapacita má ovšem nižší přesnost a jsou méně tepelně stabilní. Navíc mezi jednotlivými výrobci bývají markantní rozdíly ve kvalitě provedení. Často bývají vhodné jen do aplikací s nízkými frekvencemi. </p>
     <h4>Elektrolytické kondenzátory</h4>
     <p>Tyto kondenzátory se vyznačují nejvyššími hodnotami kapacity na jednotku objemu. Kontakt katody tvoří kovové pouzdro, případně kovová fólie na pouzdro připevněná. Samotná katoda je poté tvořena elektrolytem (pevným nebo kapalným), který plní funkci velkoplošného přívodu proudu k dielektriku. To je poté tvořeno oxidem kovu, většinou hliníku nebo tantalu, který se vytváří na povrchu anody působením protékajícího stejnosměrného proudu. Anoda je tvořena kovovou fólií, která se kvůli zvětšení povrchu leptá. Tepelná stabilita bývá nízká, a časová závislost parametrů není příliš dobrá. Elektrolytické kondenzátory se nejčastěji používají jako součást napájecích obvodů. Jakmile elektrolytické kondenzátory zestárnou mohou se začít chovat nestandardně nebo přestanou fungovat vůbec. Z toho důvodu jsou jednou z nejčastějších příčin toho, že relativně nová elektronika přestane fungovat. </p>
-    
+    <h3>Značení kondenzátorů</h3>
+<p>Jednotkou pro značení kapacity kondenzátorů je z pravidla 1 pF, případně 1 F. Vyskytuje se ale také značení, kdy je základní jednotkou 1 µF. Následující tabulka popisuje příklady značení velikosti kapacity. </p>
+
+<div class="flex-container">
+    <table>
+        <tr>
+            <td rowspan="2">Hodnota kapacity</td>
+            <td colspan="3">Druh kódu</td>
+        </tr>
+        <tr>
+            <td>1 F</td>
+            <td>1 µF</td>
+            <td>1 pF</td>
+        </tr>
+        <tr>
+            <td>1 F</td>
+            <td>1 F</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>1.10<sup>-3</sup> F</td>
+            <td>1 m</td>
+            <td>-</td>
+            <td>1 G</td>
+        </tr>
+        <tr>
+            <td>1.10<sup>-6</sup> F</td>
+            <td>1 µ</td>
+            <td>1</td>
+            <td>1 M</td>
+        </tr>
+        <tr>
+            <td>1.10<sup>-9</sup> F</td>
+            <td>1 n</td>
+            <td>-</td>
+            <td>1 k</td>
+        </tr>
+        <tr>
+            <td>1.10<sup>-12</sup> F</td>
+            <td>1 p</td>
+            <td>-</td>
+            <td>1</td>
+        </tr>
+    </table>
+</div>
+<p>Z tabulky vyplívá, že značení, kde je základní jednotkou 1 µF se používá jen velmi zřídka, a to u kondenzátorů, které mají kapacitu právě v tomto řádu(elektrolytické kondenzátory). Kód, se základní  jednotkou 1 pF se používá nejčastěji ke značení keramických kondenzátorů. </p>
+<p>Kondenzátory se značí dvěma základními způsoby, pokud je na komponentě dostatek místa, uvede se kapacita celým kódem se základní jednotkou 1F. Například to tedy může být 470 µF / 35V. U miniaturních součástek se používá úsporné značení, které je shodné se značením rezistorů pro povrchovou montáž. Označení se tedy skládá ze tří číslic, kde první dvě určují hodnotu kapacity a poslední označuje násobitel. Základní jednotkou tohoto označení je pak 1 pF, pokud je tedy na komponentě uvedeno 470, znamená to, že má kondenzátor kapacitu 47 pF. </p>
+
     
 </body>
 </html>

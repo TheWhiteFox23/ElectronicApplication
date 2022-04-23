@@ -8,6 +8,7 @@ import cz.thewhiterabbit.electronicapp.model.components.Resistor;
 import cz.thewhiterabbit.electronicapp.model.documnet.*;
 import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.GeneralMappingComponent;
+import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
 import cz.thewhiterabbit.electronicapp.model.rawdocument.RawObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.DrawingAreaEvent;
@@ -165,7 +166,6 @@ public class DrawingAreaController {
                 documentManager.getActiveDocument().undo();
             }
             drawingArea.repaint();
-
         });
         eventAggregator.addEventHandler(EditControlEvent.REDO, h -> {
             if (documentManager.getActiveDocument() != null) {
@@ -408,15 +408,13 @@ public class DrawingAreaController {
     private void onPaste() {
         copyMemory.forEach(o -> {
             if(o instanceof DocumentObject){
+                o.setSelected(false);
                 RawObject rawObject = ((DocumentObject)o).getRawObject().copy();
                 DocumentObject object = DocumentObjectFactory.createDocumentObject(rawObject);
                 object.setSelected(true);
-                if(object instanceof GeneralMappingComponent)manageChildMoves(object);
-
+                if(object instanceof GeneralMappingComponent) manageChildMoves(object);
                 //set offset
-                object.getRawObject().getProperty("gridX").setValue(String.valueOf(object.getGridX()+3));
-                object.getRawObject().getProperty("gridY").setValue(String.valueOf(object.getGridY()+3));
-                if(object instanceof GeneralMappingComponent)manageChildMoves(object);
+
 
                 eventAggregator.fireEvent(new DrawingAreaEvent(DrawingAreaEvent.OBJECT_ADDED, object));
             }

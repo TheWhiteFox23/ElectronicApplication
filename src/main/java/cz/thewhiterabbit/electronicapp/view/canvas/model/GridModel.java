@@ -116,6 +116,7 @@ public class GridModel extends RelativeModel {
         object.setHeight(object.getGridHeight() * gridSize * getZoomAspect());
     }
 
+
     /********* SEARCHING IN GRID *********/
     public int getGridCoordinate(double location, double originLocation) {
         double locationDelta = location - originLocation;

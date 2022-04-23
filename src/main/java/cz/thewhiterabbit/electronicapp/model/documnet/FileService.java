@@ -72,6 +72,7 @@ public class FileService {
 
     public Document load(File file) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
+        if(file == null)return null;
         Object obj = parser.parse(new FileReader(file));
         JSONObject object = (JSONObject) obj;
         invalidRawObjects.clear();

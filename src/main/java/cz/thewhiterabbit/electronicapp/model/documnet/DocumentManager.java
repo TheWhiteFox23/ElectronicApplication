@@ -57,7 +57,7 @@ public class DocumentManager implements IEventAggregator {
         if(document != null){
             if(setFile)document.setFile(file);
             tryManageDocumentLoading(document);
-        }else{
+        }else if(file != null){
             Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid file",  ButtonType.OK);
             alert.showAndWait();
         }
