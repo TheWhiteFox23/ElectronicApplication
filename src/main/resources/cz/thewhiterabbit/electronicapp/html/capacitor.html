@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <STYLE>
+<STYLE>
         body {
             background-color: #f4f4f4;
             padding-top: 50px;
@@ -55,44 +55,404 @@
           justify-content: center;
           padding: 15px 0px 15px 0px;
         }
-        </STYLE>
+
+</STYLE>
 <head>
     <meta charset="UTF-8">
     <title>Capacitor</title>
 </head>
 <body>
-    <h2>Kondenzátor</h2>
-    <h3>Základní vlastnosti kondenzátorů a použití v obvodech</h3>
-    <p>Základní vlastností kondenzátorů je kapacita, tedy schopnost akumulace elektrického náboje Q podle vzorce</p>
-    <div class="flex-container"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="83.14777183532715" height="24.397727966308594" style="width:83.14777183532715px;height:24.397727966308594px;font-family:Asana-Math, Asana;background:transparent;"><g><g><g><g transform="matrix(1,0,0,1,2,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M151 -172C151 -95 175 -59 228 -59C257 -59 285 -67 324 -88L469 -164C529 -195 547 -201 587 -201C662 -201 698 -158 708 -61L683 -61C677 -115 655 -140 615 -140C598 -140 579 -135 553 -125L317 -29C292 -19 274 -15 251 -15C177 -15 126 -66 126 -142C126 -144 126 -151 127 -159ZM748 425C748 603 644 706 464 706C227 706 53 523 53 272C53 83 147 -18 323 -18C595 -18 748 207 748 425ZM660 409C660 221 571 24 360 24C216 24 141 110 141 277C141 425 199 664 433 664C549 664 660 610 660 409Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,20.30682373046875,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,36.76141357421875,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M294 284C294 90 401 -18 592 -18C688 -18 759 5 849 67C849 67 859 103 859 103C859 103 849 110 849 110C755 53 703 35 625 35C468 35 382 131 382 309C382 447 439 653 667 653C738 653 790 639 846 603L846 519L873 519C878 576 886 619 900 665C824 694 767 706 705 706C525 706 294 578 294 284Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,56.06817626953125,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,63.70458984375,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M795 664L798 692L782 692L691 689C676 689 655 689 611 690L548 692L545 664L593 662C617 661 628 653 628 634C628 629 628 626 627 622L556 177C508 119 478 93 427 68C389 48 352 39 314 39C229 39 175 84 175 154C175 171 177 187 182 215L270 692L239 691C212 690 192 689 181 689C171 689 151 690 123 691L91 692L88 664L140 662C166 661 174 656 174 639C174 630 171 602 167 581L103 206C99 185 97 160 97 144C97 43 164 -19 276 -19C320 -19 361 -9 409 15C468 44 500 69 552 129C544 83 538 57 525 2L530 -3L552 -3L614 0C618 0 640 -1 672 -2L704 -3L709 25L649 29C626 31 617 37 617 50C617 65 618 70 623 106L708 613C714 651 721 657 759 661Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g></svg></div>
-    <p>kde konstanta úměrnosti C je kapacita. Vtah nám říká že kondenzátor s kapacitou C(farad) a napětím U, přiloženým na jeho svorkách, má v sobě uložený náboj Q. Protože mezi proudem nábojem a proudem platí vztah</p>
-    <div class="flex-container"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.0454158782959" height="47.19318389892578" style="width:63.0454158782959px;height:47.19318389892578px;font-family:Asana-Math, Asana;background:transparent;"><g><g><g><g transform="matrix(1,0,0,1,2,31.397705078125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,16.96588134765625,31.397705078125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,33.42041015625,31.397705078125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,39.35223388671875,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM650 -172C650 -95 674 -59 727 -59C756 -59 784 -67 823 -88L968 -164C1028 -195 1046 -201 1086 -201C1161 -201 1197 -158 1207 -61L1182 -61C1176 -115 1154 -140 1114 -140C1097 -140 1078 -135 1052 -125L816 -29C791 -19 773 -15 750 -15C676 -15 625 -66 625 -142C625 -144 625 -151 626 -159ZM1247 425C1247 603 1143 706 963 706C726 706 552 523 552 272C552 83 646 -18 822 -18C1094 -18 1247 207 1247 425ZM1159 409C1159 221 1070 24 859 24C715 24 640 110 640 277C640 425 698 664 932 664C1048 664 1159 610 1159 409Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,43.1363525390625,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM624 390L568 107C567 99 555 61 555 31C555 6 566 -9 585 -9C620 -9 655 11 733 74L764 99L754 117L709 86C680 66 660 56 649 56C640 56 635 64 635 76C635 102 649 183 678 328L691 390L798 390L809 440C771 436 737 434 699 434C715 528 726 577 744 631L733 646C713 634 686 622 655 610L630 440C586 419 560 408 542 403L540 390Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="39.35223388671875" y1="26.875" x2="61.0454158782959" y2="26.875"></line></g></g></g></svg></div>
-    <p>můžeme pro závislost proudu a napětí na náboji odvodit vztah</p>
-    <div class="flex-container"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="85.7500057220459" height="47.19318389892578" style="width:85.7500057220459px;height:47.19318389892578px;font-family:Asana-Math, Asana;background:transparent;"><g><g><g><g transform="matrix(1,0,0,1,2,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,16.96588134765625,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,33.42047119140625,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M294 284C294 90 401 -18 592 -18C688 -18 759 5 849 67C849 67 859 103 859 103C859 103 849 110 849 110C755 53 703 35 625 35C468 35 382 131 382 309C382 447 439 653 667 653C738 653 790 639 846 603L846 519L873 519C878 576 886 619 900 665C824 694 767 706 705 706C525 706 294 578 294 284Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,52.727294921875,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,62.05682373046875,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM1294 664L1297 692L1281 692L1190 689C1175 689 1154 689 1110 690L1047 692L1044 664L1092 662C1116 661 1127 653 1127 634C1127 629 1127 626 1126 622L1055 177C1007 119 977 93 926 68C888 48 851 39 813 39C728 39 674 84 674 154C674 171 676 187 681 215L769 692L738 691C711 690 691 689 680 689C670 689 650 690 622 691L590 692L587 664L639 662C665 661 673 656 673 639C673 630 670 602 666 581L602 206C598 185 596 160 596 144C596 43 663 -19 775 -19C819 -19 860 -9 908 15C967 44 999 69 1051 129C1043 83 1037 57 1024 2L1029 -3L1051 -3L1113 0C1117 0 1139 -1 1171 -2L1203 -3L1208 25L1148 29C1125 31 1116 37 1116 50C1116 65 1117 70 1122 106L1207 613C1213 651 1220 657 1258 661Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,65.84088134765625,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM624 390L568 107C567 99 555 61 555 31C555 6 566 -9 585 -9C620 -9 655 11 733 74L764 99L754 117L709 86C680 66 660 56 649 56C640 56 635 64 635 76C635 102 649 183 678 328L691 390L798 390L809 440C771 436 737 434 699 434C715 528 726 577 744 631L733 646C713 634 686 622 655 610L630 440C586 419 560 408 542 403L540 390Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="62.05682373046875" y1="26.875" x2="83.7500057220459" y2="26.875"></line></g></g></g></svg></div>
-    <p>Odtud vyplívá že proud, který protéká kondenzátorem, je přímo úměrný změně napětí na jeho svorkách. Pokud na kondenzátor připojíme stejnosměrný proud, nastane přechodový jev, při kterém kondenzátorem proteče proud potřebný k jeho nabití na dané napětí podle daného vzorce. Pokud nedojde k vybití kondenzátoru, stejnosměrný proud už jím dále nepoteče, což se v praxi využívá například jako oddělovací kondenzátor. </p>
-    <p>Střídavý proud naopak kondenzátorem volně prochází v souladu s uvedeným vzorcem. Kondenzátor přitom střídavému proudu střídavý odpor, to nazýváme impedancí Z. </p>
-    <div class="flex-container"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="196.6363754272461" height="50.19318389892578" style="width:196.6363754272461px;height:50.19318389892578px;font-family:Asana-Math, Asana;background:transparent;"><g><g><g><g transform="matrix(1,0,0,1,2,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M20 -3C116 -1 174 0 261 0C339 0 456 -1 517 -2L583 -3C585 38 593 95 606 164L580 164L573 142L541 52C496 43 458 39 414 39L133 39L637 672L637 692L475 689L449 689L120 692C120 645 117 606 109 533L135 533C138 555 144 580 156 619L162 639C218 649 256 652 342 652L522 652L20 19Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,22.647705078125,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,39.102294921875,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,45.0340576171875,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M795 664L798 692L782 692L691 689C676 689 655 689 611 690L548 692L545 664L593 662C617 661 628 653 628 634C628 629 628 626 627 622L556 177C508 119 478 93 427 68C389 48 352 39 314 39C229 39 175 84 175 154C175 171 177 187 182 215L270 692L239 691C212 690 192 689 181 689C171 689 151 690 123 691L91 692L88 664L140 662C166 661 174 656 174 639C174 630 171 602 167 581L103 206C99 185 97 160 97 144C97 43 164 -19 276 -19C320 -19 361 -9 409 15C468 44 500 69 552 129C544 83 538 57 525 2L530 -3L552 -3L614 0C618 0 640 -1 672 -2L704 -3L709 25L649 29C626 31 617 37 617 50C617 65 618 70 623 106L708 613C714 651 721 657 759 661Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,48.81817626953125,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="45.0340576171875" y1="26.875" x2="58.24996757507324" y2="26.875"></line></g><g><g transform="matrix(1,0,0,1,65.0340576171875,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,96.375,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M418 -3L418 27L366 30C311 33 301 44 301 96L301 700L60 598L67 548L217 614L217 96C217 44 206 33 152 30L96 27L96 -3C250 0 250 0 261 0C292 0 402 -3 418 -3Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,83.18182373046875,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M656 325C650 363 619 458 566 458C551 458 525 441 512 434L513 423C564 392 587 338 596 284C611 189 579 17 462 17C403 17 389 73 382 119C372 185 375 252 387 315L376 324C356 317 335 309 314 304C324 217 331 16 211 16C148 16 125 81 117 129C93 278 140 388 269 443L275 452L264 463C116 428 15 301 41 137C55 50 97 -12 194 -12C249 -12 286 11 321 47L326 47C355 3 386 -12 436 -12C596 -12 679 181 656 325Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,98.7386474609375,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,106.375,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M45 284C45 90 152 -18 343 -18C439 -18 510 5 600 67C600 67 610 103 610 103C610 103 600 110 600 110C506 53 454 35 376 35C219 35 133 131 133 309C133 447 190 653 418 653C489 653 541 639 597 603L597 519L624 519C629 576 637 619 651 665C575 694 518 706 456 706C276 706 45 578 45 284Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="83.18182373046875" y1="26.875" x2="118.05682373046875" y2="26.875"></line></g><g><g transform="matrix(1,0,0,1,124.84088134765625,31.397735595703125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g><g><g><g transform="matrix(1,0,0,1,164.56817626953125,19)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M418 -3L418 27L366 30C311 33 301 44 301 96L301 700L60 598L67 548L217 614L217 96C217 44 206 33 152 30L96 27L96 -3C250 0 250 0 261 0C292 0 402 -3 418 -3Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><g><g><g><g transform="matrix(1,0,0,1,142.9886474609375,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M16 23L16 -3C203 -3 203 0 239 0C275 0 275 -3 468 -3L468 82C353 77 307 81 122 77L304 270C401 373 431 428 431 503C431 618 353 689 226 689C154 689 105 669 56 619L39 483L68 483L81 529C97 587 133 612 200 612C286 612 341 558 341 473C341 398 299 324 186 204ZM1012 -15C1053 -15 1099 25 1125 51L1127 57L1120 66L1113 67C1097 56 1079 42 1056 42C1000 42 981 125 975 166C961 251 974 333 1004 405L1064 418C1064 435 1067 452 1070 467C1000 465 930 463 859 463C773 463 687 465 602 466C537 467 536 389 526 340L528 333L537 328L543 332C575 395 597 405 672 405L695 405C680 266 668 129 628 -2L639 -12C658 -6 692 1 707 13C725 141 731 274 735 405L962 405C865 199 912 -15 1012 -15ZM1497 437L1481 437L1502 549C1518 635 1546 673 1592 673C1622 673 1649 658 1664 634L1674 638C1679 654 1689 685 1697 705L1702 720C1686 727 1655 733 1632 733C1621 733 1605 730 1597 726C1573 715 1491 654 1468 630C1446 608 1434 578 1423 521L1408 442C1367 422 1347 414 1322 405L1317 383L1398 383L1389 327C1359 132 1322 -54 1300 -123C1282 -182 1252 -213 1216 -213C1193 -213 1182 -206 1164 -184L1150 -188C1146 -211 1132 -259 1127 -268C1136 -273 1151 -276 1162 -276C1203 -276 1257 -245 1296 -198C1367 -114 1387 -18 1471 383L1575 383C1579 402 1586 425 1592 439L1588 446C1559 439 1560 437 1497 437Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,175.31817626953125,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g><g><g transform="matrix(1,0,0,1,182.95452880859375,44.795440673828125)"><path transform="matrix(0.017,0,0,-0.017,0,0)" d="M45 284C45 90 152 -18 343 -18C439 -18 510 5 600 67C600 67 610 103 610 103C610 103 600 110 600 110C506 53 454 35 376 35C219 35 133 131 133 309C133 447 190 653 418 653C489 653 541 639 597 603L597 519L624 519C629 576 637 619 651 665C575 694 518 706 456 706C276 706 45 578 45 284Z" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path></g></g></g></g><line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="142.9886474609375" y1="26.875" x2="194.6363754272461" y2="26.875"></line></g></g></g></svg></div>
-    <p>U a I jsou v daném vzorci sinusové amplitudy napětí a proudu. Uvedený vzorec je obdobou Ohmova zákona a je podle něho patrné že s rostoucí frekvencí f(Hz) impedance Z(Ω) kondenzátoru C(F) klesá podle hyperboly. Zjednodušeně bychom tedy mohly na kondenzátory nahlížet jako na frekvenčně závislé rezistory a v praxi je tak můžeme využít jako frekvenčně závislé děliče napětí. </p>
-    <h3>Parametry Kondenzátorů</h3>
-    <p>Nejdůležitějším parametrem kondenzátoru je jmenovitá kapacita (charakteristický parametr) a jmenovité napětí (mezní parametr). Jmenovité hodnoty jsou převážně dostupné jen v řadách, které ovšem nejsou tak rozsáhlé jako například u rezistorů. Z pravidla se používají řady E6 a E12. Jmenovité napětí je obdobou jmenovité zatížitelnosti u rezistoru. Jedná se nejvyšší napětí, na které je kondenzátor konstruován. </p>
-    <p>Mezi další vlastnosti patří například: </p>
-    <ul>
-        <li>Přesnost kapacity</li> 
-        <li>Ztrátový činitel</li>
-        <li>Teplotní součinitel kapacity</li>
-        <li>Izolační odpor atd.</li>
-    </ul>
+<h2>Kondenzátor</h2>
+<h3>Základní vlastnosti kondenzátorů a použití v obvodech</h3>
+<p>Základní vlastností kondenzátorů je kapacita, tedy schopnost akumulace elektrického náboje Q podle vzorce</p>
+<div class="flex-container">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="83.14777183532715"
+         height="24.397727966308594"
+         style="width:83.14777183532715px;height:24.397727966308594px;font-family:Asana-Math, Asana;background:transparent;">
+        <g>
+            <g>
+                <g>
+                    <g transform="matrix(1,0,0,1,2,19)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M151 -172C151 -95 175 -59 228 -59C257 -59 285 -67 324 -88L469 -164C529 -195 547 -201 587 -201C662 -201 698 -158 708 -61L683 -61C677 -115 655 -140 615 -140C598 -140 579 -135 553 -125L317 -29C292 -19 274 -15 251 -15C177 -15 126 -66 126 -142C126 -144 126 -151 127 -159ZM748 425C748 603 644 706 464 706C227 706 53 523 53 272C53 83 147 -18 323 -18C595 -18 748 207 748 425ZM660 409C660 221 571 24 360 24C216 24 141 110 141 277C141 425 199 664 433 664C549 664 660 610 660 409Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,20.30682373046875,19)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,36.76141357421875,19)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M294 284C294 90 401 -18 592 -18C688 -18 759 5 849 67C849 67 859 103 859 103C859 103 849 110 849 110C755 53 703 35 625 35C468 35 382 131 382 309C382 447 439 653 667 653C738 653 790 639 846 603L846 519L873 519C878 576 886 619 900 665C824 694 767 706 705 706C525 706 294 578 294 284Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,56.06817626953125,19)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,63.70458984375,19)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M795 664L798 692L782 692L691 689C676 689 655 689 611 690L548 692L545 664L593 662C617 661 628 653 628 634C628 629 628 626 627 622L556 177C508 119 478 93 427 68C389 48 352 39 314 39C229 39 175 84 175 154C175 171 177 187 182 215L270 692L239 691C212 690 192 689 181 689C171 689 151 690 123 691L91 692L88 664L140 662C166 661 174 656 174 639C174 630 171 602 167 581L103 206C99 185 97 160 97 144C97 43 164 -19 276 -19C320 -19 361 -9 409 15C468 44 500 69 552 129C544 83 538 57 525 2L530 -3L552 -3L614 0C618 0 640 -1 672 -2L704 -3L709 25L649 29C626 31 617 37 617 50C617 65 618 70 623 106L708 613C714 651 721 657 759 661Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </svg>
+</div>
+<p>kde konstanta úměrnosti C je kapacita. Vtah nám říká že kondenzátor s kapacitou C(farad) a napětím U, přiloženým na
+    jeho svorkách, má v sobě uložený náboj Q. Protože mezi proudem nábojem a proudem platí vztah</p>
+<div class="flex-container">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.0454158782959"
+         height="47.19318389892578"
+         style="width:63.0454158782959px;height:47.19318389892578px;font-family:Asana-Math, Asana;background:transparent;">
+        <g>
+            <g>
+                <g>
+                    <g transform="matrix(1,0,0,1,2,31.397705078125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,16.96588134765625,31.397705078125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,33.42041015625,31.397705078125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1"
+                              stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,39.35223388671875,19)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM650 -172C650 -95 674 -59 727 -59C756 -59 784 -67 823 -88L968 -164C1028 -195 1046 -201 1086 -201C1161 -201 1197 -158 1207 -61L1182 -61C1176 -115 1154 -140 1114 -140C1097 -140 1078 -135 1052 -125L816 -29C791 -19 773 -15 750 -15C676 -15 625 -66 625 -142C625 -144 625 -151 626 -159ZM1247 425C1247 603 1143 706 963 706C726 706 552 523 552 272C552 83 646 -18 822 -18C1094 -18 1247 207 1247 425ZM1159 409C1159 221 1070 24 859 24C715 24 640 110 640 277C640 425 698 664 932 664C1048 664 1159 610 1159 409Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,43.1363525390625,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM624 390L568 107C567 99 555 61 555 31C555 6 566 -9 585 -9C620 -9 655 11 733 74L764 99L754 117L709 86C680 66 660 56 649 56C640 56 635 64 635 76C635 102 649 183 678 328L691 390L798 390L809 440C771 436 737 434 699 434C715 528 726 577 744 631L733 646C713 634 686 622 655 610L630 440C586 419 560 408 542 403L540 390Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="39.35223388671875" y1="26.875"
+                          x2="61.0454158782959" y2="26.875"></line>
+                </g>
+            </g>
+        </g>
+    </svg>
+</div>
+<p>můžeme pro závislost proudu a napětí na náboji odvodit vztah</p>
+<div class="flex-container">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="85.7500057220459"
+         height="47.19318389892578"
+         style="width:85.7500057220459px;height:47.19318389892578px;font-family:Asana-Math, Asana;background:transparent;">
+        <g>
+            <g>
+                <g>
+                    <g transform="matrix(1,0,0,1,2,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,16.96588134765625,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,33.42047119140625,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M294 284C294 90 401 -18 592 -18C688 -18 759 5 849 67C849 67 859 103 859 103C859 103 849 110 849 110C755 53 703 35 625 35C468 35 382 131 382 309C382 447 439 653 667 653C738 653 790 639 846 603L846 519L873 519C878 576 886 619 900 665C824 694 767 706 705 706C525 706 294 578 294 284Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,52.727294921875,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,62.05682373046875,19)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM1294 664L1297 692L1281 692L1190 689C1175 689 1154 689 1110 690L1047 692L1044 664L1092 662C1116 661 1127 653 1127 634C1127 629 1127 626 1126 622L1055 177C1007 119 977 93 926 68C888 48 851 39 813 39C728 39 674 84 674 154C674 171 676 187 681 215L769 692L738 691C711 690 691 689 680 689C670 689 650 690 622 691L590 692L587 664L639 662C665 661 673 656 673 639C673 630 670 602 666 581L602 206C598 185 596 160 596 144C596 43 663 -19 775 -19C819 -19 860 -9 908 15C967 44 999 69 1051 129C1043 83 1037 57 1024 2L1029 -3L1051 -3L1113 0C1117 0 1139 -1 1171 -2L1203 -3L1208 25L1148 29C1125 31 1116 37 1116 50C1116 65 1117 70 1122 106L1207 613C1213 651 1220 657 1258 661Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,65.84088134765625,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M483 722L471 733C419 707 383 698 311 691L307 670L355 670C379 670 389 663 389 646C389 638 388 629 387 622L359 468C329 477 302 482 277 482C208 482 114 410 68 323C37 265 17 170 17 86C17 21 32 -11 61 -11C88 -11 125 6 159 33C213 77 246 116 313 217L290 126C279 82 274 50 274 24C274 3 283 -9 300 -9C317 -9 341 3 375 28L456 88L446 107L402 76C388 66 372 59 363 59C355 59 349 68 349 82C349 90 350 99 357 128ZM114 59C98 59 89 73 89 98C89 224 135 380 184 418C197 428 216 433 243 433C287 433 316 427 349 410L337 351C300 171 159 59 114 59ZM624 390L568 107C567 99 555 61 555 31C555 6 566 -9 585 -9C620 -9 655 11 733 74L764 99L754 117L709 86C680 66 660 56 649 56C640 56 635 64 635 76C635 102 649 183 678 328L691 390L798 390L809 440C771 436 737 434 699 434C715 528 726 577 744 631L733 646C713 634 686 622 655 610L630 440C586 419 560 408 542 403L540 390Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="62.05682373046875" y1="26.875"
+                          x2="83.7500057220459" y2="26.875"></line>
+                </g>
+            </g>
+        </g>
+    </svg>
+</div>
+<p>Odtud vyplívá že proud, který protéká kondenzátorem, je přímo úměrný změně napětí na jeho svorkách. Pokud na
+    kondenzátor připojíme stejnosměrný proud, nastane přechodový jev, při kterém kondenzátorem proteče proud potřebný k
+    jeho nabití na dané napětí podle daného vzorce. Pokud nedojde k vybití kondenzátoru, stejnosměrný proud už jím dále
+    nepoteče, což se v praxi využívá například jako oddělovací kondenzátor. </p>
+<p>Střídavý proud naopak kondenzátorem volně prochází v souladu s uvedeným vzorcem. Kondenzátor přitom střídavému proudu
+    střídavý odpor, to nazýváme impedancí Z. </p>
+<div class="flex-container">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="196.6363754272461"
+         height="50.19318389892578"
+         style="width:196.6363754272461px;height:50.19318389892578px;font-family:Asana-Math, Asana;background:transparent;">
+        <g>
+            <g>
+                <g>
+                    <g transform="matrix(1,0,0,1,2,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M20 -3C116 -1 174 0 261 0C339 0 456 -1 517 -2L583 -3C585 38 593 95 606 164L580 164L573 142L541 52C496 43 458 39 414 39L133 39L637 672L637 692L475 689L449 689L120 692C120 645 117 606 109 533L135 533C138 555 144 580 156 619L162 639C218 649 256 652 342 652L522 652L20 19Z"
+                              stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                              fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,22.647705078125,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,39.102294921875,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)" d="" stroke="rgb(0,0,0)" stroke-opacity="1"
+                              stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,45.0340576171875,19)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M795 664L798 692L782 692L691 689C676 689 655 689 611 690L548 692L545 664L593 662C617 661 628 653 628 634C628 629 628 626 627 622L556 177C508 119 478 93 427 68C389 48 352 39 314 39C229 39 175 84 175 154C175 171 177 187 182 215L270 692L239 691C212 690 192 689 181 689C171 689 151 690 123 691L91 692L88 664L140 662C166 661 174 656 174 639C174 630 171 602 167 581L103 206C99 185 97 160 97 144C97 43 164 -19 276 -19C320 -19 361 -9 409 15C468 44 500 69 552 129C544 83 538 57 525 2L530 -3L552 -3L614 0C618 0 640 -1 672 -2L704 -3L709 25L649 29C626 31 617 37 617 50C617 65 618 70 623 106L708 613C714 651 721 657 759 661Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,48.81817626953125,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M103 664L150 662C174 661 185 653 185 636C185 629 179 576 176 559L104 125C89 36 86 31 46 28L10 25L7 -3L39 -3L133 0L227 -3L259 -3L262 25L210 28C184 30 174 37 174 57C174 63 175 74 176 78L265 613C272 652 277 657 316 661L351 664L354 692L248 689C231 689 213 689 170 690L106 692Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="45.0340576171875" y1="26.875"
+                          x2="58.24996757507324" y2="26.875"></line>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,65.0340576171875,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,96.375,19)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M418 -3L418 27L366 30C311 33 301 44 301 96L301 700L60 598L67 548L217 614L217 96C217 44 206 33 152 30L96 27L96 -3C250 0 250 0 261 0C292 0 402 -3 418 -3Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,83.18182373046875,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M656 325C650 363 619 458 566 458C551 458 525 441 512 434L513 423C564 392 587 338 596 284C611 189 579 17 462 17C403 17 389 73 382 119C372 185 375 252 387 315L376 324C356 317 335 309 314 304C324 217 331 16 211 16C148 16 125 81 117 129C93 278 140 388 269 443L275 452L264 463C116 428 15 301 41 137C55 50 97 -12 194 -12C249 -12 286 11 321 47L326 47C355 3 386 -12 436 -12C596 -12 679 181 656 325Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,98.7386474609375,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,106.375,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M45 284C45 90 152 -18 343 -18C439 -18 510 5 600 67C600 67 610 103 610 103C610 103 600 110 600 110C506 53 454 35 376 35C219 35 133 131 133 309C133 447 190 653 418 653C489 653 541 639 597 603L597 519L624 519C629 576 637 619 651 665C575 694 518 706 456 706C276 706 45 578 45 284Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="83.18182373046875" y1="26.875"
+                          x2="118.05682373046875" y2="26.875"></line>
+                </g>
+                <g>
+                    <g transform="matrix(1,0,0,1,124.84088134765625,31.397735595703125)">
+                        <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                              d="M604 347L604 406L65 406L65 347ZM604 134L604 193L65 193L65 134Z" stroke="rgb(0,0,0)"
+                              stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)" fill-opacity="1"></path>
+                    </g>
+                </g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,164.56817626953125,19)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M418 -3L418 27L366 30C311 33 301 44 301 96L301 700L60 598L67 548L217 614L217 96C217 44 206 33 152 30L96 27L96 -3C250 0 250 0 261 0C292 0 402 -3 418 -3Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,142.9886474609375,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M16 23L16 -3C203 -3 203 0 239 0C275 0 275 -3 468 -3L468 82C353 77 307 81 122 77L304 270C401 373 431 428 431 503C431 618 353 689 226 689C154 689 105 669 56 619L39 483L68 483L81 529C97 587 133 612 200 612C286 612 341 558 341 473C341 398 299 324 186 204ZM1012 -15C1053 -15 1099 25 1125 51L1127 57L1120 66L1113 67C1097 56 1079 42 1056 42C1000 42 981 125 975 166C961 251 974 333 1004 405L1064 418C1064 435 1067 452 1070 467C1000 465 930 463 859 463C773 463 687 465 602 466C537 467 536 389 526 340L528 333L537 328L543 332C575 395 597 405 672 405L695 405C680 266 668 129 628 -2L639 -12C658 -6 692 1 707 13C725 141 731 274 735 405L962 405C865 199 912 -15 1012 -15ZM1497 437L1481 437L1502 549C1518 635 1546 673 1592 673C1622 673 1649 658 1664 634L1674 638C1679 654 1689 685 1697 705L1702 720C1686 727 1655 733 1632 733C1621 733 1605 730 1597 726C1573 715 1491 654 1468 630C1446 608 1434 578 1423 521L1408 442C1367 422 1347 414 1322 405L1317 383L1398 383L1389 327C1359 132 1322 -54 1300 -123C1282 -182 1252 -213 1216 -213C1193 -213 1182 -206 1164 -184L1150 -188C1146 -211 1132 -259 1127 -268C1136 -273 1151 -276 1162 -276C1203 -276 1257 -245 1296 -198C1367 -114 1387 -18 1471 383L1575 383C1579 402 1586 425 1592 439L1588 446C1559 439 1560 437 1497 437Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,175.31817626953125,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M124 319C94 319 67 291 67 261C67 231 94 203 123 203C155 203 183 230 183 260C183 291 155 319 124 319Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                            <g>
+                                <g transform="matrix(1,0,0,1,182.95452880859375,44.795440673828125)">
+                                    <path transform="matrix(0.017,0,0,-0.017,0,0)"
+                                          d="M45 284C45 90 152 -18 343 -18C439 -18 510 5 600 67C600 67 610 103 610 103C610 103 600 110 600 110C506 53 454 35 376 35C219 35 133 131 133 309C133 447 190 653 418 653C489 653 541 639 597 603L597 519L624 519C629 576 637 619 651 665C575 694 518 706 456 706C276 706 45 578 45 284Z"
+                                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="8" fill="rgb(0,0,0)"
+                                          fill-opacity="1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <line style="fill:none;stroke-width:1px;stroke:rgb(0, 0, 0);" x1="142.9886474609375" y1="26.875"
+                          x2="194.6363754272461" y2="26.875"></line>
+                </g>
+            </g>
+        </g>
+    </svg>
+</div>
+<p>U a I jsou v daném vzorci sinusové amplitudy napětí a proudu. Uvedený vzorec je obdobou Ohmova zákona a je podle něho
+    patrné že s rostoucí frekvencí f(Hz) impedance Z(Ω) kondenzátoru C(F) klesá podle hyperboly. Zjednodušeně bychom
+    tedy mohly na kondenzátory nahlížet jako na frekvenčně závislé rezistory a v praxi je tak můžeme využít jako
+    frekvenčně závislé děliče napětí. </p>
+<h3>Parametry Kondenzátorů</h3>
+<p>Nejdůležitějším parametrem kondenzátoru je jmenovitá kapacita (charakteristický parametr) a jmenovité napětí (mezní
+    parametr). Jmenovité hodnoty jsou převážně dostupné jen v řadách, které ovšem nejsou tak rozsáhlé jako například u
+    rezistorů. Z pravidla se používají řady E6 a E12. Jmenovité napětí je obdobou jmenovité zatížitelnosti u rezistoru.
+    Jedná se nejvyšší napětí, na které je kondenzátor konstruován. </p>
+<p>Mezi další vlastnosti patří například: </p>
+<ul>
+    <li>Přesnost kapacity</li>
+    <li>Ztrátový činitel</li>
+    <li>Teplotní součinitel kapacity</li>
+    <li>Izolační odpor atd.</li>
+</ul>
 
-    <h3>Konstrukční typy kondenzátorů</h3>
-    <p>U kondenzátorů je znalost konkrétní konstrukce podstatně zásadnější než u rezistorů a často je nutné o ní rozhodnout ještě před volbou jmenovitých hodnot. </p>
-    <h4>Kondenzátory s dielektrikem z umělých hmot</h4>
-    <p>Tyto kondenzátory jsou tvořeny svitky fólií a mají poměrně velké rozměry. Vyznačují se ovšem velkou přesností kapacity, dobrou tepelnou stabilitou, velkým izolačním odporem a dobrými vysoko frekvenčními vlastnosti. Jsou dostupné až do kapacity několik desítek µF a provozní napětí může dosahovat až 1kV. </p>
-    <h4>Keramické kondenzátory</h4>
-    <p>Mívají velmi malé rozměry, kterých je dosaženo použitím dielektrika s vysokou permitivitou. Jsou dostupné až do kapacity několik jednotek µF a do hodnot jmenovitého napětí 30kV. Kapacita má ovšem nižší přesnost a jsou méně tepelně stabilní. Navíc mezi jednotlivými výrobci bývají markantní rozdíly ve kvalitě provedení. Často bývají vhodné jen do aplikací s nízkými frekvencemi. </p>
-    <h4>Elektrolytické kondenzátory</h4>
-    <p>Tyto kondenzátory se vyznačují nejvyššími hodnotami kapacity na jednotku objemu. Kontakt katody tvoří kovové pouzdro, případně kovová fólie na pouzdro připevněná. Samotná katoda je poté tvořena elektrolytem (pevným nebo kapalným), který plní funkci velkoplošného přívodu proudu k dielektriku. To je poté tvořeno oxidem kovu, většinou hliníku nebo tantalu, který se vytváří na povrchu anody působením protékajícího stejnosměrného proudu. Anoda je tvořena kovovou fólií, která se kvůli zvětšení povrchu leptá. Tepelná stabilita bývá nízká, a časová závislost parametrů není příliš dobrá. Elektrolytické kondenzátory se nejčastěji používají jako součást napájecích obvodů. Jakmile elektrolytické kondenzátory zestárnou mohou se začít chovat nestandardně nebo přestanou fungovat vůbec. Z toho důvodu jsou jednou z nejčastějších příčin toho, že relativně nová elektronika přestane fungovat. </p>
-    <h3>Značení kondenzátorů</h3>
-<p>Jednotkou pro značení kapacity kondenzátorů je z pravidla 1 pF, případně 1 F. Vyskytuje se ale také značení, kdy je základní jednotkou 1 µF. Následující tabulka popisuje příklady značení velikosti kapacity. </p>
+<h3>Konstrukční typy kondenzátorů</h3>
+<p>U kondenzátorů je znalost konkrétní konstrukce podstatně zásadnější než u rezistorů a často je nutné o ní rozhodnout
+    ještě před volbou jmenovitých hodnot. </p>
+<h4>Kondenzátory s dielektrikem z umělých hmot</h4>
+<p>Tyto kondenzátory jsou tvořeny svitky fólií a mají poměrně velké rozměry. Vyznačují se ovšem velkou přesností
+    kapacity, dobrou tepelnou stabilitou, velkým izolačním odporem a dobrými vysoko frekvenčními vlastnosti. Jsou
+    dostupné až do kapacity několik desítek µF a provozní napětí může dosahovat až 1kV. </p>
+<h4>Keramické kondenzátory</h4>
+<p>Mívají velmi malé rozměry, kterých je dosaženo použitím dielektrika s vysokou permitivitou. Jsou dostupné až do
+    kapacity několik jednotek µF a do hodnot jmenovitého napětí 30kV. Kapacita má ovšem nižší přesnost a jsou méně
+    tepelně stabilní. Navíc mezi jednotlivými výrobci bývají markantní rozdíly ve kvalitě provedení. Často bývají vhodné
+    jen do aplikací s nízkými frekvencemi. </p>
+<h4>Elektrolytické kondenzátory</h4>
+<p>Tyto kondenzátory se vyznačují nejvyššími hodnotami kapacity na jednotku objemu. Kontakt katody tvoří kovové pouzdro,
+    případně kovová fólie na pouzdro připevněná. Samotná katoda je poté tvořena elektrolytem (pevným nebo kapalným),
+    který plní funkci velkoplošného přívodu proudu k dielektriku. To je poté tvořeno oxidem kovu, většinou hliníku nebo
+    tantalu, který se vytváří na povrchu anody působením protékajícího stejnosměrného proudu. Anoda je tvořena kovovou
+    fólií, která se kvůli zvětšení povrchu leptá. Tepelná stabilita bývá nízká, a časová závislost parametrů není příliš
+    dobrá. Elektrolytické kondenzátory se nejčastěji používají jako součást napájecích obvodů. Jakmile elektrolytické
+    kondenzátory zestárnou mohou se začít chovat nestandardně nebo přestanou fungovat vůbec. Z toho důvodu jsou jednou z
+    nejčastějších příčin toho, že relativně nová elektronika přestane fungovat. </p>
+<h3>Značení kondenzátorů</h3>
+<p>Jednotkou pro značení kapacity kondenzátorů je z pravidla 1 pF, případně 1 F. Vyskytuje se ale také značení, kdy je
+    základní jednotkou 1 µF. Následující tabulka popisuje příklady značení velikosti kapacity. </p>
 
 <div class="flex-container">
     <table>
@@ -137,9 +497,19 @@
         </tr>
     </table>
 </div>
-<p>Z tabulky vyplívá, že značení, kde je základní jednotkou 1 µF se používá jen velmi zřídka, a to u kondenzátorů, které mají kapacitu právě v tomto řádu(elektrolytické kondenzátory). Kód, se základní  jednotkou 1 pF se používá nejčastěji ke značení keramických kondenzátorů. </p>
-<p>Kondenzátory se značí dvěma základními způsoby, pokud je na komponentě dostatek místa, uvede se kapacita celým kódem se základní jednotkou 1F. Například to tedy může být 470 µF / 35V. U miniaturních součástek se používá úsporné značení, které je shodné se značením rezistorů pro povrchovou montáž. Označení se tedy skládá ze tří číslic, kde první dvě určují hodnotu kapacity a poslední označuje násobitel. Základní jednotkou tohoto označení je pak 1 pF, pokud je tedy na komponentě uvedeno 470, znamená to, že má kondenzátor kapacitu 47 pF. </p>
+<p>Z tabulky vyplívá, že značení, kde je základní jednotkou 1 µF se používá jen velmi zřídka, a to u kondenzátorů, které
+    mají kapacitu právě v tomto řádu(elektrolytické kondenzátory). Kód, se základní jednotkou 1 pF se používá nejčastěji
+    ke značení keramických kondenzátorů. </p>
+<p>Kondenzátory se značí dvěma základními způsoby, pokud je na komponentě dostatek místa, uvede se kapacita celým kódem
+    se základní jednotkou 1F. Například to tedy může být 470 µF / 35V. U miniaturních součástek se používá úsporné
+    značení, které je shodné se značením rezistorů pro povrchovou montáž. Označení se tedy skládá ze tří číslic, kde
+    první dvě určují hodnotu kapacity a poslední označuje násobitel. Základní jednotkou tohoto označení je pak 1 pF,
+    pokud je tedy na komponentě uvedeno 470, znamená to, že má kondenzátor kapacitu 47 pF. </p>
+<p><b>Zdroje</b></p>
+<p><em>VOBECKÝ, Jan a Vít ZÁHLAVA. Elektronika: součástky a obvody, principy a příklady. 3., rozš. vyd. Praha: Grada
+    Publishing, 2005. ISBN 978-80-247-1241-3.</em></p>
+<p><em>MALÝ, Martin. Hradla, volty, jednočipy: úvod do bastlení. Praha: CZ.NIC, z.s.p.o., 2017. CZ.NIC. ISBN
+    978-80-88168-23-2.</em></p>
 
-    
 </body>
 </html>
