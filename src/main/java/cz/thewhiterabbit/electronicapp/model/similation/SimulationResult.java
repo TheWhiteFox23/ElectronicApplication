@@ -37,7 +37,10 @@ public class SimulationResult {
 
     public enum Result{
         OK,
-        ERROR;
+        ERROR,
+        ERROR_SIMULATION_TIMEOUT,
+        ERROR_DATA_TOO_LARGE,
+        ERROR_SIMULATION_FAILED;
     }
 
     public SimulationResultSet getByName(String name){

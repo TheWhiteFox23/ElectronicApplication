@@ -1,5 +1,6 @@
 package cz.thewhiterabbit.electronicapp.view.controllers;
 
+import cz.thewhiterabbit.electronicapp.App;
 import cz.thewhiterabbit.electronicapp.GUIEventAggregator;
 import cz.thewhiterabbit.electronicapp.model.documnet.Document;
 import cz.thewhiterabbit.electronicapp.model.documnet.DocumentManager;
@@ -12,6 +13,7 @@ import cz.thewhiterabbit.electronicapp.view.canvas.DrawingCanvas;
 import cz.thewhiterabbit.electronicapp.view.canvas.model.GridModel;
 import cz.thewhiterabbit.electronicapp.view.components.NodeListItem;
 import cz.thewhiterabbit.electronicapp.view.components.NodeListView;
+import cz.thewhiterabbit.electronicapp.view.dialogs.InfoDialog;
 import cz.thewhiterabbit.electronicapp.view.dialogs.SimulationProgressDialog;
 import cz.thewhiterabbit.electronicapp.view.events.NodeListEvent;
 import cz.thewhiterabbit.electronicapp.view.events.SimulationEvents;
@@ -28,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
+import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -200,7 +203,20 @@ public class SimulationPanelController {
             thread.join();
             progressDialog.closeDialog();
             task.valueProperty().addListener(e -> {
-                setResult(task.getValue());
+                System.out.println(task.getValue().getResult());
+                switch (task.getValue().getResult()){
+                    case OK -> {
+                        setResult(task.getValue());
+                    }case ERROR, ERROR_SIMULATION_FAILED -> {
+                        InfoDialog infoDialog = new InfoDialog(App.localization.getString("info.dialog.error.title"), App.localization.getString("info.dialog.too.error"));
+                    }case ERROR_DATA_TOO_LARGE -> {
+                        InfoDialog infoDialog = new InfoDialog(App.localization.getString("info.dialog.error.title"), App.localization.getString("info.dialog.too.large"));
+                    }case ERROR_SIMULATION_TIMEOUT -> {
+                        InfoDialog infoDialog = new InfoDialog(App.localization.getString("info.dialog.error.title"), App.localization.getString("info.dialog.timeout"));
+                    }
+                }
+
+
             });
         } catch (InterruptedException e) {
             e.printStackTrace();

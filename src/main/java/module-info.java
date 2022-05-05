@@ -4,6 +4,7 @@ module cz.thewhiterabbit.electronicapp {
     requires javafx.web;
     requires commons.math3;
     requires json.simple;
+    requires org.apache.commons.io;
 
 
     opens cz.thewhiterabbit.electronicapp to javafx.fxml;

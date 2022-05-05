@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefHeight="240.0" prefWidth="540.0"
+      stylesheets="@../stylesheets/style.css">
+
+    <HBox alignment="CENTER">
+        <padding><Insets top="25" right="0" bottom="0" left="0"/></padding>
+        <Label fx:id="titleLabel" text="%confirm.dialog.title" styleClass="title_label"/>
+    </HBox>
+    <HBox alignment="CENTER" VBox.vgrow="ALWAYS" >
+        <Label fx:id="messageLabel" text="%confirm.dialog.message" VBox.vgrow="ALWAYS" textAlignment="CENTER" styleClass="text_label"/>
+    </HBox>
+    <HBox spacing="150" alignment="CENTER">
+        <padding><Insets top="0" right="0" bottom="25" left="0"/></padding>
+        <Button text="%info.dialog.yes" fx:id="confirmButton" styleClass="confirm_button"/>
+    </HBox>
+
+</VBox>

@@ -7,6 +7,8 @@ import cz.thewhiterabbit.electronicapp.model.objects.ActivePoint;
 import cz.thewhiterabbit.electronicapp.model.objects.TwoPointLineObject;
 import cz.thewhiterabbit.electronicapp.view.canvas.CanvasObject;
 import javafx.concurrent.Task;
+import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,9 +23,9 @@ public class SimulationUtilities {
     private static final String inputFile = "circuit.cir";
     private static final String outputFile = "result.txt";
     private static String[] argumString = new String[]{"cmd.exe", "/c", "start", spiceResource, "-b", inputFile, "-o", outputFile};
-    private static File outData = new File("data.txt");
+    private static File outData = new File("data/data.txt");
     private static File outResult = new File("result.txt");
-
+    private static String dataFolder = "data";
 
     public static Netlist createNetlist(Document document) {
         Netlist netlist = new Netlist();
@@ -178,7 +180,7 @@ public class SimulationUtilities {
         return activePointMap;
     }
 
-    public static SimulationResult simulate(SimulationFile simulationFile){
+    public static SimulationResult simulate(SimulationFile simulationFile) {
         resetSimulationResultFiles(simulationFile);
         createSimulationSpiceFile(simulationFile);
         Process process = startSimulation(); //Start simulation using generated spice file
@@ -187,7 +189,7 @@ public class SimulationUtilities {
         return new SimulationResult(SimulationResult.Result.ERROR);
     }
 
-    public static Task getSimulationTask(SimulationFile simulationFile){
+    public static Task getSimulationTask(SimulationFile simulationFile) {
         Task simulationTask = new Task<SimulationResult>() {
             @Override
             protected SimulationResult call() throws Exception {
@@ -201,11 +203,11 @@ public class SimulationUtilities {
 
                 updateMessage("Simulation in progress");
                 Process process = startSimulation(); //Start simulation using generated spice file
-                updateProgress(4,10);
+                updateProgress(4, 10);
 
                 SimulationResult outData = awaitSimulationResultAndParse(process);
                 updateMessage("Simulation finished");
-                updateProgress(10,10);
+                updateProgress(10, 10);
                 if (outData != null) return outData;
                 return new SimulationResult(SimulationResult.Result.ERROR);
             }
@@ -218,9 +220,20 @@ public class SimulationUtilities {
             process.waitFor();
 
             int count = 0;
-            while (outData.length() ==0 && count <500){
+            int maxCount = 1000;
+            int maxDataLength = 200000;
+            while (outData.length() == 0 && count < maxCount) {
                 count++;
                 Thread.sleep(10);
+            }
+            if(count == maxCount){;
+                process.destroy();
+                return new SimulationResult(SimulationResult.Result.ERROR_SIMULATION_TIMEOUT);
+            }
+            System.out.println(outData);
+            System.out.println(outData.length());
+            if(outData.length()>maxDataLength){
+                return new SimulationResult(SimulationResult.Result.ERROR_DATA_TOO_LARGE);
             }
 
             return parseResult(outData);
@@ -229,15 +242,15 @@ public class SimulationUtilities {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return new SimulationResult(SimulationResult.Result.ERROR_SIMULATION_FAILED);
     }
 
     private static Process startSimulation() {
         Runtime runtime = Runtime.getRuntime();
         Process process = null;
-        try{
+        try {
             process = runtime.exec(argumString);
-        }catch (Exception e){
+        } catch (Exception e) {
             //todo return invalid simulation file
         }
         return process;
@@ -255,8 +268,8 @@ public class SimulationUtilities {
     private static boolean resetSimulationResultFiles(SimulationFile simulationFile) {
         try {
             resetResultFiles();
-        }catch (IOException e){
-            return false;
+        } catch (IOException e) {
+            System.out.println(e);
         }
         simulationFile.setOutDataPath(outData.getPath());
         simulationFile.setOutResultPath(outResult.getPath());
@@ -265,7 +278,7 @@ public class SimulationUtilities {
 
     private static void writeFile(String path, List<String> simulationFileList) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
-        for(int i = 0; i< simulationFileList.size(); i++){
+        for (int i = 0; i < simulationFileList.size(); i++) {
             fileWriter.write(simulationFileList.get(i) + "\n");
         }
         fileWriter.close();
@@ -281,10 +294,10 @@ public class SimulationUtilities {
     }
 
     private static void parseValues(SimulationResult simulationResult, Scanner scanner) {
-        while (scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String[] values = scanner.nextLine().split("\\s+");
-            for(int i = 0; i< values.length; i++){
-                if(values[i].length()!=0){
+            for (int i = 0; i < values.length; i++) {
+                if (values[i].length() != 0) {
                     simulationResult.getResultSetList().get(i).getValues().add(Double.parseDouble(values[i]));
                 }
 
@@ -293,18 +306,40 @@ public class SimulationUtilities {
     }
 
     private static void parseVectors(SimulationResult simulationResult, Scanner scanner) {
-        if(scanner.hasNextLine()){
+        if (scanner.hasNextLine()) {
             String firstLine = scanner.nextLine();
             String[] variables = firstLine.split("\\s+");
-            for(String s: variables){
+            for (String s : variables) {
                 simulationResult.getResultSetList().add(new SimulationResultSet(s));
             }
         }
     }
 
     private static void resetResultFiles() throws IOException {
-        if(outData.exists())outData.delete();
-        if(outResult.exists())outResult.delete();
+        //delete data content
+        File dataFolder = new File("data");
+        if(!dataFolder.exists()) dataFolder.mkdir();
+
+        File[] files = dataFolder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                try{
+                    FileDeleteStrategy.FORCE.delete(f);
+                }catch (IOException exception){
+                    System.out.println(exception);
+                }
+
+            }
+        }
+
+        long timeStamp = Calendar.getInstance().getTimeInMillis();
+        String dataFile = "data/data_" + timeStamp + ".txt";
+        outData = new File(dataFile);
+
+        if(outResult.exists()){
+            FileDeleteStrategy.FORCE.delete(outResult);
+        }
+
         outData.createNewFile();
         outResult.createNewFile();
     }

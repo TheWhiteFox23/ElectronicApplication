@@ -23,8 +23,7 @@ public class Resistor extends GeneralComponent {
     @PropertyDialogField(name = "resistor.resistance", type = ComponentPropertyType.TEXT_FIELD,unit = "Ω")
     private final DoubleProperty resistance = new SimpleDoubleProperty(this, RESISTANCE, 1);
 
-    private final String path ="M66.67,65.57l-11.11-24-11.12,24-11.11-24-11.11,24L15.71,51.5H0v-3H17.63l4.59,9.93," +
-            "11.11-24,11.11,24,11.12-24,11.11,24,11.11-24L84.29,48.5H100v3H82.37l-4.59-9.93Z";
+    private final String path ="M100,48.5H84V35H16V48.5H0v3H16V65H84V51.5h16ZM81,62H19V38H81Z";
 
     public Resistor(){
         super();
